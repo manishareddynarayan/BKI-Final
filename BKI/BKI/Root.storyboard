@@ -17,7 +17,23 @@
                     <view key="view" contentMode="scaleToFill" id="khH-m4-4Qv">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash" translatesAutoresizingMaskIntoConstraints="NO" id="Ssn-0s-gag">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="qag-dC-AoT">
+                                <rect key="frame" x="50" y="308" width="275" height="51"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.53725490200000003" green="0.050980392159999999" blue="0.047058823530000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="qag-dC-AoT" firstAttribute="centerX" secondItem="khH-m4-4Qv" secondAttribute="centerX" id="CGb-F7-qVV"/>
+                            <constraint firstItem="hU2-eK-eq8" firstAttribute="bottom" secondItem="Ssn-0s-gag" secondAttribute="bottom" id="Oyi-ch-qjq"/>
+                            <constraint firstItem="hU2-eK-eq8" firstAttribute="trailing" secondItem="Ssn-0s-gag" secondAttribute="trailing" id="ZXF-Px-sDh"/>
+                            <constraint firstItem="qag-dC-AoT" firstAttribute="centerY" secondItem="khH-m4-4Qv" secondAttribute="centerY" id="gVI-fN-pZ7"/>
+                            <constraint firstItem="Ssn-0s-gag" firstAttribute="leading" secondItem="hU2-eK-eq8" secondAttribute="leading" id="hIo-yZ-Xsx"/>
+                            <constraint firstItem="Ssn-0s-gag" firstAttribute="top" secondItem="khH-m4-4Qv" secondAttribute="top" id="i3g-k7-9Rg"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="hU2-eK-eq8"/>
                     </view>
                 </viewController>
@@ -26,4 +42,8 @@
             <point key="canvasLocation" x="121" y="151"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Logo" width="275" height="51"/>
+        <image name="Splash" width="375" height="667"/>
+    </resources>
 </document>

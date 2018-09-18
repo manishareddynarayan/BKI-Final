@@ -35,6 +35,7 @@
 		4FA5526B2150FB5400EA6F9B /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA552672150FB5400EA6F9B /* MBProgressHUD.m */; };
 		4FA5526F2150FB8800EA6F9B /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA5526D2150FB8800EA6F9B /* Color.swift */; };
 		4FA552702150FB8800EA6F9B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA5526E2150FB8800EA6F9B /* Constants.swift */; };
+		4FA5527321511C8B00EA6F9B /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FA5527221511C8B00EA6F9B /* Auth.storyboard */; };
 		CE2C6069083ED993BE06AD3B /* Pods_BKI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +77,7 @@
 		4FA5526D2150FB8800EA6F9B /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		4FA5526E2150FB8800EA6F9B /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4FA552712150FBAC00EA6F9B /* BKI-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BKI-Bridging-Header.h"; sourceTree = "<group>"; };
+		4FA5527221511C8B00EA6F9B /* Auth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
 		8CDC640A54E9D1F0CC79C104 /* Pods-BKI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.release.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.release.xcconfig"; sourceTree = "<group>"; };
 		B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BKI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C67014901894AB5EF7A77A74 /* Pods-BKI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.debug.xcconfig"; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				4F2F45FC2147D95200E5956C /* ViewController.swift */,
 				4F2F45FE2147D95200E5956C /* Main.storyboard */,
 				4FA551F32150F98F00EA6F9B /* Root.storyboard */,
+				4FA5527221511C8B00EA6F9B /* Auth.storyboard */,
 				4F2F46012147D95300E5956C /* Assets.xcassets */,
 				4F2F46032147D95300E5956C /* LaunchScreen.storyboard */,
 				4F2F46062147D95300E5956C /* Info.plist */,
@@ -377,6 +380,7 @@
 			files = (
 				4F2F46052147D95300E5956C /* LaunchScreen.storyboard in Resources */,
 				4F2F46022147D95300E5956C /* Assets.xcassets in Resources */,
+				4FA5527321511C8B00EA6F9B /* Auth.storyboard in Resources */,
 				4F2F46002147D95200E5956C /* Main.storyboard in Resources */,
 				4FA551F42150F98F00EA6F9B /* Root.storyboard in Resources */,
 			);
@@ -601,7 +605,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HB7SX4J7W4;
 				INFOPLIST_FILE = BKI/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wal.BKI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BKI/Utilities/BKI-Bridging-Header.h";
@@ -619,7 +626,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HB7SX4J7W4;
 				INFOPLIST_FILE = BKI/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wal.BKI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BKI/Utilities/BKI-Bridging-Header.h";

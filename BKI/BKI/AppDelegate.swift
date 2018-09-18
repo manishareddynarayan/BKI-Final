@@ -41,6 +41,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    func setupRootViewController(isSignup:Bool) -> Void{
+        let defs = UserDefaults.standard
+        let(storyBoard,identifier) = defs.bool(forKey: "isLoggedIn") ? ("Main","MainDashBoardVC") : ("Auth","LoginVC")
+        self.setInitialViewController(storyBoardName: storyBoard, identifier: identifier)
+    }
+    
+    func setInitialViewController(storyBoardName:String,identifier:String) -> Void {
+        let storyboard1 = UIStoryboard.init(name:storyBoardName , bundle: nil)
+        weak var vc = (storyboard1.instantiateViewController(withIdentifier: identifier) )
+        self.window?.rootViewController = vc
+    }
 
 }
 
