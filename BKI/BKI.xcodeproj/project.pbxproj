@@ -24,7 +24,6 @@
 		4FA552582150FB4500EA6F9B /* REFormattedNumberField.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA5524C2150FB4500EA6F9B /* REFormattedNumberField.m */; };
 		4FA552592150FB4500EA6F9B /* AUSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA5524D2150FB4500EA6F9B /* AUSessionManager.swift */; };
 		4FA5525A2150FB4500EA6F9B /* AUEmailField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA5524F2150FB4500EA6F9B /* AUEmailField.swift */; };
-		4FA5525B2150FB4500EA6F9B /* RAFieldValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA552512150FB4500EA6F9B /* RAFieldValidator.m */; };
 		4FA5525C2150FB4500EA6F9B /* AUPasswordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA552522150FB4500EA6F9B /* AUPasswordField.swift */; };
 		4FA5525D2150FB4500EA6F9B /* NSString+RENumberFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA552532150FB4500EA6F9B /* NSString+RENumberFormat.m */; };
 		4FA5525E2150FB4500EA6F9B /* FormTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA552542150FB4500EA6F9B /* FormTextView.swift */; };
@@ -36,6 +35,10 @@
 		4FA5526F2150FB8800EA6F9B /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA5526D2150FB8800EA6F9B /* Color.swift */; };
 		4FA552702150FB8800EA6F9B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA5526E2150FB8800EA6F9B /* Constants.swift */; };
 		4FA5527321511C8B00EA6F9B /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FA5527221511C8B00EA6F9B /* Auth.storyboard */; };
+		4FCD148E21522C00002B70A9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD148D21522C00002B70A9 /* Extensions.swift */; };
+		4FCD14902152337A002B70A9 /* RBAAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD148F21523379002B70A9 /* RBAAlertController.swift */; };
+		4FCD149221526B37002B70A9 /* MainDashBoardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD149121526B37002B70A9 /* MainDashBoardVC.swift */; };
+		4FCD149421526FF8002B70A9 /* DashBoardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD149321526FF8002B70A9 /* DashBoardVC.swift */; };
 		CE2C6069083ED993BE06AD3B /* Pods_BKI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */; };
 /* End PBXBuildFile section */
 
@@ -56,13 +59,11 @@
 		4FA552252150FB0000EA6F9B /* View_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View_ext.swift; sourceTree = "<group>"; };
 		4FA552262150FB0000EA6F9B /* TextField_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextField_ext.swift; sourceTree = "<group>"; };
 		4FA5524A2150FB4500EA6F9B /* AUTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUTextField.swift; sourceTree = "<group>"; };
-		4FA5524B2150FB4500EA6F9B /* RAFieldValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RAFieldValidator.h; sourceTree = "<group>"; };
 		4FA5524C2150FB4500EA6F9B /* REFormattedNumberField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REFormattedNumberField.m; sourceTree = "<group>"; };
 		4FA5524D2150FB4500EA6F9B /* AUSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUSessionManager.swift; sourceTree = "<group>"; };
 		4FA5524E2150FB4500EA6F9B /* NSString+RENumberFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+RENumberFormat.h"; sourceTree = "<group>"; };
 		4FA5524F2150FB4500EA6F9B /* AUEmailField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUEmailField.swift; sourceTree = "<group>"; };
 		4FA552502150FB4500EA6F9B /* REFormattedNumberField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REFormattedNumberField.h; sourceTree = "<group>"; };
-		4FA552512150FB4500EA6F9B /* RAFieldValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RAFieldValidator.m; sourceTree = "<group>"; };
 		4FA552522150FB4500EA6F9B /* AUPasswordField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUPasswordField.swift; sourceTree = "<group>"; };
 		4FA552532150FB4500EA6F9B /* NSString+RENumberFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+RENumberFormat.m"; sourceTree = "<group>"; };
 		4FA552542150FB4500EA6F9B /* FormTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextView.swift; sourceTree = "<group>"; };
@@ -78,6 +79,26 @@
 		4FA5526E2150FB8800EA6F9B /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4FA552712150FBAC00EA6F9B /* BKI-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BKI-Bridging-Header.h"; sourceTree = "<group>"; };
 		4FA5527221511C8B00EA6F9B /* Auth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
+		4FCD147D21522019002B70A9 /* Averta Extrathin Italic [TheFontsMaster.com].otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta Extrathin Italic [TheFontsMaster.com].otf"; sourceTree = "<group>"; };
+		4FCD147E21522019002B70A9 /* Averta Black [TheFontsMaster.com].otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta Black [TheFontsMaster.com].otf"; sourceTree = "<group>"; };
+		4FCD147F2152201A002B70A9 /* Averta Semibold Italic [TheFontsMaster.com].otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta Semibold Italic [TheFontsMaster.com].otf"; sourceTree = "<group>"; };
+		4FCD14802152201A002B70A9 /* Averta [TheFontsMaster.com].otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta [TheFontsMaster.com].otf"; sourceTree = "<group>"; };
+		4FCD14812152201B002B70A9 /* Averta Thin Italic [TheFontsMaster.com].otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta Thin Italic [TheFontsMaster.com].otf"; sourceTree = "<group>"; };
+		4FCD14822152201B002B70A9 /* Averta Bold [TheFontsMaster.com].otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta Bold [TheFontsMaster.com].otf"; sourceTree = "<group>"; };
+		4FCD14832152201C002B70A9 /* Averta Black Italic [TheFontsMaster.com].otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta Black Italic [TheFontsMaster.com].otf"; sourceTree = "<group>"; };
+		4FCD14842152201C002B70A9 /* Averta Semibold [TheFontsMaster.com].otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta Semibold [TheFontsMaster.com].otf"; sourceTree = "<group>"; };
+		4FCD14852152201C002B70A9 /* Averta Light [TheFontsMaster.com].otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta Light [TheFontsMaster.com].otf"; sourceTree = "<group>"; };
+		4FCD14862152201C002B70A9 /* Averta Regular Italic [TheFontsMaster.com].otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta Regular Italic [TheFontsMaster.com].otf"; sourceTree = "<group>"; };
+		4FCD14872152201D002B70A9 /* Averta Light Italic [TheFontsMaster.com].otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta Light Italic [TheFontsMaster.com].otf"; sourceTree = "<group>"; };
+		4FCD14882152201D002B70A9 /* Averta Thin [TheFontsMaster.com].otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta Thin [TheFontsMaster.com].otf"; sourceTree = "<group>"; };
+		4FCD14892152201E002B70A9 /* Averta Bold Italic [TheFontsMaster.com].otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta Bold Italic [TheFontsMaster.com].otf"; sourceTree = "<group>"; };
+		4FCD148A2152201E002B70A9 /* Averta Extra Bold [TheFontsMaster.com].otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta Extra Bold [TheFontsMaster.com].otf"; sourceTree = "<group>"; };
+		4FCD148B2152201F002B70A9 /* Averta Extra Bold Italic [TheFontsMaster.com].otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta Extra Bold Italic [TheFontsMaster.com].otf"; sourceTree = "<group>"; };
+		4FCD148C2152201F002B70A9 /* Averta Extrathin [TheFontsMaster.com].otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta Extrathin [TheFontsMaster.com].otf"; sourceTree = "<group>"; };
+		4FCD148D21522C00002B70A9 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		4FCD148F21523379002B70A9 /* RBAAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RBAAlertController.swift; sourceTree = "<group>"; };
+		4FCD149121526B37002B70A9 /* MainDashBoardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDashBoardVC.swift; sourceTree = "<group>"; };
+		4FCD149321526FF8002B70A9 /* DashBoardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardVC.swift; sourceTree = "<group>"; };
 		8CDC640A54E9D1F0CC79C104 /* Pods-BKI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.release.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.release.xcconfig"; sourceTree = "<group>"; };
 		B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BKI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C67014901894AB5EF7A77A74 /* Pods-BKI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.debug.xcconfig"; sourceTree = "<group>"; };
@@ -116,6 +137,8 @@
 		4F2F45F92147D95200E5956C /* BKI */ = {
 			isa = PBXGroup;
 			children = (
+				4F2F46062147D95300E5956C /* Info.plist */,
+				4FCD147B21521FCD002B70A9 /* Resources */,
 				4FA5526C2150FB6B00EA6F9B /* Utilities */,
 				4FA551EB2150F7A300EA6F9B /* Model */,
 				4FA551EC2150F7E800EA6F9B /* View */,
@@ -123,12 +146,6 @@
 				4FA551E32150F64A00EA6F9B /* Library */,
 				4F2F45FA2147D95200E5956C /* AppDelegate.swift */,
 				4F2F45FC2147D95200E5956C /* ViewController.swift */,
-				4F2F45FE2147D95200E5956C /* Main.storyboard */,
-				4FA551F32150F98F00EA6F9B /* Root.storyboard */,
-				4FA5527221511C8B00EA6F9B /* Auth.storyboard */,
-				4F2F46012147D95300E5956C /* Assets.xcassets */,
-				4F2F46032147D95300E5956C /* LaunchScreen.storyboard */,
-				4F2F46062147D95300E5956C /* Info.plist */,
 			);
 			path = BKI;
 			sourceTree = "<group>";
@@ -136,6 +153,7 @@
 		4FA551E32150F64A00EA6F9B /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				4FCD148F21523379002B70A9 /* RBAAlertController.swift */,
 				4FA552482150FB3800EA6F9B /* Views */,
 				4FA551F82150FB0000EA6F9B /* Extension */,
 				4FA551F52150FADF00EA6F9B /* Httpwrapper */,
@@ -176,6 +194,8 @@
 				4FA551EA2150F74B00EA6F9B /* Shiiping */,
 				4FA551E92150F73C00EA6F9B /* Welding */,
 				4FA551E82150F72A00EA6F9B /* Fitter */,
+				4FCD149121526B37002B70A9 /* MainDashBoardVC.swift */,
+				4FCD149321526FF8002B70A9 /* DashBoardVC.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -255,13 +275,11 @@
 			isa = PBXGroup;
 			children = (
 				4FA5524A2150FB4500EA6F9B /* AUTextField.swift */,
-				4FA5524B2150FB4500EA6F9B /* RAFieldValidator.h */,
 				4FA5524C2150FB4500EA6F9B /* REFormattedNumberField.m */,
 				4FA5524D2150FB4500EA6F9B /* AUSessionManager.swift */,
 				4FA5524E2150FB4500EA6F9B /* NSString+RENumberFormat.h */,
 				4FA5524F2150FB4500EA6F9B /* AUEmailField.swift */,
 				4FA552502150FB4500EA6F9B /* REFormattedNumberField.h */,
-				4FA552512150FB4500EA6F9B /* RAFieldValidator.m */,
 				4FA552522150FB4500EA6F9B /* AUPasswordField.swift */,
 				4FA552532150FB4500EA6F9B /* NSString+RENumberFormat.m */,
 				4FA552542150FB4500EA6F9B /* FormTextView.swift */,
@@ -299,6 +317,43 @@
 				4FA552712150FBAC00EA6F9B /* BKI-Bridging-Header.h */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		4FCD147B21521FCD002B70A9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4FCD147C21521FF0002B70A9 /* Font */,
+				4F2F46012147D95300E5956C /* Assets.xcassets */,
+				4F2F45FE2147D95200E5956C /* Main.storyboard */,
+				4FA551F32150F98F00EA6F9B /* Root.storyboard */,
+				4FA5527221511C8B00EA6F9B /* Auth.storyboard */,
+				4F2F46032147D95300E5956C /* LaunchScreen.storyboard */,
+				4FCD148D21522C00002B70A9 /* Extensions.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		4FCD147C21521FF0002B70A9 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				4FCD14802152201A002B70A9 /* Averta [TheFontsMaster.com].otf */,
+				4FCD147E21522019002B70A9 /* Averta Black [TheFontsMaster.com].otf */,
+				4FCD14832152201C002B70A9 /* Averta Black Italic [TheFontsMaster.com].otf */,
+				4FCD14822152201B002B70A9 /* Averta Bold [TheFontsMaster.com].otf */,
+				4FCD14892152201E002B70A9 /* Averta Bold Italic [TheFontsMaster.com].otf */,
+				4FCD148A2152201E002B70A9 /* Averta Extra Bold [TheFontsMaster.com].otf */,
+				4FCD148B2152201F002B70A9 /* Averta Extra Bold Italic [TheFontsMaster.com].otf */,
+				4FCD148C2152201F002B70A9 /* Averta Extrathin [TheFontsMaster.com].otf */,
+				4FCD147D21522019002B70A9 /* Averta Extrathin Italic [TheFontsMaster.com].otf */,
+				4FCD14852152201C002B70A9 /* Averta Light [TheFontsMaster.com].otf */,
+				4FCD14872152201D002B70A9 /* Averta Light Italic [TheFontsMaster.com].otf */,
+				4FCD14862152201C002B70A9 /* Averta Regular Italic [TheFontsMaster.com].otf */,
+				4FCD14842152201C002B70A9 /* Averta Semibold [TheFontsMaster.com].otf */,
+				4FCD147F2152201A002B70A9 /* Averta Semibold Italic [TheFontsMaster.com].otf */,
+				4FCD14882152201D002B70A9 /* Averta Thin [TheFontsMaster.com].otf */,
+				4FCD14812152201B002B70A9 /* Averta Thin Italic [TheFontsMaster.com].otf */,
+			);
+			path = Font;
 			sourceTree = "<group>";
 		};
 		69DED3EF212AD4050B5AE879 /* Frameworks */ = {
@@ -436,6 +491,7 @@
 			files = (
 				4FA5526A2150FB5400EA6F9B /* TPKeyboardAvoidingScrollView.m in Sources */,
 				4FA5525D2150FB4500EA6F9B /* NSString+RENumberFormat.m in Sources */,
+				4FCD149221526B37002B70A9 /* MainDashBoardVC.swift in Sources */,
 				4FA5526F2150FB8800EA6F9B /* Color.swift in Sources */,
 				4F2F45FD2147D95200E5956C /* ViewController.swift in Sources */,
 				4FA551F72150FADF00EA6F9B /* HTTPWrapper.swift in Sources */,
@@ -445,15 +501,17 @@
 				4F2F45FB2147D95200E5956C /* AppDelegate.swift in Sources */,
 				4FA5525E2150FB4500EA6F9B /* FormTextView.swift in Sources */,
 				4FA551EE2150F8F100EA6F9B /* RootViewController.swift in Sources */,
+				4FCD14902152337A002B70A9 /* RBAAlertController.swift in Sources */,
 				4FA552692150FB5400EA6F9B /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				4FA5525F2150FB4500EA6F9B /* AUFormattedField.swift in Sources */,
 				4FA5525C2150FB4500EA6F9B /* AUPasswordField.swift in Sources */,
 				4FA552582150FB4500EA6F9B /* REFormattedNumberField.m in Sources */,
-				4FA5525B2150FB4500EA6F9B /* RAFieldValidator.m in Sources */,
 				4FA5526B2150FB5400EA6F9B /* MBProgressHUD.m in Sources */,
 				4FA552462150FB0000EA6F9B /* View_ext.swift in Sources */,
 				4FA552452150FB0000EA6F9B /* ViewController_ext.swift in Sources */,
+				4FCD149421526FF8002B70A9 /* DashBoardVC.swift in Sources */,
 				4FA5525A2150FB4500EA6F9B /* AUEmailField.swift in Sources */,
+				4FCD148E21522C00002B70A9 /* Extensions.swift in Sources */,
 				4FA552592150FB4500EA6F9B /* AUSessionManager.swift in Sources */,
 				4FA552602150FB4500EA6F9B /* AUSessionField.swift in Sources */,
 				4FA551F22150F93400EA6F9B /* LoginVC.swift in Sources */,

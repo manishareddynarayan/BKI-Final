@@ -95,9 +95,8 @@ import UIKit
     }*/
  
     func setupFieldUI() -> Void {
-        //self.textColor = UIColor.white
-        //self.backgroundColor = UIColor.untFadedOrange
-        self.font = UIFont.init(name: "Avenir-Heavy", size: 16)
+        self.textColor = UIColor.greyishBrown
+        self.font = UIFont.init(name: "Averta-Light", size: 14)
     }
 
     override func leftViewRect(forBounds bounds: CGRect) -> CGRect {

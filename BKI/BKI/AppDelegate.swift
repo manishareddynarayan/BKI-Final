@@ -16,6 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        UIApplication.shared.statusBarStyle = .lightContent
+        UINavigationBar.appearance().barTintColor = UIColor.brickRed
+        UINavigationBar.appearance().tintColor = UIColor.white
         return true
     }
 
@@ -43,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func setupRootViewController(isSignup:Bool) -> Void{
         let defs = UserDefaults.standard
-        let(storyBoard,identifier) = defs.bool(forKey: "isLoggedIn") ? ("Main","MainDashBoardVC") : ("Auth","LoginVC")
+        let(storyBoard,identifier) = defs.bool(forKey: "isLoggedIn") ? ("Main","MainDashBoardNVC") : ("Auth","LoginVC")
         self.setInitialViewController(storyBoardName: storyBoard, identifier: identifier)
     }
     

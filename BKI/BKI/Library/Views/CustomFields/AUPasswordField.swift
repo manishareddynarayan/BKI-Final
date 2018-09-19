@@ -67,6 +67,5 @@ class AUPasswordField: AUSessionField {
 
     override func setupFieldUI() -> Void {
         super.setupFieldUI()
-        self.textAlignment = .center
     }
 }
