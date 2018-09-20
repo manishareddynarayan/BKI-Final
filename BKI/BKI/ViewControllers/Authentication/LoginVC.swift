@@ -53,7 +53,7 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
         print("validation success")
         let defs = UserDefaults.standard
         defs.set(true, forKey: "isLoggedIn")
-        self.appDelegate?.setupRootViewController(isSignup: false)
+        self.appDelegate?.setupRootViewController()
        // MBProgressHUD.showHud(view: self.view)
 
     }

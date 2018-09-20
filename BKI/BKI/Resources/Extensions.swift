@@ -48,4 +48,8 @@ extension UIFont {
         return UIFont.systemFont(ofSize: 24.0, weight: .bold)
     }
     
+    class var systemMedium17: UIFont {
+        return UIFont.systemFont(ofSize: 17.0, weight: .medium)
+    }
+    
 }

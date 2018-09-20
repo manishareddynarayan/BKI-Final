@@ -9,14 +9,6 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Averta Bold [TheFontsMaster.com].otf">
-            <string>Averta-Bold</string>
-        </array>
-        <array key="Averta Light [TheFontsMaster.com].otf">
-            <string>Averta-Light</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--LoginVC-->
         <scene sceneID="fDe-Iz-vtf">
@@ -39,17 +31,18 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome, please sign in to proceed!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g8b-MP-kyO">
-                                        <rect key="frame" x="22" y="119" width="331" height="62"/>
-                                        <fontDescription key="fontDescription" name="Averta-Bold" family="Averta-Bold" pointSize="31"/>
+                                        <rect key="frame" x="22" y="119" width="331" height="64.5"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="27"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zgQ-xk-ET8">
-                                        <rect key="frame" x="22" y="557" width="331" height="50"/>
+                                        <rect key="frame" x="22" y="569" width="331" height="50"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Kjs-Wy-WzZ"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                         <state key="normal" title="Sign In">
                                             <color key="titleColor" red="0.49803921568627452" green="0.043137254901960784" blue="0.0039215686274509803" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -63,14 +56,14 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VYN-TE-wtZ">
-                                        <rect key="frame" x="22" y="200" width="331" height="48"/>
+                                        <rect key="frame" x="22" y="202.5" width="331" height="57.5"/>
                                         <string key="text">You are signing into the Batchelor &amp; Kimball Fabrication and Field Portal. By signing in you agree to the Terms of Use. All information contained herein is confidential and is property of Batchelor &amp; Kimball, Inc.</string>
-                                        <fontDescription key="fontDescription" name="Averta-Light" family="Averta-Light" pointSize="12"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sjo-1p-OlL">
-                                        <rect key="frame" x="22" y="283" width="331" height="137"/>
+                                        <rect key="frame" x="22" y="295" width="331" height="137"/>
                                         <subviews>
                                             <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your username or email ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DO3-fL-Lh5" customClass="AUTextField" customModule="BKI" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="331" height="68"/>
@@ -79,13 +72,14 @@
                                                     <constraint firstAttribute="height" constant="68" id="GYM-NN-k1A"/>
                                                 </constraints>
                                                 <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                                         <real key="value" value="4"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isRequired" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="leftImage" value="user"/>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <outlet property="delegate" destination="n2d-8r-u4c" id="0RW-6P-5Gr"/>
@@ -101,18 +95,19 @@
                                             </view>
                                             <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="njn-tN-GuJ" customClass="AUPasswordField" customModule="BKI" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="69" width="331" height="68"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="68" id="RjN-Ne-jdl"/>
                                                 </constraints>
                                                 <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                                         <real key="value" value="4"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isRequired" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="leftImage" value="lock"/>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <outlet property="delegate" destination="n2d-8r-u4c" id="LeF-bd-SQs"/>
@@ -140,12 +135,12 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c0s-mr-ydA">
-                                        <rect key="frame" x="22" y="420" width="331" height="137"/>
+                                        <rect key="frame" x="22" y="432" width="331" height="137"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nH1-UL-QXS">
                                                 <rect key="frame" x="60" y="53" width="212" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" name="Averta-Light" family="Averta-Light" pointSize="14"/>
+                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                                 <state key="normal" title="I forgot my password"/>
                                                 <connections>
                                                     <action selector="forgotMyPasswordAction:" destination="n2d-8r-u4c" eventType="touchUpInside" id="0zf-Gb-XZZ"/>

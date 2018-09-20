@@ -39,6 +39,11 @@
 		4FCD14902152337A002B70A9 /* RBAAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD148F21523379002B70A9 /* RBAAlertController.swift */; };
 		4FCD149221526B37002B70A9 /* MainDashBoardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD149121526B37002B70A9 /* MainDashBoardVC.swift */; };
 		4FCD149421526FF8002B70A9 /* DashBoardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD149321526FF8002B70A9 /* DashBoardVC.swift */; };
+		4FCD149821536317002B70A9 /* DashBoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD149621536317002B70A9 /* DashBoardCell.swift */; };
+		4FCD149921536317002B70A9 /* DashBoardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FCD149721536317002B70A9 /* DashBoardCell.xib */; };
+		4FCD149B21536369002B70A9 /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD149A21536369002B70A9 /* BaseCell.swift */; };
+		4FCD149D215396FE002B70A9 /* BKIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD149C215396FE002B70A9 /* BKIModel.swift */; };
+		4FCD149F215397A0002B70A9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD149E215397A0002B70A9 /* User.swift */; };
 		CE2C6069083ED993BE06AD3B /* Pods_BKI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */; };
 /* End PBXBuildFile section */
 
@@ -99,6 +104,11 @@
 		4FCD148F21523379002B70A9 /* RBAAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RBAAlertController.swift; sourceTree = "<group>"; };
 		4FCD149121526B37002B70A9 /* MainDashBoardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDashBoardVC.swift; sourceTree = "<group>"; };
 		4FCD149321526FF8002B70A9 /* DashBoardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardVC.swift; sourceTree = "<group>"; };
+		4FCD149621536317002B70A9 /* DashBoardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardCell.swift; sourceTree = "<group>"; };
+		4FCD149721536317002B70A9 /* DashBoardCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DashBoardCell.xib; sourceTree = "<group>"; };
+		4FCD149A21536369002B70A9 /* BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
+		4FCD149C215396FE002B70A9 /* BKIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BKIModel.swift; sourceTree = "<group>"; };
+		4FCD149E215397A0002B70A9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		8CDC640A54E9D1F0CC79C104 /* Pods-BKI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.release.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.release.xcconfig"; sourceTree = "<group>"; };
 		B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BKI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C67014901894AB5EF7A77A74 /* Pods-BKI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.debug.xcconfig"; sourceTree = "<group>"; };
@@ -191,11 +201,11 @@
 		4FA551E72150F71600EA6F9B /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
+				4FCD149121526B37002B70A9 /* MainDashBoardVC.swift */,
+				4FCD149321526FF8002B70A9 /* DashBoardVC.swift */,
 				4FA551EA2150F74B00EA6F9B /* Shiiping */,
 				4FA551E92150F73C00EA6F9B /* Welding */,
 				4FA551E82150F72A00EA6F9B /* Fitter */,
-				4FCD149121526B37002B70A9 /* MainDashBoardVC.swift */,
-				4FCD149321526FF8002B70A9 /* DashBoardVC.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -224,6 +234,8 @@
 		4FA551EB2150F7A300EA6F9B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4FCD149C215396FE002B70A9 /* BKIModel.swift */,
+				4FCD149E215397A0002B70A9 /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -231,6 +243,7 @@
 		4FA551EC2150F7E800EA6F9B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4FCD1495215362D9002B70A9 /* CustomCell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -356,6 +369,16 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
+		4FCD1495215362D9002B70A9 /* CustomCell */ = {
+			isa = PBXGroup;
+			children = (
+				4FCD149A21536369002B70A9 /* BaseCell.swift */,
+				4FCD149621536317002B70A9 /* DashBoardCell.swift */,
+				4FCD149721536317002B70A9 /* DashBoardCell.xib */,
+			);
+			path = CustomCell;
+			sourceTree = "<group>";
+		};
 		69DED3EF212AD4050B5AE879 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -435,6 +458,7 @@
 			files = (
 				4F2F46052147D95300E5956C /* LaunchScreen.storyboard in Resources */,
 				4F2F46022147D95300E5956C /* Assets.xcassets in Resources */,
+				4FCD149921536317002B70A9 /* DashBoardCell.xib in Resources */,
 				4FA5527321511C8B00EA6F9B /* Auth.storyboard in Resources */,
 				4F2F46002147D95200E5956C /* Main.storyboard in Resources */,
 				4FA551F42150F98F00EA6F9B /* Root.storyboard in Resources */,
@@ -493,6 +517,7 @@
 				4FA5525D2150FB4500EA6F9B /* NSString+RENumberFormat.m in Sources */,
 				4FCD149221526B37002B70A9 /* MainDashBoardVC.swift in Sources */,
 				4FA5526F2150FB8800EA6F9B /* Color.swift in Sources */,
+				4FCD149F215397A0002B70A9 /* User.swift in Sources */,
 				4F2F45FD2147D95200E5956C /* ViewController.swift in Sources */,
 				4FA551F72150FADF00EA6F9B /* HTTPWrapper.swift in Sources */,
 				4FA551F02150F90200EA6F9B /* BaseViewController.swift in Sources */,
@@ -502,8 +527,10 @@
 				4FA5525E2150FB4500EA6F9B /* FormTextView.swift in Sources */,
 				4FA551EE2150F8F100EA6F9B /* RootViewController.swift in Sources */,
 				4FCD14902152337A002B70A9 /* RBAAlertController.swift in Sources */,
+				4FCD149B21536369002B70A9 /* BaseCell.swift in Sources */,
 				4FA552692150FB5400EA6F9B /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				4FA5525F2150FB4500EA6F9B /* AUFormattedField.swift in Sources */,
+				4FCD149D215396FE002B70A9 /* BKIModel.swift in Sources */,
 				4FA5525C2150FB4500EA6F9B /* AUPasswordField.swift in Sources */,
 				4FA552582150FB4500EA6F9B /* REFormattedNumberField.m in Sources */,
 				4FA5526B2150FB5400EA6F9B /* MBProgressHUD.m in Sources */,
@@ -515,6 +542,7 @@
 				4FA552592150FB4500EA6F9B /* AUSessionManager.swift in Sources */,
 				4FA552602150FB4500EA6F9B /* AUSessionField.swift in Sources */,
 				4FA551F22150F93400EA6F9B /* LoginVC.swift in Sources */,
+				4FCD149821536317002B70A9 /* DashBoardCell.swift in Sources */,
 				4FA552702150FB8800EA6F9B /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

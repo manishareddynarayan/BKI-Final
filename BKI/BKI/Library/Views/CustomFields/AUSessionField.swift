@@ -32,6 +32,8 @@ import UIKit
         case Password
     }
 
+    let padding = UIEdgeInsets(top: 0, left: 55, bottom: 0, right: 13)
+
     var pickerModel = [[String:AnyObject]]()
     var titleKey = ""
     weak var formDelegate : TextInputDelegate!
@@ -99,9 +101,48 @@ import UIKit
         self.font = UIFont.init(name: "Averta-Light", size: 14)
     }
 
+    
+    
+    override open func textRect(forBounds bounds: CGRect) -> CGRect {
+        return UIEdgeInsetsInsetRect(bounds, padding)
+    }
+
+    override open func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        return UIEdgeInsetsInsetRect(bounds, padding)
+    }
+
+    override open func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return UIEdgeInsetsInsetRect(bounds, padding)
+    }
+    
+    
+    func getTextRect() -> CGRect {
+        let rect = UIEdgeInsetsInsetRect(bounds, padding)
+        if self.rightViewMode == .always {
+            return adjustTextRectWithRightView(bounds: rect)
+        }
+        else if self.leftViewMode == .always {
+            return adjustTextRectWithLeftView(bounds: rect)
+        }
+        return rect
+
+    }
+    
+    func adjustTextRectWithRightView(bounds:CGRect) -> CGRect {
+        var rect = bounds
+        rect.size.width  -= (self.rightView?.frame.width)! - padding.right
+        return rect
+    }
+    
+    func adjustTextRectWithLeftView(bounds:CGRect) -> CGRect {
+        var rect = bounds
+        rect.size.width  += (self.leftView?.frame.width)! + padding.left + 21
+        return rect
+    }
+    
     override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
         let originalValue = super.leftViewRect(forBounds: bounds)
-        return originalValue.offsetBy(dx: 10, dy: 0)
+        return originalValue.offsetBy(dx: 21, dy: 0)
     }
     
     override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
@@ -154,7 +195,7 @@ import UIKit
         
         let toolbar = UIToolbar.init(frame: CGRect.init(x: 0, y: 0,
                                                         width: UIScreen.main.bounds.width, height: 44))
-        toolbar.tintColor = Color.squashColor()
+        toolbar.tintColor = UIColor.brickRed
         toolbar.backgroundColor = UIColor.white
         let buttonPrev = UIBarButtonItem.init(title: "Prev",
                                               style: .plain, target: self, action: #selector(prevbuttonClicked))

@@ -13,8 +13,10 @@ class BaseViewController: UIViewController {
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
     var sessionManager = AUSessionManager.shared
     var alertVC = RBAAlertController()
-
+    let defs = UserDefaults.standard
     let bgImageview = UIImageView()
+    let currentUser = User.shared
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,6 +50,10 @@ class BaseViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @IBAction func moreAction(_ sender: Any) {
+        self.navigationController?.popToRootViewController(animated: true)
+    }
 
     func setConstraintsForBGImageView() -> Void {
         let topConstraint = NSLayoutConstraint.init(item: self.bgImageview, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 0.0)

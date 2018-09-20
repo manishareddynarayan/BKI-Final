@@ -11,8 +11,12 @@ import UIKit
 class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
+    let roleArr = ["Fit-Up","Weld","Shipping"]
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        tableView.register(UINib(nibName: "DashBoardCell", bundle: nil), forCellReuseIdentifier: "DashboardCell")
+        self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
 
         // Do any additional setup after loading the view.
     }
@@ -27,8 +31,14 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
         // Dispose of any resources that can be recreated.
     }
     
+    
+    @IBAction func logoutAction(_ sender: Any) {
+        defs.set(false, forKey: "isLoggedIn")
+        self.appDelegate?.setupRootViewController()
+    }
+    
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -36,17 +46,30 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
+ 
 
     //MARK: TableView DataSource methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return self.roleArr.count
     }
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 90.0
+    }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) 
-        return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardCell", for: indexPath) as? DashBoardCell
+        cell?.titleLbl.text = roleArr[indexPath.row]
+        return cell!
     }
     
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //tableView.deselectRow(at: indexPath, animated: false)
+        self.performSegue(withIdentifier: "DashboardSegue", sender: self)
+
+    }
 }

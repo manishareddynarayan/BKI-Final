@@ -12,7 +12,7 @@ class RootViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.appDelegate?.setupRootViewController(isSignup: false)
+        self.appDelegate?.setupRootViewController()
         // Do any additional setup after loading the view.
     }
 

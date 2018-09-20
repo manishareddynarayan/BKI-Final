@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-    func setupRootViewController(isSignup:Bool) -> Void{
+    func setupRootViewController() -> Void{
         let defs = UserDefaults.standard
         let(storyBoard,identifier) = defs.bool(forKey: "isLoggedIn") ? ("Main","MainDashBoardNVC") : ("Auth","LoginVC")
         self.setInitialViewController(storyBoardName: storyBoard, identifier: identifier)

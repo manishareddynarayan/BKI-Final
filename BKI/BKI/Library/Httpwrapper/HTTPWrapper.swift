@@ -417,7 +417,7 @@ class HTTPWrapper: NSObject {
         DispatchQueue.main.async {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             //UOVOModel.resetUserDefaults()
-            //appDelegate.setupRootViewController(isSignup: false)
+            //appDelegate.setupRootViewController()
         }
     }
 }
