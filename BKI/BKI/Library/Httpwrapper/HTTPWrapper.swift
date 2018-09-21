@@ -15,7 +15,7 @@ struct Constant {
     
    // let kBaseURL = "http://192.168.0.47:3000/"
      //let kBaseURL = "http://869c8d41.ngrok.io/"
-    let kBaseURL = "http://18.204.177.167/"
+    let kBaseURL = "http://18.234.109.171/api/v1/"
 
     
 }
@@ -72,9 +72,9 @@ class HTTPWrapper: NSObject {
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")
         //request.setValue(token, forHTTPHeaderField: "X-API-TOKEN")
         request.httpMethod = methodType
-        let defs = UserDefaults.standard
-        if defs.object(forKey: "access-token") != nil {
-            let token = (defs.object(forKey: "access-token") as? String)!
+        let defs = BKIModel.initUserdefsWithSuitName()
+        if defs?.object(forKey: "access-token") != nil {
+            let token = (defs?.object(forKey: "access-token") as? String)!
             request.setValue(token, forHTTPHeaderField: "X-api-token")
         }        //phone: <user phone number>, role: "client" }, action: 'sign_in'
         self.sendRequest(request: request, successBlock: successBlock, failBlock: failBlock)
@@ -92,9 +92,9 @@ class HTTPWrapper: NSObject {
         let contentType: String = "multipart/form-data; boundary=\(boundary)"
         request.addValue(contentType, forHTTPHeaderField: "content-type")
 //        let token = HTTPWrapper.sharedInstance.token
-        let defs = UserDefaults.standard
-        if defs.object(forKey: "access-token") != nil {
-            let token = (defs.object(forKey: "access-token") as? String)!
+        let defs = BKIModel.initUserdefsWithSuitName()
+        if defs?.object(forKey: "access-token") != nil {
+            let token = (defs?.object(forKey: "access-token") as? String)!
             request.setValue(token, forHTTPHeaderField: "X-api-token")
         }        
 
@@ -264,10 +264,10 @@ class HTTPWrapper: NSObject {
             let statusCode = (response as! HTTPURLResponse).statusCode
             let headers = (response as! HTTPURLResponse).allHeaderFields
             print("headre \(headers)")
-            let defs = UserDefaults.standard
+            let defs = BKIModel.initUserdefsWithSuitName()
             //print("StatusCoe\(statusCode)")
             if headers["X-API-TOKEN"] != nil {
-                defs.set( headers["X-API-TOKEN"] as? String, forKey: "access-token")
+                defs?.set( headers["X-API-TOKEN"] as? String, forKey: "access-token")
             }
             
             if statusCode >= 400 {

@@ -60,6 +60,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="container" destination="u8l-ko-0yq" id="sf8-tJ-Hq9"/>
                 <outlet property="titleLbl" destination="L4o-OY-arO" id="zdP-4R-isv"/>
             </connections>
             <point key="canvasLocation" x="79" y="72"/>

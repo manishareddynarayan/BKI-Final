@@ -11,6 +11,7 @@ import UIKit
 class DashBoardCell: BaseCell {
 
     @IBOutlet weak var titleLbl: UILabel!
+    @IBOutlet weak var container: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

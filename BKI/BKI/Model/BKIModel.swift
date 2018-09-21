@@ -12,11 +12,13 @@ enum Role:Int {
     case fitter = 1
     case welder
     case shipper
+    case qa
 }
 
 class BKIModel: NSObject {
     
     var id:Int?
+    var active:Bool = false
     //    var userRole:String?
     
     override init () {
@@ -50,7 +52,7 @@ class BKIModel: NSObject {
     static func saveUserinDefaults(info:[String:AnyObject])->Void {
         let defs = BKIModel.initUserdefsWithSuitName()
         defs?.set(info["id"], forKey: "user_id")
-        defs?.set(info["role"],forKey: "user_role")
+        defs?.set(info["role"],forKey: "role")
         defs?.set(true, forKey: "isLoggedIn")
         let loginUser = User.shared
         loginUser.saveUser(user: info)

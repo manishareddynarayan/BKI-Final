@@ -33,7 +33,7 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
     
     
     @IBAction func logoutAction(_ sender: Any) {
-        defs.set(false, forKey: "isLoggedIn")
+        defs?.set(false, forKey: "isLoggedIn")
         self.appDelegate?.setupRootViewController()
     }
     
@@ -70,6 +70,5 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //tableView.deselectRow(at: indexPath, animated: false)
         self.performSegue(withIdentifier: "DashboardSegue", sender: self)
-
     }
 }

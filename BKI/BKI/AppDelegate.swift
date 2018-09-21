@@ -45,8 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func setupRootViewController() -> Void{
-        let defs = UserDefaults.standard
-        let(storyBoard,identifier) = defs.bool(forKey: "isLoggedIn") ? ("Main","MainDashBoardNVC") : ("Auth","LoginVC")
+        let defs = BKIModel.initUserdefsWithSuitName()//
+        let(storyBoard,identifier) = (defs?.bool(forKey: "isLoggedIn"))! ? ("Main","MainDashBoardNVC") : ("Auth","LoginVC")
         self.setInitialViewController(storyBoardName: storyBoard, identifier: identifier)
     }
     

@@ -13,9 +13,10 @@ class BaseViewController: UIViewController {
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
     var sessionManager = AUSessionManager.shared
     var alertVC = RBAAlertController()
-    let defs = UserDefaults.standard
+    let defs = BKIModel.initUserdefsWithSuitName()
     let bgImageview = UIImageView()
     let currentUser = User.shared
+    let httpWrapper = HTTPWrapper.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +41,15 @@ class BaseViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func hideNavigationController() -> Void {
+        switch type(of: self) {
+        case is MainDashBoardVC.Type, is DashBoardVC.Type:
+            self.navigationController?.isNavigationBarHidden = true
+            return
+        default:
+            self.navigationController?.isNavigationBarHidden = false
+        }
+    }
 
     /*
     // MARK: - Navigation

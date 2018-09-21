@@ -44,17 +44,32 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
     */
     
     @IBAction func signInAction(_ sender: Any) {
-        
+        defs?.set(true, forKey: "isLoggedIn")
+
+        self.appDelegate?.setupRootViewController()
+
+        return
         let dict = self.sessionManager.validateRequiredFields()
         if dict != nil {
             self.alertVC.presentAlertWithTitleAndMessage(title: "ERROR", message: dict!["Error"] as! String , controller: self)
             return
         }
-        print("validation success")
-        let defs = UserDefaults.standard
-        defs.set(true, forKey: "isLoggedIn")
-        self.appDelegate?.setupRootViewController()
-       // MBProgressHUD.showHud(view: self.view)
+        MBProgressHUD.showHud(view: self.view)
+
+        let loginParams = ["user_name":emailTF.text!,"password":passwordTF.text!]
+        httpWrapper.performAPIRequest("users/sign_in", methodType: "POST", parameters: loginParams as [String : AnyObject], successBlock: { (responseData) in
+                DispatchQueue.main.async {
+                    BKIModel.saveUserinDefaults(info: responseData)
+                    self.appDelegate?.setupRootViewController()
+                    MBProgressHUD.hideHud(view: self.view)
+
+                }
+        }) { (error) in
+                DispatchQueue.main.async {
+                    MBProgressHUD.hideHud(view: self.view)
+                    self.alertVC.presentAlertWithTitleAndMessage(title: "Error", message: error.localizedDescription, controller: self)
+                }
+        }
 
     }
     

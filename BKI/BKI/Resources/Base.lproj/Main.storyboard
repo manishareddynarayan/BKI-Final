@@ -116,6 +116,96 @@
             </objects>
             <point key="canvasLocation" x="1037.5999999999999" y="165.06746626686657"/>
         </scene>
+        <!--Fitter HeatVC-->
+        <scene sceneID="P0Y-xt-1Tc">
+            <objects>
+                <viewController storyboardIdentifier="FitterHeatVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="neW-B1-F3i" customClass="FitterHeatVC" customModule="BKI" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MpR-Gv-ls6">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="sU7-XU-JNQ"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="al1-8r-okZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1038" y="851"/>
+        </scene>
+        <!--New LoadVC-->
+        <scene sceneID="RbT-tw-hkg">
+            <objects>
+                <viewController restorationIdentifier="NewLoadVC" storyboardIdentifier="NewLoadVC" id="L4W-0L-YSK" customClass="NewLoadVC" customModule="BKI" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fht-fR-9dd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="0Cn-MP-TQY"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gC0-nl-LTg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1062" y="1638"/>
+        </scene>
+        <!--Load MiscVC-->
+        <scene sceneID="ego-8H-px3">
+            <objects>
+                <viewController storyboardIdentifier="LoadMiscVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="FMI-XS-WPn" customClass="LoadMiscVC" customModule="BKI" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UbT-Vh-8DY">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="vqx-w6-X2Q"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PbQ-9w-zye" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1737" y="1627"/>
+        </scene>
+        <!--Weld StatusVC-->
+        <scene sceneID="jvn-hz-xPw">
+            <objects>
+                <viewController storyboardIdentifier="WeldStatusVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pIE-el-0TQ" customClass="WeldStatusVC" customModule="BKI" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Z0z-vq-mGP">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Xwq-ah-SYM"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1VY-Ki-Ri7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1743" y="846"/>
+        </scene>
+        <!--DrawingVC-->
+        <scene sceneID="hbv-x2-qZY">
+            <objects>
+                <viewController storyboardIdentifier="DrawingVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pZV-gG-HB8" customClass="DrawingVC" customModule="BKI" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="s0n-4e-Kw5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Pqi-tj-9LD"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="i81-wN-9Qs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2518" y="842"/>
+        </scene>
+        <!--ScanVC-->
+        <scene sceneID="bJ1-m4-FAI">
+            <objects>
+                <viewController storyboardIdentifier="ScanVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="xKo-Li-1JK" customClass="ScanVC" customModule="BKI" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="VUQ-Oa-utt">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="1It-px-wMF"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dcH-TD-BeR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3250" y="841"/>
+        </scene>
         <!--Dash BoardVC-->
         <scene sceneID="UZc-Po-axb">
             <objects>
