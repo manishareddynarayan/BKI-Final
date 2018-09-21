@@ -38,7 +38,6 @@
 		4FA552692150FB5400EA6F9B /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA552632150FB5400EA6F9B /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		4FA5526A2150FB5400EA6F9B /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA552642150FB5400EA6F9B /* TPKeyboardAvoidingScrollView.m */; };
 		4FA5526B2150FB5400EA6F9B /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA552672150FB5400EA6F9B /* MBProgressHUD.m */; };
-		4FA5526F2150FB8800EA6F9B /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA5526D2150FB8800EA6F9B /* Color.swift */; };
 		4FA552702150FB8800EA6F9B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA5526E2150FB8800EA6F9B /* Constants.swift */; };
 		4FA5527321511C8B00EA6F9B /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FA5527221511C8B00EA6F9B /* Auth.storyboard */; };
 		4FCD148E21522C00002B70A9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD148D21522C00002B70A9 /* Extensions.swift */; };
@@ -92,7 +91,6 @@
 		4FA552652150FB5400EA6F9B /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
 		4FA552672150FB5400EA6F9B /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		4FA552682150FB5400EA6F9B /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		4FA5526D2150FB8800EA6F9B /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		4FA5526E2150FB8800EA6F9B /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4FA552712150FBAC00EA6F9B /* BKI-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BKI-Bridging-Header.h"; sourceTree = "<group>"; };
 		4FA5527221511C8B00EA6F9B /* Auth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
@@ -343,7 +341,6 @@
 		4FA5526C2150FB6B00EA6F9B /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				4FA5526D2150FB8800EA6F9B /* Color.swift */,
 				4FA5526E2150FB8800EA6F9B /* Constants.swift */,
 				4FA552712150FBAC00EA6F9B /* BKI-Bridging-Header.h */,
 			);
@@ -535,7 +532,6 @@
 				4FA5525D2150FB4500EA6F9B /* NSString+RENumberFormat.m in Sources */,
 				4FCD149221526B37002B70A9 /* MainDashBoardVC.swift in Sources */,
 				4F312B752154FB6E003D0358 /* LoadMiscVC.swift in Sources */,
-				4FA5526F2150FB8800EA6F9B /* Color.swift in Sources */,
 				4FCD149F215397A0002B70A9 /* User.swift in Sources */,
 				4F2F45FD2147D95200E5956C /* ViewController.swift in Sources */,
 				4FA551F72150FADF00EA6F9B /* HTTPWrapper.swift in Sources */,
