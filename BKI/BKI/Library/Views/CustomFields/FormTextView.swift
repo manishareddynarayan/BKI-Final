@@ -23,7 +23,7 @@ class FormTextView: UITextView,TextInputDelegate{
         self.formDelegate = delegate
         let toolbar = UIToolbar.init(frame: CGRect.init(x: 0, y: 0,
                                                         width: UIScreen.main.bounds.width, height: 44))
-        toolbar.tintColor = Color.squashColor()
+        toolbar.tintColor = UIColor.white
         toolbar.backgroundColor = UIColor.white
         let buttonPrev = UIBarButtonItem.init(title: "Prev",
                                               style: .plain, target: self, action: #selector(prevbuttonClicked))

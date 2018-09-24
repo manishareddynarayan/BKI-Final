@@ -8,12 +8,7 @@
 
 import UIKit
 
-enum Role:Int {
-    case fitter = 1
-    case welder
-    case shipper
-    case qa
-}
+
 
 class BKIModel: NSObject {
     

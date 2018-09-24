@@ -103,7 +103,7 @@ extension UITextField
          let keyBoardToolBar = UIToolbar()
 
         keyBoardToolBar.frame = CGRect(x:0, y:0, width:UIScreen.main.bounds.size.width, height:44);
-        keyBoardToolBar .barTintColor = Color.white
+        keyBoardToolBar .barTintColor = UIColor.white
         let spaceBtn = UIBarButtonItem (barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: self, action: nil)
         let doneBtn = UIBarButtonItem (title: "Done", style: .plain, target: self, action: #selector(self.doneButtonAction(sender:)))
         
@@ -621,11 +621,6 @@ extension NSMutableAttributedString
         self.addAttributes(firstAttributes, range: str.range(of: string))
     }
     
-    func addSquashColorAttribute(string:String) -> Void {
-        let str = self.string as NSString
-        let firstAttributes = UIColor.getSquashColorFontAttribute()
-        self.addAttributes(firstAttributes, range: str.range(of: string))
-    }
     
     func addBlackColorAttribute(string:String) -> Void {
         let str = self.string as NSString
@@ -720,10 +715,7 @@ extension UIColor
        return UIColor.init(red: 55.0/255.0, green: 84.0/255.0, blue: 141.0/255.0, alpha: 1.0)
     }
     
-    class func getSquashColorFontAttribute() -> [NSAttributedStringKey:AnyObject]
-    {
-        return [NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): Color.squashColor()]
-    }
+    
     
     class func getGrayColorFontAttribute() -> [NSAttributedStringKey:AnyObject]
     {

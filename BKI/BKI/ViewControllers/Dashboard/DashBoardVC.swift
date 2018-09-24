@@ -12,29 +12,24 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     
     @IBOutlet weak var tableView: UITableView!
     var menuItems: [[String:String]]!
-    
     var scanCode:String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.menuItems = User.shared.getUserMenuItems()
 
-//        self.menuItems = [["Name":"Status Fit-Up","Child":"DashboardVC"],["Name":"Heat Numbers","Child":"tasksVC"],["Name":"View Drawing","Child":"employeesVC"],["Name":"Scan New Spool","Child":"profileVC"]]
-
         tableView.register(UINib(nibName: "DashBoardCell", bundle: nil), forCellReuseIdentifier: "DashboardCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
-
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
     /*
-    // MARK: - Navigation
+    // MARK:- Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -43,18 +38,15 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     }
     */
     
-    
-    //MARK: TableView DataSource methods
+    //MARK:TableView DataSource methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuItems.count
     }
     
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90.0
     }
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardCell", for: indexPath) as? DashBoardCell

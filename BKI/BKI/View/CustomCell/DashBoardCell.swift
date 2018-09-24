@@ -28,14 +28,11 @@ class DashBoardCell: BaseCell {
         // Configure the view for the selected state
     }
     
-    
     func configureDashBoardCell() -> Void {
         
     }
     
-    
     @IBAction func detailArrowAction(_ sender: Any) {
-        
         
     }
     
