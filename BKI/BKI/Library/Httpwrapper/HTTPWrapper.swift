@@ -266,8 +266,8 @@ class HTTPWrapper: NSObject {
             print("headre \(headers)")
             let defs = BKIModel.initUserdefsWithSuitName()
             //print("StatusCoe\(statusCode)")
-            if headers["X-API-TOKEN"] != nil {
-                defs?.set( headers["X-API-TOKEN"] as? String, forKey: "access-token")
+            if headers["X-ACCESS-TOKEN"] != nil {
+                defs?.set( headers["X-ACCESS-TOKEN"] as? String, forKey: "access-token")
             }
             
             if statusCode >= 400 {

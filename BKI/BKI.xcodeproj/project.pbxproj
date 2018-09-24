@@ -18,6 +18,12 @@
 		4F312B752154FB6E003D0358 /* LoadMiscVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F312B742154FB6E003D0358 /* LoadMiscVC.swift */; };
 		4F312B772154FC3A003D0358 /* DrawingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F312B762154FC3A003D0358 /* DrawingVC.swift */; };
 		4F312B792154FC64003D0358 /* ScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F312B782154FC64003D0358 /* ScanVC.swift */; };
+		4F312B812158BBAC003D0358 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F312B802158BBAC003D0358 /* ScannerViewController.swift */; };
+		4F312B832158C73F003D0358 /* Scanner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F312B822158C73F003D0358 /* Scanner.storyboard */; };
+		4F312B882158C7D2003D0358 /* cross@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F312B852158C7D2003D0358 /* cross@2x.png */; };
+		4F312B892158C7D2003D0358 /* cross@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F312B862158C7D2003D0358 /* cross@3x.png */; };
+		4F312B8A2158C7D2003D0358 /* cross.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F312B872158C7D2003D0358 /* cross.png */; };
+		4F312B8D2158D912003D0358 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F312B8C2158D912003D0358 /* AVFoundation.framework */; };
 		4FA551EE2150F8F100EA6F9B /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA551ED2150F8F100EA6F9B /* RootViewController.swift */; };
 		4FA551F02150F90200EA6F9B /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA551EF2150F90200EA6F9B /* BaseViewController.swift */; };
 		4FA551F22150F93400EA6F9B /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA551F12150F93400EA6F9B /* LoginVC.swift */; };
@@ -66,6 +72,12 @@
 		4F312B742154FB6E003D0358 /* LoadMiscVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMiscVC.swift; sourceTree = "<group>"; };
 		4F312B762154FC3A003D0358 /* DrawingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingVC.swift; sourceTree = "<group>"; };
 		4F312B782154FC64003D0358 /* ScanVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanVC.swift; sourceTree = "<group>"; };
+		4F312B802158BBAC003D0358 /* ScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
+		4F312B822158C73F003D0358 /* Scanner.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Scanner.storyboard; sourceTree = "<group>"; };
+		4F312B852158C7D2003D0358 /* cross@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross@2x.png"; sourceTree = "<group>"; };
+		4F312B862158C7D2003D0358 /* cross@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross@3x.png"; sourceTree = "<group>"; };
+		4F312B872158C7D2003D0358 /* cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cross.png; sourceTree = "<group>"; };
+		4F312B8C2158D912003D0358 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		4FA551ED2150F8F100EA6F9B /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		4FA551EF2150F90200EA6F9B /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		4FA551F12150F93400EA6F9B /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -129,6 +141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F312B8D2158D912003D0358 /* AVFoundation.framework in Frameworks */,
 				CE2C6069083ED993BE06AD3B /* Pods_BKI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -170,9 +183,38 @@
 			path = BKI;
 			sourceTree = "<group>";
 		};
+		4F312B7F2158BB74003D0358 /* Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				4F312B802158BBAC003D0358 /* ScannerViewController.swift */,
+				4F312B842158C7A4003D0358 /* resource */,
+			);
+			path = Scanner;
+			sourceTree = "<group>";
+		};
+		4F312B842158C7A4003D0358 /* resource */ = {
+			isa = PBXGroup;
+			children = (
+				4F312B8B2158C7DA003D0358 /* Cross */,
+				4F312B822158C73F003D0358 /* Scanner.storyboard */,
+			);
+			path = resource;
+			sourceTree = "<group>";
+		};
+		4F312B8B2158C7DA003D0358 /* Cross */ = {
+			isa = PBXGroup;
+			children = (
+				4F312B872158C7D2003D0358 /* cross.png */,
+				4F312B852158C7D2003D0358 /* cross@2x.png */,
+				4F312B862158C7D2003D0358 /* cross@3x.png */,
+			);
+			path = Cross;
+			sourceTree = "<group>";
+		};
 		4FA551E32150F64A00EA6F9B /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				4F312B7F2158BB74003D0358 /* Scanner */,
 				4FCD148F21523379002B70A9 /* RBAAlertController.swift */,
 				4FA552482150FB3800EA6F9B /* Views */,
 				4FA551F82150FB0000EA6F9B /* Extension */,
@@ -397,6 +439,7 @@
 		69DED3EF212AD4050B5AE879 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F312B8C2158D912003D0358 /* AVFoundation.framework */,
 				B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */,
 			);
 			name = Frameworks;
@@ -471,11 +514,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F312B8A2158C7D2003D0358 /* cross.png in Resources */,
 				4F2F46052147D95300E5956C /* LaunchScreen.storyboard in Resources */,
 				4F2F46022147D95300E5956C /* Assets.xcassets in Resources */,
 				4FCD149921536317002B70A9 /* DashBoardCell.xib in Resources */,
+				4F312B882158C7D2003D0358 /* cross@2x.png in Resources */,
 				4FA5527321511C8B00EA6F9B /* Auth.storyboard in Resources */,
+				4F312B892158C7D2003D0358 /* cross@3x.png in Resources */,
 				4F2F46002147D95200E5956C /* Main.storyboard in Resources */,
+				4F312B832158C73F003D0358 /* Scanner.storyboard in Resources */,
 				4FA551F42150F98F00EA6F9B /* Root.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -545,6 +592,7 @@
 				4FA551EE2150F8F100EA6F9B /* RootViewController.swift in Sources */,
 				4FCD14902152337A002B70A9 /* RBAAlertController.swift in Sources */,
 				4FCD149B21536369002B70A9 /* BaseCell.swift in Sources */,
+				4F312B812158BBAC003D0358 /* ScannerViewController.swift in Sources */,
 				4FA552692150FB5400EA6F9B /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				4FA5525F2150FB4500EA6F9B /* AUFormattedField.swift in Sources */,
 				4FCD149D215396FE002B70A9 /* BKIModel.swift in Sources */,
@@ -708,15 +756,18 @@
 			baseConfigurationReference = C67014901894AB5EF7A77A74 /* Pods-BKI.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = HB7SX4J7W4;
 				INFOPLIST_FILE = BKI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.wal.BKI;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wal.bki;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "f12d333e-c61b-4add-b70a-4090c6f5b4de";
+				PROVISIONING_PROFILE_SPECIFIER = BKI_Dev;
 				SWIFT_OBJC_BRIDGING_HEADER = "BKI/Utilities/BKI-Bridging-Header.h";
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "BKI/Utilities/BKI-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
@@ -729,15 +780,19 @@
 			baseConfigurationReference = 8CDC640A54E9D1F0CC79C104 /* Pods-BKI.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = HB7SX4J7W4;
 				INFOPLIST_FILE = BKI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.wal.BKI;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wal.bki;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "17607d47-13b4-458f-9da5-f091a949ee7e";
+				PROVISIONING_PROFILE_SPECIFIER = BKI_Adhoc;
 				SWIFT_OBJC_BRIDGING_HEADER = "BKI/Utilities/BKI-Bridging-Header.h";
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "BKI/Utilities/BKI-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;

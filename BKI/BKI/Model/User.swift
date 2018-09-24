@@ -62,39 +62,36 @@ class User: BKIModel {
         }
         
         if let role = user["role"] as? String {
-            if role == "fab_fitter" {
+            if role == "Fab fitter" {
                 self.role = Role.fitter
             }
-            if role == "fab_welder" {
+            if role == "Fab welder" {
                 self.role = Role.welder
             }
-            if role == "shipper" {
+            if role == "Shipper" {
                 self.role = Role.shipper
             }
         }
     }
     
-    
     func getUserMenuItems() -> [[String:String]] {
-        var roleItems: [[String:String]]!
-        if role == Role.fitter {
-            roleItems = [["Name":"Status Fit-Up","Child":"WeldStatusVC"],
-                         ["Name":"Heat Numbers","Child":"FitterHeatVC"],
-                        ["Name":"View Drawing","Child":"DrawingVC"],
-                        ["Name":"Scan New Spool","Child":"ScanVC"]]
-        } else if role == Role.welder {
-            roleItems = [["Name":"Status Welds","Child":"WeldStatusVC"],
-                         ["Name":"View Drawing","Child":"DrawingVC"],
-                         ["Name":"Scan New Spool","Child":"ScanVC"]]
-        } else if role == Role.shipper {
-            roleItems = [["Name":"New Load","Child":"NewLoadVC"],
-                         ["Name":"Open Loads","Child":"LoadMiscVC"]]
+        switch (role.rawValue) {
+        case Role.fitter.rawValue :
+            return [["Name":"Status Fit-Up","Child":"WeldStatusVC"],
+                    ["Name":"Heat Numbers","Child":"FitterHeatVC"],
+                    ["Name":"View Drawing","Child":"DrawingVC"],
+                    ["Name":"Scan New Spool","Child":"ScanVC"]]
+        case Role.welder.rawValue :
+            return [["Name":"Status Welds","Child":"WeldStatusVC"],
+                    ["Name":"View Drawing","Child":"DrawingVC"],
+                    ["Name":"Scan New Spool","Child":"ScanVC"]]
+        case Role.shipper.rawValue :
+            return [["Name":"New Load","Child":"NewLoadVC"],
+                    ["Name":"Open Loads","Child":"LoadMiscVC"]]
+        default:
+            return [["Name":"Inspection","Child":"dashboardVC"],
+                    ["Name":"View Drawing","Child":"profileVC"]]
         }
-        else {
-           roleItems = [["Name":"Inspection","Child":"dashboardVC"],
-                        ["Name":"View Drawing","Child":"profileVC"]]
-        }
-        return roleItems
     }
     
     class func getRoleName(userRole:Role) -> String {

@@ -41,12 +41,12 @@ class BKIModel: NSObject {
     
     static func getUserRole() -> String {
         let defs = BKIModel.initUserdefsWithSuitName()
-        return (defs?.object(forKey: "user_role") as? String)!
+        return (defs?.object(forKey: "role") as? String)!
     }
     
     static func saveUserinDefaults(info:[String:AnyObject])->Void {
         let defs = BKIModel.initUserdefsWithSuitName()
-        defs?.set(info["id"], forKey: "user_id")
+        defs?.set(info["user_id"], forKey: "user_id")
         defs?.set(info["role"],forKey: "role")
         defs?.set(true, forKey: "isLoggedIn")
         let loginUser = User.shared

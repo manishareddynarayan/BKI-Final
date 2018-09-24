@@ -33,8 +33,7 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
     
     
     @IBAction func logoutAction(_ sender: Any) {
-        defs?.set(false, forKey: "isLoggedIn")
-        self.appDelegate?.setupRootViewController()
+        self.loogoutUser()
     }
     
 

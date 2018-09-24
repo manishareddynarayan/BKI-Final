@@ -62,4 +62,24 @@ class BaseViewController: UIViewController {
         self.navigationController?.popToRootViewController(animated: true)
     }
     
+    func loogoutUser() {
+        let cancelClosure: () -> Void = {
+            
+        }
+        let signoutClosure: () -> Void = {
+            BKIModel.resetUserDefaults()
+            self.appDelegate?.setupRootViewController()
+        }
+        self.alertVC.presentAlertWithTitleAndActions(actions: [cancelClosure,signoutClosure], buttonTitles: ["Cancel","Logout"], controller: self, message: "Are you sure you want to logout ?", title: "BKI")
+    }
+    
+    func showScanner() {
+        guard let scanNVC = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "ScanNVC", storyBoard: "Scanner") as? UINavigationController else { return  }
+        guard let vc = scanNVC.viewControllers[0] as? ScannerViewController else { return  }
+        
+        vc.delegate = self as! ScannerDelegate
+        
+        self.present(scanNVC, animated: true, completion: nil)
+    }
+    
 }

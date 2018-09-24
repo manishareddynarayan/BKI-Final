@@ -44,11 +44,7 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
     */
     
     @IBAction func signInAction(_ sender: Any) {
-        defs?.set(true, forKey: "isLoggedIn")
-
-        self.appDelegate?.setupRootViewController()
-
-        return
+        
         let dict = self.sessionManager.validateRequiredFields()
         if dict != nil {
             self.alertVC.presentAlertWithTitleAndMessage(title: "ERROR", message: dict!["Error"] as! String , controller: self)
@@ -56,7 +52,7 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
         }
         MBProgressHUD.showHud(view: self.view)
 
-        let loginParams = ["user_name":emailTF.text!,"password":passwordTF.text!]
+        let loginParams = ["user_name":emailTF.text!,"password":passwordTF.text!,"platform":"mobile"]
         httpWrapper.performAPIRequest("users/sign_in", methodType: "POST", parameters: loginParams as [String : AnyObject], successBlock: { (responseData) in
                 DispatchQueue.main.async {
                     BKIModel.saveUserinDefaults(info: responseData)
@@ -77,10 +73,7 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
         
     }
     
-    
-    
     //MARK:UItextField Input Delegate
-    
     func textFieldDidPressedNextButton(_ textField: AUSessionField) {
         let currentTag = textField.tag
         let nextTF = self.view.viewWithTag(currentTag+1)

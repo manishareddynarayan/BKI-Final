@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import AVFoundation
 
-class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSource {
+class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,ScannerDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     var menuItems: [[String:String]]!
@@ -53,17 +54,26 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         let menu = self.menuItems[indexPath.row]
         //cell?.container.backgroundColor = (self.scanCode == nil) ? :
         cell?.container.alpha = (self.scanCode == nil) ? 0.5 : 1.0
+        if indexPath.row == self.menuItems.count - 1 {
+            cell?.container.alpha = 1.0
+        }
         cell?.titleLbl.text = menu["Name"]
         
         return cell!
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        guard self.scanCode != nil else {
+      guard self.scanCode != nil && indexPath.row < self.menuItems.count - 1 else {
+            self.showScanner()
             return
         }
         let menu = self.menuItems[indexPath.row]
         self.pushViewControllerWithIdentifierAndStoryBoard(identifier: menu["Child"]!, storyBoard: "Main")
+    }
+    
+    //MARK:Scan Delegate Methods
+    
+    func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+        
     }
 }
