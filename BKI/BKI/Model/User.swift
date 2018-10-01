@@ -62,10 +62,10 @@ class User: BKIModel {
         }
         
         if let role = user["role"] as? String {
-            if role == "Fab fitter" {
+            if role == "fab_fitter" {
                 self.role = Role.fitter
             }
-            if role == "Fab welder" {
+            if role == "fab_welder" {
                 self.role = Role.welder
             }
             if role == "Shipper" {
@@ -77,21 +77,50 @@ class User: BKIModel {
     func getUserMenuItems() -> [[String:String]] {
         switch (role.rawValue) {
         case Role.fitter.rawValue :
-            return [["Name":"Status Fit-Up","Child":"WeldStatusVC"],
-                    ["Name":"Heat Numbers","Child":"FitterHeatVC"],
-                    ["Name":"View Drawing","Child":"DrawingVC"],
-                    ["Name":"Scan New Spool","Child":"ScanVC"]]
+            return self.getFitterMenu()
         case Role.welder.rawValue :
-            return [["Name":"Status Welds","Child":"WeldStatusVC"],
-                    ["Name":"View Drawing","Child":"DrawingVC"],
-                    ["Name":"Scan New Spool","Child":"ScanVC"]]
+            return self.getWelderMenu()
         case Role.shipper.rawValue :
-            return [["Name":"New Load","Child":"NewLoadVC"],
-                    ["Name":"Open Loads","Child":"LoadMiscVC"]]
+            return self.getShippingMenu()
         default:
-            return [["Name":"Inspection","Child":"dashboardVC"],
-                    ["Name":"View Drawing","Child":"profileVC"]]
+            return self.getTestingMenu()
         }
+    }
+    
+    func getUserMenuItems(with role:Int) -> [[String:String]] {
+        switch (role) {
+        case 1 :
+            return self.getFitterMenu()
+        case 2 :
+            return self.getWelderMenu()
+        case 3 :
+            return self.getShippingMenu()
+        default:
+            return self.getTestingMenu()
+        }
+    }
+    
+    func getFitterMenu() -> [[String:String]] {
+        return [["Name":"Status Fit-Up","Child":"WeldStatusVC"],
+                ["Name":"Heat Numbers","Child":"FitterHeatVC"],
+                ["Name":"View Drawing","Child":"DrawingVC"],
+                ["Name":"Scan New Spool","Child":"ScanVC"]]
+    }
+    
+    func getWelderMenu() -> [[String:String]] {
+        return [["Name":"Status Welds","Child":"WeldStatusVC"],
+         ["Name":"View Drawing","Child":"DrawingVC"],
+         ["Name":"Scan New Spool","Child":"ScanVC"]]
+    }
+    
+    func getShippingMenu() -> [[String:String]] {
+        return [["Name":"New Load","Child":"NewLoadVC"],
+         ["Name":"Open Loads","Child":"OpenLoadVC"]]
+    }
+    
+    func getTestingMenu() -> [[String:String]] {
+        return [["Name":"Inspection","Child":"dashboardVC"],
+                ["Name":"View Drawing","Child":"profileVC"]]
     }
     
     class func getRoleName(userRole:Role) -> String {

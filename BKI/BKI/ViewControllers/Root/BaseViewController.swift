@@ -17,7 +17,8 @@ class BaseViewController: UIViewController {
     let bgImageview = UIImageView()
     let currentUser = User.shared
     let httpWrapper = HTTPWrapper.sharedInstance
-    
+    var role:Int!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,13 +27,15 @@ class BaseViewController: UIViewController {
         bgImageview.frame = self.view.bounds
         self.view.addSubview(bgImageview)
         self.view.sendSubview(toBack: self.bgImageview)
-        // Do any additional setup after loading the view.
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage.init(named: "backArrow"), style: .plain, target: self, action: #selector(self.backButtonAction(sender:)))
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white,NSAttributedStringKey.font: UIFont.systemSemiBold15]
     }
 
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.hideNavigationController()
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -48,6 +51,9 @@ class BaseViewController: UIViewController {
         }
     }
 
+    @objc func backButtonAction(sender:AnyObject?) {
+        self.navigationController?.popViewController(animated: true)
+    }
     /*
     // MARK: - Navigation
 
@@ -80,6 +86,13 @@ class BaseViewController: UIViewController {
         vc.delegate = self as! ScannerDelegate
         
         self.present(scanNVC, animated: true, completion: nil)
+    }
+    
+    func showFailureAlert(with message:String) -> Void {
+        DispatchQueue.main.async {
+            MBProgressHUD.hideHud(view: self.view)
+            self.alertVC.presentAlertWithTitleAndMessage(title: "ERROR", message: message, controller: self)
+        }
     }
     
 }

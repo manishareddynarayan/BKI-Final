@@ -75,7 +75,7 @@ class HTTPWrapper: NSObject {
         let defs = BKIModel.initUserdefsWithSuitName()
         if defs?.object(forKey: "access-token") != nil {
             let token = (defs?.object(forKey: "access-token") as? String)!
-            request.setValue(token, forHTTPHeaderField: "X-api-token")
+            request.setValue(token, forHTTPHeaderField: "X-ACCESS-TOKEN")
         }        //phone: <user phone number>, role: "client" }, action: 'sign_in'
         self.sendRequest(request: request, successBlock: successBlock, failBlock: failBlock)
     }
@@ -95,7 +95,7 @@ class HTTPWrapper: NSObject {
         let defs = BKIModel.initUserdefsWithSuitName()
         if defs?.object(forKey: "access-token") != nil {
             let token = (defs?.object(forKey: "access-token") as? String)!
-            request.setValue(token, forHTTPHeaderField: "X-api-token")
+            request.setValue(token, forHTTPHeaderField: "X-ACCESS-TOKEN")
         }        
 
         var postbody = Data()
@@ -182,7 +182,7 @@ class HTTPWrapper: NSObject {
             taskResource.set(result: responseData as AnyObject)
 
         }, failBlock: { (error) in
-            taskResource.set(error: error)
+            taskResource.set(error: error!)
                         failBlock(error)
 
         }, uploadMultipleImages: false)
@@ -271,7 +271,7 @@ class HTTPWrapper: NSObject {
             }
             
             if statusCode >= 400 {
-                if statusCode == 403{
+                if statusCode == 401{
                     self.showAlertView(message: "Authorisation expired. Please sign in again.")
                     return
                 }
@@ -416,8 +416,8 @@ class HTTPWrapper: NSObject {
     func redirectUserToSignInScreenOnAuthExpire(){
         DispatchQueue.main.async {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            //UOVOModel.resetUserDefaults()
-            //appDelegate.setupRootViewController()
+            BKIModel.resetUserDefaults()
+            appDelegate.setupRootViewController()
         }
     }
 }

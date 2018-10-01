@@ -46,7 +46,7 @@ class RootViewController: BaseViewController {
             }
         }) { (error) in
             DispatchQueue.main.async {
-            self.alertVC.presentAlertWithTitleAndMessage(title: "ERROR", message: error.localizedDescription, controller: self)
+                self.alertVC.presentAlertWithTitleAndMessage(title: "ERROR", message: (error?.localizedDescription)!, controller: self)
                 BKIModel.initUserdefsWithSuitName().set(false, forKey: "isLoggedIn")
             self.appDelegate?.setupRootViewController()
             }

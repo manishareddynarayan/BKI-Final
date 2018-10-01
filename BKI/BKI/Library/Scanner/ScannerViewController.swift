@@ -18,6 +18,7 @@ class ScannerViewController: UIViewController {
     var qrCodeFrameView: UIView?
     @IBOutlet var messageLabel:UILabel!
     weak var delegate:ScannerDelegate!
+    var scanData:AVMetadataMachineReadableCodeObject?
     private let supportedCodeTypes = [AVMetadataObject.ObjectType.upce,
                                       AVMetadataObject.ObjectType.code39,
                                       AVMetadataObject.ObjectType.code39Mod43,
@@ -38,6 +39,7 @@ class ScannerViewController: UIViewController {
         guard let captureDevice = self.getCaptureDevice() else
         {
             print("Device doesn't support for scaning.")
+            messageLabel.text = "Device doesn't support for scaning."
             scanBtn.isEnabled = false
             return
         }
@@ -106,7 +108,7 @@ class ScannerViewController: UIViewController {
     func getCaptureDevice() -> AVCaptureDevice? {
         
         if #available(iOS 10.2, *) {
-            let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInDualCamera], mediaType: AVMediaType.video, position: .back)
+            let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInDuoCamera], mediaType: AVMediaType.video, position: .back)
             guard let captureDevice = deviceDiscoverySession.devices.first else {
                 print("Failed to get the camera device")
                 return nil
@@ -136,6 +138,16 @@ class ScannerViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func doneAction(_ sender: Any) {
+        self.dismiss(animated: true) {
+            guard self.scanData != nil else {
+                self.delegate.scanDidCompletedWith!(nil)
+                return
+            }
+            self.delegate.scanDidCompletedWith!(self.scanData!)
+        }
+    }
+    
 }
 
 
@@ -156,6 +168,7 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
         
         // Get the metadata object.
         let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
+        self.scanData = metadataObj
         if supportedCodeTypes.contains(metadataObj.type) {
             let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
             qrCodeFrameView?.frame = barCodeObject!.bounds
@@ -169,7 +182,7 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
 
 @objc protocol ScannerDelegate
 {
-    @objc optional func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection)
+    @objc optional func scanDidCompletedWith(_ data:AVMetadataMachineReadableCodeObject?)
     @objc optional func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didError error: Error, from connection: AVCaptureConnection)
 
 }

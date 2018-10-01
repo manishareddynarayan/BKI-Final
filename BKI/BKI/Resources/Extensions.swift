@@ -52,4 +52,7 @@ extension UIFont {
         return UIFont.systemFont(ofSize: 17.0, weight: .medium)
     }
     
+    class var systemSemiBold15: UIFont {
+        return UIFont.systemFont(ofSize: 15.0, weight: .semibold)
+    }
 }

@@ -44,6 +44,13 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "DashboardSegue" {
+            guard let vc = segue.destination as? DashBoardVC else {
+                
+                return
+            }
+            vc.role = ((sender as? IndexPath)?.row)! + 1
+        }
     }
  
 
@@ -68,6 +75,6 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //tableView.deselectRow(at: indexPath, animated: false)
-        self.performSegue(withIdentifier: "DashboardSegue", sender: self)
+        self.performSegue(withIdentifier: "DashboardSegue", sender: indexPath)
     }
 }

@@ -14,11 +14,10 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     @IBOutlet weak var tableView: UITableView!
     var menuItems: [[String:String]]!
     var scanCode:String?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.menuItems = User.shared.getUserMenuItems()
+        self.menuItems = User.shared.getUserMenuItems(with: self.role)
 
         tableView.register(UINib(nibName: "DashBoardCell", bundle: nil), forCellReuseIdentifier: "DashboardCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
@@ -29,7 +28,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         // Dispose of any resources that can be recreated.
     }
     
-    /*
+    
     // MARK:- Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -37,7 +36,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
+    
     
     //MARK:TableView DataSource methods
     
@@ -53,7 +52,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardCell", for: indexPath) as? DashBoardCell
         let menu = self.menuItems[indexPath.row]
         //cell?.container.backgroundColor = (self.scanCode == nil) ? :
-        cell?.container.alpha = (self.scanCode == nil) ? 0.5 : 1.0
+       // cell?.container.alpha = (self.scanCode == nil) ? 0.5 : 1.0
         if indexPath.row == self.menuItems.count - 1 {
             cell?.container.alpha = 1.0
         }
@@ -63,17 +62,19 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      guard self.scanCode != nil && indexPath.row < self.menuItems.count - 1 else {
-            self.showScanner()
-            return
-        }
+      guard indexPath.row == self.menuItems.count - 1 && self.role != 3   else {
         let menu = self.menuItems[indexPath.row]
-        self.pushViewControllerWithIdentifierAndStoryBoard(identifier: menu["Child"]!, storyBoard: "Main")
+        guard let vc = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? BaseViewController else { return }
+        vc.role = self.role
+        self.navigationController?.pushViewController(vc, animated: true)
+        return
+    }
+        self.showScanner()
     }
     
     //MARK:Scan Delegate Methods
     
-    func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+    private func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         
     }
 }

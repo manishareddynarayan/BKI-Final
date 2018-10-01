@@ -52,7 +52,7 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
         }
         MBProgressHUD.showHud(view: self.view)
 
-        let loginParams = ["user_name":emailTF.text!,"password":passwordTF.text!,"platform":"mobile"]
+        let loginParams = ["email":emailTF.text!,"password":passwordTF.text!,"platform":"mobile"]
         httpWrapper.performAPIRequest("users/sign_in", methodType: "POST", parameters: loginParams as [String : AnyObject], successBlock: { (responseData) in
                 DispatchQueue.main.async {
                     BKIModel.saveUserinDefaults(info: responseData)
@@ -61,10 +61,7 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
 
                 }
         }) { (error) in
-                DispatchQueue.main.async {
-                    MBProgressHUD.hideHud(view: self.view)
-                    self.alertVC.presentAlertWithTitleAndMessage(title: "Error", message: error.localizedDescription, controller: self)
-                }
+            self.showFailureAlert(with: (error?.localizedDescription)!)
         }
 
     }
