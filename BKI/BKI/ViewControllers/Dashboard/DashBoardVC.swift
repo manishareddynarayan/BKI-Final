@@ -14,6 +14,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     @IBOutlet weak var tableView: UITableView!
     var menuItems: [[String:String]]!
     var scanCode:String?
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,17 +29,14 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         // Dispose of any resources that can be recreated.
     }
     
-    
-    // MARK:- Navigation
-
+    // MARK Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
     
-    
-    //MARK:TableView DataSource methods
+    //MARK TableView DataSource methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuItems.count
@@ -72,8 +70,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         self.showScanner()
     }
     
-    //MARK:Scan Delegate Methods
-    
+    //MARK Scan Delegate Methods
     private func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         
     }

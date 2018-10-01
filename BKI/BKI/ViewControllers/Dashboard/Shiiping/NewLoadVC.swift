@@ -25,9 +25,8 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource 
         // Dispose of any resources that can be recreated.
     }
     
-
     /*
-    // MARK: - Navigation
+    // MARK Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -36,8 +35,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource 
     }
     */
     
-    
-    //MARK:TableView DataSource methods
+    //MARK TableView DataSource methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }

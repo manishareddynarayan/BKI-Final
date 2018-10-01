@@ -54,7 +54,7 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
     }
  
 
-    //MARK: TableView DataSource methods
+    //MARK TableView DataSource methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.roleArr.count

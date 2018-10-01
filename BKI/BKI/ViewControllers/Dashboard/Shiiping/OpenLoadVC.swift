@@ -20,9 +20,8 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
         // Do any additional setup after loading the view.
     }
     
-
     /*
-    // MARK: - Navigation
+    // MARK Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -31,7 +30,7 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
     }
     */
 
-    //MARK:TableView DataSource methods
+    //MARK TableView DataSource methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
