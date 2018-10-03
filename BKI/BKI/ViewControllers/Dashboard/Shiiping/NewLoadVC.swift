@@ -34,7 +34,8 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     func createNewLoad() {
-        self.httpWrapper.performAPIRequest("loads/", methodType: "POST", parameters: nil, successBlock: { (responseData) in
+        self.httpWrapper.performAPIRequest("loads/", methodType: "POST",
+        parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
                 if self.load == nil {
                     self.load = Load()
@@ -44,21 +45,22 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             }
         }) { (error) in
             DispatchQueue.main.async {
-                self.alertVC.presentAlertWithMessage(message: (error?.localizedDescription)!, controller: self)
+                self.showFailureAlert(with: (error?.localizedDescription)!)
             }
         }
     }
     
     func getLoadDetails() {
         self.navigationItem.title = "Load Number " + self.load!.number!
-        self.httpWrapper.performAPIRequest("loads/\(self.load!.id!)", methodType: "GET", parameters: nil, successBlock: { (responseData) in
+        self.httpWrapper.performAPIRequest("loads/\(self.load!.id!)", methodType: "GET",
+        parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
                 self.load!.saveLoad(loadInfo: responseData)
                 self.tableView.reloadData()
             }
         }) { (error) in
             DispatchQueue.main.async {
-                self.alertVC.presentAlertWithMessage(message: (error?.localizedDescription)!, controller: self)
+                self.showFailureAlert(with: (error?.localizedDescription)!)
             }
         }
     }
@@ -83,13 +85,14 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             loadParams["spool_id"] =  spoolIds as AnyObject
         }
         
-        self.httpWrapper.performAPIRequest("loads/\(self.load!.id!)", methodType: "PUT", parameters: ["load":loadParams as AnyObject], successBlock: { (responseData) in
+        self.httpWrapper.performAPIRequest("loads/\(self.load!.id!)", methodType: "PUT",
+        parameters: ["load":loadParams as AnyObject], successBlock: { (responseData) in
             DispatchQueue.main.async {
                 self.load!.saveLoad(loadInfo: responseData)
             }
         }) { (error) in
             DispatchQueue.main.async {
-                self.alertVC.presentAlertWithMessage(message: (error?.localizedDescription)!, controller: self)
+                self.showFailureAlert(with: (error?.localizedDescription)!)
             }
         }
     }
@@ -97,17 +100,14 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     @IBAction func submitLoad(_ sender: Any) {
         
     }
-    /*
-    // MARK Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
+     // MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
     
-    //MARK TableView DataSource methods
+    //MARK: TableView DataSource methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return  self.isEdit ? self.scannedSpools.count + (self.load?.spools.count)! : self.scannedSpools.count
     }
@@ -121,8 +121,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         var spool:Spool!
         if indexPath.row <= (self.load?.spools.count)! - 1 {
             spool = self.load?.spools[indexPath.row]
-        }
-        else {
+        } else {
             spool = self.scannedSpools[indexPath.row]
         }
         cell?.spoolLbl.text = "\(spool.code!)"
@@ -133,14 +132,15 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         
     }
     
-    //MARK Scan Delegate Methods
+    //MARK: Scan Delegate Methods
     func scanDidCompletedWith(_ data:AVMetadataMachineReadableCodeObject?) {
         let spool = Spool.init(info: ["code":data?.stringValue! as AnyObject])
         scannedSpools.append(spool)
         self.tableView.reloadData()
     }
     
-    func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didError error: Error, from connection: AVCaptureConnection) {
+    func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didError error: Error,
+                              from connection: AVCaptureConnection) {
         
     }
 

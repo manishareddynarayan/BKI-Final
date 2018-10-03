@@ -62,7 +62,6 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
         }) { (error) in
             self.showFailureAlert(with: (error?.localizedDescription)!)
         }
-
     }
     
     @IBAction func forgotMyPasswordAction(_ sender: Any) {

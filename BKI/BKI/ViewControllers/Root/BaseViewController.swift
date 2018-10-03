@@ -82,9 +82,7 @@ class BaseViewController: UIViewController {
     func showScanner() {
         guard let scanNVC = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "ScanNVC", storyBoard: "Scanner") as? UINavigationController else { return  }
         guard let vc = scanNVC.viewControllers[0] as? ScannerViewController else { return  }
-        
-        vc.delegate = self as! ScannerDelegate
-        
+        vc.delegate = self as? ScannerDelegate
         self.present(scanNVC, animated: true, completion: nil)
     }
     
