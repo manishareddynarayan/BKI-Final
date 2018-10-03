@@ -11,6 +11,7 @@ import UIKit
 class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
+    var openLoadsArr = [Load]()
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,6 +21,28 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.getOpenLoads()
+    }
+    
+    func getOpenLoads() {
+        self.httpWrapper.performAPIRequest("loads", methodType: "GET", parameters: nil, successBlock: { (responseData) in
+            let loads = responseData["loads"] as? [[String:AnyObject]]
+            self.openLoadsArr.removeAll()
+            for load in loads! {
+                let openLoad = Load.init(info: load)
+                self.openLoadsArr.append(openLoad)
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }) { (error) in
+            DispatchQueue.main.async {
+                self.alertVC.presentAlertWithMessage(message: (error?.localizedDescription)!, controller: self)
+            }
+        }
+    }
     /*
     // MARK Navigation
 
@@ -32,18 +55,25 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
 
     //MARK TableView DataSource methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return self.openLoadsArr.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90.0
+        return 50.0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "openLoadCell", for: indexPath) as? OpenLoadCell
-        
+        let load = self.openLoadsArr[indexPath.row]
+        cell?.loadLbl.text = load.number!
         cell!.loadEditBlock = {
-            
+            //self.pushViewControllerWithIdentifierAndStoryBoard(identifier: "NewLoadVC", storyBoard: "Main")
+            guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "NewLoadVC", storyBoard: "Main") as? NewLoadVC else {
+                return
+            }
+            vc.load = load
+            vc.isEdit = true
+            self.navigationController?.pushViewController(vc, animated: true)
         }
         return cell!
     }

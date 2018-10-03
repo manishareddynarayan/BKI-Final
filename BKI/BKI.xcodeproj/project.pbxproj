@@ -65,6 +65,9 @@
 		4FCDEDB2216223F30071E9F6 /* OpenLoadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDB0216223F30071E9F6 /* OpenLoadCell.swift */; };
 		4FCDEDB3216223F30071E9F6 /* OpenLoadCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FCDEDB1216223F30071E9F6 /* OpenLoadCell.xib */; };
 		4FCDEDB5216224C60071E9F6 /* OpenLoadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDB4216224C60071E9F6 /* OpenLoadVC.swift */; };
+		4FCDEDB72164C3B20071E9F6 /* Load.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDB62164C3B20071E9F6 /* Load.swift */; };
+		4FCDEDB92164C4280071E9F6 /* Spool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDB82164C4280071E9F6 /* Spool.swift */; };
+		4FCDEDBB2164C4890071E9F6 /* Material.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDBA2164C4890071E9F6 /* Material.swift */; };
 		CE2C6069083ED993BE06AD3B /* Pods_BKI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */; };
 /* End PBXBuildFile section */
 
@@ -151,6 +154,9 @@
 		4FCDEDB0216223F30071E9F6 /* OpenLoadCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenLoadCell.swift; sourceTree = "<group>"; };
 		4FCDEDB1216223F30071E9F6 /* OpenLoadCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenLoadCell.xib; sourceTree = "<group>"; };
 		4FCDEDB4216224C60071E9F6 /* OpenLoadVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenLoadVC.swift; sourceTree = "<group>"; };
+		4FCDEDB62164C3B20071E9F6 /* Load.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Load.swift; sourceTree = "<group>"; };
+		4FCDEDB82164C4280071E9F6 /* Spool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spool.swift; sourceTree = "<group>"; };
+		4FCDEDBA2164C4890071E9F6 /* Material.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Material.swift; sourceTree = "<group>"; };
 		8CDC640A54E9D1F0CC79C104 /* Pods-BKI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.release.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.release.xcconfig"; sourceTree = "<group>"; };
 		B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BKI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C67014901894AB5EF7A77A74 /* Pods-BKI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.debug.xcconfig"; sourceTree = "<group>"; };
@@ -316,6 +322,9 @@
 			children = (
 				4FCD149C215396FE002B70A9 /* BKIModel.swift */,
 				4FCD149E215397A0002B70A9 /* User.swift */,
+				4FCDEDB62164C3B20071E9F6 /* Load.swift */,
+				4FCDEDB82164C4280071E9F6 /* Spool.swift */,
+				4FCDEDBA2164C4890071E9F6 /* Material.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -617,11 +626,13 @@
 				4FCDEDB2216223F30071E9F6 /* OpenLoadCell.swift in Sources */,
 				4F2F45FD2147D95200E5956C /* ViewController.swift in Sources */,
 				4FA551F72150FADF00EA6F9B /* HTTPWrapper.swift in Sources */,
+				4FCDEDBB2164C4890071E9F6 /* Material.swift in Sources */,
 				4F312B712154FB05003D0358 /* FitterHeatVC.swift in Sources */,
 				4FA551F02150F90200EA6F9B /* BaseViewController.swift in Sources */,
 				4FA552572150FB4500EA6F9B /* AUTextField.swift in Sources */,
 				4FA552472150FB0000EA6F9B /* TextField_ext.swift in Sources */,
 				4F2F45FB2147D95200E5956C /* AppDelegate.swift in Sources */,
+				4FCDEDB72164C3B20071E9F6 /* Load.swift in Sources */,
 				4FCDEDAE216220960071E9F6 /* LoadCell.swift in Sources */,
 				4F312B792154FC64003D0358 /* ScanVC.swift in Sources */,
 				4FA5525E2150FB4500EA6F9B /* FormTextView.swift in Sources */,
@@ -631,6 +642,7 @@
 				4F312B812158BBAC003D0358 /* ScannerViewController.swift in Sources */,
 				4FA552692150FB5400EA6F9B /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				4FA5525F2150FB4500EA6F9B /* AUFormattedField.swift in Sources */,
+				4FCDEDB92164C4280071E9F6 /* Spool.swift in Sources */,
 				4FCD149D215396FE002B70A9 /* BKIModel.swift in Sources */,
 				4FA5525C2150FB4500EA6F9B /* AUPasswordField.swift in Sources */,
 				4FA552582150FB4500EA6F9B /* REFormattedNumberField.m in Sources */,

@@ -119,13 +119,13 @@
         <!--New Load-->
         <scene sceneID="RbT-tw-hkg">
             <objects>
-                <viewController restorationIdentifier="NewLoadVC" storyboardIdentifier="NewLoadVC" title="Load Number 98765" id="L4W-0L-YSK" userLabel="New Load" customClass="NewLoadVC" customModule="BKI" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewLoadVC" title="Load Number 98765" useStoryboardIdentifierAsRestorationIdentifier="YES" id="L4W-0L-YSK" userLabel="New Load" customClass="NewLoadVC" customModule="BKI" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fht-fR-9dd">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rIy-UP-mGA">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="loadCell" rowHeight="76" id="9B3-8a-ldb" customClass="LoadCell" customModule="BKI" customModuleProvider="target">
@@ -152,11 +152,25 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="0Cn-MP-TQY"/>
                     </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="saveBtn" destination="Zmd-fj-UrU" id="FC1-ZI-tif"/>
+                        <outlet property="scanBtn" destination="y4E-T0-6h8" id="8h9-JX-DlJ"/>
                         <outlet property="tableView" destination="rIy-UP-mGA" id="dof-5T-Oar"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gC0-nl-LTg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <barButtonItem title="Scan" style="plain" id="y4E-T0-6h8">
+                    <connections>
+                        <action selector="scanAction:" destination="L4W-0L-YSK" id="L4m-aV-oc8"/>
+                    </connections>
+                </barButtonItem>
+                <barButtonItem style="done" systemItem="save" id="Zmd-fj-UrU">
+                    <connections>
+                        <action selector="saveAction:" destination="L4W-0L-YSK" id="uoY-DY-IJg"/>
+                    </connections>
+                </barButtonItem>
             </objects>
             <point key="canvasLocation" x="1061.5999999999999" y="1637.6311844077961"/>
         </scene>

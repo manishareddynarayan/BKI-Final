@@ -13,7 +13,6 @@ class ScannerViewController: UIViewController {
 
     var captureSession = AVCaptureSession()
     @IBOutlet weak var scanBtn: UIBarButtonItem!
-    
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     var qrCodeFrameView: UIView?
     @IBOutlet var messageLabel:UILabel!
@@ -36,58 +35,19 @@ class ScannerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let captureDevice = self.getCaptureDevice() else
-        {
-            print("Device doesn't support for scaning.")
-            messageLabel.text = "Device doesn't support for scaning."
-            scanBtn.isEnabled = false
-            return
-        }
-        scanBtn.isEnabled = true
-
-        do {
-            // Get an instance of the AVCaptureDeviceInput class using the previous device object.
-            let input = try AVCaptureDeviceInput(device: captureDevice)
-            
-            // Set the input device on the capture session.
-            captureSession.addInput(input)
-            
-            // Initialize a AVCaptureMetadataOutput object and set it as the output device to the capture session.
-            let captureMetadataOutput = AVCaptureMetadataOutput()
-            captureSession.addOutput(captureMetadataOutput)
-            
-            // Set delegate and use the default dispatch queue to execute the call back
-            captureMetadataOutput.setMetadataObjectsDelegate(self as AVCaptureMetadataOutputObjectsDelegate, queue: DispatchQueue.main)
-            captureMetadataOutput.metadataObjectTypes = supportedCodeTypes
-            
-        } catch {
-            // If any error occurs, simply print it out and don't continue any more.
-            print(error)
-            return
-        }
-        // Initialize the video preview layer and add it as a sublayer to the viewPreview view's layer.
-        videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        videoPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
-        videoPreviewLayer?.frame = view.layer.bounds
-        view.layer.addSublayer(videoPreviewLayer!)
-        
-        // Start video capture.
-        self.scanAction(self)
-        // Move the message label and top bar to the front
-        view.bringSubview(toFront: messageLabel)
-        
-        // Initialize QR Code Frame to highlight the QR code
-        qrCodeFrameView = UIView()
-        
-        if let qrCodeFrameView = qrCodeFrameView {
-            qrCodeFrameView.layer.borderColor = UIColor.green.cgColor
-            qrCodeFrameView.layer.borderWidth = 2
-            view.addSubview(qrCodeFrameView)
-            view.bringSubview(toFront: qrCodeFrameView)
-        }
+        scanBtn.isEnabled = false
+        startScaning()
         // Do any additional setup after loading the view.
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if (captureSession.isRunning == true) {
+            captureSession.stopRunning()
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -105,26 +65,49 @@ class ScannerViewController: UIViewController {
     */
     
     
-    func getCaptureDevice() -> AVCaptureDevice? {
+    func startScaning() {
         
-        if #available(iOS 10.2, *) {
-            let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInDuoCamera], mediaType: AVMediaType.video, position: .back)
-            guard let captureDevice = deviceDiscoverySession.devices.first else {
-                print("Failed to get the camera device")
-                return nil
-            }
-            return captureDevice
-
-        } else {
-            // Fallback on earlier versions
-            let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInDuoCamera], mediaType: AVMediaType.video, position: .back)
-            guard let captureDevice = deviceDiscoverySession.devices.first else {
-                print("Failed to get the camera device")
-                return nil
-            }
-            return captureDevice
+        guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
+        let videoInput: AVCaptureDeviceInput
+        
+        do {
+            videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
+        } catch {
+            return
         }
         
+        if (captureSession.canAddInput(videoInput)) {
+            captureSession.addInput(videoInput)
+        } else {
+            failed()
+            return
+        }
+        
+        let metadataOutput = AVCaptureMetadataOutput()
+        if (captureSession.canAddOutput(metadataOutput)) {
+            captureSession.addOutput(metadataOutput)
+            
+            metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+            metadataOutput.metadataObjectTypes = supportedCodeTypes
+        } else {
+            failed()
+            return
+        }
+        videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        var frame = view.layer.bounds
+        let height = frame.size.height - 40.0
+        frame = CGRect.init(x: frame.origin.x, y: frame.origin.y, width: frame.size.width, height: height)
+        videoPreviewLayer!.frame = frame
+        videoPreviewLayer!.videoGravity = .resizeAspectFill
+        view.layer.addSublayer(videoPreviewLayer!)
+        captureSession.startRunning()
+    }
+    
+    func failed() {
+        let ac = UIAlertController(title: "Scanning not supported", message: "Your device does not support scanning a code from an item. Please use a device with a camera.", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+        ///captureSession = nil
     }
     
     @IBAction func scanAction(_ sender: Any) {
@@ -155,6 +138,9 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         // Check if the metadataObjects array is not nil and it contains at least one object.
+        captureSession.stopRunning()
+        scanBtn.isEnabled = true
+
         if metadataObjects.count == 0 {
             qrCodeFrameView?.frame = CGRect.zero
             messageLabel.text = "No QR code is detected"
@@ -166,6 +152,7 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             return
         }
         
+
         // Get the metadata object.
         let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
         self.scanData = metadataObj
@@ -177,7 +164,6 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             }
         }
     }
-    
 }
 
 @objc protocol ScannerDelegate

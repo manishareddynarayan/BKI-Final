@@ -60,18 +60,23 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      guard indexPath.row == self.menuItems.count - 1 && self.role != 3   else {
-        let menu = self.menuItems[indexPath.row]
-        guard let vc = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? BaseViewController else { return }
-        vc.role = self.role
-        self.navigationController?.pushViewController(vc, animated: true)
-        return
-    }
+        guard indexPath.row == self.menuItems.count - 1 && self.role != 3   else {
+            let menu = self.menuItems[indexPath.row]
+            guard let vc = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? BaseViewController else { return }
+            vc.role = self.role
+            self.navigationController?.pushViewController(vc, animated: true)
+            return
+        }
         self.showScanner()
     }
     
     //MARK Scan Delegate Methods
-    private func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+    func scanDidCompletedWith(_ data:AVMetadataMachineReadableCodeObject?)
+    {
         
     }
+    func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didError error: Error, from connection: AVCaptureConnection) {
+        
+    }
+
 }

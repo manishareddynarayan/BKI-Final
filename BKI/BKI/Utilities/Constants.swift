@@ -27,6 +27,10 @@ enum Role:Int {
     case qa
 }
 
+//MARK: LoadStatus
+enum LoadStatus:Int {
+    case readyToShip = 1
+}
 
 
 
