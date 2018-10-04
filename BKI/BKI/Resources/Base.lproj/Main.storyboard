@@ -343,6 +343,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cRD-Y8-4j7">
+                                <rect key="frame" x="20" y="129" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KoE-Mh-iwd" userLabel="Header">
                                 <rect key="frame" x="0.0" y="74" width="375" height="30"/>
                                 <subviews>
@@ -378,7 +384,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="c8i-r8-t1u">
-                                <rect key="frame" x="0.0" y="134" width="375" height="533"/>
+                                <rect key="frame" x="0.0" y="174" width="375" height="493"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DashboardCell" id="OYe-zD-zIt" customClass="DashBoardCell" customModule="BKI" customModuleProvider="target">
@@ -398,17 +404,20 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="cRD-Y8-4j7" firstAttribute="leading" secondItem="ZyF-dM-CS9" secondAttribute="leading" constant="20" id="9ke-p1-5AA"/>
                             <constraint firstAttribute="trailing" secondItem="KoE-Mh-iwd" secondAttribute="trailing" id="LkX-Pg-Ieg"/>
+                            <constraint firstItem="cRD-Y8-4j7" firstAttribute="top" secondItem="KoE-Mh-iwd" secondAttribute="bottom" constant="25" id="XjY-FR-ih4"/>
                             <constraint firstItem="KoE-Mh-iwd" firstAttribute="leading" secondItem="8Uh-qD-zHA" secondAttribute="leading" id="eBs-Nr-37J"/>
                             <constraint firstItem="KoE-Mh-iwd" firstAttribute="top" secondItem="ZyF-dM-CS9" secondAttribute="top" constant="10" id="nid-wx-ugz"/>
                             <constraint firstItem="ZyF-dM-CS9" firstAttribute="bottom" secondItem="c8i-r8-t1u" secondAttribute="bottom" id="rIa-D8-I7k"/>
                             <constraint firstItem="c8i-r8-t1u" firstAttribute="leading" secondItem="ZyF-dM-CS9" secondAttribute="leading" id="udu-kg-xto"/>
                             <constraint firstItem="c8i-r8-t1u" firstAttribute="trailing" secondItem="ZyF-dM-CS9" secondAttribute="trailing" id="vM5-CK-d6q"/>
-                            <constraint firstItem="c8i-r8-t1u" firstAttribute="top" secondItem="KoE-Mh-iwd" secondAttribute="bottom" constant="30" id="vWo-xx-fCH"/>
+                            <constraint firstItem="c8i-r8-t1u" firstAttribute="top" secondItem="KoE-Mh-iwd" secondAttribute="bottom" constant="70" id="vWo-xx-fCH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ZyF-dM-CS9"/>
                     </view>
                     <connections>
+                        <outlet property="spoolLbl" destination="cRD-Y8-4j7" id="Vyx-M2-lQC"/>
                         <outlet property="tableView" destination="c8i-r8-t1u" id="Bjd-DW-Enc"/>
                     </connections>
                 </viewController>

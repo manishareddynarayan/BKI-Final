@@ -12,12 +12,12 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
 
     @IBOutlet weak var tableView: UITableView!
     var openLoadsArr = [Load]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.register(UINib(nibName: "OpenLoadCell", bundle: nil), forCellReuseIdentifier: "openLoadCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
-
         // Do any additional setup after loading the view.
     }
     
@@ -27,7 +27,8 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     func getOpenLoads() {
-        self.httpWrapper.performAPIRequest("loads", methodType: "GET", parameters: nil, successBlock: { (responseData) in
+        self.httpWrapper.performAPIRequest("loads", methodType: "GET",
+        parameters: nil, successBlock: { (responseData) in
             let loads = responseData["loads"] as? [[String:AnyObject]]
             self.openLoadsArr.removeAll()
             for load in loads! {
@@ -39,12 +40,12 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
             }
         }) { (error) in
             DispatchQueue.main.async {
-                self.alertVC.presentAlertWithMessage(message: (error?.localizedDescription)!, controller: self)
+                self.showFailureAlert(with: (error?.localizedDescription)!)
             }
         }
     }
     /*
-    // MARK Navigation
+     // MARK: Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -53,7 +54,7 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
     }
     */
 
-    //MARK TableView DataSource methods
+    //MARK: TableView DataSource methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.openLoadsArr.count
     }
@@ -68,7 +69,8 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
         cell?.loadLbl.text = load.number!
         cell!.loadEditBlock = {
             //self.pushViewControllerWithIdentifierAndStoryBoard(identifier: "NewLoadVC", storyBoard: "Main")
-            guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "NewLoadVC", storyBoard: "Main") as? NewLoadVC else {
+            guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier:
+                "NewLoadVC", storyBoard: "Main") as? NewLoadVC else {
                 return
             }
             vc.load = load

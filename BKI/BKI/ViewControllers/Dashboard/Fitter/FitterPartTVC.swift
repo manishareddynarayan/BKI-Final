@@ -8,14 +8,22 @@
 
 import UIKit
 
-class FitterPartTVC: UITableViewController {
+class FitterPartTVC: UITableViewController, TextInputDelegate {
 
+    var role:Int!
+    var heatArr = [Part]()
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.tableView.register(UINib(nibName: "PartCell", bundle: nil), forCellReuseIdentifier: "partCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
+        for idx in 1...100 {
+            let part = Part.init(info: ["name":"\(idx)" as AnyObject, "number":"" as AnyObject])
+            self.heatArr.append(part)
+        }
+        self.navigationItem.title = BKIModel.spoolNumebr()
 
+        self.tableView.reloadData()
     }
 
     
@@ -32,13 +40,24 @@ class FitterPartTVC: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 10
+        return heatArr.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "partCell", for: indexPath) as? PartCell
-
-        // Configure the cell...
+        cell?.indexPath = indexPath
+        let part = self.heatArr[indexPath.row]
+        print("row \(indexPath.row)", "number \(part.heatNumber)")
+        if indexPath.row == 0 {
+            cell?.configureCell(part: part, isNext:true, isPrev: false)
+        }
+        else if indexPath.row == self.heatArr.count - 1 {
+            cell?.configureCell(part: part, isNext:false, isPrev: true)
+        }
+        else {
+            cell?.configureCell(part: part, isNext:true, isPrev: true)
+        }
+        cell?.heatTF.formDelegate = self
 
         return cell!
     }
@@ -88,5 +107,26 @@ class FitterPartTVC: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func moveToNextOrPrevCell(_ textField:AUSessionField, next:Bool) {
+        let currentTag = textField.tag
+        let nextRow = next ? currentTag+1 : currentTag-1
+        let indexPath = IndexPath.init(row: nextRow, section: 0)
+        let nextCell = self.tableView.cellForRow(at: indexPath) as? PartCell
+        textField.resignFirstResponder()
+        nextCell?.heatTF.becomeFirstResponder()
+    }
 
+    //MARK: TextInput Delegate
+    func textFieldDidPressedNextButton(_ textField: AUSessionField) {
+        self.moveToNextOrPrevCell(textField, next: true)
+    }
+    
+    func textFieldDidPressedPreviousButton(_ textField: AUSessionField) {
+        self.moveToNextOrPrevCell(textField, next: false)
+    }
+    
+    func textFieldDidPressedDoneButton(_ textField: AUSessionField) {
+        textField.resignFirstResponder()
+    }
 }

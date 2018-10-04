@@ -15,6 +15,8 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     var menuItems: [[String:String]]!
     var scanCode:String?
    
+    @IBOutlet weak var spoolLbl: UILabel!
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,15 +31,27 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK Navigation
+    // MARK: Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
     
-    //MARK TableView DataSource methods
+    func setScanCode(data:AVMetadataMachineReadableCodeObject?) {
+        guard data != nil else {
+            self.scanCode = nil
+            BKIModel.setSpoolNumebr(number: self.scanCode!)
+            self.tableView.reloadData()
+            return
+        }
+        self.scanCode = data?.stringValue!
+        self.spoolLbl.text = self.scanCode
+        BKIModel.setSpoolNumebr(number: self.scanCode!)
+        self.tableView.reloadData()
+    }
     
+    //MARK: TableView DataSource methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuItems.count
     }
@@ -49,10 +63,11 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardCell", for: indexPath) as? DashBoardCell
         let menu = self.menuItems[indexPath.row]
-        //cell?.container.backgroundColor = (self.scanCode == nil) ? :
-       // cell?.container.alpha = (self.scanCode == nil) ? 0.5 : 1.0
-        if indexPath.row == self.menuItems.count - 1 {
+        cell?.container.alpha = (self.scanCode == nil) ? 0.5 : 1.0
+        cell?.isUserInteractionEnabled = (self.scanCode == nil) ? false : true
+        if indexPath.row == self.menuItems.count - 1 || self.role == 3 {
             cell?.container.alpha = 1.0
+            cell?.isUserInteractionEnabled = true
         }
         cell?.titleLbl.text = menu["Name"]
         
@@ -62,7 +77,16 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard indexPath.row == self.menuItems.count - 1 && self.role != 3   else {
             let menu = self.menuItems[indexPath.row]
-            guard let vc = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? BaseViewController else { return }
+            
+            guard let vc = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? BaseViewController else {
+                guard let vc1 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? FitterPartTVC else {
+                    
+                    return
+                }
+                vc1.role = self.role
+                self.navigationController?.pushViewController(vc1, animated: true)
+                return
+            }
             vc.role = self.role
             self.navigationController?.pushViewController(vc, animated: true)
             return
@@ -70,13 +94,14 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         self.showScanner()
     }
     
-    //MARK Scan Delegate Methods
+    //MARK: Scan Delegate Methods
     func scanDidCompletedWith(_ data:AVMetadataMachineReadableCodeObject?)
     {
-        
+        self.setScanCode(data: data)
     }
+    
     func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didError error: Error, from connection: AVCaptureConnection) {
-        
+        self.setScanCode(data: nil)
     }
 
 }

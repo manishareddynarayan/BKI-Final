@@ -118,6 +118,7 @@ class ScannerViewController: UIViewController {
     }
     
     @IBAction func cancelScanner(_ sender: Any) {
+        captureSession.stopRunning()
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -152,7 +153,6 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             return
         }
         
-
         // Get the metadata object.
         let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
         self.scanData = metadataObj
@@ -170,6 +170,5 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
 {
     @objc optional func scanDidCompletedWith(_ data:AVMetadataMachineReadableCodeObject?)
     @objc optional func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didError error: Error, from connection: AVCaptureConnection)
-
 }
 

@@ -82,6 +82,7 @@ class BaseViewController: UIViewController {
     func showScanner() {
         guard let scanNVC = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "ScanNVC", storyBoard: "Scanner") as? UINavigationController else { return  }
         guard let vc = scanNVC.viewControllers[0] as? ScannerViewController else { return  }
+        
         vc.delegate = self as? ScannerDelegate
         self.present(scanNVC, animated: true, completion: nil)
     }
@@ -91,6 +92,13 @@ class BaseViewController: UIViewController {
             MBProgressHUD.hideHud(view: self.view)
             self.alertVC.presentAlertWithTitleAndMessage(title: "ERROR", message: message, controller: self)
         }
+    }
+    
+    func textFieldDidPressNextOrPrev(next: Bool, textField: AUSessionField){
+        let currentTag = textField.tag
+        let nextTF = next ? self.view.viewWithTag(currentTag+1) : self.view.viewWithTag(currentTag-1)
+        textField.resignFirstResponder()
+        nextTF?.becomeFirstResponder()
     }
     
 }

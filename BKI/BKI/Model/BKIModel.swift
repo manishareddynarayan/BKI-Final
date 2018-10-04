@@ -15,6 +15,7 @@ class BKIModel: NSObject {
     var id:Int?
     var active:Bool = false
     //    var userRole:String?
+    var spoolNumber:String?
     
     override init () {
         // uncomment this line if your class has been inherited from any other class
@@ -63,5 +64,19 @@ class BKIModel: NSObject {
         return (defs?.object(forKey: "user_id") as? Int)!
     }
     
+    static func setSpoolNumebr(number:String?) {
+        let defs = BKIModel.initUserdefsWithSuitName()
+        guard number != nil else {
+            defs?.removeObject(forKey: "spool_code")
+            return
+        }
+        defs?.set(number, forKey: "spool_code")
+    }
+    
+    static func spoolNumebr() -> String? {
+        let defs = BKIModel.initUserdefsWithSuitName()
+        guard let spool = defs?.object(forKey: "spool_code") as? String else { return nil }
+        return spool
+    }
     
 }

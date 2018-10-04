@@ -20,32 +20,41 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jdw-oq-H0D">
-                        <rect key="frame" x="19" y="11.5" width="115" height="21"/>
+                        <rect key="frame" x="19" y="11.5" width="141" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
+                        <color key="textColor" red="0.49803921569999998" green="0.043137254899999998" blue="0.0039215686269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Heat Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="U9O-xw-C7U">
-                        <rect key="frame" x="144" y="7" width="157" height="30"/>
+                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Heat Number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="U9O-xw-C7U" customClass="AUTextField" customModule="BKI" customModuleProvider="target">
+                        <rect key="frame" x="160" y="7" width="141" height="30"/>
+                        <color key="backgroundColor" red="0.96078431369999995" green="0.65098039220000004" blue="0.13725490200000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="157" id="lsi-4c-d9P"/>
                             <constraint firstAttribute="height" constant="30" id="nhC-6Z-lh0"/>
                         </constraints>
                         <nil key="textColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
+                        <connections>
+                            <outlet property="delegate" destination="KGk-i7-Jjw" id="SOh-KG-9Fh"/>
+                        </connections>
                     </textField>
                 </subviews>
                 <constraints>
                     <constraint firstItem="jdw-oq-H0D" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="B7t-mn-IEL"/>
-                    <constraint firstItem="U9O-xw-C7U" firstAttribute="leading" secondItem="jdw-oq-H0D" secondAttribute="trailing" constant="10" id="H93-Zr-KLZ"/>
+                    <constraint firstItem="U9O-xw-C7U" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="H93-Zr-KLZ"/>
+                    <constraint firstAttribute="centerX" secondItem="jdw-oq-H0D" secondAttribute="trailing" id="PHA-OF-a4Z"/>
                     <constraint firstItem="U9O-xw-C7U" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Prg-JF-qbZ"/>
                     <constraint firstItem="jdw-oq-H0D" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="19" id="WIx-hv-UGg"/>
+                    <constraint firstItem="U9O-xw-C7U" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="g0f-xD-ZYR"/>
                     <constraint firstAttribute="trailing" secondItem="U9O-xw-C7U" secondAttribute="trailing" constant="19" id="tFp-ke-bOV"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <inset key="separatorInset" minX="19" minY="0.0" maxX="0.0" maxY="0.0"/>
+            <connections>
+                <outlet property="heatLbl" destination="jdw-oq-H0D" id="zJA-bk-9QC"/>
+                <outlet property="heatTF" destination="U9O-xw-C7U" id="Bw4-Un-jPf"/>
+            </connections>
             <point key="canvasLocation" x="137.59999999999999" y="154.72263868065968"/>
         </tableViewCell>
     </objects>

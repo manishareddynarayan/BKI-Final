@@ -12,6 +12,7 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
 
     @IBOutlet weak var tableView: UITableView!
     let roleArr = ["Fit-Up","Weld","Shipping"]
+   
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,15 +32,11 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
         // Dispose of any resources that can be recreated.
     }
     
-    
     @IBAction func logoutAction(_ sender: Any) {
         self.loogoutUser()
     }
     
-
-    
     // MARK: - Navigation
-
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
@@ -53,25 +50,20 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
         }
     }
  
-
-    //MARK TableView DataSource methods
-    
+    //MARK: TableView DataSource methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.roleArr.count
     }
     
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90.0
     }
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardCell", for: indexPath) as? DashBoardCell
         cell?.titleLbl.text = roleArr[indexPath.row]
         return cell!
     }
-    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //tableView.deselectRow(at: indexPath, animated: false)
