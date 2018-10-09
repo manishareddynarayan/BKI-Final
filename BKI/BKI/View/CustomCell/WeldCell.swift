@@ -8,18 +8,22 @@
 
 import UIKit
 
-class WeldCell: UITableViewCell {
+class WeldCell: UITableViewCell, UITextFieldDelegate, UIPickerViewDataSource,UIPickerViewDelegate {
 
     @IBOutlet weak var nameLbl: UILabel!
     
     @IBOutlet weak var completeBtn: UIButton!
-    @IBOutlet weak var statusBtn: UIButton!
     var markAsCompletedBlock:(() -> Void)?
-    var statusCompletedBlock:(() -> Void)?
+    var statusChangeddBlock:(() -> Void)?
 
+    @IBOutlet weak var statusTF: AUTextField!
+    let arr = [["Type":"Rolled","Value":1],["Type":"Position","Value":2],["Type":"Orbital","Value":3]]
+   
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.statusBtn.isHidden = true
+        self.statusTF.isHidden = true
+        self.statusTF.textAlignment = .left
+        self.statusTF.addPickerView(with: self)
         // Initialization code
     }
 
@@ -29,11 +33,34 @@ class WeldCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    func configureWeldCell(weld:Weld) {
+        self.nameLbl.text = weld.number
+        self.statusTF.text = (weld.weld_type != nil) ? weld.weld_type : ""
+    }
+    
     @IBAction func markAction(_ sender: Any) {
         self.markAsCompletedBlock!()
     }
     
-    @IBAction func statusAction(_ sender: Any) {
-        self.statusCompletedBlock!()
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return arr.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let statusDict = arr[row]
+        guard let type = statusDict["Type"] as? String else {
+            return
+        }
+        self.statusTF.text = type
+        self.statusChangeddBlock!()
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let statusDict = arr[row]
+        return statusDict["Type"] as? String
     }
 }

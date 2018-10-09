@@ -134,6 +134,11 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     
     //MARK: Scan Delegate Methods
     func scanDidCompletedWith(_ data:AVMetadataMachineReadableCodeObject?) {
+        guard data != nil else {
+            //self.scanCode = "kndsfjk"
+            //BKIModel.setSpoolNumebr(number: self.scanCode)
+            return
+        }
         let spool = Spool.init(info: ["code":data?.stringValue! as AnyObject])
         scannedSpools.append(spool)
         self.tableView.reloadData()
@@ -141,7 +146,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     
     func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didError error: Error,
                               from connection: AVCaptureConnection) {
-        
+        self.setScanCode(data: nil)
     }
 
 }

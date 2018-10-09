@@ -12,8 +12,6 @@
 		4F2F46002147D95200E5956C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F2F45FE2147D95200E5956C /* Main.storyboard */; };
 		4F2F46022147D95300E5956C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F2F46012147D95300E5956C /* Assets.xcassets */; };
 		4F2F46052147D95300E5956C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F2F46032147D95300E5956C /* LaunchScreen.storyboard */; };
-		4F312B6F2154FAC5003D0358 /* WeldStatusVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F312B6E2154FAC5003D0358 /* WeldStatusVC.swift */; };
-		4F312B712154FB05003D0358 /* FitterHeatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F312B702154FB05003D0358 /* FitterHeatVC.swift */; };
 		4F312B732154FB50003D0358 /* NewLoadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F312B722154FB50003D0358 /* NewLoadVC.swift */; };
 		4F312B752154FB6E003D0358 /* LoadMiscVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F312B742154FB6E003D0358 /* LoadMiscVC.swift */; };
 		4F312B772154FC3A003D0358 /* DrawingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F312B762154FC3A003D0358 /* DrawingVC.swift */; };
@@ -70,6 +68,7 @@
 		4FCDEDBB2164C4890071E9F6 /* Material.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDBA2164C4890071E9F6 /* Material.swift */; };
 		4FCDEDBD2165F3A30071E9F6 /* Weld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDBC2165F3A30071E9F6 /* Weld.swift */; };
 		4FCDEDBF2165F3B50071E9F6 /* Part.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDBE2165F3B50071E9F6 /* Part.swift */; };
+		4FCDEDC1216B514F0071E9F6 /* WeldStatusTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDC0216B514F0071E9F6 /* WeldStatusTVC.swift */; };
 		CE2C6069083ED993BE06AD3B /* Pods_BKI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */; };
 /* End PBXBuildFile section */
 
@@ -81,8 +80,6 @@
 		4F2F46012147D95300E5956C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4F2F46042147D95300E5956C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4F2F46062147D95300E5956C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4F312B6E2154FAC5003D0358 /* WeldStatusVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeldStatusVC.swift; sourceTree = "<group>"; };
-		4F312B702154FB05003D0358 /* FitterHeatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitterHeatVC.swift; sourceTree = "<group>"; };
 		4F312B722154FB50003D0358 /* NewLoadVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLoadVC.swift; sourceTree = "<group>"; };
 		4F312B742154FB6E003D0358 /* LoadMiscVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMiscVC.swift; sourceTree = "<group>"; };
 		4F312B762154FC3A003D0358 /* DrawingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingVC.swift; sourceTree = "<group>"; };
@@ -161,6 +158,7 @@
 		4FCDEDBA2164C4890071E9F6 /* Material.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Material.swift; sourceTree = "<group>"; };
 		4FCDEDBC2165F3A30071E9F6 /* Weld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weld.swift; sourceTree = "<group>"; };
 		4FCDEDBE2165F3B50071E9F6 /* Part.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Part.swift; sourceTree = "<group>"; };
+		4FCDEDC0216B514F0071E9F6 /* WeldStatusTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeldStatusTVC.swift; sourceTree = "<group>"; };
 		8CDC640A54E9D1F0CC79C104 /* Pods-BKI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.release.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.release.xcconfig"; sourceTree = "<group>"; };
 		B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BKI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C67014901894AB5EF7A77A74 /* Pods-BKI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.debug.xcconfig"; sourceTree = "<group>"; };
@@ -295,8 +293,7 @@
 		4FA551E82150F72A00EA6F9B /* Fitter */ = {
 			isa = PBXGroup;
 			children = (
-				4F312B6E2154FAC5003D0358 /* WeldStatusVC.swift */,
-				4F312B702154FB05003D0358 /* FitterHeatVC.swift */,
+				4FCDEDC0216B514F0071E9F6 /* WeldStatusTVC.swift */,
 				4FA76CBA215B8B71002377F3 /* FitterPartTVC.swift */,
 				4F312B762154FC3A003D0358 /* DrawingVC.swift */,
 				4F312B782154FC64003D0358 /* ScanVC.swift */,
@@ -633,8 +630,8 @@
 				4F2F45FD2147D95200E5956C /* ViewController.swift in Sources */,
 				4FA551F72150FADF00EA6F9B /* HTTPWrapper.swift in Sources */,
 				4FCDEDBB2164C4890071E9F6 /* Material.swift in Sources */,
-				4F312B712154FB05003D0358 /* FitterHeatVC.swift in Sources */,
 				4FA551F02150F90200EA6F9B /* BaseViewController.swift in Sources */,
+				4FCDEDC1216B514F0071E9F6 /* WeldStatusTVC.swift in Sources */,
 				4FA552572150FB4500EA6F9B /* AUTextField.swift in Sources */,
 				4FA552472150FB0000EA6F9B /* TextField_ext.swift in Sources */,
 				4F2F45FB2147D95200E5956C /* AppDelegate.swift in Sources */,
@@ -657,7 +654,6 @@
 				4FA76CB8215B8082002377F3 /* WeldCell.swift in Sources */,
 				4FA5526B2150FB5400EA6F9B /* MBProgressHUD.m in Sources */,
 				4FA552462150FB0000EA6F9B /* View_ext.swift in Sources */,
-				4F312B6F2154FAC5003D0358 /* WeldStatusVC.swift in Sources */,
 				4FA552452150FB0000EA6F9B /* ViewController_ext.swift in Sources */,
 				4FCD149421526FF8002B70A9 /* DashBoardVC.swift in Sources */,
 				4FA5525A2150FB4500EA6F9B /* AUEmailField.swift in Sources */,

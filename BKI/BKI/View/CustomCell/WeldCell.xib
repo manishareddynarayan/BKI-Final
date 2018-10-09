@@ -39,28 +39,26 @@
                             <action selector="markAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="3Co-TO-IQN"/>
                         </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HZb-Xz-WCt">
-                        <rect key="frame" x="82" y="11" width="69" height="22"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="69" id="ZJS-cb-nKa"/>
-                        </constraints>
-                        <inset key="titleEdgeInsets" minX="-26" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <inset key="imageEdgeInsets" minX="56" minY="4" maxX="0.0" maxY="0.0"/>
-                        <state key="normal" title="Rolled" image="down">
-                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </state>
+                    <textField opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Weld Type" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Pr-1R-yK7" customClass="AUTextField" customModule="BKI" customModuleProvider="target">
+                        <rect key="frame" x="63.5" y="13.5" width="97.5" height="17"/>
+                        <nil key="textColor"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="rightImage" value="down"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
-                            <action selector="statusAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="g3T-ur-Oi1"/>
+                            <outlet property="delegate" destination="KGk-i7-Jjw" id="YUo-4q-8Kv"/>
                         </connections>
-                    </button>
+                    </textField>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="HZb-Xz-WCt" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="0bC-1E-dJt"/>
                     <constraint firstAttribute="trailing" secondItem="KFQ-VO-wqc" secondAttribute="trailing" constant="19" id="8Yf-az-gCq"/>
-                    <constraint firstItem="HZb-Xz-WCt" firstAttribute="leading" secondItem="dev-FM-bgm" secondAttribute="trailing" constant="23.5" id="UK0-cj-Qgj"/>
+                    <constraint firstItem="2Pr-1R-yK7" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="SEO-pe-TmL"/>
+                    <constraint firstItem="2Pr-1R-yK7" firstAttribute="leading" secondItem="dev-FM-bgm" secondAttribute="trailing" constant="5" id="VUd-gN-OMi"/>
+                    <constraint firstItem="KFQ-VO-wqc" firstAttribute="leading" secondItem="2Pr-1R-yK7" secondAttribute="trailing" constant="5" id="bfd-U9-4hj"/>
                     <constraint firstItem="dev-FM-bgm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="19" id="gEx-gm-EDU"/>
                     <constraint firstItem="dev-FM-bgm" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="iR8-ma-7cY"/>
-                    <constraint firstItem="KFQ-VO-wqc" firstAttribute="leading" secondItem="HZb-Xz-WCt" secondAttribute="trailing" constant="15" id="pLT-La-5hQ"/>
                     <constraint firstItem="KFQ-VO-wqc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="uMW-Ox-t8H"/>
                 </constraints>
             </tableViewCellContentView>
@@ -69,13 +67,12 @@
             <connections>
                 <outlet property="completeBtn" destination="KFQ-VO-wqc" id="ZHE-pI-syo"/>
                 <outlet property="nameLbl" destination="dev-FM-bgm" id="hpk-ma-znb"/>
-                <outlet property="statusBtn" destination="HZb-Xz-WCt" id="RYg-vO-VNO"/>
+                <outlet property="statusTF" destination="2Pr-1R-yK7" id="GXh-Oe-cje"/>
             </connections>
             <point key="canvasLocation" x="137.59999999999999" y="154.72263868065968"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="checkmark" width="14" height="10"/>
-        <image name="down" width="9" height="5"/>
     </resources>
 </document>

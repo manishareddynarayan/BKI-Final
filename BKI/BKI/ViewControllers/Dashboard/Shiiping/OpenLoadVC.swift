@@ -64,11 +64,11 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "openLoadCell", for: indexPath) as? OpenLoadCell
         let load = self.openLoadsArr[indexPath.row]
         cell?.loadLbl.text = load.number!
         cell!.loadEditBlock = {
-            //self.pushViewControllerWithIdentifierAndStoryBoard(identifier: "NewLoadVC", storyBoard: "Main")
             guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier:
                 "NewLoadVC", storyBoard: "Main") as? NewLoadVC else {
                 return

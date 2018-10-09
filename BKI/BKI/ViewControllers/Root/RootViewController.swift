@@ -38,7 +38,7 @@ class RootViewController: BaseViewController {
     func getUserDetails() -> Void {
         
         let id = BKIModel.userId()
-        HTTPWrapper.sharedInstance.performAPIRequest("users/\(id)", methodType: "GET", parameters: nil, successBlock: { (responseData) in
+        httpWrapper.performAPIRequest("users/\(id)", methodType: "GET", parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
                 print(responseData)
                 BKIModel.saveUserinDefaults(info: responseData)

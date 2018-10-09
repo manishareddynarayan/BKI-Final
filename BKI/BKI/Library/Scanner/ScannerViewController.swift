@@ -119,7 +119,9 @@ class ScannerViewController: UIViewController {
     
     @IBAction func cancelScanner(_ sender: Any) {
         captureSession.stopRunning()
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true) {
+            self.delegate.scanDidCompletedWith!(nil)
+        }
     }
     
     @IBAction func doneAction(_ sender: Any) {

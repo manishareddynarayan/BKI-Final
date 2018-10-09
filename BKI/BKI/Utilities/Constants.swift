@@ -32,5 +32,13 @@ enum LoadStatus:Int {
     case readyToShip = 1
 }
 
+enum WeldState:Int {
+    case fitting = 0
+    case welding
+    case qa
+    case complete
+    case reject
+}
+
 
 

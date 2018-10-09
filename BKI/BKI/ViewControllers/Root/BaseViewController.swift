@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class BaseViewController: UIViewController {
 
@@ -18,7 +19,8 @@ class BaseViewController: UIViewController {
     let currentUser = User.shared
     let httpWrapper = HTTPWrapper.sharedInstance
     var role:Int!
-
+    var scanCode:String?
+    var spool:Spool?
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -41,15 +43,7 @@ class BaseViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func hideNavigationController() {
-        switch type(of: self) {
-        case is MainDashBoardVC.Type, is DashBoardVC.Type:
-            self.navigationController?.isNavigationBarHidden = true
-            return
-        default:
-            self.navigationController?.isNavigationBarHidden = false
-        }
-    }
+    
 
     @objc func backButtonAction(sender:AnyObject?) {
         self.navigationController?.popViewController(animated: true)
@@ -63,6 +57,16 @@ class BaseViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func setScanCode(data:AVMetadataMachineReadableCodeObject?) {
+        guard data != nil else {
+            self.scanCode = "kndsfjk"
+            BKIModel.setSpoolNumebr(number: self.scanCode)
+            return
+        }
+        self.scanCode = data?.stringValue!
+        BKIModel.setSpoolNumebr(number: self.scanCode!)
+    }
     
     @IBAction func moreAction(_ sender: Any) {
         self.navigationController?.popToRootViewController(animated: true)
@@ -101,4 +105,17 @@ class BaseViewController: UIViewController {
         nextTF?.becomeFirstResponder()
     }
     
+}
+
+extension UIViewController {
+    
+    func hideNavigationController() {
+        switch type(of: self) {
+        case is MainDashBoardVC.Type, is DashBoardVC.Type:
+            self.navigationController?.isNavigationBarHidden = true
+            return
+        default:
+            self.navigationController?.isNavigationBarHidden = false
+        }
+    }
 }

@@ -28,6 +28,11 @@ class DashBoardCell: BaseCell {
         // Configure the view for the selected state
     }
     
+    func enable(enable:Bool) {
+        self.isUserInteractionEnabled = enable
+        self.container.alpha = enable ? 1.0 : 0.5
+    }
+    
     func configureDashBoardCell() -> Void {
         
     }

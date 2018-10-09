@@ -13,7 +13,6 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     
     @IBOutlet weak var tableView: UITableView!
     var menuItems: [[String:String]]!
-    var scanCode:String?
    
     @IBOutlet weak var spoolLbl: UILabel!
    
@@ -21,7 +20,6 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         super.viewDidLoad()
         
         self.menuItems = User.shared.getUserMenuItems(with: self.role)
-
         tableView.register(UINib(nibName: "DashBoardCell", bundle: nil), forCellReuseIdentifier: "DashboardCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
     }
@@ -31,24 +29,49 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    func loadScanData(data:AVMetadataMachineReadableCodeObject?) {
+        guard data != nil else {
+            self.setScanCode(data: nil)
+            self.spoolLbl.text = ""
+            self.tableView.reloadData()
+            return
+        }
+        self.setScanCode(data: data)
+        self.scanCode = "2"
+        self.spoolLbl.text = self.scanCode
+        self.getSpoolDetails()
+    }
+    
+    func getSpoolDetails() {
+        httpWrapper.performAPIRequest("spools/\(self.scanCode!)", methodType: "GET", parameters: nil, successBlock: { (responseData) in
+            DispatchQueue.main.async {
+                self.spool = Spool.init(info: responseData)
+                if self.role == 2 && self.spool?.state != WeldState.welding {
+                    self.showFailureAlert(with: "You can access spools which are in state of welding.")
+                }
+                else  if (self.role == 1 && self.spool?.state != WeldState.fitting) {
+                    self.showFailureAlert(with: "You can access spools which are in state of fitting.")
+                }
+                self.tableView.reloadData()
+            }
+        }) { (error) in
+            DispatchQueue.main.async {
+                self.showFailureAlert(with: (error?.localizedDescription)!)
+                self.spool = nil
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     // MARK: Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-    }
-    
-    func setScanCode(data:AVMetadataMachineReadableCodeObject?) {
-        guard data != nil else {
-            self.scanCode = nil
-            BKIModel.setSpoolNumebr(number: self.scanCode!)
-            self.tableView.reloadData()
-            return
-        }
-        self.scanCode = data?.stringValue!
-        self.spoolLbl.text = self.scanCode
-        BKIModel.setSpoolNumebr(number: self.scanCode!)
-        self.tableView.reloadData()
     }
     
     //MARK: TableView DataSource methods
@@ -61,32 +84,58 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardCell", for: indexPath) as? DashBoardCell
         let menu = self.menuItems[indexPath.row]
-        cell?.container.alpha = (self.scanCode == nil) ? 0.5 : 1.0
-        cell?.isUserInteractionEnabled = (self.scanCode == nil) ? false : true
-        if indexPath.row == self.menuItems.count - 1 || self.role == 3 {
-            cell?.container.alpha = 1.0
-            cell?.isUserInteractionEnabled = true
-        }
         cell?.titleLbl.text = menu["Name"]
+
+        if spool == nil {
+            if self.role == 3 {
+                cell?.enable(enable: true)
+            }
+            else if self.menuItems.count - 1 == indexPath.row {
+                cell?.enable(enable: true)
+            } else {
+                cell?.enable(enable: false)
+            }
+            return cell!
+        }
+        if self.role == 1 && self.spool?.state == WeldState.fitting {
+            cell?.enable(enable: true)
+        }
+        else if self.role == 2 && self.spool?.state == WeldState.welding {
+            cell?.enable(enable: true)
+        }
+        else {
+            cell?.enable(enable: false)
+        }
+        
+        if indexPath.row == self.menuItems.count - 1 || self.role == 3 {
+            cell?.enable(enable: true)
+        }
         
         return cell!
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       
         guard indexPath.row == self.menuItems.count - 1 && self.role != 3   else {
             let menu = self.menuItems[indexPath.row]
-            
             guard let vc = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? BaseViewController else {
                 guard let vc1 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? FitterPartTVC else {
-                    
+                    guard let vc2 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? WeldStatusTVC else {
+                        return
+                    }
+                    vc2.role = self.role
+                    vc2.spool = self.spool
+                    self.navigationController?.pushViewController(vc2, animated: true)
                     return
                 }
                 vc1.role = self.role
                 self.navigationController?.pushViewController(vc1, animated: true)
                 return
             }
+            vc.spool = self.spool
             vc.role = self.role
             self.navigationController?.pushViewController(vc, animated: true)
             return
@@ -97,11 +146,11 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     //MARK: Scan Delegate Methods
     func scanDidCompletedWith(_ data:AVMetadataMachineReadableCodeObject?)
     {
-        self.setScanCode(data: data)
+        self.loadScanData(data: data)
     }
     
     func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didError error: Error, from connection: AVCaptureConnection) {
-        self.setScanCode(data: nil)
+        self.loadScanData(data: nil)
     }
 
 }
