@@ -13,9 +13,8 @@ class Weld: BKIModel {
     weak var spool:Spool?
     var number:String?
     var recordid:String?
-    var weld_type:String?
-    var weld_spec:String?
-    var state:WeldState?
+    var weldType:String?
+    var weldSpec:String?
     
     override init () {
         // uncomment this line if your class has been inherited from any other class
@@ -38,28 +37,14 @@ class Weld: BKIModel {
         if let recordid = weldInfo["recordid"] as? String {
             self.recordid = recordid
         }
-        if let weld_type = weldInfo["weld_type"] as? String {
-            self.weld_type = weld_type
+        if let weldType = weldInfo["weld_type"] as? String {
+            self.weldType = weldType
         }
-        if let weld_spec = weldInfo["weld_spec"] as? String {
-            self.weld_spec = weld_spec
+        if let weldSpec = weldInfo["weld_spec"] as? String {
+            self.weldSpec = weldSpec
         }
         if let state = weldInfo["state"] as? String {
-            if state == "fitting" {
-                self.state = WeldState.fitting
-            }
-            if state == "welding" {
-                self.state = WeldState.welding
-            }
-            if state == "qa" {
-                self.state = WeldState.qa
-            }
-            if state == "complete" {
-                self.state = WeldState.complete
-            }
-            if state == "reject" {
-                self.state = WeldState.reject
-            }
+            self.setModelState(state: state)
         }
     }
 }

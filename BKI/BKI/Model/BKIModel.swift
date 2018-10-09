@@ -16,7 +16,8 @@ class BKIModel: NSObject {
     var active:Bool = false
     //    var userRole:String?
     var spoolNumber:String?
-    
+    var state:WeldState?
+
     override init () {
         // uncomment this line if your class has been inherited from any other class
         super.init()
@@ -77,6 +78,24 @@ class BKIModel: NSObject {
         let defs = BKIModel.initUserdefsWithSuitName()
         guard let spool = defs?.object(forKey: "spool_code") as? String else { return nil }
         return spool
+    }
+    
+    func setModelState(state:String) {
+        if state == "fitting" {
+            self.state = WeldState.fitting
+        }
+        else if state == "welding" {
+            self.state = WeldState.welding
+        }
+        else if state == "qa" {
+            self.state = WeldState.qa
+        }
+        else if state == "complete" {
+            self.state = WeldState.complete
+        }
+        else if state == "reject" {
+            self.state = WeldState.reject
+        }
     }
     
 }
