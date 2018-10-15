@@ -35,7 +35,7 @@ class WeldCell: UITableViewCell, UITextFieldDelegate, UIPickerViewDataSource,UIP
     
     func configureWeldCell(weld:Weld) {
         self.nameLbl.text = weld.number
-        self.statusTF.text = (weld.weld_type != nil) ? weld.weld_type : ""
+        self.statusTF.text = (weld.weldType != nil) ? weld.weldType : ""
     }
     
     @IBAction func markAction(_ sender: Any) {

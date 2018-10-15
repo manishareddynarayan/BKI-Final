@@ -22,6 +22,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         self.menuItems = User.shared.getUserMenuItems(with: self.role)
         tableView.register(UINib(nibName: "DashBoardCell", bundle: nil), forCellReuseIdentifier: "DashboardCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
+        self.scanCode = "3"
     }
     
     override func didReceiveMemoryWarning() {
@@ -31,6 +32,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.getSpoolDetails()
     }
     
     func loadScanData(data:AVMetadataMachineReadableCodeObject?) {
@@ -41,7 +43,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             return
         }
         self.setScanCode(data: data)
-        self.scanCode = "2"
+        self.scanCode = "3"
         self.spoolLbl.text = self.scanCode
         self.getSpoolDetails()
     }
@@ -50,6 +52,9 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         httpWrapper.performAPIRequest("spools/\(self.scanCode!)", methodType: "GET", parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
                 self.spool = Spool.init(info: responseData)
+                BKIModel.setSpoolNumebr(number: self.spool?.code!)
+                self.spoolLbl.text = self.spool?.code!
+
                 if self.role == 2 && self.spool?.state != WeldState.welding {
                     self.showFailureAlert(with: "You can access spools which are in state of welding.")
                 }
@@ -132,6 +137,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     return
                 }
                 vc1.role = self.role
+                vc1.spool = self.spool
                 self.navigationController?.pushViewController(vc1, animated: true)
                 return
             }

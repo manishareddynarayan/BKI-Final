@@ -13,19 +13,22 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     
     @IBOutlet weak var tableView: UITableView!
     var spoolArr = [String]()
-    @IBOutlet var saveBtn: UIBarButtonItem!
-    @IBOutlet var scanBtn: UIBarButtonItem!
+    @IBOutlet var saveBtn: UIButton!
+    @IBOutlet var scanBtn: UIButton!
     var load:Load?
     var isEdit = false
     var scannedSpools = [Spool]()
     var newMaterials = [Material]()
-  
+    @IBOutlet var miscBtn: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.rightBarButtonItems = [saveBtn,scanBtn]
         tableView.register(UINib(nibName: "LoadCell", bundle: nil), forCellReuseIdentifier: "loadCell")
+        self.navigationItem.rightBarButtonItem = miscBtn
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         load == nil ? self.createNewLoad() : self.getLoadDetails()
+        self.bgImageview.isHidden = true
+        self.view.backgroundColor = UIColor.white
     }
 
     override func didReceiveMemoryWarning() {
@@ -66,30 +69,41 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     @IBAction func scanAction(_ sender: Any) {
+        
         self.showScanner()
     }
     
     @IBAction func saveAction(_ sender: Any) {
-        guard self.scannedSpools.count > 0 || self.newMaterials.count > 0 else {
-            self.alertVC.presentAlertWithMessage(message: "Please add new spool and materials", controller: self)
-            return
-        }
+        self.updateLoad(isSubmit: false)
+    }
+    
+    @IBAction func submitLoad(_ sender: Any) {
+        self.updateLoad(isSubmit: true)
+    }
+    
+    func updateLoad(isSubmit:Bool) {
+        
         var loadParams:[String:AnyObject] = ["id":self.load!.id! as AnyObject]
-        
-        if self.scannedSpools.count > 0 {
-            var spoolIds = [String]()
-            for spool in scannedSpools {
-                //spoolIds.append("\(spool.id!)")
-                spoolIds.append("1")
-            }
-            loadParams["spool_id"] =  spoolIds as AnyObject
+        if scannedSpools.count > 0 {
+            loadParams["spool_id"] =  self.getSPoolParams()
         }
-        
+        if  self.load!.materials.count > 0{
+            let (misc1, misc2) = self.getMiscMaterialParams()
+            loadParams["loads_miscellaneous_materials_attributes"] = misc1 as AnyObject
+            loadParams["miscellaneous_material"] = misc2 as AnyObject
+        }
+        var params = [String:AnyObject]()
+        if isSubmit {
+            params["submit"] = true as AnyObject
+        }
+        params["load"] = loadParams as AnyObject
+
         self.httpWrapper.performAPIRequest("loads/\(self.load!.id!)", methodType: "PUT",
-        parameters: ["load":loadParams as AnyObject], successBlock: { (responseData) in
-            DispatchQueue.main.async {
-                self.load!.saveLoad(loadInfo: responseData)
-            }
+                                           parameters: params as [String : AnyObject], successBlock: { (responseData) in
+                                            DispatchQueue.main.async {
+                                                self.load!.saveLoad(loadInfo: responseData)
+                                                self.alertVC.presentAlertWithTitleAndMessage(title: "Success", message: "Load updated successfully.", controller: self)
+                                            }
         }) { (error) in
             DispatchQueue.main.async {
                 self.showFailureAlert(with: (error?.localizedDescription)!)
@@ -97,14 +111,56 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         }
     }
     
-    @IBAction func submitLoad(_ sender: Any) {
-        
+    func getSPoolParams() -> AnyObject {
+            var spoolIds = [String]()
+            for spool in scannedSpools {
+                spoolIds.append("1")
+                //spoolIds.append(spool.id!)
+            }
+        return spoolIds as AnyObject
+    }
+    
+    func getMiscMaterialParams() -> (misc1:AnyObject, misc2:AnyObject) {
+        //Add metrail params to this arr if material is already exists
+        var misc_material_attributes = [[String:AnyObject]]()
+        //Add metrail params to this arr if material is already not exists
+        var misc_materia_params = [[String:AnyObject]]()
+        for material in self.load!.materials {
+            if material.miscellaneousMaterialId == nil {
+                let dict = ["material":material.desc,"quantity":material.quantity] as [String : Any]
+                misc_materia_params.append(dict as [String : AnyObject])
+            }
+            else {
+                var dict = ["miscellaneous_material_id":material.miscellaneousMaterialId!,"quantity":material.quantity]
+                if material.id != nil {
+                    dict["id"] = material.id!
+                }
+                misc_material_attributes.append(dict as [String : AnyObject])
+            }
+        }
+        var misc1 = [String:AnyObject]()
+        var misc2 =  [String:AnyObject]()
+        if misc_material_attributes.count > 0 {
+            for (idx,ma) in misc_material_attributes.enumerated() {
+                let i = "\(idx)"
+                misc1[i] = ma as AnyObject
+            }
+        }
+        if misc_materia_params.count > 0 {
+            for (idx,ma) in misc_materia_params.enumerated() {
+                let i = "\(idx)"
+                misc2[i] = ma as AnyObject
+            }
+        }
+        return(misc1 as AnyObject, misc2 as AnyObject)
     }
     
      // MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        let miscVC = segue.destination as? LoadMiscTVC
+        miscVC?.load = self.load!
     }
     
     //MARK: TableView DataSource methods

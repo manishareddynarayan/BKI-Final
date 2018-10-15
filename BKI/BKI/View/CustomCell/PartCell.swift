@@ -12,7 +12,7 @@ class PartCell: BaseCell, UITextFieldDelegate,TextInputDelegate {
 
     @IBOutlet weak var heatLbl: UILabel!
     @IBOutlet weak var heatTF: AUTextField!
-    var part:Part!
+    var component:Component!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -20,12 +20,12 @@ class PartCell: BaseCell, UITextFieldDelegate,TextInputDelegate {
         // Initialization code
     }
 
-    func configureCell(part:Part, isNext:Bool, isPrev:Bool) {
-        self.part = part
+    func configureCell(component:Component, isNext:Bool, isPrev:Bool) {
+        self.component = component
         self.heatTF.tag = self.indexPath.row
         self.heatTF.textAlignment = .left
-        self.heatLbl.text = self.part.name!
-        self.heatTF.text = self.part.heatNumber
+        self.heatLbl.text = self.component.group!
+        self.heatTF.text = self.component.heatNumber
         self.heatTF.designToolBarWithNext(isNext: isNext, withPrev: isPrev, delegate: self)
     }
     
@@ -45,7 +45,7 @@ class PartCell: BaseCell, UITextFieldDelegate,TextInputDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        self.part.heatNumber = textField.text!
+        self.component.heatNumber = textField.text!
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

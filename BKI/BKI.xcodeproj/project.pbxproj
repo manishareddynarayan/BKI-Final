@@ -13,7 +13,7 @@
 		4F2F46022147D95300E5956C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F2F46012147D95300E5956C /* Assets.xcassets */; };
 		4F2F46052147D95300E5956C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F2F46032147D95300E5956C /* LaunchScreen.storyboard */; };
 		4F312B732154FB50003D0358 /* NewLoadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F312B722154FB50003D0358 /* NewLoadVC.swift */; };
-		4F312B752154FB6E003D0358 /* LoadMiscVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F312B742154FB6E003D0358 /* LoadMiscVC.swift */; };
+		4F312B752154FB6E003D0358 /* SearchMiscVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F312B742154FB6E003D0358 /* SearchMiscVC.swift */; };
 		4F312B772154FC3A003D0358 /* DrawingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F312B762154FC3A003D0358 /* DrawingVC.swift */; };
 		4F312B792154FC64003D0358 /* ScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F312B782154FC64003D0358 /* ScanVC.swift */; };
 		4F312B812158BBAC003D0358 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F312B802158BBAC003D0358 /* ScannerViewController.swift */; };
@@ -67,8 +67,11 @@
 		4FCDEDB92164C4280071E9F6 /* Spool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDB82164C4280071E9F6 /* Spool.swift */; };
 		4FCDEDBB2164C4890071E9F6 /* Material.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDBA2164C4890071E9F6 /* Material.swift */; };
 		4FCDEDBD2165F3A30071E9F6 /* Weld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDBC2165F3A30071E9F6 /* Weld.swift */; };
-		4FCDEDBF2165F3B50071E9F6 /* Part.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDBE2165F3B50071E9F6 /* Part.swift */; };
+		4FCDEDBF2165F3B50071E9F6 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDBE2165F3B50071E9F6 /* Component.swift */; };
 		4FCDEDC1216B514F0071E9F6 /* WeldStatusTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDC0216B514F0071E9F6 /* WeldStatusTVC.swift */; };
+		4FCDEDC3216F46410071E9F6 /* LoadMiscTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDC2216F46410071E9F6 /* LoadMiscTVC.swift */; };
+		4FCDEDC6216F46BE0071E9F6 /* MiscCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDC4216F46BE0071E9F6 /* MiscCell.swift */; };
+		4FCDEDC7216F46BE0071E9F6 /* MiscCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FCDEDC5216F46BE0071E9F6 /* MiscCell.xib */; };
 		CE2C6069083ED993BE06AD3B /* Pods_BKI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */; };
 /* End PBXBuildFile section */
 
@@ -81,7 +84,7 @@
 		4F2F46042147D95300E5956C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4F2F46062147D95300E5956C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F312B722154FB50003D0358 /* NewLoadVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLoadVC.swift; sourceTree = "<group>"; };
-		4F312B742154FB6E003D0358 /* LoadMiscVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMiscVC.swift; sourceTree = "<group>"; };
+		4F312B742154FB6E003D0358 /* SearchMiscVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMiscVC.swift; sourceTree = "<group>"; };
 		4F312B762154FC3A003D0358 /* DrawingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingVC.swift; sourceTree = "<group>"; };
 		4F312B782154FC64003D0358 /* ScanVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanVC.swift; sourceTree = "<group>"; };
 		4F312B802158BBAC003D0358 /* ScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
@@ -157,8 +160,11 @@
 		4FCDEDB82164C4280071E9F6 /* Spool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spool.swift; sourceTree = "<group>"; };
 		4FCDEDBA2164C4890071E9F6 /* Material.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Material.swift; sourceTree = "<group>"; };
 		4FCDEDBC2165F3A30071E9F6 /* Weld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weld.swift; sourceTree = "<group>"; };
-		4FCDEDBE2165F3B50071E9F6 /* Part.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Part.swift; sourceTree = "<group>"; };
+		4FCDEDBE2165F3B50071E9F6 /* Component.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
 		4FCDEDC0216B514F0071E9F6 /* WeldStatusTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeldStatusTVC.swift; sourceTree = "<group>"; };
+		4FCDEDC2216F46410071E9F6 /* LoadMiscTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMiscTVC.swift; sourceTree = "<group>"; };
+		4FCDEDC4216F46BE0071E9F6 /* MiscCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiscCell.swift; sourceTree = "<group>"; };
+		4FCDEDC5216F46BE0071E9F6 /* MiscCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MiscCell.xib; sourceTree = "<group>"; };
 		8CDC640A54E9D1F0CC79C104 /* Pods-BKI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.release.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.release.xcconfig"; sourceTree = "<group>"; };
 		B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BKI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C67014901894AB5EF7A77A74 /* Pods-BKI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.debug.xcconfig"; sourceTree = "<group>"; };
@@ -312,8 +318,9 @@
 			isa = PBXGroup;
 			children = (
 				4F312B722154FB50003D0358 /* NewLoadVC.swift */,
-				4F312B742154FB6E003D0358 /* LoadMiscVC.swift */,
+				4F312B742154FB6E003D0358 /* SearchMiscVC.swift */,
 				4FCDEDB4216224C60071E9F6 /* OpenLoadVC.swift */,
+				4FCDEDC2216F46410071E9F6 /* LoadMiscTVC.swift */,
 			);
 			path = Shiiping;
 			sourceTree = "<group>";
@@ -327,7 +334,7 @@
 				4FCDEDB82164C4280071E9F6 /* Spool.swift */,
 				4FCDEDBA2164C4890071E9F6 /* Material.swift */,
 				4FCDEDBC2165F3A30071E9F6 /* Weld.swift */,
-				4FCDEDBE2165F3B50071E9F6 /* Part.swift */,
+				4FCDEDBE2165F3B50071E9F6 /* Component.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -474,6 +481,8 @@
 				4FCDEDAD216220960071E9F6 /* LoadCell.xib */,
 				4FCDEDB0216223F30071E9F6 /* OpenLoadCell.swift */,
 				4FCDEDB1216223F30071E9F6 /* OpenLoadCell.xib */,
+				4FCDEDC4216F46BE0071E9F6 /* MiscCell.swift */,
+				4FCDEDC5216F46BE0071E9F6 /* MiscCell.xib */,
 			);
 			path = CustomCell;
 			sourceTree = "<group>";
@@ -530,6 +539,11 @@
 				TargetAttributes = {
 					4F2F45F62147D95200E5956C = {
 						CreatedOnToolsVersion = 9.3;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -561,6 +575,7 @@
 				4FCDEDAF216220960071E9F6 /* LoadCell.xib in Resources */,
 				4F2F46052147D95300E5956C /* LaunchScreen.storyboard in Resources */,
 				4F2F46022147D95300E5956C /* Assets.xcassets in Resources */,
+				4FCDEDC7216F46BE0071E9F6 /* MiscCell.xib in Resources */,
 				4FCD149921536317002B70A9 /* DashBoardCell.xib in Resources */,
 				4F312B882158C7D2003D0358 /* cross@2x.png in Resources */,
 				4FA5527321511C8B00EA6F9B /* Auth.storyboard in Resources */,
@@ -624,7 +639,8 @@
 				4FA5526A2150FB5400EA6F9B /* TPKeyboardAvoidingScrollView.m in Sources */,
 				4FA5525D2150FB4500EA6F9B /* NSString+RENumberFormat.m in Sources */,
 				4FCD149221526B37002B70A9 /* MainDashBoardVC.swift in Sources */,
-				4F312B752154FB6E003D0358 /* LoadMiscVC.swift in Sources */,
+				4FCDEDC6216F46BE0071E9F6 /* MiscCell.swift in Sources */,
+				4F312B752154FB6E003D0358 /* SearchMiscVC.swift in Sources */,
 				4FCD149F215397A0002B70A9 /* User.swift in Sources */,
 				4FCDEDB2216223F30071E9F6 /* OpenLoadCell.swift in Sources */,
 				4F2F45FD2147D95200E5956C /* ViewController.swift in Sources */,
@@ -649,7 +665,7 @@
 				4FCDEDB92164C4280071E9F6 /* Spool.swift in Sources */,
 				4FCD149D215396FE002B70A9 /* BKIModel.swift in Sources */,
 				4FA5525C2150FB4500EA6F9B /* AUPasswordField.swift in Sources */,
-				4FCDEDBF2165F3B50071E9F6 /* Part.swift in Sources */,
+				4FCDEDBF2165F3B50071E9F6 /* Component.swift in Sources */,
 				4FA552582150FB4500EA6F9B /* REFormattedNumberField.m in Sources */,
 				4FA76CB8215B8082002377F3 /* WeldCell.swift in Sources */,
 				4FA5526B2150FB5400EA6F9B /* MBProgressHUD.m in Sources */,
@@ -658,6 +674,7 @@
 				4FCD149421526FF8002B70A9 /* DashBoardVC.swift in Sources */,
 				4FA5525A2150FB4500EA6F9B /* AUEmailField.swift in Sources */,
 				4FCD148E21522C00002B70A9 /* Extensions.swift in Sources */,
+				4FCDEDC3216F46410071E9F6 /* LoadMiscTVC.swift in Sources */,
 				4FA552592150FB4500EA6F9B /* AUSessionManager.swift in Sources */,
 				4FCDEDB5216224C60071E9F6 /* OpenLoadVC.swift in Sources */,
 				4FA76CBE215B8C00002377F3 /* PartCell.swift in Sources */,

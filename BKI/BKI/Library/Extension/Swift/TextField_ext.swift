@@ -113,10 +113,6 @@ extension UITextField
         keyBoardToolBar .setItems([spaceBtn,doneBtn], animated: true);
     }
     
-    
-    
-    
-    
     func getStringFromSelectedDate(date:NSDate) -> String {
         
         let formatter = DateFormatter()
@@ -126,7 +122,6 @@ extension UITextField
         return dateStr;
     }
 
-    
     func getDateFromString() -> NSDate? {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd-MMM-yyyy"
@@ -374,25 +369,17 @@ extension String
         return String(string)
     }
     
-   /* func encodeStringWithUTF8() -> String
+    func encodeStringWithUTF8() -> String
     {
-      
-        if UIDevice.current.versionLessThaniOS8() == true {
-           return self
-        }
-        else
-        {
-            let urlSet = NSMutableCharacterSet()
-            urlSet.formUnion(with: .urlFragmentAllowed)
-            urlSet.formUnion(with: .urlHostAllowed)
-            urlSet.formUnion(with: .urlPasswordAllowed)
-            urlSet.formUnion(with: .urlQueryAllowed)
-            urlSet.formUnion(with: .urlUserAllowed)
-
-            return self.addingPercentEncoding(withAllowedCharacters: urlSet as CharacterSet)!
-        }
-    }*/
-    
+        let urlSet = NSMutableCharacterSet()
+        urlSet.formUnion(with: .urlFragmentAllowed)
+        urlSet.formUnion(with: .urlHostAllowed)
+        urlSet.formUnion(with: .urlPasswordAllowed)
+        urlSet.formUnion(with: .urlQueryAllowed)
+        urlSet.formUnion(with: .urlUserAllowed)
+        
+        return self.addingPercentEncoding(withAllowedCharacters: urlSet as CharacterSet)!
+    }
     
     func convertPhoneNumberToNumberString() -> String {
         let okayChars : Set<Character> =

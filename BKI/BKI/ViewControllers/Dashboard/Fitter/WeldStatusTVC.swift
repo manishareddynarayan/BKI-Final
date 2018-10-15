@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WeldStatusTVC: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class WeldStatusTVC: BaseTableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     var weldsArr = [Weld]()
     var spool:Spool?
@@ -20,7 +20,7 @@ class WeldStatusTVC: UITableViewController, UIPickerViewDelegate, UIPickerViewDa
 
         tableView.register(UINib(nibName: "WeldCell", bundle: nil), forCellReuseIdentifier: "weldCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
-        self.navigationItem.title = BKIModel.spoolNumebr()
+        self.navigationItem.title = "Spool Number " + BKIModel.spoolNumebr()!
         self.hideNavigationController()
     }
     
@@ -34,8 +34,8 @@ class WeldStatusTVC: UITableViewController, UIPickerViewDelegate, UIPickerViewDa
             break
         case 2:
             event = "qa"
-            if weld.weld_type != nil {
-                params["weld_type"] = weld.weld_type as AnyObject
+            if weld.weldType != nil {
+                params["weld_type"] = weld.weldType as AnyObject
             }
             break
         default:
@@ -52,7 +52,7 @@ class WeldStatusTVC: UITableViewController, UIPickerViewDelegate, UIPickerViewDa
             }
         }) { (error) in
             DispatchQueue.main.async {
-                //self.showFailureAlert(with: (error?.localizedDescription)!)
+                self.showFailureAlert(with: (error?.localizedDescription)!)
             }
         }
     }
@@ -87,7 +87,7 @@ class WeldStatusTVC: UITableViewController, UIPickerViewDelegate, UIPickerViewDa
             self.updateWeldStatus(weld: weld!)
         }
         cell!.statusChangeddBlock = {
-            weld?.weld_type = cell?.statusTF.text!
+            weld?.weldType = cell?.statusTF.text!
         }
         return cell!
     }

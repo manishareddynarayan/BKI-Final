@@ -16,7 +16,7 @@ class Spool: BKIModel {
     var packageID: Int?
     var archive = false
     var welds = [Weld]()
-    
+    var components = [Component]()
     override init () {
         // uncomment this line if your class has been inherited from any other class
         super.init()
@@ -31,7 +31,7 @@ class Spool: BKIModel {
         if let id = spoolInfo["id"] as? Int {
             self.id = id
         }
-        if let code = spoolInfo["spool_id"] as? String {
+        if let code = spoolInfo["code"] as? String {
             self.code = code
         }
         if let complete = spoolInfo["complete"] as? Bool {
@@ -53,11 +53,26 @@ class Spool: BKIModel {
             self.archive = archive
         }
         if let weldsArr = spoolInfo["welds"] as? [[String:AnyObject]] {
-            for weldInfo in weldsArr {
-                let weld = Weld.init(info: weldInfo)
-                weld.spool = self
-                self.welds.append(weld)
-            }
+            self.saveWelds(welds: weldsArr)
+        }
+        if let compoenents = spoolInfo["components"] as? [[String:AnyObject]] {
+            self.saveComponents(components: compoenents)
+        }
+    }
+    
+    func saveComponents(components:[[String:AnyObject]]) {
+        for component in components {
+            let comp = Component.init(info: component)
+            comp.spool = self
+            self.components.append(comp)
+        }
+    }
+    
+    func saveWelds(welds:[[String:AnyObject]]) {
+        for weldInfo in welds {
+            let weld = Weld.init(info: weldInfo)
+            weld.spool = self
+            self.welds.append(weld)
         }
     }
 }

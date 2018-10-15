@@ -68,15 +68,15 @@ class BKIModel: NSObject {
     static func setSpoolNumebr(number:String?) {
         let defs = BKIModel.initUserdefsWithSuitName()
         guard number != nil else {
-            defs?.removeObject(forKey: "spool_code")
+            defs?.removeObject(forKey: "code")
             return
         }
-        defs?.set(number, forKey: "spool_code")
+        defs?.set(number, forKey: "code")
     }
     
     static func spoolNumebr() -> String? {
         let defs = BKIModel.initUserdefsWithSuitName()
-        guard let spool = defs?.object(forKey: "spool_code") as? String else { return nil }
+        guard let spool = defs?.object(forKey: "code") as? String else { return nil }
         return spool
     }
     

@@ -21,6 +21,7 @@ class BaseViewController: UIViewController {
     var role:Int!
     var scanCode:String?
     var spool:Spool?
+  
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,8 +43,6 @@ class BaseViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
 
     @objc func backButtonAction(sender:AnyObject?) {
         self.navigationController?.popViewController(animated: true)
@@ -65,7 +64,7 @@ class BaseViewController: UIViewController {
             return
         }
         self.scanCode = data?.stringValue!
-        BKIModel.setSpoolNumebr(number: self.scanCode!)
+        //BKIModel.setSpoolNumebr(number: self.scanCode!)
     }
     
     @IBAction func moreAction(_ sender: Any) {
@@ -116,6 +115,52 @@ extension UIViewController {
             return
         default:
             self.navigationController?.isNavigationBarHidden = false
+        }
+    }
+}
+
+extension UITableViewController {
+    
+}
+class BaseTableViewController: UITableViewController {
+    
+    var alertVC = RBAAlertController()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage.init(named: "backArrow"), style: .plain, target: self, action: #selector(self.backButtonAction(sender:)))
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white,NSAttributedStringKey.font: UIFont.systemSemiBold15]
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.hideNavigationController()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    @objc func backButtonAction(sender:AnyObject?) {
+        if let vc  = self as? LoadMiscTVC {
+            if vc.load.materials.count > 0 {
+                for mat in vc.load.materials {
+                    if mat.desc.count == 0 || mat.quantity <= 0 {
+                        self.showFailureAlert(with: "Please fill quantity and description for all materials.")
+                        return
+                    }
+                }
+            }
+        }
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func showFailureAlert(with message:String) {
+        DispatchQueue.main.async {
+            MBProgressHUD.hideHud(view: self.view)
+            self.alertVC.presentAlertWithTitleAndMessage(title: "ERROR", message: message, controller: self)
         }
     }
 }

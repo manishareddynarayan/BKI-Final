@@ -56,7 +56,8 @@ class HTTPWrapper: NSObject {
             return
         }
         
-        let urlString = constant.kBaseURL+urlSchema!
+        let urlString = constant.kBaseURL+urlSchema!.encodeStringWithUTF8()
+        
         let url:NSURL = NSURL(string:urlString)!
         
         let request = NSMutableURLRequest(url: url as URL)

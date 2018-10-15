@@ -15,6 +15,7 @@ class Weld: BKIModel {
     var recordid:String?
     var weldType:String?
     var weldSpec:String?
+    var weldMethod:String?
     
     override init () {
         // uncomment this line if your class has been inherited from any other class
@@ -42,6 +43,9 @@ class Weld: BKIModel {
         }
         if let weldSpec = weldInfo["weld_spec"] as? String {
             self.weldSpec = weldSpec
+        }
+        if let weldMethod = weldInfo["weld_method"] as? String {
+            self.weldMethod = weldMethod
         }
         if let state = weldInfo["state"] as? String {
             self.setModelState(state: state)

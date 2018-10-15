@@ -37,12 +37,14 @@ class Load: BKIModel {
         if let status = loadInfo["load_status"] as? String {
             self.status = status
         }
+        self.spools.removeAll()
         if let spools = loadInfo["spools"] as? [[String:AnyObject]] {
             for (_,spool) in spools.enumerated() {
                 let newSpool = Spool.init(info: spool)
                 self.spools.append(newSpool)
             }
         }
+        self.materials.removeAll()
         if let materials = loadInfo["loads_materials"] as? [[String:AnyObject]] {
             for (_,material) in materials.enumerated() {
                 let newMaterial = Material.init(info: material)
