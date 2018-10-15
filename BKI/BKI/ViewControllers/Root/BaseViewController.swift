@@ -30,8 +30,10 @@ class BaseViewController: UIViewController {
         bgImageview.frame = self.view.bounds
         self.view.addSubview(bgImageview)
         self.view.sendSubview(toBack: self.bgImageview)
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage.init(named: "backArrow"), style: .plain, target: self, action: #selector(self.backButtonAction(sender:)))
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white,NSAttributedStringKey.font: UIFont.systemSemiBold15]
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage.init(named: "backArrow"),
+        style: .plain, target: self, action: #selector(self.backButtonAction(sender:)))
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white,
+        NSAttributedStringKey.font: UIFont.systemSemiBold15]
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -79,25 +81,28 @@ class BaseViewController: UIViewController {
             BKIModel.resetUserDefaults()
             self.appDelegate?.setupRootViewController()
         }
-        self.alertVC.presentAlertWithTitleAndActions(actions: [cancelClosure,signoutClosure], buttonTitles: ["Cancel","Logout"], controller: self, message: "Are you sure you want to logout ?", title: "BKI")
+        self.alertVC.presentAlertWithTitleAndActions(actions: [cancelClosure,signoutClosure],
+        buttonTitles: ["Cancel","Logout"],controller: self, message: "Are you sure you want to logout ?", title: "BKI")
     }
     
     func showScanner() {
-        guard let scanNVC = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "ScanNVC", storyBoard: "Scanner") as? UINavigationController else { return  }
-        guard let vc = scanNVC.viewControllers[0] as? ScannerViewController else { return  }
+        guard let scanNVC = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "ScanNVC",
+        storyBoard: "Scanner") as? UINavigationController else { return  }
+        guard let vc = scanNVC.viewControllers[0] as? ScannerViewController else
+        { return  }
         
         vc.delegate = self as? ScannerDelegate
         self.present(scanNVC, animated: true, completion: nil)
     }
     
-    func showFailureAlert(with message:String) -> Void {
+    func showFailureAlert(with message:String) {
         DispatchQueue.main.async {
             MBProgressHUD.hideHud(view: self.view)
             self.alertVC.presentAlertWithTitleAndMessage(title: "ERROR", message: message, controller: self)
         }
     }
     
-    func textFieldDidPressNextOrPrev(next: Bool, textField: AUSessionField){
+    func textFieldDidPressNextOrPrev(next: Bool, textField: AUSessionField) {
         let currentTag = textField.tag
         let nextTF = next ? self.view.viewWithTag(currentTag+1) : self.view.viewWithTag(currentTag-1)
         textField.resignFirstResponder()

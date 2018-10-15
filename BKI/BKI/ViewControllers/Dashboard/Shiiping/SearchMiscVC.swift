@@ -37,7 +37,8 @@ class SearchMiscVC: BaseViewController, UITextFieldDelegate, UITableViewDelegate
         }
     }
     func searchForMaterial(text:String) {
-        httpWrapper.performAPIRequest("miscellaneous_materials/search?q=\(text)", methodType: "GET", parameters: nil, successBlock: { (responseData) in
+        httpWrapper.performAPIRequest("miscellaneous_materials/search?q=\(text)",
+            methodType: "GET", parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
                 self.materialsArr.removeAll()
                 let materials = responseData["results"] as? [[String:AnyObject]]
@@ -74,8 +75,7 @@ class SearchMiscVC: BaseViewController, UITextFieldDelegate, UITableViewDelegate
         if indexPath.row == 0 && (searchTF.text?.count)! > 0 && self.materialsArr.count == 0 {
             cell?.textLabel?.text = "+ Add '\((searchTF?.text!)!)'"
             cell?.textLabel?.textColor = UIColor.brickRed
-        }
-        else {
+        } else {
             let material = self.materialsArr[indexPath.row]
             cell?.textLabel?.text = material.desc
             cell?.textLabel?.textColor = UIColor.black
@@ -88,8 +88,7 @@ class SearchMiscVC: BaseViewController, UITextFieldDelegate, UITableViewDelegate
         tableView.deselectRow(at: indexPath, animated: false)
         if indexPath.row == 0 && (searchTF.text?.count)! > 0 && self.materialsArr.count == 0 {
             self.material.desc = searchTF.text!
-        }
-        else {
+        }else {
             let material = self.materialsArr[indexPath.row]
             self.material.miscellaneousMaterialId = material.id
             self.material.desc = material.desc
@@ -97,7 +96,8 @@ class SearchMiscVC: BaseViewController, UITextFieldDelegate, UITableViewDelegate
         self.dismiss(animated: true, completion: nil)
     }
 
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn
+        range: NSRange, replacementString string: String) -> Bool {
         
         let searchStr = textField.text! + string
         if searchStr.count > 3 {
