@@ -62,8 +62,6 @@ import UIKit
         }
     }
     
-    
-
     var alphanumeric = false
     
     

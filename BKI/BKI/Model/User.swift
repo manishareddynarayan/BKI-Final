@@ -119,8 +119,9 @@ class User: BKIModel {
     }
     
     func getTestingMenu() -> [[String:String]] {
-        return [["Name":"Inspection","Child":"dashboardVC"],
-                ["Name":"View Drawing","Child":"profileVC"]]
+        return [["Name":"Inspection","Child":"InspectionVC"],
+                ["Name":"View Drawing","Child":"DrawingVC"],
+                ["Name":"Scan New Spool","Child":"ScanVC"]]
     }
     
     class func getRoleName(userRole:Role) -> String {

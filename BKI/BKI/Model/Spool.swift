@@ -61,6 +61,7 @@ class Spool: BKIModel {
     }
     
     func saveComponents(components:[[String:AnyObject]]) {
+        self.components.removeAll()
         for component in components {
             let comp = Component.init(info: component)
             comp.spool = self
@@ -69,6 +70,7 @@ class Spool: BKIModel {
     }
     
     func saveWelds(welds:[[String:AnyObject]]) {
+        self.welds.removeAll()
         for weldInfo in welds {
             let weld = Weld.init(info: weldInfo)
             weld.spool = self

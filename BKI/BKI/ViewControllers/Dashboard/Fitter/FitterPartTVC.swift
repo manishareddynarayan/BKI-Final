@@ -40,15 +40,16 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
             components.append(dict as [String : AnyObject])
         }
         let spoolParams = ["components_attributes":components]
+        MBProgressHUD.showHud(view: self.view)
         httpWrapper.performAPIRequest("spools/\((self.spool?.id)!)", methodType: "PUT", parameters: ["spool":spoolParams as AnyObject], successBlock: { (responseData) in
             DispatchQueue.main.async {
                 print(responseData)
+                MBProgressHUD.hideHud(view: self.view)
                 self.tableView.reloadData()
             }
         }) { (error) in
-            DispatchQueue.main.async {
-                //self.showFailureAlert(with: (error?.localizedDescription)!)
-            }
+            
+            self.showFailureAlert(with:(error?.localizedDescription)! )
         }
     }
     

@@ -22,7 +22,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         self.menuItems = User.shared.getUserMenuItems(with: self.role)
         tableView.register(UINib(nibName: "DashBoardCell", bundle: nil), forCellReuseIdentifier: "DashboardCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
-        self.scanCode = "3"
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -32,7 +32,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.getSpoolDetails()
+        //xself.getSpoolDetails()
     }
     
     func loadScanData(data:AVMetadataMachineReadableCodeObject?) {
@@ -43,7 +43,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             return
         }
         self.setScanCode(data: data)
-        self.scanCode = "3"
+        //self.scanCode = "3"
         self.spoolLbl.text = self.scanCode
         self.getSpoolDetails()
     }
@@ -60,6 +60,10 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 }
                 else  if (self.role == 1 && self.spool?.state != WeldState.fitting) {
                     self.showFailureAlert(with: "You can access spools which are in state of fitting.")
+                }
+                else if (self.role == 4 && self.spool?.state != WeldState.qa)  {
+                    self.showFailureAlert(with: "You can access spools which are in state of QA.")
+
                 }
                 self.tableView.reloadData()
             }
@@ -109,6 +113,8 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             cell?.enable(enable: true)
         }
         else if self.role == 2 && self.spool?.state == WeldState.welding {
+            cell?.enable(enable: true)
+        } else if self.role == 4 && self.spool?.state == WeldState.qa {
             cell?.enable(enable: true)
         }
         else {

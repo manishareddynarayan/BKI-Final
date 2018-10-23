@@ -16,7 +16,8 @@ class Weld: BKIModel {
     var weldType:String?
     var weldSpec:String?
     var weldMethod:String?
-    
+    var isChecked = false
+    var canceledReason:String?
     override init () {
         // uncomment this line if your class has been inherited from any other class
         super.init()

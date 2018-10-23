@@ -96,6 +96,28 @@ class BKIModel: NSObject {
         else if state == "reject" {
             self.state = WeldState.reject
         }
+        
     }
     
+    func getWeldState(state:WeldState) -> String {
+        var status = ""
+        switch state {
+            case .fitting:
+                status = "fitting"
+                break;
+            case .welding:
+                status = "welding"
+                break;
+            case .qa:
+                status = "qa"
+                break;
+            case .complete:
+                status = "approved"
+                break;
+            default:
+                status = "reject"
+                break;
+        }
+        return status
+    }
 }

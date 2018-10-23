@@ -11,7 +11,7 @@ import UIKit
 class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
-    let roleArr = ["Fit-Up","Weld","Shipping"]
+    let roleArr = ["Fit-Up","Weld","Shipping","QA"]
    
     override func viewDidLoad() {
         super.viewDidLoad()

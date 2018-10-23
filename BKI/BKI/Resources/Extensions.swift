@@ -38,6 +38,13 @@ extension UIColor {
         return UIColor(red: 142.0 / 255.0, green: 142.0 / 255.0, blue: 147.0 / 255.0, alpha: 1.0)
     }
     
+    @nonobjc class var muddyGreen: UIColor {
+        return UIColor(red: 87.0 / 255.0, green: 120.0 / 255.0, blue: 50.0 / 255.0, alpha: 1.0)
+    }
+    
+    @nonobjc class var scarlet: UIColor {
+        return UIColor(red: 208.0 / 255.0, green: 2.0 / 255.0, blue: 27.0 / 255.0, alpha: 1.0)
+    }
 }
 
 // Sample text styles
