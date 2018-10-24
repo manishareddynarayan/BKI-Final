@@ -90,6 +90,15 @@ class RBAAlertController: NSObject {
         
     }
     
+    func presentActionSheetWithActionsAndTitle(actions:[()->()]?, buttonTitles:[String], controller:UIViewController, title:String) -> Void {
+        DispatchQueue.main.async() {
+            self.presentController = controller
+            self.rbaAlert = UIAlertController (title: title, message: "", preferredStyle: .actionSheet)
+            self.addButtons(withTitle: buttonTitles, withActions: actions)
+            self.presentController.present(self.rbaAlert, animated: true, completion: nil)
+        }
+    }
+    
     func addButtons(withTitle buttonTitles:[String], withActions actions:[()->()]?) -> Void {
         for (idx,title) in buttonTitles.enumerated()
         {

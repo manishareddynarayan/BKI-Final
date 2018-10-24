@@ -27,6 +27,8 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     func getOpenLoads() {
+        MBProgressHUD.hideHud(view: self.view)
+
         self.httpWrapper.performAPIRequest("loads", methodType: "GET",
         parameters: nil, successBlock: { (responseData) in
             let loads = responseData["loads"] as? [[String:AnyObject]]
@@ -36,12 +38,11 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
                 self.openLoadsArr.append(openLoad)
             }
             DispatchQueue.main.async {
+                MBProgressHUD.hideHud(view: self.view)
                 self.tableView.reloadData()
             }
         }) { (error) in
-            DispatchQueue.main.async {
-                self.showFailureAlert(with: (error?.localizedDescription)!)
-            }
+            self.showFailureAlert(with: (error?.localizedDescription)!)
         }
     }
     /*

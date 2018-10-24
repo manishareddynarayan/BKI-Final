@@ -32,7 +32,9 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //xself.getSpoolDetails()
+        if self.scanCode != nil {
+            self.getSpoolDetails()
+        }
     }
     
     func loadScanData(data:AVMetadataMachineReadableCodeObject?) {
@@ -43,14 +45,14 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             return
         }
         self.setScanCode(data: data)
-        //self.scanCode = "3"
-        self.spoolLbl.text = self.scanCode
         self.getSpoolDetails()
     }
     
     func getSpoolDetails() {
+        MBProgressHUD.showHud(view: self.view)
         httpWrapper.performAPIRequest("spools/\(self.scanCode!)", methodType: "GET", parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
+                MBProgressHUD.hideHud(view: self.view)
                 self.spool = Spool.init(info: responseData)
                 BKIModel.setSpoolNumebr(number: self.spool?.code!)
                 self.spoolLbl.text = self.spool?.code!
@@ -63,7 +65,6 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 }
                 else if (self.role == 4 && self.spool?.state != WeldState.qa)  {
                     self.showFailureAlert(with: "You can access spools which are in state of QA.")
-
                 }
                 self.tableView.reloadData()
             }
@@ -130,6 +131,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
        
+        
         guard indexPath.row == self.menuItems.count - 1 && self.role != 3   else {
             let menu = self.menuItems[indexPath.row]
             guard let vc = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? BaseViewController else {

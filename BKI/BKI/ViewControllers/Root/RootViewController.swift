@@ -46,9 +46,11 @@ class RootViewController: BaseViewController {
             }
         }) { (error) in
             DispatchQueue.main.async {
-                self.alertVC.presentAlertWithTitleAndMessage(title: "ERROR", message: (error?.localizedDescription)!, controller: self)
-                BKIModel.initUserdefsWithSuitName().set(false, forKey: "isLoggedIn")
-            self.appDelegate?.setupRootViewController()
+                let okClosure: () -> Void = {
+                    BKIModel.initUserdefsWithSuitName().set(false, forKey: "isLoggedIn")
+                    self.appDelegate?.setupRootViewController()
+                }
+                self.alertVC.presentAlertWithTitleAndActions(actions: [okClosure], buttonTitles: ["OK"], controller: self, message:(error?.localizedDescription)! , title: "ERROR")
             }
         }
     }

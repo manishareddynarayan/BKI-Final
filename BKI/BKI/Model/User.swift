@@ -30,7 +30,6 @@ class User: BKIModel {
         self.init()
     }
     
-    
     func saveUser(user:[String:AnyObject]) {
         if let name = user["name"] as? String {
             self.name = name
@@ -62,28 +61,19 @@ class User: BKIModel {
         }
         
         if let role = user["role"] as? String {
-            if role == "fab_fitter" {
-                self.role = Role.fitter
-            }
-            if role == "fab_welder" {
-                self.role = Role.welder
-            }
-            if role == "Shipper" {
-                self.role = Role.shipper
-            }
+            self.setUserRole(role: role)
         }
     }
     
-    func getUserMenuItems() -> [[String:String]] {
-        switch (role.rawValue) {
-        case Role.fitter.rawValue :
-            return self.getFitterMenu()
-        case Role.welder.rawValue :
-            return self.getWelderMenu()
-        case Role.shipper.rawValue :
-            return self.getShippingMenu()
-        default:
-            return self.getTestingMenu()
+    func setUserRole(role:String) {
+        if role == "fab_fitter" {
+            self.role = Role.fitter
+        }
+        if role == "fab_welder" {
+            self.role = Role.welder
+        }
+        if role == "Shipper" {
+            self.role = Role.shipper
         }
     }
     

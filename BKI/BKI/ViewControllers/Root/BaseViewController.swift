@@ -65,8 +65,7 @@ class BaseViewController: UIViewController {
             BKIModel.setSpoolNumebr(number: self.scanCode)
             return
         }
-        self.scanCode = data?.stringValue!.components(separatedBy: "-").last
-        //BKIModel.setSpoolNumebr(number: self.scanCode!)
+        self.scanCode = data?.stringValue!.components(separatedBy: "_").last
     }
     
     @IBAction func moreAction(_ sender: Any) {

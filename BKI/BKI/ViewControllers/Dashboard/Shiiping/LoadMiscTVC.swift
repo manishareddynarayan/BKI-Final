@@ -20,9 +20,6 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate {
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         self.hideNavigationController()
         self.navigationItem.title = "Load Number " + self.load.number!
-
-        //self.navigationItem.title = "Spool Number " + BKIModel.spoolNumebr()!
-       // self.navigationItem.rightBarButtonItem = saveBtn
     }
 
     override func viewWillAppear(_ animated: Bool) {

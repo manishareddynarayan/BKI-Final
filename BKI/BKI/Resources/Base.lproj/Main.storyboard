@@ -210,12 +210,13 @@
                         <outlet property="saveBtn" destination="eVF-g6-Tzr" id="dMr-H6-exV"/>
                         <outlet property="scanBtn" destination="ZyB-we-v6Z" id="cnf-Ak-vCf"/>
                         <outlet property="tableView" destination="rIy-UP-mGA" id="dof-5T-Oar"/>
+                        <segue destination="R3l-7y-KQK" kind="show" identifier="showMiscSegue" id="wps-b7-CvY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gC0-nl-LTg" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <barButtonItem title="Misc" id="OMd-Nu-Sx6">
+                <barButtonItem image="dots3" id="OMd-Nu-Sx6" userLabel="More Btn">
                     <connections>
-                        <segue destination="R3l-7y-KQK" kind="show" id="S8i-Vl-FDe"/>
+                        <action selector="MoreAction:" destination="L4W-0L-YSK" id="Fl9-Lx-wFF"/>
                     </connections>
                 </barButtonItem>
             </objects>

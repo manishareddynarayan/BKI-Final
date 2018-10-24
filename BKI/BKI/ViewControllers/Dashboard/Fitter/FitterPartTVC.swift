@@ -48,7 +48,6 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
                 self.tableView.reloadData()
             }
         }) { (error) in
-            
             self.showFailureAlert(with:(error?.localizedDescription)! )
         }
     }

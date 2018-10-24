@@ -21,8 +21,14 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         self.bgImageview.isHidden = true
         self.view.backgroundColor = UIColor.white
-        self.showActionButtons()
         self.navigationItem.title = "Spool Number " + BKIModel.spoolNumebr()!
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.resetWeldStatus()
+        self.showActionButtons()
+        self.tableView.reloadData()
     }
     
     func getSelectedWeldIds() -> [Int] {
@@ -32,6 +38,12 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
             weld.id!
         })
         return weldIds!
+    }
+    
+    func resetWeldStatus() {
+        for weld in (self.spool?.welds)! {
+            weld.isChecked = false
+        }
     }
     
     func showActionButtons() {
@@ -55,6 +67,12 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
         httpWrapper.performAPIRequest("spools/\((self.spool?.id)!)/welds/modify_state", methodType: "PUT", parameters: ["weld":weldParams as AnyObject], successBlock: { (responseData) in
             DispatchQueue.main.async {
                 let welds = responseData["welds"] as? [[String:AnyObject]]
+                for weldInfo in welds! {
+                   let weld = self.spool?.welds.filter({ (weld) -> Bool in
+                        return weld.id == weldInfo["id"] as? Int
+                    }).first
+                    weld?.saveWeld(weldInfo: weldInfo)
+                }
                 self.spool?.saveWelds(welds: welds!)
                 MBProgressHUD.hideHud(view: self.view)
             }
@@ -82,7 +100,11 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
         let weld = self.spool?.welds[indexPath.row]
+        if  weld?.state == .complete || weld?.state == .reject{
+            return
+        }
         weld?.isChecked = !(weld?.isChecked)!
         tableView.reloadData()
         self.showActionButtons()

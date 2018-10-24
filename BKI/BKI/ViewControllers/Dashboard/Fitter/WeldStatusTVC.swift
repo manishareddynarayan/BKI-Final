@@ -44,16 +44,16 @@ class WeldStatusTVC: BaseTableViewController, UIPickerViewDelegate, UIPickerView
         }
         //let params = ["event":event]
         params["event"] = event as AnyObject
+        MBProgressHUD.showHud(view: self.view)
         httpWrapper.performAPIRequest("spools/\((self.spool?.id)!)/welds/\((weld.id)!)", methodType: "PUT", parameters: ["weld":params as AnyObject], successBlock: { (responseData) in
             DispatchQueue.main.async {
                 print(responseData)
+                MBProgressHUD.hideHud(view: self.view)
                 weld.saveWeld(weldInfo: responseData)
                 self.tableView.reloadData()
             }
         }) { (error) in
-            DispatchQueue.main.async {
-                self.showFailureAlert(with: (error?.localizedDescription)!)
-            }
+            self.showFailureAlert(with: (error?.localizedDescription)!)
         }
     }
     

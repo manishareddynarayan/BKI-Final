@@ -37,9 +37,11 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     func createNewLoad() {
+        MBProgressHUD.showHud(view: self.view)
         self.httpWrapper.performAPIRequest("loads/", methodType: "POST",
         parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
+                MBProgressHUD.hideHud(view: self.view)
                 if self.load == nil {
                     self.load = Load()
                 }
@@ -47,25 +49,38 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                 self.navigationItem.title = "Load Number " + self.load!.number!
             }
         }) { (error) in
-            DispatchQueue.main.async {
-                self.showFailureAlert(with: (error?.localizedDescription)!)
-            }
+            self.showFailureAlert(with: (error?.localizedDescription)!)
         }
     }
     
     func getLoadDetails() {
+        MBProgressHUD.showHud(view: self.view)
+
         self.navigationItem.title = "Load Number " + self.load!.number!
         self.httpWrapper.performAPIRequest("loads/\(self.load!.id!)", methodType: "GET",
         parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
+                MBProgressHUD.hideHud(view: self.view)
                 self.load!.saveLoad(loadInfo: responseData)
                 self.tableView.reloadData()
             }
         }) { (error) in
-            DispatchQueue.main.async {
-                self.showFailureAlert(with: (error?.localizedDescription)!)
-            }
+            self.showFailureAlert(with: (error?.localizedDescription)!)
         }
+    }
+    
+    @IBAction func MoreAction(_ sender: Any) {
+        let miscClosure: () -> Void = {
+            self.performSegue(withIdentifier: "showMiscSegue", sender: self)
+        }
+        let submitClosure: () -> Void = {
+            self.updateLoad(isSubmit: true)
+        }
+        let cancelClosure: () -> Void = {
+            
+        }
+        self.alertVC.presentActionSheetWithActionsAndTitle(actions: [cancelClosure,miscClosure,submitClosure], buttonTitles: ["Cancel","Miscellaniuos","Submit"], controller: self, title: "Choose Option")
+        return
     }
     
     @IBAction func scanAction(_ sender: Any) {
@@ -75,10 +90,6 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     
     @IBAction func saveAction(_ sender: Any) {
         self.updateLoad(isSubmit: false)
-    }
-    
-    @IBAction func submitLoad(_ sender: Any) {
-        self.updateLoad(isSubmit: true)
     }
     
     func updateLoad(isSubmit:Bool) {
@@ -97,25 +108,30 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             params["submit"] = true as AnyObject
         }
         params["load"] = loadParams as AnyObject
+        MBProgressHUD.showHud(view: self.view)
 
         self.httpWrapper.performAPIRequest("loads/\(self.load!.id!)", methodType: "PUT",
                                            parameters: params as [String : AnyObject], successBlock: { (responseData) in
                                             DispatchQueue.main.async {
+                                                MBProgressHUD.hideHud(view: self.view)
+
                                                 self.load!.saveLoad(loadInfo: responseData)
+                                                let okClosure: () -> Void = {
+                                                    self.navigationController?.popViewController(animated: true)
+                                                }
+                                                self.alertVC.presentAlertWithTitleAndActions(actions: [okClosure], buttonTitles: ["OK"], controller: self, message:"Load updated successfully." , title: "Success")
                                                 self.alertVC.presentAlertWithTitleAndMessage(title: "Success", message: "Load updated successfully.", controller: self)
                                             }
         }) { (error) in
-            DispatchQueue.main.async {
-                self.showFailureAlert(with: (error?.localizedDescription)!)
-            }
+            self.showFailureAlert(with: (error?.localizedDescription)!)
         }
     }
     
     func getSPoolParams() -> AnyObject {
             var spoolIds = [String]()
             for spool in scannedSpools {
-                spoolIds.append("1")
-                //spoolIds.append(spool.id!)
+                //spoolIds.append("1")
+                spoolIds.append("\((spool.id)!)")
             }
         return spoolIds as AnyObject
     }
@@ -180,7 +196,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         } else {
             spool = self.scannedSpools[indexPath.row]
         }
-        cell?.spoolLbl.text = "\(spool.code!)"
+        cell?.spoolLbl.text = "\(spool.id!)"
         return cell!
     }
     
@@ -195,7 +211,9 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             //BKIModel.setSpoolNumebr(number: self.scanCode)
             return
         }
-        let spool = Spool.init(info: ["code":data?.stringValue! as AnyObject])
+        let spoolId = Int((data?.stringValue!.components(separatedBy: "_").last)!)
+
+        let spool = Spool.init(info: ["id":spoolId as AnyObject])
         scannedSpools.append(spool)
         self.tableView.reloadData()
     }

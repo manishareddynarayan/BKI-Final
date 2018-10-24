@@ -32,6 +32,7 @@ class InspectionCell: BaseCell {
         let state = weld.getWeldState(state: weld.state!).capitalized
         self.statusLbl.text = state
         self.statusLbl.isHidden = false
+        self.checkBtn.isHidden = true
         if state == "Approved" {
             self.statusLbl.textColor = UIColor.muddyGreen
         } else if state == "Reject" {
@@ -39,16 +40,16 @@ class InspectionCell: BaseCell {
         }
         else {
             self.statusLbl.isHidden = true
+            self.checkBtn.isHidden = false
         }
-        
         self.isChecked = weld.isChecked
-        let image = self.isChecked ? "" : ""
+        let image = self.isChecked ? "check" : "unCheck"
         checkBtn.setImage(UIImage.init(named: image), for: .normal)
     }
     
     @IBAction func checkMarkAction(_ sender: Any) {
         self.isChecked = !self.isChecked
-        let image = self.isChecked ? "" : ""
+        let image = self.isChecked ? "check" : "unCheck"
         checkBtn.setImage(UIImage.init(named: image), for: .normal)
         self.selectionChangeddBlock!(self.isChecked)
     }
