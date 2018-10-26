@@ -38,19 +38,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
     }
 
-    func setupRootViewController() -> Void{
+    func setupRootViewController() {
         let defs = BKIModel.initUserdefsWithSuitName()//
-        let(storyBoard,identifier) = (defs?.bool(forKey: "isLoggedIn"))! ? ("Main","MainDashBoardNVC") : ("Auth","LoginVC")
+        let(storyBoard,identifier) = (defs?.bool(forKey: "isLoggedIn"))!
+            ? ("Main","MainDashBoardNVC") : ("Auth","LoginVC")
         self.setInitialViewController(storyBoardName: storyBoard, identifier: identifier)
     }
     
-    func setInitialViewController(storyBoardName:String,identifier:String) -> Void {
+    func setInitialViewController(storyBoardName:String,identifier:String) {
         let storyboard1 = UIStoryboard.init(name:storyBoardName , bundle: nil)
         weak var vc = (storyboard1.instantiateViewController(withIdentifier: identifier) )
         self.window?.rootViewController = vc
     }
     
-    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+    func application(_ application: UIApplication,
+        supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         return self.orientationLock
     }
 
@@ -66,7 +68,8 @@ struct AppUtility {
     }
     
     /// OPTIONAL Added method to adjust lock and rotate to the desired orientation
-    static func lockOrientation(_ orientation: UIInterfaceOrientationMask, andRotateTo rotateOrientation:UIInterfaceOrientation) {
+    static func lockOrientation(_ orientation: UIInterfaceOrientationMask,
+                andRotateTo rotateOrientation:UIInterfaceOrientation) {
         self.lockOrientation(orientation)
         UIDevice.current.setValue(rotateOrientation.rawValue, forKey: "orientation")
     }

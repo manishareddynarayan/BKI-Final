@@ -52,18 +52,33 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func approveWeldsAction(_ sender: Any) {
-        self.updateWeldsWith("complete")
+        self.updateWeldsWith("complete", rejectReason:nil)
     }
     
     @IBAction func rejectWeldsAction(_ sender: Any) {
-        self.updateWeldsWith("reject")
+        let submitClosure: () -> Void = {
+            let tf = self.alertVC.rbaAlert.textFields?.first
+            if (tf?.text?.count)! > 0 {
+                self.updateWeldsWith("reject", rejectReason:tf?.text!)
+            }
+            else {
+                self.alertVC.presentAlertWithTitleAndMessage(title: "Error", message: "Please enter reason for rejection.", controller: self)
+            }
+        }
+        let cancelClosure: () -> Void = {
+            self.navigationController?.popViewController(animated: true)
+        }
+        self.alertVC.presentAlertWithInputField(actions: [cancelClosure,submitClosure], buttonTitles: ["Cancel","Submit"], controller: self, message: "A message should be a short, complete sentence.")
     }
     
-    func updateWeldsWith(_ status:String) {
+    func updateWeldsWith(_ status:String, rejectReason:String?) {
         
         MBProgressHUD.showHud(view: self.view)
         let weldIds = self.getSelectedWeldIds()
-        let weldParams = ["weld_ids":weldIds as Any,"event":status] as [String : Any]
+        var weldParams = ["weld_ids":weldIds as Any,"event":status] as [String : Any]
+        if rejectReason != nil {
+            weldParams["reject_reason"] = rejectReason
+        }
         httpWrapper.performAPIRequest("spools/\((self.spool?.id)!)/welds/modify_state", methodType: "PUT", parameters: ["weld":weldParams as AnyObject], successBlock: { (responseData) in
             DispatchQueue.main.async {
                 let welds = responseData["welds"] as? [[String:AnyObject]]

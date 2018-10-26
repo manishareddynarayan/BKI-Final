@@ -61,8 +61,6 @@ class BaseViewController: UIViewController {
     
     func setScanCode(data:AVMetadataMachineReadableCodeObject?) {
         guard data != nil else {
-            self.scanCode = "kndsfjk"
-            BKIModel.setSpoolNumebr(number: self.scanCode)
             return
         }
         self.scanCode = data?.stringValue!.components(separatedBy: "_").last

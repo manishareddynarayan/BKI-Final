@@ -17,6 +17,8 @@ class Spool: BKIModel {
     var archive = false
     var welds = [Weld]()
     var components = [Component]()
+    var pdfUrl:String?
+    
     override init () {
         // uncomment this line if your class has been inherited from any other class
         super.init()
@@ -39,6 +41,9 @@ class Spool: BKIModel {
         }
         if let status = spoolInfo["status"] as? String {
             self.status = status
+        }
+        if let drawing_url = spoolInfo["drawing_url"] as? String {
+            self.pdfUrl = drawing_url
         }
         if let state = spoolInfo["state"] as? String {
             self.setModelState(state: state)

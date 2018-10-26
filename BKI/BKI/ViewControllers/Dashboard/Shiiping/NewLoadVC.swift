@@ -69,7 +69,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         }
     }
     
-    @IBAction func MoreAction(_ sender: Any) {
+    @IBAction override func moreAction(_ sender: Any) {
         let miscClosure: () -> Void = {
             self.performSegue(withIdentifier: "showMiscSegue", sender: self)
         }
@@ -79,7 +79,9 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         let cancelClosure: () -> Void = {
             
         }
-        self.alertVC.presentActionSheetWithActionsAndTitle(actions: [cancelClosure,miscClosure,submitClosure], buttonTitles: ["Cancel","Miscellaniuos","Submit"], controller: self, title: "Choose Option")
+        self.alertVC.presentActionSheetWithActionsAndTitle(actions:
+            [cancelClosure,miscClosure,submitClosure], buttonTitles:
+            ["Cancel","Miscellaniuos","Submit"], controller: self, title: "Choose Option")
         return
     }
     
@@ -98,7 +100,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         if scannedSpools.count > 0 {
             loadParams["spool_id"] =  self.getSPoolParams()
         }
-        if  self.load!.materials.count > 0{
+        if  self.load!.materials.count > 0 {
             let (misc1, misc2) = self.getMiscMaterialParams()
             loadParams["loads_miscellaneous_materials_attributes"] = misc1 as AnyObject
             loadParams["miscellaneous_material"] = misc2 as AnyObject
@@ -111,16 +113,18 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         MBProgressHUD.showHud(view: self.view)
 
         self.httpWrapper.performAPIRequest("loads/\(self.load!.id!)", methodType: "PUT",
-                                           parameters: params as [String : AnyObject], successBlock: { (responseData) in
-                                            DispatchQueue.main.async {
+                                           parameters: params as [String : AnyObject],
+                                           successBlock: { (responseData) in
+                                                    DispatchQueue.main.async {
                                                 MBProgressHUD.hideHud(view: self.view)
 
                                                 self.load!.saveLoad(loadInfo: responseData)
                                                 let okClosure: () -> Void = {
                                                     self.navigationController?.popViewController(animated: true)
                                                 }
-                                                self.alertVC.presentAlertWithTitleAndActions(actions: [okClosure], buttonTitles: ["OK"], controller: self, message:"Load updated successfully." , title: "Success")
-                                                self.alertVC.presentAlertWithTitleAndMessage(title: "Success", message: "Load updated successfully.", controller: self)
+                                                self.alertVC.presentAlertWithTitleAndActions(actions: [okClosure],
+                                                                                             buttonTitles: ["OK"], controller: self,
+                                                                                             message:"Load updated successfully." , title: "Success")
                                             }
         }) { (error) in
             self.showFailureAlert(with: (error?.localizedDescription)!)
@@ -171,7 +175,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         return(misc1 as AnyObject, misc2 as AnyObject)
     }
     
-     // MARK: Navigation
+     // MARK:Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
@@ -179,7 +183,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         miscVC?.load = self.load!
     }
     
-    //MARK: TableView DataSource methods
+    //MARK:TableView DataSource methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return  self.isEdit ? self.scannedSpools.count + (self.load?.spools.count)! : self.scannedSpools.count
     }
@@ -204,7 +208,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         
     }
     
-    //MARK: Scan Delegate Methods
+    //MARK:Scan Delegate Methods
     func scanDidCompletedWith(_ data:AVMetadataMachineReadableCodeObject?) {
         guard data != nil else {
             //self.scanCode = "kndsfjk"

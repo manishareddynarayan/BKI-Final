@@ -13,6 +13,7 @@ class Material: BKIModel {
     var quantity = 0
     var desc = ""
     var miscellaneousMaterialId:Int?
+    
     override init () {
         // uncomment this line if your class has been inherited from any other class
         super.init()
@@ -24,8 +25,8 @@ class Material: BKIModel {
     }
     
     func saveMaterial(materialInfo:[String:AnyObject]) {
-        if let id = materialInfo["material_id"] as? Int {
-            self.id = id
+        if let miscellaneousMaterialId = materialInfo["material_id"] as? Int {
+            self.miscellaneousMaterialId = miscellaneousMaterialId
         }
         if let id = materialInfo["id"] as? Int {
             self.id = id

@@ -76,8 +76,7 @@ class WeldStatusTVC: BaseTableViewController, UIPickerViewDelegate, UIPickerView
         if  self.role == 1 {
             cell?.completeBtn.setTitle(weld?.state == WeldState.fitting ? "Mark Complete" : "Completed", for: .normal)
             cell?.completeBtn.isUserInteractionEnabled = weld?.state == WeldState.fitting ? true : false
-        }
-        else if self.role == 2 {
+        } else if self.role == 2 {
             cell?.completeBtn.setTitle(weld?.state == WeldState.welding ? "Complete" : "Completed", for: .normal)
             let enable = weld?.state == WeldState.welding ? true : false
             cell?.completeBtn.isUserInteractionEnabled = enable
@@ -104,20 +103,11 @@ extension WeldStatusTVC {
         return 1
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
-        
-    {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return 4
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
-    {
-        
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
-    {
-        
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return "dsjh"
     }
     

@@ -59,6 +59,43 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate {
                 material.quantity = Int((cell?.qtyTF.text!)!)!
             }
         }
+        
+        cell?.deleteMiscellaniousBlock = {
+            
+           guard material.id != nil else {
+                self.load.materials.remove(at: cell!.indexPath.row)
+                self.tableView.reloadData()
+                return
+            }
+            var load_param = [String:AnyObject]()
+            load_param["id"] = self.load.id! as AnyObject
+            let dict = ["id":material.id!,"quantity":material.quantity,"_destroy":true] as [String : Any]
+            var misc_material_attributes = [[String:AnyObject]]()
+            misc_material_attributes.append(dict as [String : AnyObject])
+            load_param["loads_miscellaneous_materials_attributes"] = misc_material_attributes as AnyObject
+            var params = [String:AnyObject]()
+            params["load"] = load_param as AnyObject
+            MBProgressHUD.showHud(view: self.view)
+            
+            HTTPWrapper.sharedInstance.performAPIRequest("loads/\(self.load.id!)", methodType: "PUT",
+                                               parameters: params as [String : AnyObject],
+                                               successBlock: { (responseData) in
+                            DispatchQueue.main.async {
+                                MBProgressHUD.hideHud(view: self.view)
+                                                    
+                                self.load.saveLoad(loadInfo: responseData)
+                                self.tableView.reloadData()
+                                let okClosure: () -> Void = {
+                                        self.navigationController?.popViewController(animated: true)
+                                }
+                                self.alertVC.presentAlertWithTitleAndActions(actions: [okClosure],
+                                        buttonTitles: ["OK"], controller: self,
+                                        message:"Load updated successfully." , title: "Success")
+                                }
+            }) { (error) in
+                self.showFailureAlert(with: (error?.localizedDescription)!)
+            }
+        }
 
         return cell!
     }
@@ -69,31 +106,6 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate {
         self.tableView.reloadData()
     }
     
-    @IBAction func saveAction(_ sender: Any) {
-        var load_param = [String:AnyObject]()
-        load_param["id"] = self.load.id! as AnyObject
-        
-        //Add metrail params to this arr if material is already exists
-        var misc_material_attributes = [[String:AnyObject]]()
-        //Add metrail params to this arr if material is already not exists
-        var misc_materia_params = [[String:AnyObject]]()
-        for material in self.load.materials {
-            guard material.id != nil else {
-                let dict = ["material":material.desc,"quantity":material.quantity] as [String : Any]
-                misc_materia_params.append(dict as [String : AnyObject])
-                return
-            }
-            let dict = ["miscellaneous_material_id":material.id!,"quantity":material.quantity]
-            misc_material_attributes.append(dict as [String : AnyObject])
-        }
-        
-        if misc_material_attributes.count > 0 {
-            load_param["loads_miscellaneous_materials_attributes"] = misc_material_attributes as AnyObject
-        }
-        if misc_materia_params.count > 0 {
-            load_param["miscellaneous_material"] = misc_materia_params as AnyObject
-        }
-    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

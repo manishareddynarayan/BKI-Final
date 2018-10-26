@@ -14,8 +14,7 @@ class RootViewController: BaseViewController {
         super.viewDidLoad()
         if BKIModel.isUserLoggedIn() {
             getUserDetails()
-        }
-        else {
+        } else {
             self.appDelegate?.setupRootViewController()
         }
     }
@@ -35,10 +34,11 @@ class RootViewController: BaseViewController {
     }
     */
     
-    func getUserDetails() -> Void {
+    func getUserDetails() {
         
         let id = BKIModel.userId()
-        httpWrapper.performAPIRequest("users/\(id)", methodType: "GET", parameters: nil, successBlock: { (responseData) in
+        httpWrapper.performAPIRequest("users/\(id)", methodType: "GET",
+                                      parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
                 print(responseData)
                 BKIModel.saveUserinDefaults(info: responseData)
@@ -50,7 +50,8 @@ class RootViewController: BaseViewController {
                     BKIModel.initUserdefsWithSuitName().set(false, forKey: "isLoggedIn")
                     self.appDelegate?.setupRootViewController()
                 }
-                self.alertVC.presentAlertWithTitleAndActions(actions: [okClosure], buttonTitles: ["OK"], controller: self, message:(error?.localizedDescription)! , title: "ERROR")
+                self.alertVC.presentAlertWithTitleAndActions(actions: [okClosure],
+                                                buttonTitles: ["OK"], controller: self, message:(error?.localizedDescription)! , title: "ERROR")
             }
         }
     }

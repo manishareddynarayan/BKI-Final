@@ -17,7 +17,8 @@ class MiscCell: BaseCell, UITextFieldDelegate, TextInputDelegate {
     var quantityCompletedBlock:(() -> Void)?
     var descCompletionBlock:(() -> Void)?
     var descEnterBlock:(() -> Void)?
-    
+    var deleteMiscellaniousBlock:(() -> Void)?
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -60,4 +61,7 @@ class MiscCell: BaseCell, UITextFieldDelegate, TextInputDelegate {
         }
     }
     
+    @IBAction func deleteMicillaniousAction(_ sender: Any) {
+        self.deleteMiscellaniousBlock!()
+    }
 }

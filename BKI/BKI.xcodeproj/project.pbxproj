@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4F2F45FB2147D95200E5956C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2F45FA2147D95200E5956C /* AppDelegate.swift */; };
-		4F2F45FD2147D95200E5956C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2F45FC2147D95200E5956C /* ViewController.swift */; };
 		4F2F46002147D95200E5956C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F2F45FE2147D95200E5956C /* Main.storyboard */; };
 		4F2F46022147D95300E5956C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F2F46012147D95300E5956C /* Assets.xcassets */; };
 		4F2F46052147D95300E5956C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F2F46032147D95300E5956C /* LaunchScreen.storyboard */; };
@@ -81,7 +80,6 @@
 /* Begin PBXFileReference section */
 		4F2F45F72147D95200E5956C /* BKI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BKI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F2F45FA2147D95200E5956C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4F2F45FC2147D95200E5956C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4F2F45FF2147D95200E5956C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4F2F46012147D95300E5956C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4F2F46042147D95300E5956C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -219,7 +217,6 @@
 				4FA551E42150F6DB00EA6F9B /* ViewControllers */,
 				4FA551E32150F64A00EA6F9B /* Library */,
 				4F2F45FA2147D95200E5956C /* AppDelegate.swift */,
-				4F2F45FC2147D95200E5956C /* ViewController.swift */,
 			);
 			path = BKI;
 			sourceTree = "<group>";
@@ -664,7 +661,6 @@
 				4F312B752154FB6E003D0358 /* SearchMiscVC.swift in Sources */,
 				4FCD149F215397A0002B70A9 /* User.swift in Sources */,
 				4FCDEDB2216223F30071E9F6 /* OpenLoadCell.swift in Sources */,
-				4F2F45FD2147D95200E5956C /* ViewController.swift in Sources */,
 				4FA551F72150FADF00EA6F9B /* HTTPWrapper.swift in Sources */,
 				4FCDEDBB2164C4890071E9F6 /* Material.swift in Sources */,
 				4FA551F02150F90200EA6F9B /* BaseViewController.swift in Sources */,

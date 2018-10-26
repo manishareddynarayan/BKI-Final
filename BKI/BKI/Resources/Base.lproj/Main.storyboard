@@ -216,7 +216,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gC0-nl-LTg" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <barButtonItem image="dots3" id="OMd-Nu-Sx6" userLabel="More Btn">
                     <connections>
-                        <action selector="MoreAction:" destination="L4W-0L-YSK" id="Fl9-Lx-wFF"/>
+                        <action selector="moreAction:" destination="L4W-0L-YSK" id="nZN-s0-pqR"/>
                     </connections>
                 </barButtonItem>
             </objects>

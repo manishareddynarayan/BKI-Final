@@ -15,10 +15,9 @@ class DrawingVC: BaseViewController, UIWebViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let request = URLRequest.init(url: URL.init(string: "https://retail.onlinesbi.com/sbi/downloads/form15-g.pdf")!)
+        let urlStr = (self.spool?.pdfUrl != nil) ? self.spool?.pdfUrl : "https://retail.onlinesbi.com/sbi/downloads/form15-g.pdf"
+        let request = URLRequest.init(url: URL.init(string: urlStr!)!)
         self.webView.loadRequest(request)
-
-        // Do any additional setup after loading the view.
     }
 
     override func viewWillAppear(_ animated: Bool) {

@@ -88,7 +88,7 @@ class SearchMiscVC: BaseViewController, UITextFieldDelegate, UITableViewDelegate
         tableView.deselectRow(at: indexPath, animated: false)
         if indexPath.row == 0 && (searchTF.text?.count)! > 0 && self.materialsArr.count == 0 {
             self.material.desc = searchTF.text!
-        }else {
+        } else {
             let material = self.materialsArr[indexPath.row]
             self.material.miscellaneousMaterialId = material.id
             self.material.desc = material.desc

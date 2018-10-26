@@ -43,15 +43,18 @@ class InspectionCell: BaseCell {
             self.checkBtn.isHidden = false
         }
         self.isChecked = weld.isChecked
-        let image = self.isChecked ? "check" : "unCheck"
-        checkBtn.setImage(UIImage.init(named: image), for: .normal)
+        self.setImageForCheckBtn()
     }
     
     @IBAction func checkMarkAction(_ sender: Any) {
         self.isChecked = !self.isChecked
-        let image = self.isChecked ? "check" : "unCheck"
-        checkBtn.setImage(UIImage.init(named: image), for: .normal)
+        self.setImageForCheckBtn()
         self.selectionChangeddBlock!(self.isChecked)
+    }
+    
+    private func setImageForCheckBtn() {
+        let image = self.isChecked ? "Check" : "unCheck"
+        checkBtn.setImage(UIImage.init(named: image), for: .normal)
     }
     
 }

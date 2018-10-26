@@ -66,11 +66,10 @@ class RBAAlertController: NSObject {
         }
     }
     
-    
     func presentAlertWithInputField(actions:[()->()], buttonTitles:[String],controller:UIViewController,message:String)  {
         
         DispatchQueue.main.async() {
-            self.initAlertControllerWithTitle(title: "Caption", message: message, controller: controller)
+            self.initAlertControllerWithTitle(title: "Reason for rejection", message: message, controller: controller)
             self.rbaAlert.addTextField(configurationHandler: { (textField) -> Void in
                 
             })
@@ -79,15 +78,12 @@ class RBAAlertController: NSObject {
         }
     }
     
-    
     func presentAlertWithActions(actions:[()->()]?, buttonTitles:[String], controller:UIViewController, message:String) -> Void {
-        
         DispatchQueue.main.async() {
             self.initAlertController(message: message, controller: controller)
             self.addButtons(withTitle: buttonTitles, withActions: actions)
             self.presentController.present(self.rbaAlert, animated: true, completion: nil)
         }
-        
     }
     
     func presentActionSheetWithActionsAndTitle(actions:[()->()]?, buttonTitles:[String], controller:UIViewController, title:String) -> Void {
