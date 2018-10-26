@@ -97,7 +97,7 @@ class SearchMiscVC: BaseViewController, UITextFieldDelegate, UITableViewDelegate
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn
-        range: NSRange, replacementString string: String) -> Bool {
+    range: NSRange, replacementString string: String) -> Bool {
         
         let searchStr = textField.text! + string
         if searchStr.count > 3 {

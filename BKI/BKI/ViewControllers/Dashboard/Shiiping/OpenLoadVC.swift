@@ -55,7 +55,7 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
     }
     */
 
-    //MARK: TableView DataSource methods
+    //MARK: - TableView DataSource methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.openLoadsArr.count
     }
