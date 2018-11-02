@@ -32,7 +32,8 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if self.scanCode != nil {
+           // self.scanCode = "82"
+        if self.scanCode != nil && self.role != 3{
             self.getSpoolDetails()
         }
     }
@@ -75,6 +76,10 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 self.tableView.reloadData()
             }
         }
+    }
+    
+    @IBAction func backAction(_ sender: Any) {
+        self.backButtonAction(sender: sender as AnyObject)
     }
     
     // MARK: Navigation

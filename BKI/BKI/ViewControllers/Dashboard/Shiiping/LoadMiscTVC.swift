@@ -90,7 +90,7 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate {
                                 }
                                 self.alertVC.presentAlertWithTitleAndActions(actions: [okClosure],
                                         buttonTitles: ["OK"], controller: self,
-                                        message:"Load updated successfully." , title: "Success")
+                                        message:"Material deleted successfully." , title: "Success")
                                 }
             }) { (error) in
                 self.showFailureAlert(with: (error?.localizedDescription)!)

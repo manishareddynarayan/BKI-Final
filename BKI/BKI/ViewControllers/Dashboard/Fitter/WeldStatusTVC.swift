@@ -22,17 +22,20 @@ class WeldStatusTVC: BaseTableViewController, UIPickerViewDelegate, UIPickerView
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         self.navigationItem.title = "Spool Number " + BKIModel.spoolNumebr()!
         self.hideNavigationController()
+        let frame = (self.spool?.welds.count)! > 0 ? CGRect.zero : self.headerView.frame
+        self.headerView.frame = frame
+        self.headerView.isHidden = ((self.spool?.welds.count)! > 0)
     }
     
     func updateWeldStatus(weld:Weld) {
-        //weld qa complete reject weld_type
+        //weld qa complete verify  reject weld_type
         var event = "weld"
         var params = [String:AnyObject]()
-        switch self.role {
-        case 1:
+        switch self.spool?.state {
+        case .fitting?:
             event = "weld"
             break
-        case 2:
+        case .welding?:
             event = "qa"
             if weld.weldType != nil {
                 params["weld_type"] = weld.weldType as AnyObject
@@ -55,6 +58,13 @@ class WeldStatusTVC: BaseTableViewController, UIPickerViewDelegate, UIPickerView
         }) { (error) in
             self.showFailureAlert(with: (error?.localizedDescription)!)
         }
+    }
+    
+    @IBAction func updateSpoolStatus(_ sender: Any) {
+        let event = (self.spool?.state == .fitting) ? "fitted" : "welded"
+        let params = ["event":event]
+       // self.updateSpoolStateWith(spool: self.spool!, params: params as [String : AnyObject])
+        self.updateSpoolStateWith(spool: self.spool!, params: params as [String : AnyObject], isSpoolUpdate: true)
     }
     
     // MARK: - Table view data source

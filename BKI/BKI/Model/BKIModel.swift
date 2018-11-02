@@ -90,6 +90,9 @@ class BKIModel: NSObject {
         else if state == "qa" {
             self.state = WeldState.qa
         }
+        else if state == "verified" {
+            self.state = WeldState.verified
+        }
         else if state == "complete" {
             self.state = WeldState.complete
         }
@@ -110,6 +113,9 @@ class BKIModel: NSObject {
                 break;
             case .qa:
                 status = "qa"
+                break;
+            case .verified:
+                status = "verified"
                 break;
             case .complete:
                 status = "approved"

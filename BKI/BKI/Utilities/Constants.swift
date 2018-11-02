@@ -33,9 +33,10 @@ enum LoadStatus:Int {
 }
 
 enum WeldState:Int {
-    case fitting = 0
+    case fitting = 1
     case welding
     case qa
+    case verified
     case complete
     case reject
 }

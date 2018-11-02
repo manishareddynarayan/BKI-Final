@@ -12,6 +12,7 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
 
     @IBOutlet weak var tableView: UITableView!
    
+    @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var actionView: UIView!
     
     override func viewDidLoad() {
@@ -29,6 +30,11 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
         self.resetWeldStatus()
         self.showActionButtons()
         self.tableView.reloadData()
+        if self.spool?.welds.count == 0 {
+            self.tableView.isHidden = true
+            self.actionView.isHidden = false
+            self.actionView.isHidden = false
+        }
     }
     
     func getSelectedWeldIds() -> [Int] {
@@ -52,49 +58,63 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func approveWeldsAction(_ sender: Any) {
-        self.updateWeldsWith("complete", rejectReason:nil)
+        if (self.spool?.welds.count)! > 0 {
+            self.updateWeldsWith("verify", rejectReason: nil, isSpoolUpdate:false)
+        }
+        else {
+            self.updateWeldsWith("accepted", rejectReason: nil, isSpoolUpdate:true)
+        }
     }
     
     @IBAction func rejectWeldsAction(_ sender: Any) {
         let submitClosure: () -> Void = {
             let tf = self.alertVC.rbaAlert.textFields?.first
             if (tf?.text?.count)! > 0 {
-                self.updateWeldsWith("reject", rejectReason:tf?.text!)
-            }
-            else {
+                if (self.spool?.welds.count)! > 0 {
+                   // self.updateWeldsWith("reject", rejectReason:tf?.text!)//
+                    self.updateWeldsWith("reject", rejectReason: tf?.text!, isSpoolUpdate:false)
+                }
+                else {
+                    self.updateWeldsWith("rejected", rejectReason:nil, isSpoolUpdate:true)
+                }
+            } else {
                 self.alertVC.presentAlertWithTitleAndMessage(title: "Error", message: "Please enter reason for rejection.", controller: self)
             }
         }
         let cancelClosure: () -> Void = {
-            self.navigationController?.popViewController(animated: true)
+            //self.navigationController?.popViewController(animated: true)
         }
         self.alertVC.presentAlertWithInputField(actions: [cancelClosure,submitClosure], buttonTitles: ["Cancel","Submit"], controller: self, message: "A message should be a short, complete sentence.")
     }
     
-    func updateWeldsWith(_ status:String, rejectReason:String?) {
+        func updateWeldsWith(_ status:String, rejectReason:String?, isSpoolUpdate:Bool) {
         
-        MBProgressHUD.showHud(view: self.view)
-        let weldIds = self.getSelectedWeldIds()
-        var weldParams = ["weld_ids":weldIds as Any,"event":status] as [String : Any]
+        //MBProgressHUD.showHud(view: self.view)
+        var weldParams = ["event":status] as [String : Any]
+        if (self.spool?.welds.count)! > 0 {
+            let weldIds = self.getSelectedWeldIds()
+            weldParams["weld_ids"] = weldIds
+        }
         if rejectReason != nil {
             weldParams["reject_reason"] = rejectReason
         }
-        httpWrapper.performAPIRequest("spools/\((self.spool?.id)!)/welds/modify_state", methodType: "PUT", parameters: ["weld":weldParams as AnyObject], successBlock: { (responseData) in
-            DispatchQueue.main.async {
-                let welds = responseData["welds"] as? [[String:AnyObject]]
-                for weldInfo in welds! {
-                   let weld = self.spool?.welds.filter({ (weld) -> Bool in
-                        return weld.id == weldInfo["id"] as? Int
-                    }).first
-                    weld?.saveWeld(weldInfo: weldInfo)
-                }
-                self.spool?.saveWelds(welds: welds!)
-                MBProgressHUD.hideHud(view: self.view)
-            }
-        }) { (error) in
-            self.showFailureAlert(with: (error?.localizedDescription)!)
-            self.tableView.reloadData()
-        }
+            self.updateSpoolStateWith(spool: self.spool!, params: weldParams as [String : AnyObject], isSpoolUpdate: isSpoolUpdate)
+       // self.updateSpoolStateWith(spool: self.spool!, params: weldParams as [String : AnyObject])
+//        httpWrapper.performAPIRequest("spools/\((self.spool?.id)!)/welds/modify_state", methodType: "PUT", parameters: ["weld":weldParams as AnyObject], successBlock: { (responseData) in
+//            DispatchQueue.main.async {
+//                let welds = responseData["welds"] as? [[String:AnyObject]]
+//                for weldInfo in welds! {
+//                   let weld = self.spool?.welds.filter({ (weld) -> Bool in
+//                        return weld.id == weldInfo["id"] as? Int
+//                    }).first
+//                    weld?.saveWeld(weldInfo: weldInfo)
+//                }
+//                MBProgressHUD.hideHud(view: self.view)
+//            }
+//        }) { (error) in
+//            self.showFailureAlert(with: (error?.localizedDescription)!)
+//            self.tableView.reloadData()
+//        }
         
     }
     
@@ -109,6 +129,7 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
         cell?.selectionChangeddBlock = { (isChecked) in
             weld?.isChecked = isChecked
             tableView.reloadData()
+            self.showActionButtons()
         }
         return cell!
     }

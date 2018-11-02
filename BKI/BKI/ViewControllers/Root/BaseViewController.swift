@@ -90,13 +90,6 @@ class BaseViewController: UIViewController {
         self.present(scanNVC, animated: true, completion: nil)
     }
     
-    func showFailureAlert(with message:String) {
-        DispatchQueue.main.async {
-            MBProgressHUD.hideHud(view: self.view)
-            self.alertVC.presentAlertWithTitleAndMessage(title: "ERROR", message: message, controller: self)
-        }
-    }
-    
     func textFieldDidPressNextOrPrev(next: Bool, textField: AUSessionField) {
         let currentTag = textField.tag
         let nextTF = next ? self.view.viewWithTag(currentTag+1) : self.view.viewWithTag(currentTag-1)
@@ -117,6 +110,47 @@ extension UIViewController {
             self.navigationController?.isNavigationBarHidden = false
         }
     }
+    
+    func showFailureAlert(with message:String) {
+        DispatchQueue.main.async {
+            MBProgressHUD.hideHud(view: self.view)
+            let alert = UIAlertController.init(title: "Error", message: message, preferredStyle: .alert)
+            let okAction = UIAlertAction.init(title: "Ok", style: .default, handler: nil)
+            alert.addAction(okAction)
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func updateSpoolStateWith(spool:Spool, params:[String:AnyObject], isSpoolUpdate:Bool) {
+        MBProgressHUD.showHud(view: self.view)
+        var endPoint = "spools/\((spool.id)!)/welds/modify_state"
+        var body = [String:AnyObject]()
+        if isSpoolUpdate {
+           endPoint = "spools/\((spool.id)!)/modify_state"
+            body = params
+        }
+        else {
+            body = ["weld":params as AnyObject]
+        }
+    HTTPWrapper.sharedInstance.performAPIRequest(endPoint, methodType: "PUT", parameters: body, successBlock: { (responseData) in
+            DispatchQueue.main.async {
+                print(responseData)
+                DispatchQueue.main.async {
+                    let welds = responseData["welds"] as? [[String:AnyObject]]
+                    for weldInfo in welds! {
+                        let weld = spool.welds.filter({ (weld) -> Bool in
+                            return weld.id == weldInfo["id"] as? Int
+                        }).first
+                        weld?.saveWeld(weldInfo: weldInfo)
+                    }
+                    MBProgressHUD.hideHud(view: self.view)
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        }) { (error) in
+            self.showFailureAlert(with: (error?.localizedDescription)!)
+        }
+    }
 }
 
 extension UITableViewController {
@@ -126,6 +160,7 @@ class BaseTableViewController: UITableViewController {
     
     var alertVC = RBAAlertController()
 
+    @IBOutlet weak var headerView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -157,10 +192,12 @@ class BaseTableViewController: UITableViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    func showFailureAlert(with message:String) {
-        DispatchQueue.main.async {
-            MBProgressHUD.hideHud(view: self.view)
-            self.alertVC.presentAlertWithTitleAndMessage(title: "ERROR", message: message, controller: self)
-        }
-    }
+//    func showFailureAlert(with message:String) {
+//        DispatchQueue.main.async {
+//            MBProgressHUD.hideHud(view: self.view)
+//            self.alertVC.presentAlertWithTitleAndMessage(title: "ERROR", message: message, controller: self)
+//        }
+//    }
 }
+
+

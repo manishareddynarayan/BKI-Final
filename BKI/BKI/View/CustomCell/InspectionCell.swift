@@ -32,15 +32,13 @@ class InspectionCell: BaseCell {
         let state = weld.getWeldState(state: weld.state!).capitalized
         self.statusLbl.text = state
         self.statusLbl.isHidden = false
-        self.checkBtn.isHidden = true
-        if state == "Approved" {
+        if state == "Verified" {
             self.statusLbl.textColor = UIColor.muddyGreen
         } else if state == "Reject" {
             self.statusLbl.textColor = UIColor.scarlet
         }
         else {
             self.statusLbl.isHidden = true
-            self.checkBtn.isHidden = false
         }
         self.isChecked = weld.isChecked
         self.setImageForCheckBtn()

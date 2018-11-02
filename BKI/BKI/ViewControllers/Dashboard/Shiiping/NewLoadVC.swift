@@ -115,16 +115,15 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         self.httpWrapper.performAPIRequest("loads/\(self.load!.id!)", methodType: "PUT",
                                            parameters: params as [String : AnyObject],
                                            successBlock: { (responseData) in
-                                                    DispatchQueue.main.async {
-                                                MBProgressHUD.hideHud(view: self.view)
-
-                                                self.load!.saveLoad(loadInfo: responseData)
-                                                let okClosure: () -> Void = {
-                                                    self.navigationController?.popViewController(animated: true)
-                                                }
-                                                self.alertVC.presentAlertWithTitleAndActions(actions: [okClosure],
-                                                                                             buttonTitles: ["OK"], controller: self,
-                                                                                             message:"Load updated successfully." , title: "Success")
+                        DispatchQueue.main.async {
+                            MBProgressHUD.hideHud(view: self.view)
+                            self.load!.saveLoad(loadInfo: responseData)
+                            let okClosure: () -> Void = {
+                                self.navigationController?.popViewController(animated: true)
+                            }
+                            self.alertVC.presentAlertWithTitleAndActions(actions: [okClosure],
+                            buttonTitles: ["OK"], controller: self,
+                            message:"Load updated successfully." , title: "Success")
                                             }
         }) { (error) in
             self.showFailureAlert(with: (error?.localizedDescription)!)
@@ -149,8 +148,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             if material.miscellaneousMaterialId == nil {
                 let dict = ["material":material.desc,"quantity":material.quantity] as [String : Any]
                 misc_materia_params.append(dict as [String : AnyObject])
-            }
-            else {
+            } else {
                 var dict = ["miscellaneous_material_id":material.miscellaneousMaterialId!,"quantity":material.quantity]
                 if material.id != nil {
                     dict["id"] = material.id!
@@ -175,7 +173,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         return(misc1 as AnyObject, misc2 as AnyObject)
     }
     
-     // MARK:Navigation
+     //MARK:- Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
@@ -183,7 +181,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         miscVC?.load = self.load!
     }
     
-    //MARK:TableView DataSource methods
+    //MARK:- TableView DataSource methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return  self.isEdit ? self.scannedSpools.count + (self.load?.spools.count)! : self.scannedSpools.count
     }
@@ -208,7 +206,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         
     }
     
-    //MARK:Scan Delegate Methods
+    //MARK:- Scan Delegate Methods
     func scanDidCompletedWith(_ data:AVMetadataMachineReadableCodeObject?) {
         guard data != nil else {
             //self.scanCode = "kndsfjk"

@@ -82,4 +82,5 @@ class Spool: BKIModel {
             self.welds.append(weld)
         }
     }
+    
 }

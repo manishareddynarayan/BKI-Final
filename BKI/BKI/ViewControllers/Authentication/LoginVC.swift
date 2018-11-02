@@ -46,8 +46,10 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
         
         let dict = self.sessionManager.validateRequiredFields()
         if dict != nil {
-            self.alertVC.presentAlertWithTitleAndMessage(title: "ERROR", message: dict!["Error"] as! String , controller: self)
-            return
+            if let error = dict!["Error"] as? String {
+                self.alertVC.presentAlertWithTitleAndMessage(title: "ERROR", message: error , controller: self)
+                return
+            }
         }
         MBProgressHUD.showHud(view: self.view)
 
