@@ -14,7 +14,7 @@ class MiscCell: BaseCell, UITextFieldDelegate, TextInputDelegate {
     @IBOutlet weak var qtyTF: AUTextField!
     @IBOutlet weak var decTF: AUTextField!
     
-    var quantityCompletedBlock:(() -> Void)?
+    var quantityCompletedBlock:((_ text:String) -> Void)?
     var descCompletionBlock:(() -> Void)?
     var descEnterBlock:(() -> Void)?
     var deleteMiscellaniousBlock:(() -> Void)?
@@ -22,6 +22,7 @@ class MiscCell: BaseCell, UITextFieldDelegate, TextInputDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.qtyTF.textAlignment = .left
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -57,8 +58,26 @@ class MiscCell: BaseCell, UITextFieldDelegate, TextInputDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         
         if textField == qtyTF {
-            self.quantityCompletedBlock!()
+            self.quantityCompletedBlock!(qtyTF.text!)
         }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        var text = textField.text
+        let idx = (textField.text?.index((textField.text?.startIndex)!, offsetBy: range.location))
+        if  string.count > 0 {
+            let char:Character = string[string.startIndex]
+            text?.insert(char, at: idx!)
+        }
+        else {
+            text?.remove(at: idx!)
+        }
+        let str = text
+        if textField == qtyTF {
+            self.quantityCompletedBlock!(str!)
+        }
+       
+        return true
     }
     
     @IBAction func deleteMicillaniousAction(_ sender: Any) {

@@ -21,7 +21,9 @@
                 <subviews>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Description" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FtG-56-MQ1" customClass="AUTextField" customModule="BKI" customModuleProvider="target">
                         <rect key="frame" x="144" y="25.5" width="127" height="17"/>
+                        <color key="backgroundColor" red="0.53725490200000003" green="0.050980392159999999" blue="0.047058823530000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="width" constant="127" id="3W1-cR-1aY"/>
                             <constraint firstAttribute="height" constant="17" id="Ova-az-rbX"/>
                         </constraints>
                         <nil key="textColor"/>
@@ -36,6 +38,7 @@
                     </textField>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Qty" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jeK-sc-AXv" customClass="AUTextField" customModule="BKI" customModuleProvider="target">
                         <rect key="frame" x="15" y="25.5" width="97" height="17"/>
+                        <color key="backgroundColor" red="0.96078431369999995" green="0.65098039220000004" blue="0.13725490200000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="97" id="Lk1-FN-35s"/>
                         </constraints>

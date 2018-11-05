@@ -12,7 +12,8 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
 
     @IBOutlet weak var tableView: UITableView!
     var openLoadsArr = [Load]()
-    
+    var tatalPages = 1
+    var currentPage = 1
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,10 +30,13 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
     func getOpenLoads() {
         MBProgressHUD.hideHud(view: self.view)
 
-        self.httpWrapper.performAPIRequest("loads", methodType: "GET",
+        self.httpWrapper.performAPIRequest("loads?page=\(self.currentPage)", methodType: "GET",
         parameters: nil, successBlock: { (responseData) in
             let loads = responseData["loads"] as? [[String:AnyObject]]
-            self.openLoadsArr.removeAll()
+            self.tatalPages = responseData["meta"]!["total_pages"] as! Int
+            if self.currentPage == 1 {
+                self.openLoadsArr.removeAll()
+            }
             for load in loads! {
                 let openLoad = Load.init(info: load)
                 self.openLoadsArr.append(openLoad)
@@ -79,6 +83,15 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
             self.navigationController?.pushViewController(vc, animated: true)
         }
         return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == self.openLoadsArr.count-1 {
+            if self.tatalPages > self.currentPage {
+                self.currentPage = self.currentPage + 1
+                self.getOpenLoads()
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

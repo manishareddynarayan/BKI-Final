@@ -276,6 +276,12 @@ class HTTPWrapper: NSObject {
                     self.showAlertView(message: "Authorisation expired. Please sign in again.")
                     return
                 }
+                else if statusCode == 403{
+                    let error = self.getErrorResponse(errorDescription:"You don't have a permission to access this spool." , statusCode: statusCode)
+                    failBlock(error as NSError)
+
+                    return
+                }
                 do{
                     let object =  try JSONSerialization.jsonObject(with: data, options: []) as! [String : AnyObject]
 

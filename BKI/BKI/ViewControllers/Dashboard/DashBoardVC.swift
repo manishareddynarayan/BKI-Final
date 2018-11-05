@@ -22,7 +22,6 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         self.menuItems = User.shared.getUserMenuItems(with: self.role)
         tableView.register(UINib(nibName: "DashBoardCell", bundle: nil), forCellReuseIdentifier: "DashboardCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -32,7 +31,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-           // self.scanCode = "82"
+        self.scanCode = "82"
         if self.scanCode != nil && self.role != 3{
             self.getSpoolDetails()
         }
@@ -71,8 +70,12 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             }
         }) { (error) in
             DispatchQueue.main.async {
-                self.showFailureAlert(with: (error?.localizedDescription)!)
                 self.spool = nil
+                if error?.code == 403 {
+                    self.navigationController?.popViewController(animated: true)
+                    return
+                }
+                self.showFailureAlert(with: (error?.localizedDescription)!)
                 self.tableView.reloadData()
             }
         }

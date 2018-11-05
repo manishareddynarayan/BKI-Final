@@ -27,7 +27,7 @@
                     </label>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Heat Number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="U9O-xw-C7U" customClass="AUTextField" customModule="BKI" customModuleProvider="target">
                         <rect key="frame" x="160" y="7" width="141" height="30"/>
-                        <color key="backgroundColor" red="0.96078431369999995" green="0.65098039220000004" blue="0.13725490200000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="nhC-6Z-lh0"/>
                         </constraints>

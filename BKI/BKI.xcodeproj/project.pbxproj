@@ -865,6 +865,7 @@
 			baseConfigurationReference = C67014901894AB5EF7A77A74 /* Pods-BKI.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = HB7SX4J7W4;
 				INFOPLIST_FILE = BKI/Info.plist;
@@ -876,7 +877,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.wal.bki;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "f12d333e-c61b-4add-b70a-4090c6f5b4de";
-				PROVISIONING_PROFILE_SPECIFIER = BKI_Dev;
+				PROVISIONING_PROFILE_SPECIFIER = BKI_Adhoc;
 				SWIFT_OBJC_BRIDGING_HEADER = "BKI/Utilities/BKI-Bridging-Header.h";
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "BKI/Utilities/BKI-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
