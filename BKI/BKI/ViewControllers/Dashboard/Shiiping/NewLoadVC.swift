@@ -81,7 +81,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         }
         self.alertVC.presentActionSheetWithActionsAndTitle(actions:
             [cancelClosure,miscClosure,submitClosure], buttonTitles:
-            ["Cancel","Miscellaniuos","Submit"], controller: self, title: "Choose Option")
+            ["Cancel","Miscellaneous","Submit"], controller: self, title: "Choose Option")
         return
     }
     
@@ -198,12 +198,42 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         } else {
             spool = self.scannedSpools[indexPath.row]
         }
-        cell?.spoolLbl.text = "\(spool.id!)"
+        cell?.spoolLbl.text = "\(spool.code!)"
         return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+    }
+    
+    func getSpool() -> Void {
+        MBProgressHUD.showHud(view: self.view)
+        httpWrapper.performAPIRequest("spools/\(self.scanCode!)", methodType: "GET", parameters: nil, successBlock: { (responseData) in
+            DispatchQueue.main.async {
+                MBProgressHUD.hideHud(view: self.view)
+                
+                if (self.role == 3 && self.spool?.state != WeldState.fitting) {
+//                    self.showFailureAlert(with: "You can access spools which are not in state of fitting.")
+                    self.navigationController?.popViewController(animated: true)
+                    return
+                }
+                let spool  = Spool.init(info: responseData)
+                self.scannedSpools.append(spool)
+                BKIModel.setSpoolNumebr(number: self.spool?.code!)
+
+                self.tableView.reloadData()
+            }
+        }) { (error) in
+            DispatchQueue.main.async {
+                self.spool = nil
+                if error?.code == 403 {
+                    self.navigationController?.popViewController(animated: true)
+                    return
+                }
+                self.showFailureAlert(with: (error?.localizedDescription)!)
+                self.tableView.reloadData()
+            }
+        }
     }
     
     //MARK:- Scan Delegate Methods
@@ -213,11 +243,12 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             //BKIModel.setSpoolNumebr(number: self.scanCode)
             return
         }
-        let spoolId = Int((data?.stringValue!.components(separatedBy: "_").last)!)
+        self.setScanCode(data: data)
 
-        let spool = Spool.init(info: ["id":spoolId as AnyObject])
-        scannedSpools.append(spool)
-        self.tableView.reloadData()
+        self.getSpool()
+//        let spool = Spool.init(info: ["id":spoolId as AnyObject])
+//        scannedSpools.append(spool)
+//        self.tableView.reloadData()
     }
     
     func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didError error: Error,

@@ -86,7 +86,7 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate {
                                 self.load.saveLoad(loadInfo: responseData)
                                 self.tableView.reloadData()
                                 let okClosure: () -> Void = {
-                                        self.navigationController?.popViewController(animated: true)
+//                                        self.navigationController?.popViewController(animated: true)
                                 }
                                 self.alertVC.presentAlertWithTitleAndActions(actions: [okClosure],
                                         buttonTitles: ["OK"], controller: self,

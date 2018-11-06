@@ -146,8 +146,8 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
 
         if metadataObjects.count == 0 {
             qrCodeFrameView?.frame = CGRect.zero
-            messageLabel.text = "No QR code is detected"
-            let userInfoDict = [ NSLocalizedDescriptionKey :  "No QR code is detected."]
+            messageLabel.text = "No code is detected"
+            let userInfoDict = [ NSLocalizedDescriptionKey :  "No code is detected."]
             let error = NSError(domain:"", code:404, userInfo:userInfoDict)
             self.dismiss(animated: false) {
                 self.delegate.scanDidCompletedWith!(output, didError: error, from: connection)

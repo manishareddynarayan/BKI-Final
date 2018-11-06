@@ -534,6 +534,7 @@
 				4F2F45F52147D95200E5956C /* Resources */,
 				E6696C75B96A4CAF4809C6D6 /* [CP] Embed Pods Frameworks */,
 				4F435E3B21870A9300983182 /* ShellScript */,
+				4F741B8F2190558900F1F141 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -643,6 +644,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/Fabric/run\" a425229ba7aa25675367ff72febbc23a9bc0d1c4 500b1bbb46ab3af5ebc5dec36f97f25002f037abdec38087f7ffa861480a8f47\n";
+		};
+		4F741B8F2190558900F1F141 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n./Fabric.framework/run a425229ba7aa25675367ff72febbc23a9bc0d1c4 500b1bbb46ab3af5ebc5dec36f97f25002f037abdec38087f7ffa861480a8f47\n";
 		};
 		E6696C75B96A4CAF4809C6D6 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -865,19 +883,19 @@
 			baseConfigurationReference = C67014901894AB5EF7A77A74 /* Pods-BKI.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = HB7SX4J7W4;
+				DEVELOPMENT_TEAM = YXK38U827T;
 				INFOPLIST_FILE = BKI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.wal.bki;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Batchelorkimball.BKI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "f12d333e-c61b-4add-b70a-4090c6f5b4de";
-				PROVISIONING_PROFILE_SPECIFIER = BKI_Adhoc;
+				PROVISIONING_PROFILE_SPECIFIER = BKI_Dev;
 				SWIFT_OBJC_BRIDGING_HEADER = "BKI/Utilities/BKI-Bridging-Header.h";
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "BKI/Utilities/BKI-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
@@ -892,14 +910,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = HB7SX4J7W4;
+				DEVELOPMENT_TEAM = YXK38U827T;
 				INFOPLIST_FILE = BKI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.wal.bki;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Batchelorkimball.BKI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "17607d47-13b4-458f-9da5-f091a949ee7e";
 				PROVISIONING_PROFILE_SPECIFIER = BKI_Adhoc;
