@@ -211,13 +211,13 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         httpWrapper.performAPIRequest("spools/\(self.scanCode!)", methodType: "GET", parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
                 MBProgressHUD.hideHud(view: self.view)
-                
-                if (self.role == 3 && self.spool?.state != WeldState.fitting) {
+                let spool  = Spool.init(info: responseData)
+
+                if (self.role == 3 && spool.state != WeldState.readyToShip) {
 //                    self.showFailureAlert(with: "You can access spools which are not in state of fitting.")
                     self.navigationController?.popViewController(animated: true)
                     return
                 }
-                let spool  = Spool.init(info: responseData)
                 self.scannedSpools.append(spool)
                 BKIModel.setSpoolNumebr(number: self.spool?.code!)
 

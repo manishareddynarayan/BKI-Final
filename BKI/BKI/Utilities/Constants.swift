@@ -36,6 +36,7 @@ enum WeldState:Int {
     case fitting = 1
     case welding
     case qa
+    case readyToShip
     case verified
     case complete
     case reject

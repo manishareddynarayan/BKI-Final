@@ -125,12 +125,13 @@ class ScannerViewController: UIViewController {
     }
     
     @IBAction func doneAction(_ sender: Any) {
+        guard self.scanData != nil else {
+            self.delegate.scanDidCompletedWith!(nil)
+            return
+        }
+        self.delegate.scanDidCompletedWith!(self.scanData!)
+
         self.dismiss(animated: true) {
-            guard self.scanData != nil else {
-                self.delegate.scanDidCompletedWith!(nil)
-                return
-            }
-            self.delegate.scanDidCompletedWith!(self.scanData!)
         }
     }
     

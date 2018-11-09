@@ -80,6 +80,7 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
             }
             vc.load = load
             vc.isEdit = true
+            vc.role = self.role
             self.navigationController?.pushViewController(vc, animated: true)
         }
         return cell!

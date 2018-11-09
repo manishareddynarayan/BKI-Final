@@ -31,7 +31,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-       // self.scanCode = "82"
+        //self.scanCode = "7"
         if self.scanCode != nil && self.role != 3{
             self.getSpoolDetails()
         }
@@ -45,13 +45,14 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             return
         }
         self.setScanCode(data: data)
-        self.getSpoolDetails()
+       // self.getSpoolDetails()
     }
     
     func getSpoolDetails() {
         MBProgressHUD.showHud(view: self.view)
         httpWrapper.performAPIRequest("spools/\(self.scanCode!)", methodType: "GET", parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
+                print(responseData)
                 MBProgressHUD.hideHud(view: self.view)
                 self.spool = Spool.init(info: responseData)
                 BKIModel.setSpoolNumebr(number: self.spool?.code!)
