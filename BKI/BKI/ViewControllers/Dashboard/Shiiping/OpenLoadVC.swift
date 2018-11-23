@@ -24,7 +24,9 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.getOpenLoads()
+        if self.openLoadsArr.count == 0 {
+            self.getOpenLoads()
+        }
     }
     
     func getOpenLoads() {
@@ -90,7 +92,7 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
         if indexPath.row == self.openLoadsArr.count-1 {
             if self.tatalPages > self.currentPage {
                 self.currentPage = self.currentPage + 1
-                self.getOpenLoads()
+                 self.getOpenLoads()
             }
         }
     }

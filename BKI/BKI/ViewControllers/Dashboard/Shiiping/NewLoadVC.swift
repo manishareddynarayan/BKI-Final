@@ -38,8 +38,9 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     
     func createNewLoad() {
         MBProgressHUD.showHud(view: self.view)
+        let params = ["status":"open"]
         self.httpWrapper.performAPIRequest("loads/", methodType: "POST",
-        parameters: nil, successBlock: { (responseData) in
+                                           parameters: ["load":params as AnyObject], successBlock: { (responseData) in
             DispatchQueue.main.async {
                 MBProgressHUD.hideHud(view: self.view)
                 if self.load == nil {
@@ -196,7 +197,8 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         if indexPath.row <= (self.load?.spools.count)! - 1 {
             spool = self.load?.spools[indexPath.row]
         } else {
-            spool = self.scannedSpools[indexPath.row]
+            let row = indexPath.row - (self.load?.spools.count)!
+            spool = self.scannedSpools[row]
         }
         cell?.spoolLbl.text = "\(spool.code!)"
         return cell!
@@ -220,7 +222,6 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                 }
                 self.scannedSpools.append(spool)
                 BKIModel.setSpoolNumebr(number: self.spool?.code!)
-
                 self.tableView.reloadData()
             }
         }) { (error) in
@@ -243,7 +244,19 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             //BKIModel.setSpoolNumebr(number: self.scanCode)
             return
         }
-        self.setScanCode(data: data)
+        let spoolId = data?.stringValue!.components(separatedBy: "_").last
+       let isFound = self.load?.spools.contains { (spool) -> Bool in
+            return spool.id == Int(spoolId!)
+        }
+        let isFound1 = self.scannedSpools.contains { (spool) -> Bool in
+            return spool.id == Int(spoolId!)
+        }
+        guard !isFound! && !isFound1 else {
+            self.showFailureAlert(with: "Spool already added to load.")
+            return
+        }
+    
+        self.scanCode = spoolId
 
         self.getSpool()
 //        let spool = Spool.init(info: ["id":spoolId as AnyObject])

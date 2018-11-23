@@ -90,7 +90,7 @@ class SearchMiscVC: BaseViewController, UITextFieldDelegate, UITableViewDelegate
             self.material.desc = searchTF.text!
         } else {
             let material = self.materialsArr[indexPath.row]
-            self.material.miscellaneousMaterialId = material.id
+            self.material.miscellaneousMaterialId = material.miscellaneousMaterialId
             self.material.desc = material.desc
         }
         self.dismiss(animated: true, completion: nil)

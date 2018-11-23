@@ -30,7 +30,10 @@ class Spool: BKIModel {
     }
     
     func saveSpool(spoolInfo:[String:AnyObject]) {
-        if let id = spoolInfo["id"] as? Int {
+        if let id = spoolInfo["id"] as? Int{
+            self.id = id
+        }
+        if let id = spoolInfo["spool_id"] as? Int{
             self.id = id
         }
         if let code = spoolInfo["code"] as? String {
