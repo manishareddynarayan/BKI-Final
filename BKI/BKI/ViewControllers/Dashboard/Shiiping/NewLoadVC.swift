@@ -21,6 +21,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     var newMaterials = [Material]()
     @IBOutlet var miscBtn: UIBarButtonItem!
     
+    @IBOutlet weak var bottomView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "LoadCell", bundle: nil), forCellReuseIdentifier: "loadCell")
@@ -48,9 +49,13 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                 }
                 self.load!.saveLoad(loadInfo: responseData)
                 self.navigationItem.title = "Load Number " + self.load!.number!
+                self.bottomView.isHidden = false
             }
         }) { (error) in
             self.showFailureAlert(with: (error?.localizedDescription)!)
+            DispatchQueue.main.async {
+                self.bottomView.isHidden = true
+            }
         }
     }
     
@@ -67,6 +72,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             }
         }) { (error) in
             self.showFailureAlert(with: (error?.localizedDescription)!)
+            
         }
     }
     
@@ -245,13 +251,15 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             return
         }
         let spoolId = data?.stringValue!.components(separatedBy: "_").last
-       let isFound = self.load?.spools.contains { (spool) -> Bool in
+        var isFound = false
+        var isFound1 = false
+        isFound = ((self.load?.spools.contains { (spool) -> Bool in
+            return spool.id == Int(spoolId!)
+            })!)
+        isFound1 = self.scannedSpools.contains { (spool) -> Bool in
             return spool.id == Int(spoolId!)
         }
-        let isFound1 = self.scannedSpools.contains { (spool) -> Bool in
-            return spool.id == Int(spoolId!)
-        }
-        guard !isFound! && !isFound1 else {
+        guard !isFound && !isFound1 else {
             self.showFailureAlert(with: "Spool already added to load.")
             return
         }
