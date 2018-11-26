@@ -121,10 +121,10 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         }
         if self.role == 1 && self.spool?.state == WeldState.fitting {
             cell?.enable(enable: true)
-        }
-        else if self.role == 2 && self.spool?.state == WeldState.welding {
+        } else if self.role == 2 && self.spool?.state == WeldState.welding {
             cell?.enable(enable: true)
-        } else if self.role == 4 && self.spool?.state == WeldState.qa {
+        } 
+        else if self.role == 4 && self.spool?.state == WeldState.qa {
             cell?.enable(enable: true)
         }
         else {

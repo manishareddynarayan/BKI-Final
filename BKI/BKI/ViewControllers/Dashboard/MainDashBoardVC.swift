@@ -11,14 +11,18 @@ import UIKit
 class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
-    let roleArr = ["Fit-Up","Weld","Shipping","QA"]
+    var roleArr = ["Fit-Up","Weld","Shipping"]
    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.register(UINib(nibName: "DashBoardCell", bundle: nil), forCellReuseIdentifier: "DashboardCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
-
+        
+        if BKIModel.userRole() == "qa" {
+            self.roleArr.removeAll()
+            self.roleArr.append("QA")
+        }
         // Do any additional setup after loading the view.
     }
 
@@ -46,7 +50,11 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
                 
                 return
             }
-            vc.role = ((sender as? IndexPath)?.row)! + 1
+            if BKIModel.userRole() == "qa" {
+                vc.role = 4
+            } else {
+                vc.role = ((sender as? IndexPath)?.row)! + 1
+            }
         }
     }
  

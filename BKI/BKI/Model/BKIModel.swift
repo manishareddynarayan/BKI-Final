@@ -41,7 +41,7 @@ class BKIModel: NSObject {
         defs?.set(false, forKey: "isLoggedIn")
     }
     
-    static func getUserRole() -> String {
+    static func userRole() -> String {
         let defs = BKIModel.initUserdefsWithSuitName()
         return (defs?.object(forKey: "role") as? String)!
     }
