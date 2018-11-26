@@ -13,6 +13,7 @@ class ScannerViewController: UIViewController {
 
     var captureSession = AVCaptureSession()
     @IBOutlet weak var scanBtn: UIBarButtonItem!
+    @IBOutlet weak var doneBtn: UIBarButtonItem!
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     var qrCodeFrameView: UIView?
     @IBOutlet var messageLabel:UILabel!
@@ -150,11 +151,13 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             messageLabel.text = "No code is detected"
             let userInfoDict = [ NSLocalizedDescriptionKey :  "No code is detected."]
             let error = NSError(domain:"", code:404, userInfo:userInfoDict)
+            doneBtn.isEnabled = false
             self.dismiss(animated: false) {
                 self.delegate.scanDidCompletedWith!(output, didError: error, from: connection)
             }
             return
         }
+        doneBtn.isEnabled = true
         
         // Get the metadata object.
         let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
