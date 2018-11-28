@@ -222,8 +222,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                 let spool  = Spool.init(info: responseData)
 
                 if (self.role == 3 && spool.state != WeldState.readyToShip) {
-//                    self.showFailureAlert(with: "You can access spools which are not in state of fitting.")
-                    self.navigationController?.popViewController(animated: true)
+                    self.showFailureAlert(with: "You can access spools which are not in state of ready to ship.")
                     return
                 }
                 self.scannedSpools.append(spool)
@@ -234,7 +233,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             DispatchQueue.main.async {
                 self.spool = nil
                 if error?.code == 403 {
-                    self.navigationController?.popViewController(animated: true)
+                    self.showFailureAlert(with: error.localizedDescription)
                     return
                 }
                 self.showFailureAlert(with: (error?.localizedDescription)!)

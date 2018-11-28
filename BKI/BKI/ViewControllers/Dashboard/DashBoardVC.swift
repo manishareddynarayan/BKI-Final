@@ -73,7 +73,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             DispatchQueue.main.async {
                 self.spool = nil
                 if error?.code == 403 {
-                    self.navigationController?.popViewController(animated: true)
+                    self.showFailureAlert(with: error.localizedDescription)
                     return
                 }
                 self.showFailureAlert(with: (error?.localizedDescription)!)
