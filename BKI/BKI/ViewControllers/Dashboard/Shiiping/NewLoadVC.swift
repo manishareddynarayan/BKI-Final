@@ -222,7 +222,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                 let spool  = Spool.init(info: responseData)
 
                 if (self.role == 3 && spool.state != WeldState.readyToShip) {
-                    self.showFailureAlert(with: "You can access spools which are not in state of ready to ship.")
+                    self.showFailureAlert(with: "You can access spools which are in state of ready to ship.")
                     return
                 }
                 self.scannedSpools.append(spool)
