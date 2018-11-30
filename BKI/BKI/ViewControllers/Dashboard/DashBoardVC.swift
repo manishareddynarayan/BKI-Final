@@ -13,6 +13,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     
     @IBOutlet weak var tableView: UITableView!
     var menuItems: [[String:String]]!
+    var shouldChangeState = false
    
     @IBOutlet weak var spoolLbl: UILabel!
    
@@ -57,7 +58,11 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 self.spool = Spool.init(info: responseData)
                 BKIModel.setSpoolNumebr(number: self.spool?.code!)
                 self.spoolLbl.text = self.spool?.code!
-
+                if self.shouldChangeState {
+                    self.tableView.reloadData()
+                    self.shouldChangeState = false
+                    return
+                }
                 if self.role == 2 && self.spool?.state != WeldState.welding {
                     self.showFailureAlert(with: "You can access spools which are in state of welding.")
                 }
@@ -72,11 +77,19 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         }) { (error) in
             DispatchQueue.main.async {
                 self.spool = nil
+                if self.shouldChangeState {
+                    self.tableView.reloadData()
+                    self.shouldChangeState = false
+                    MBProgressHUD.hideHud(view: self.view)
+                    return
+                }
                 if error?.code == 403 {
                     self.showFailureAlert(with: error.localizedDescription)
+                    self.tableView.reloadData()
                     return
                 }
                 self.showFailureAlert(with: (error?.localizedDescription)!)
+             
                 self.tableView.reloadData()
             }
         }

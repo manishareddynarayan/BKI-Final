@@ -49,6 +49,7 @@ class BaseViewController: UIViewController {
     @objc func backButtonAction(sender:AnyObject?) {
         self.navigationController?.popViewController(animated: true)
     }
+    
     /*
     // MARK: - Navigation
 
@@ -145,6 +146,8 @@ extension UIViewController {
                     }
                     MBProgressHUD.hideHud(view: self.view)
                     self.navigationController?.popViewController(animated: true)
+                    let previousVC = self.navigationController?.viewControllers.last as? DashBoardVC
+                    previousVC?.shouldChangeState = true
                 }
             }
         }) { (error) in
@@ -190,6 +193,8 @@ class BaseTableViewController: UITableViewController {
             }
         }
         self.navigationController?.popViewController(animated: true)
+        let previousVC = self.navigationController?.viewControllers.last as? DashBoardVC
+        previousVC?.shouldChangeState = true
     }
     
 //    func showFailureAlert(with message:String) {
