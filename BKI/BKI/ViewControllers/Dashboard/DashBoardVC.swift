@@ -84,7 +84,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     return
                 }
                 if error?.code == 403 {
-                    self.showFailureAlert(with: error.localizedDescription)
+                    self.showFailureAlert(with: error!.localizedDescription)
                     self.tableView.reloadData()
                     return
                 }

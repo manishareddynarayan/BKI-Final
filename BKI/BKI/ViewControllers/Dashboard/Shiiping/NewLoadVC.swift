@@ -233,7 +233,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             DispatchQueue.main.async {
                 self.spool = nil
                 if error?.code == 403 {
-                    self.showFailureAlert(with: error.localizedDescription)
+                    self.showFailureAlert(with: error!.localizedDescription)
                     return
                 }
                 self.showFailureAlert(with: (error?.localizedDescription)!)
