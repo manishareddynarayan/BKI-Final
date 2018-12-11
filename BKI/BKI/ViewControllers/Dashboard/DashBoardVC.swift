@@ -76,7 +76,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             }
         }) { (error) in
             DispatchQueue.main.async {
-                self.spool = nil
+                
                 if self.shouldChangeState {
                     self.tableView.reloadData()
                     self.shouldChangeState = false
@@ -84,7 +84,16 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     return
                 }
                 if error?.code == 403 {
-                    self.showFailureAlert(with: error!.localizedDescription)
+//                    spools/\((self.spool?.id)!)/welds/modify_state
+                    self.httpWrapper.performAPIRequest("spools/\((self.scanCode)!)/current_stage", methodType: "GET", parameters: nil, successBlock: { (response) in
+                        self.spool = nil
+                        print(response)
+                        let status = response["current_state"] as! String
+                        self.showFailureAlert(with: "Sorry! You cannot access this Spool as it is in \((status)) stage")
+                    }, failBlock: { (error) in
+                        print(error)
+                        self.showFailureAlert(with: error!.localizedDescription)
+                    })
                     self.tableView.reloadData()
                     return
                 }
