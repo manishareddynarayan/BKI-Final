@@ -233,6 +233,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                 }
                 self.scannedSpools.append(spool)
                 BKIModel.setSpoolNumebr(number: self.spool?.code!)
+                self.saveBtn.isEnabled = self.scannedSpools.count > 0 || self.load!.materials.count > 0 ? true : false
                 self.tableView.reloadData()
             }
         }) { (error) in
