@@ -78,27 +78,27 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             DispatchQueue.main.async {
                 
                 if self.shouldChangeState {
+                    self.spool = nil
                     self.tableView.reloadData()
                     self.shouldChangeState = false
                     MBProgressHUD.hideHud(view: self.view)
                     return
                 }
                 if error?.code == 403 {
-//                    spools/\((self.spool?.id)!)/welds/modify_state
                     self.httpWrapper.performAPIRequest("spools/\((self.scanCode)!)/current_stage", methodType: "GET", parameters: nil, successBlock: { (response) in
-                        self.spool = nil
-                        print(response)
-                        let status = response["current_state"] as! String
-                        self.showFailureAlert(with: "Sorry! You cannot access this Spool as it is in \((status)) stage")
+                        DispatchQueue.main.async {
+                            print(response)
+                            let status = response["current_state"] as! String
+                            self.showFailureAlert(with: "Sorry! You cannot access this Spool as it is in \((status)) stage")
+                            self.tableView.reloadData()
+                        }
                     }, failBlock: { (error) in
                         print(error)
-                        self.showFailureAlert(with: error!.localizedDescription)
                     })
-                    self.tableView.reloadData()
                     return
                 }
+                self.spool = nil
                 self.showFailureAlert(with: (error?.localizedDescription)!)
-             
                 self.tableView.reloadData()
             }
         }

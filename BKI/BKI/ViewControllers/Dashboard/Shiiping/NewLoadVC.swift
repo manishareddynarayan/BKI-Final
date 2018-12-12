@@ -27,9 +27,14 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         tableView.register(UINib(nibName: "LoadCell", bundle: nil), forCellReuseIdentifier: "loadCell")
         self.navigationItem.rightBarButtonItem = miscBtn
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
-        load == nil ? self.createNewLoad() : self.getLoadDetails()
+        if load == nil { self.navigationItem.title = "New Load" }
+        load == nil ? self.load = Load() : self.getLoadDetails()
         self.bgImageview.isHidden = true
         self.view.backgroundColor = UIColor.white
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        saveBtn.isEnabled = scannedSpools.count > 0 || self.load!.materials.count > 0 ? true : false
     }
 
     override func didReceiveMemoryWarning() {
@@ -86,9 +91,10 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         let cancelClosure: () -> Void = {
             
         }
+        let buttonTitles = load?.number == nil ? ["Cancel","Miscellaneous"] : ["Cancel","Miscellaneous","Submit"]
         self.alertVC.presentActionSheetWithActionsAndTitle(actions:
             [cancelClosure,miscClosure,submitClosure], buttonTitles:
-            ["Cancel","Miscellaneous","Submit"], controller: self, title: "Choose Option")
+            buttonTitles, controller: self, title: "Choose Option")
         return
     }
     
@@ -118,8 +124,8 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         }
         params["load"] = loadParams as AnyObject
         MBProgressHUD.showHud(view: self.view)
-
-        self.httpWrapper.performAPIRequest("loads/\(self.load!.id!)", methodType: "PUT",
+        let methodType = load == nil ? "GET" : "PUT"
+        self.httpWrapper.performAPIRequest("loads/\(self.load!.id!)", methodType: methodType,
                                            parameters: params as [String : AnyObject],
                                            successBlock: { (responseData) in
                         DispatchQueue.main.async {
