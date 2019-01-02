@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,7 +21,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Description" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FtG-56-MQ1" customClass="AUTextField" customModule="BKI" customModuleProvider="target">
-                        <rect key="frame" x="144" y="25.5" width="127" height="17"/>
+                        <rect key="frame" x="16" y="25.5" width="127" height="17"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="127" id="3W1-cR-1aY"/>
@@ -36,11 +37,11 @@
                             <outlet property="delegate" destination="KGk-i7-Jjw" id="QJg-Yl-uHc"/>
                         </connections>
                     </textField>
-                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Qty" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jeK-sc-AXv" customClass="AUTextField" customModule="BKI" customModuleProvider="target">
-                        <rect key="frame" x="15" y="25.5" width="97" height="17"/>
+                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Quantity" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jeK-sc-AXv" customClass="AUTextField" customModule="BKI" customModuleProvider="target">
+                        <rect key="frame" x="163" y="26" width="50" height="17"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="97" id="Lk1-FN-35s"/>
+                            <constraint firstAttribute="width" constant="50" id="Lk1-FN-35s"/>
                         </constraints>
                         <nil key="textColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -60,23 +61,32 @@
                             <action selector="deleteMicillaniousAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="TjQ-1b-xUd"/>
                         </connections>
                     </button>
+                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Weight" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mZy-qI-Ymp" customClass="AUTextField" customModule="BKI" customModuleProvider="target">
+                        <rect key="frame" x="223" y="25.5" width="50" height="17"/>
+                        <nil key="textColor"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="mBF-yn-ECX" firstAttribute="leading" secondItem="FtG-56-MQ1" secondAttribute="trailing" constant="15" id="07T-uz-pCH"/>
-                    <constraint firstItem="FtG-56-MQ1" firstAttribute="leading" secondItem="jeK-sc-AXv" secondAttribute="trailing" constant="32" id="HdZ-yz-hRq"/>
+                    <constraint firstItem="mZy-qI-Ymp" firstAttribute="leading" secondItem="jeK-sc-AXv" secondAttribute="trailing" constant="10" id="6OO-1D-YLH"/>
+                    <constraint firstItem="jeK-sc-AXv" firstAttribute="width" secondItem="mZy-qI-Ymp" secondAttribute="width" id="HOa-7l-hM7"/>
                     <constraint firstItem="mBF-yn-ECX" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" constant="10" id="ITP-Rn-8V4"/>
                     <constraint firstItem="mBF-yn-ECX" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="IsH-yg-TSu"/>
-                    <constraint firstItem="jeK-sc-AXv" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Pua-Yg-DeS"/>
+                    <constraint firstItem="FtG-56-MQ1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="VrQ-kM-KF1"/>
                     <constraint firstItem="jeK-sc-AXv" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="f7l-VT-r7I"/>
+                    <constraint firstItem="jeK-sc-AXv" firstAttribute="leading" secondItem="FtG-56-MQ1" secondAttribute="trailing" constant="20" id="hqA-5y-7VT"/>
                     <constraint firstItem="FtG-56-MQ1" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="iUr-Zs-ieA"/>
+                    <constraint firstItem="mZy-qI-Ymp" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="s7y-DR-wUc"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="decTF" destination="FtG-56-MQ1" id="xfY-2m-faU"/>
                 <outlet property="qtyTF" destination="jeK-sc-AXv" id="oqZ-X1-OuF"/>
+                <outlet property="weightTF" destination="mZy-qI-Ymp" id="KEi-Yr-eh6"/>
             </connections>
-            <point key="canvasLocation" x="139.19999999999999" y="165.51724137931035"/>
+            <point key="canvasLocation" x="139" y="165"/>
         </tableViewCell>
     </objects>
     <resources>

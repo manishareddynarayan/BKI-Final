@@ -9,18 +9,19 @@
 import UIKit
 import AVFoundation
 
-class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,ScannerDelegate {
+class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,ScannerDelegate, UITextFieldDelegate, TextInputDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     var spoolArr = [String]()
     @IBOutlet var saveBtn: UIButton!
     @IBOutlet var scanBtn: UIButton!
+    @IBOutlet weak var truckNumberTF: AUTextField!
+    
     var load:Load?
     var isEdit = false
     var scannedSpools = [Spool]()
     var newMaterials = [Material]()
     @IBOutlet var miscBtn: UIBarButtonItem!
-    
     @IBOutlet weak var bottomView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         load == nil ? self.load = Load() : self.getLoadDetails()
         self.bgImageview.isHidden = true
         self.view.backgroundColor = UIColor.white
+        truckNumberTF.delegate = self
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -91,7 +93,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         let cancelClosure: () -> Void = {
             
         }
-        let buttonTitles = load?.number == nil ? ["Cancel","Miscellaneous"] : ["Cancel","Miscellaneous","Submit"]
+        let buttonTitles = scannedSpools.count > 0 || self.load!.materials.count > 0 ? ["Cancel","Miscellaneous","Submit"] :  ["Cancel","Miscellaneous"]
         self.alertVC.presentActionSheetWithActionsAndTitle(actions:
             [cancelClosure,miscClosure,submitClosure], buttonTitles:
             buttonTitles, controller: self, title: "Choose Option")
@@ -107,9 +109,25 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         self.updateLoad(isSubmit: false)
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            textField.resignFirstResponder()
+            return false
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        /// 1. replacementString is NOT empty means we are entering text or pasting text: perform the logic
+        /// 2. replacementString is empty means we are deleting text: return true
+        if string.characters.count > 0 {
+            var allowedCharacters = CharacterSet.alphanumerics
+            
+            let unwantedStr = string.trimmingCharacters(in: allowedCharacters)
+            return unwantedStr.characters.count == 0
+        }
+        return true
+    }
+    
     func updateLoad(isSubmit:Bool) {
-        
-        var loadParams:[String:AnyObject] = ["id":self.load!.id! as AnyObject]
+        var loadParams:[String:AnyObject] = [String:AnyObject]()
         if scannedSpools.count > 0 {
             loadParams["spool_id"] =  self.getSPoolParams()
         }
@@ -118,14 +136,31 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             loadParams["loads_miscellaneous_materials_attributes"] = misc1 as AnyObject
             loadParams["miscellaneous_material"] = misc2 as AnyObject
         }
+        var endPoint = "loads/"
+        var method = "POST"
+        if self.load?.id != nil {
+            loadParams["id"] = self.load!.id! as AnyObject
+            endPoint.append("\(self.load!.id!)")
+            method = "PUT"
+        }
+        
         var params = [String:AnyObject]()
         if isSubmit {
+            if truckNumberTF.text?.count == 0 {
+                let okClosure: () -> Void = {
+                    
+                }
+                self.alertVC.presentAlertWithTitleAndActions(actions: [okClosure], buttonTitles: ["OK"], controller: self, message: "Please fill truck number field to submit the load", title: "Error")
+                return
+            }
             params["submit"] = true as AnyObject
+        }
+        if truckNumberTF != nil {
+            params["truck_number"] = truckNumberTF.text as AnyObject
         }
         params["load"] = loadParams as AnyObject
         MBProgressHUD.showHud(view: self.view)
-        let methodType = load == nil ? "GET" : "PUT"
-        self.httpWrapper.performAPIRequest("loads/\(self.load!.id!)", methodType: methodType,
+        self.httpWrapper.performAPIRequest(endPoint, methodType: method,
                                            parameters: params as [String : AnyObject],
                                            successBlock: { (responseData) in
                         DispatchQueue.main.async {

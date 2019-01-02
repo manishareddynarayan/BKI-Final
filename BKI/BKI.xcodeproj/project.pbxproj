@@ -532,9 +532,8 @@
 				4F2F45F32147D95200E5956C /* Sources */,
 				4F2F45F42147D95200E5956C /* Frameworks */,
 				4F2F45F52147D95200E5956C /* Resources */,
-				E6696C75B96A4CAF4809C6D6 /* [CP] Embed Pods Frameworks */,
-				4F435E3B21870A9300983182 /* ShellScript */,
-				4F741B8F2190558900F1F141 /* ShellScript */,
+				7B94E34021AE9EF1006C750C /* ShellScript */,
+				E3657D34EB8FC3205B4F70C9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -628,41 +627,20 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4F435E3B21870A9300983182 /* ShellScript */ = {
+		7B94E34021AE9EF1006C750C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
-			);
-			inputFileListPaths = (
 			);
 			inputPaths = (
 			);
-			outputFileListPaths = (
-			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/Fabric/run\" a425229ba7aa25675367ff72febbc23a9bc0d1c4 500b1bbb46ab3af5ebc5dec36f97f25002f037abdec38087f7ffa861480a8f47\n";
+			shellScript = "./Fabric.framework/run aef2659b519a966f0938f622429360635cfda971 0613ba1e9635d7dc121cfb1e69255acd83c00d49aedbe0dbe15d0e38e12e797d";
 		};
-		4F741B8F2190558900F1F141 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n./Fabric.framework/run a425229ba7aa25675367ff72febbc23a9bc0d1c4 500b1bbb46ab3af5ebc5dec36f97f25002f037abdec38087f7ffa861480a8f47\n";
-		};
-		E6696C75B96A4CAF4809C6D6 /* [CP] Embed Pods Frameworks */ = {
+		E3657D34EB8FC3205B4F70C9 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (

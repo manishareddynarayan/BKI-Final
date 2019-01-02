@@ -63,7 +63,9 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     self.shouldChangeState = false
                     return
                 }
-                if self.role == 2 && self.spool?.state != WeldState.welding {
+                if self.spool?.status == "On Hold" {
+                    self.showFailureAlert(with: "The Spool is on hold and hence no operation can be performed on it.")
+                } else if self.role == 2 && self.spool?.state != WeldState.welding {
                     self.showFailureAlert(with: "You can access spools which are in state of welding.")
                 }
                 else  if (self.role == 1 && self.spool?.state != WeldState.fitting) {

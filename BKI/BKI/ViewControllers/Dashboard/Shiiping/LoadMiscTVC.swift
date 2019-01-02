@@ -19,7 +19,8 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate {
         self.tableView.register(UINib(nibName: "MiscCell", bundle: nil), forCellReuseIdentifier: "miscCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         self.hideNavigationController()
-        self.navigationItem.title = "Load Number " + self.load.number!
+        let title = load.number != nil ? "Load Number " + self.load.number! : "New load"
+        self.navigationItem.title = title
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -47,6 +48,7 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate {
         cell?.configureCell(material: material)
         cell?.qtyTF.formDelegate = self
         cell?.decTF.formDelegate = self
+        cell?.weightTF.formDelegate = self
         cell?.descEnterBlock = {
             let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "searchMiscVC", storyBoard: "Main") as? SearchMiscVC
             vc?.material = material
@@ -59,6 +61,11 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate {
                 material.quantity = Int(text)!
             }                
         }
+        cell?.weightCompletedBlock = { (text)  in
+            if (text.count) > 0 {
+                material.weight = Int(text)!
+            }
+        }
         
         cell?.deleteMiscellaniousBlock = {
             
@@ -69,7 +76,7 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate {
             }
             var load_param = [String:AnyObject]()
             load_param["id"] = self.load.id! as AnyObject
-            let dict = ["id":material.id!,"quantity":material.quantity,"_destroy":true] as [String : Any]
+            let dict = ["id":material.id!,"quantity":material.quantity,"_destroy":true,"weight":material.weight] as [String : Any]
             var misc_material_attributes = [[String:AnyObject]]()
             misc_material_attributes.append(dict as [String : AnyObject])
             load_param["loads_miscellaneous_materials_attributes"] = misc_material_attributes as AnyObject

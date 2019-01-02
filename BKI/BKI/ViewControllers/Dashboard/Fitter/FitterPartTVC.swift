@@ -9,15 +9,15 @@
 import UIKit
 
 class FitterPartTVC: BaseTableViewController, TextInputDelegate {
-
+    
     var role:Int!
     var spool:Spool?
     @IBOutlet var saveBtn: UIBarButtonItem!
     let httpWrapper = HTTPWrapper.sharedInstance
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.tableView.register(UINib(nibName: "PartCell", bundle: nil), forCellReuseIdentifier: "partCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         self.navigationItem.title = "Spool Number " + BKIModel.spoolNumebr()!
@@ -25,7 +25,7 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
         saveBtn.isEnabled = (self.spool?.components.count)! > 0 ? true : false
         self.tableView.reloadData()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = false
@@ -34,6 +34,12 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
     @IBAction func saveAction(_ sender: Any) {
         
         var components = [[String:AnyObject]]()
+        for row in 0 ..< (self.spool?.components.count)! {
+            let indexPath = IndexPath(row: row, section: 0)
+            let cell = tableView.cellForRow(at: indexPath) as? PartCell
+            let textField = cell?.getTextField()
+            textField?.resignFirstResponder()
+        }
         
         for component in (self.spool?.components)! {
             let dict = ["id":component.id!, "heat_number": component.heatNumber] as [String : Any]
@@ -58,12 +64,12 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return (self.spool?.components.count)!
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "partCell", for: indexPath) as? PartCell
         cell?.indexPath = indexPath
@@ -78,55 +84,54 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
             cell?.configureCell(component: component!, isNext:true, isPrev: true)
         }
         cell?.heatTF.formDelegate = self
-
         return cell!
     }
- 
-
+    
+    
     /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
+     // Override to support conditional editing of the table view.
+     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the specified item to be editable.
+     return true
+     }
+     */
+    
     /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
+     // Override to support editing the table view.
+     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+     if editingStyle == .delete {
+     // Delete the row from the data source
+     tableView.deleteRows(at: [indexPath], with: .fade)
+     } else if editingStyle == .insert {
+     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+     }
+     }
+     */
+    
     /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
+     // Override to support rearranging the table view.
+     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+     
+     }
+     */
+    
     /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
+     // Override to support conditional rearranging of the table view.
+     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the item to be re-orderable.
+     return true
+     }
+     */
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
     
     func moveToNextOrPrevCell(_ textField:AUSessionField, next:Bool) {
         let currentTag = textField.tag
@@ -136,7 +141,7 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
         textField.resignFirstResponder()
         nextCell?.heatTF.becomeFirstResponder()
     }
-
+    
     //MARK: TextInput Delegate
     func textFieldDidPressedNextButton(_ textField: AUSessionField) {
         self.moveToNextOrPrevCell(textField, next: true)

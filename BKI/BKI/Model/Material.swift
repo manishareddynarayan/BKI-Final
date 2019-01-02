@@ -13,6 +13,7 @@ class Material: BKIModel {
     var quantity = 0
     var desc = ""
     var miscellaneousMaterialId:Int?
+    var weight = 0
     
     override init () {
         // uncomment this line if your class has been inherited from any other class

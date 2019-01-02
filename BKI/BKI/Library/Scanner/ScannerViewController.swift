@@ -90,10 +90,12 @@ class ScannerViewController: UIViewController {
             
             metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
             metadataOutput.metadataObjectTypes = supportedCodeTypes
+            
         } else {
             failed()
             return
         }
+        
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         var frame = view.layer.bounds
         let height = frame.size.height - 40.0
@@ -102,6 +104,7 @@ class ScannerViewController: UIViewController {
         videoPreviewLayer!.videoGravity = .resizeAspectFill
         view.layer.addSublayer(videoPreviewLayer!)
         captureSession.startRunning()
+        
     }
     
     func failed() {
@@ -135,7 +138,6 @@ class ScannerViewController: UIViewController {
         self.dismiss(animated: true) {
         }
     }
-    
 }
 
 
@@ -167,6 +169,14 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             qrCodeFrameView?.frame = barCodeObject!.bounds
             if metadataObj.stringValue != nil {
                 messageLabel.text = metadataObj.stringValue
+                guard self.scanData != nil else {
+                    self.delegate.scanDidCompletedWith!(nil)
+                    return
+                }
+                self.delegate.scanDidCompletedWith!(self.scanData!)
+                
+                self.dismiss(animated: true) {
+                }
             }
         }
     }

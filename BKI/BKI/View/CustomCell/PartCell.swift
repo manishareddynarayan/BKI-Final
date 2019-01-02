@@ -24,9 +24,12 @@ class PartCell: BaseCell, UITextFieldDelegate,TextInputDelegate {
         self.component = component
         self.heatTF.tag = self.indexPath.row
         self.heatTF.textAlignment = .left
-        self.heatLbl.text = self.component.group!
+        self.heatLbl.text = self.component.part_number!
         self.heatTF.text = self.component.heatNumber
         self.heatTF.designToolBarWithNext(isNext: isNext, withPrev: isPrev, delegate: self)
+    }
+    func getTextField() -> AUTextField {
+        return self.heatTF
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

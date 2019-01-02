@@ -17,7 +17,7 @@ class Component: BKIModel {
     var length:Int?
     var specificationId:Int?
     var recordId:Int?
-    var group:String?
+    var part_number:String?
     var size:String?
     var schedule:String?
     weak var spool:Spool?
@@ -57,8 +57,8 @@ class Component: BKIModel {
         if let recordId = partInfo["recordId"] as? Int {
             self.recordId = recordId
         }
-        if let group = partInfo["group"] as? String {
-            self.group = group
+        if let part_number = partInfo["part_number"] as? String {
+            self.part_number = part_number
         }
         if let size = partInfo["size"] as? String {
             self.size = size

@@ -32,7 +32,7 @@ import UIKit
         case Password
     }
 
-    let padding = UIEdgeInsets(top: 0, left: 55, bottom: 0, right: 13)
+    var padding = UIEdgeInsets(top: 0, left: 55, bottom: 0, right: 13)
 
     var pickerModel = [[String:AnyObject]]()
     var titleKey = ""
