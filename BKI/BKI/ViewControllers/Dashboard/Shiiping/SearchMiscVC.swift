@@ -88,12 +88,30 @@ class SearchMiscVC: BaseViewController, UITextFieldDelegate, UITableViewDelegate
         tableView.deselectRow(at: indexPath, animated: false)
         if indexPath.row == 0 && (searchTF.text?.count)! > 0 && self.materialsArr.count == 0 {
             self.material.desc = searchTF.text!
+            createMaterial(materialDesc: searchTF.text!)
         } else {
             let material = self.materialsArr[indexPath.row]
             self.material.miscellaneousMaterialId = material.miscellaneousMaterialId
             self.material.desc = material.desc
         }
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func createMaterial(materialDesc:String) {
+        var material:[String:AnyObject] = [String:AnyObject]()
+        material["material"] = materialDesc as AnyObject
+        httpWrapper.performAPIRequest("miscellaneous_materials",
+            methodType: "POST", parameters: material, successBlock: { (responseData) in
+                DispatchQueue.main.async {
+                print(responseData)
+                    self.materialsArr.removeAll()
+                        let material = Material.init(info: responseData)
+                        self.materialsArr.append(material)
+                    self.tableView.reloadData()
+                }
+        }) { (error) in
+            self.showFailureAlert(with: (error?.localizedDescription)!)
+            }
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn

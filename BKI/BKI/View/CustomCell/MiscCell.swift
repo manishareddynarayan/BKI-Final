@@ -35,10 +35,11 @@ class MiscCell: BaseCell, UITextFieldDelegate, TextInputDelegate {
     
     func configureCell(material:Material) {
         self.qtyTF.tag = self.indexPath.row
-        self.qtyTF.text = "\(material.quantity)"
+        self.weightTF.tag = self.indexPath.row + 2
+        self.qtyTF.text = material.quantity != 0 ? "\(material.quantity)" : ""
+        self.weightTF.text = material.weight != 0 ? "\(material.weight)" : ""
         self.decTF.text = material.desc
         self.decTF.tag = self.indexPath.row + 1
-        self.weightTF.text = "\(material.weight)"
         self.decTF.designToolBarWithNext(isNext: true, withPrev: false, delegate: self)
         self.qtyTF.designToolBarWithNext(isNext: true, withPrev: true, delegate: self)
         self.weightTF.designToolBarWithNext(isNext: false, withPrev: true, delegate: self)
@@ -63,9 +64,8 @@ class MiscCell: BaseCell, UITextFieldDelegate, TextInputDelegate {
         if textField == qtyTF {
             self.quantityCompletedBlock!(qtyTF.text!)
         } else if textField == weightTF {
-            self.weightCompletedBlock!(qtyTF.text!)
+            self.weightCompletedBlock!(weightTF.text!)
         }
-        
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

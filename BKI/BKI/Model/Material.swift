@@ -13,7 +13,7 @@ class Material: BKIModel {
     var quantity = 0
     var desc = ""
     var miscellaneousMaterialId:Int?
-    var weight = 0
+    var weight = 0.0
     
     override init () {
         // uncomment this line if your class has been inherited from any other class
@@ -37,6 +37,10 @@ class Material: BKIModel {
         }
         if let quantity = materialInfo["quantity"] as? Int {
             self.quantity = quantity
+        }
+        if let weightInfo = materialInfo["weight"] as? String {
+            let weight = Double(weightInfo)
+            self.weight = weight!
         }
         if let miscellaneousMaterialId = materialInfo["miscellaneous_material_id"] as? Int {
             self.miscellaneousMaterialId = miscellaneousMaterialId

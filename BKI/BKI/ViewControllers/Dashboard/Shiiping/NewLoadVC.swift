@@ -115,26 +115,27 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        /// 1. replacementString is NOT empty means we are entering text or pasting text: perform the logic
-        /// 2. replacementString is empty means we are deleting text: return true
-        if string.characters.count > 0 {
-            var allowedCharacters = CharacterSet.alphanumerics
-            
-            let unwantedStr = string.trimmingCharacters(in: allowedCharacters)
-            return unwantedStr.characters.count == 0
-        }
-        return true
+            let numberOnly = NSCharacterSet.init(charactersIn: "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-")
+            let stringFromTextField = NSCharacterSet.init(charactersIn: string)
+            let strValid = numberOnly.isSuperset(of: stringFromTextField as CharacterSet)
+            return strValid
     }
     
     func updateLoad(isSubmit:Bool) {
         var loadParams:[String:AnyObject] = [String:AnyObject]()
         if scannedSpools.count > 0 {
-            loadParams["spool_id"] =  self.getSPoolParams()
+            loadParams["spool_ids"] =  self.getSPoolParams()
+            if truckNumberTF.text?.count != 0 {
+                loadParams["truck_number"] = truckNumberTF.text as AnyObject
+            }
+        }
+        if !isSubmit {
+            loadParams["status"] = "open" as AnyObject
         }
         if  self.load!.materials.count > 0 {
             let (misc1, misc2) = self.getMiscMaterialParams()
             loadParams["loads_miscellaneous_materials_attributes"] = misc1 as AnyObject
-            loadParams["miscellaneous_material"] = misc2 as AnyObject
+//            loadParams["miscellaneous_material"] = misc2 as AnyObject
         }
         var endPoint = "loads/"
         var method = "POST"
@@ -155,9 +156,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             }
             params["submit"] = true as AnyObject
         }
-        if truckNumberTF != nil {
-            params["truck_number"] = truckNumberTF.text as AnyObject
-        }
+        
         params["load"] = loadParams as AnyObject
         MBProgressHUD.showHud(view: self.view)
         self.httpWrapper.performAPIRequest(endPoint, methodType: method,
@@ -194,10 +193,10 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         var misc_materia_params = [[String:AnyObject]]()
         for material in self.load!.materials {
             if material.miscellaneousMaterialId == nil {
-                let dict = ["material":material.desc,"quantity":material.quantity] as [String : Any]
-                misc_materia_params.append(dict as [String : AnyObject])
+                let dict = ["material":material.desc,"quantity":material.quantity,"weight": material.weight] as [String : Any]
+                misc_material_attributes.append(dict as [String : AnyObject])
             } else {
-                var dict = ["miscellaneous_material_id":material.miscellaneousMaterialId!,"quantity":material.quantity]
+                var dict = ["miscellaneous_material_id":material.miscellaneousMaterialId!,"quantity":material.quantity,"weight": material.weight] as [String : Any]
                 if material.id != nil {
                     dict["id"] = material.id!
                 }

@@ -42,8 +42,10 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
         }
         
         for component in (self.spool?.components)! {
+            if component.heatNumber.count != 0 {
             let dict = ["id":component.id!, "heat_number": component.heatNumber] as [String : Any]
             components.append(dict as [String : AnyObject])
+            }
         }
         let spoolParams = ["components_attributes":components]
         MBProgressHUD.showHud(view: self.view)

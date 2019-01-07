@@ -63,7 +63,7 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate {
         }
         cell?.weightCompletedBlock = { (text)  in
             if (text.count) > 0 {
-                material.weight = Int(text)!
+                material.weight = Double(text)!
             }
         }
         
