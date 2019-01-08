@@ -41,11 +41,11 @@ class SearchMiscVC: BaseViewController, UITextFieldDelegate, UITableViewDelegate
             methodType: "GET", parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
                 self.materialsArr.removeAll()
-                let materials = responseData["results"] as? [[String:AnyObject]]
-                for mat in materials! {
-                    let material = Material.init(info: mat)
-                    self.materialsArr.append(material)
-                }
+                 let materials = responseData["results"] as? [[String:AnyObject]]
+                    for mat in materials! {
+                        let material = Material.init(info: mat)
+                        self.materialsArr.append(material)
+                    }
                 self.tableView.reloadData()
             }
         }) { (error) in
@@ -88,7 +88,7 @@ class SearchMiscVC: BaseViewController, UITextFieldDelegate, UITableViewDelegate
         tableView.deselectRow(at: indexPath, animated: false)
         if indexPath.row == 0 && (searchTF.text?.count)! > 0 && self.materialsArr.count == 0 {
             self.material.desc = searchTF.text!
-            createMaterial(materialDesc: searchTF.text!)
+            createMaterial(materialDesc: searchTF.text!, indexPath: indexPath)
         } else {
             let material = self.materialsArr[indexPath.row]
             self.material.miscellaneousMaterialId = material.miscellaneousMaterialId
@@ -97,7 +97,7 @@ class SearchMiscVC: BaseViewController, UITextFieldDelegate, UITableViewDelegate
         self.dismiss(animated: true, completion: nil)
     }
     
-    func createMaterial(materialDesc:String) {
+    func createMaterial(materialDesc:String,indexPath:IndexPath) {
         var material:[String:AnyObject] = [String:AnyObject]()
         material["material"] = materialDesc as AnyObject
         httpWrapper.performAPIRequest("miscellaneous_materials",
@@ -107,6 +107,9 @@ class SearchMiscVC: BaseViewController, UITextFieldDelegate, UITableViewDelegate
                     self.materialsArr.removeAll()
                         let material = Material.init(info: responseData)
                         self.materialsArr.append(material)
+                    let newMaterial = self.materialsArr[indexPath.row]
+                    self.material.miscellaneousMaterialId = newMaterial.miscellaneousMaterialId
+                    self.material.desc = newMaterial.desc
                     self.tableView.reloadData()
                 }
         }) { (error) in

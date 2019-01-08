@@ -260,8 +260,9 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             DispatchQueue.main.async {
                 MBProgressHUD.hideHud(view: self.view)
                 let spool  = Spool.init(info: responseData)
-
-                if (self.role == 3 && spool.state != WeldState.readyToShip) {
+                if spool.status == "On Hold" {
+                    self.showFailureAlert(with: "The Spool is on hold and hence no operation can be performed on it.")
+                } else if (self.role == 3 && spool.state != WeldState.readyToShip) {
                     self.showFailureAlert(with: "You can access spools which are in state of ready to ship.")
                     return
                 }

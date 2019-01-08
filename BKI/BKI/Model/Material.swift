@@ -42,9 +42,5 @@ class Material: BKIModel {
             let weight = Double(weightInfo)
             self.weight = weight!
         }
-        if let miscellaneousMaterialId = materialInfo["miscellaneous_material_id"] as? Int {
-            self.miscellaneousMaterialId = miscellaneousMaterialId
-        }
-        
     }
 }
