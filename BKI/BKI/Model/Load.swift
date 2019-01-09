@@ -14,6 +14,7 @@ class Load: BKIModel {
     var status:String?
     var spools = [Spool]()
     var materials = [Material]()
+    var truckNumber:String?
     
     override init () {
         // uncomment this line if your class has been inherited from any other class
@@ -29,6 +30,9 @@ class Load: BKIModel {
        
         if let id = loadInfo["load_id"] as? Int {
             self.id = id
+        }
+        if let truckNumber = loadInfo["truck_number"] as? String {
+            self.truckNumber = truckNumber
         }
         if let number = loadInfo["load_number"] as? String {
             self.number = number

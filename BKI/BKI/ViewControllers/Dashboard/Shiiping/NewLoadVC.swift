@@ -37,6 +37,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         saveBtn.isEnabled = scannedSpools.count > 0 || self.load!.materials.count > 0 ? true : false
+        self.truckNumberTF.text = load?.truckNumber
     }
 
     override func didReceiveMemoryWarning() {
@@ -123,14 +124,16 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     
     func updateLoad(isSubmit:Bool) {
         var loadParams:[String:AnyObject] = [String:AnyObject]()
+        var params = [String:AnyObject]()
         if scannedSpools.count > 0 {
             loadParams["spool_ids"] =  self.getSPoolParams()
-            if truckNumberTF.text?.count != 0 {
-                loadParams["truck_number"] = truckNumberTF.text as AnyObject
-            }
+        }
+        if truckNumberTF.text?.count != 0 {
+            loadParams["truck_number"] = truckNumberTF.text as AnyObject
         }
         if !isSubmit {
             loadParams["status"] = "open" as AnyObject
+            
         }
         if  self.load!.materials.count > 0 {
             let (misc1, misc2) = self.getMiscMaterialParams()
@@ -143,9 +146,10 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             loadParams["id"] = self.load!.id! as AnyObject
             endPoint.append("\(self.load!.id!)")
             method = "PUT"
+        } else {
+            params["submit"] = true as AnyObject
         }
         
-        var params = [String:AnyObject]()
         if isSubmit {
             if truckNumberTF.text?.count == 0 {
                 let okClosure: () -> Void = {
