@@ -36,7 +36,7 @@ class ScannerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        scanBtn.isEnabled = false
+//        scanBtn.isEnabled = false
         startScaning()
         // Do any additional setup after loading the view.
     }
@@ -146,20 +146,20 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         // Check if the metadataObjects array is not nil and it contains at least one object.
         captureSession.stopRunning()
-        scanBtn.isEnabled = true
+//        scanBtn.isEnabled = true
 
         if metadataObjects.count == 0 {
             qrCodeFrameView?.frame = CGRect.zero
             messageLabel.text = "No code is detected"
             let userInfoDict = [ NSLocalizedDescriptionKey :  "No code is detected."]
             let error = NSError(domain:"", code:404, userInfo:userInfoDict)
-            doneBtn.isEnabled = false
+//            doneBtn.isEnabled = false
             self.dismiss(animated: false) {
                 self.delegate.scanDidCompletedWith!(output, didError: error, from: connection)
             }
             return
         }
-        doneBtn.isEnabled = true
+//        doneBtn.isEnabled = true
         
         // Get the metadata object.
         let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject

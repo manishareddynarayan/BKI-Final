@@ -30,7 +30,7 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     func getOpenLoads() {
-        MBProgressHUD.hideHud(view: self.view)
+        MBProgressHUD.showHud(view: self.view)
 
         self.httpWrapper.performAPIRequest("loads?page=\(self.currentPage)", methodType: "GET",
         parameters: nil, successBlock: { (responseData) in

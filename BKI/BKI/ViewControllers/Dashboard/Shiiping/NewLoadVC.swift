@@ -39,7 +39,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         saveBtn.isEnabled = scannedSpools.count > 0 || self.load!.materials.count > 0 ? true : false
         self.truckNumberTF.text = load?.truckNumber
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -50,15 +50,15 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         let params = ["status":"open"]
         self.httpWrapper.performAPIRequest("loads/", methodType: "POST",
                                            parameters: ["load":params as AnyObject], successBlock: { (responseData) in
-            DispatchQueue.main.async {
-                MBProgressHUD.hideHud(view: self.view)
-                if self.load == nil {
-                    self.load = Load()
-                }
-                self.load!.saveLoad(loadInfo: responseData)
-                self.navigationItem.title = "Load Number " + self.load!.number!
-                self.bottomView.isHidden = false
-            }
+                                            DispatchQueue.main.async {
+                                                MBProgressHUD.hideHud(view: self.view)
+                                                if self.load == nil {
+                                                    self.load = Load()
+                                                }
+                                                self.load!.saveLoad(loadInfo: responseData)
+                                                self.navigationItem.title = "Load Number " + self.load!.number!
+                                                self.bottomView.isHidden = false
+                                            }
         }) { (error) in
             self.showFailureAlert(with: (error?.localizedDescription)!)
             DispatchQueue.main.async {
@@ -69,15 +69,15 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     
     func getLoadDetails() {
         MBProgressHUD.showHud(view: self.view)
-
+        
         self.navigationItem.title = "Load Number " + self.load!.number!
         self.httpWrapper.performAPIRequest("loads/\(self.load!.id!)", methodType: "GET",
-        parameters: nil, successBlock: { (responseData) in
-            DispatchQueue.main.async {
-                MBProgressHUD.hideHud(view: self.view)
-                self.load!.saveLoad(loadInfo: responseData)
-                self.tableView.reloadData()
-            }
+                                           parameters: nil, successBlock: { (responseData) in
+                                            DispatchQueue.main.async {
+                                                MBProgressHUD.hideHud(view: self.view)
+                                                self.load!.saveLoad(loadInfo: responseData)
+                                                self.tableView.reloadData()
+                                            }
         }) { (error) in
             self.showFailureAlert(with: (error?.localizedDescription)!)
             
@@ -111,15 +111,15 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-            textField.resignFirstResponder()
-            return false
+        textField.resignFirstResponder()
+        return false
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-            let numberOnly = NSCharacterSet.init(charactersIn: "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-")
-            let stringFromTextField = NSCharacterSet.init(charactersIn: string)
-            let strValid = numberOnly.isSuperset(of: stringFromTextField as CharacterSet)
-            return strValid
+        let numberOnly = NSCharacterSet.init(charactersIn: "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-")
+        let stringFromTextField = NSCharacterSet.init(charactersIn: string)
+        let strValid = numberOnly.isSuperset(of: stringFromTextField as CharacterSet)
+        return strValid
     }
     
     func updateLoad(isSubmit:Bool) {
@@ -131,14 +131,10 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         if truckNumberTF.text?.count != 0 {
             loadParams["truck_number"] = truckNumberTF.text as AnyObject
         }
-        if !isSubmit {
-            loadParams["status"] = "open" as AnyObject
-            
-        }
         if  self.load!.materials.count > 0 {
             let (misc1, misc2) = self.getMiscMaterialParams()
             loadParams["loads_miscellaneous_materials_attributes"] = misc1 as AnyObject
-//            loadParams["miscellaneous_material"] = misc2 as AnyObject
+            //            loadParams["miscellaneous_material"] = misc2 as AnyObject
         }
         var endPoint = "loads/"
         var method = "POST"
@@ -146,7 +142,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             loadParams["id"] = self.load!.id! as AnyObject
             endPoint.append("\(self.load!.id!)")
             method = "PUT"
-        } else {
+        } else if isSubmit {
             params["submit"] = true as AnyObject
         }
         
@@ -159,6 +155,8 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                 return
             }
             params["submit"] = true as AnyObject
+        } else {
+            loadParams["status"] = "open" as AnyObject
         }
         
         params["load"] = loadParams as AnyObject
@@ -166,15 +164,26 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         self.httpWrapper.performAPIRequest(endPoint, methodType: method,
                                            parameters: params as [String : AnyObject],
                                            successBlock: { (responseData) in
-                        DispatchQueue.main.async {
-                            MBProgressHUD.hideHud(view: self.view)
-                            self.load!.saveLoad(loadInfo: responseData)
-                            let okClosure: () -> Void = {
-                                self.navigationController?.popViewController(animated: true)
-                            }
-                            self.alertVC.presentAlertWithTitleAndActions(actions: [okClosure],
-                            buttonTitles: ["OK"], controller: self,
-                            message:"Load updated successfully." , title: "Success")
+                                            DispatchQueue.main.async {
+                                                MBProgressHUD.hideHud(view: self.view)
+                                                self.load!.saveLoad(loadInfo: responseData)
+                                                let okClosure: () -> Void = {
+                                                    if isSubmit {
+                                                        let vv = self.navigationController?.viewControllers.first(where: { (vc) -> Bool in
+                                                            return vc is OpenLoadVC
+                                                        })
+                                                        if  let v = vv as? OpenLoadVC {
+                                                            let index = v.openLoadsArr.lastIndex(of: self.load!)
+                                                            v.openLoadsArr.remove(at: index!)
+                                                            v.tableView.reloadData()
+                                                        }
+                                                    }
+                                                    
+                                                    self.navigationController?.popViewController(animated: true)
+                                                }
+                                                self.alertVC.presentAlertWithTitleAndActions(actions: [okClosure],
+                                                                                             buttonTitles: ["OK"], controller: self,
+                                                                                             message:"Load updated successfully." , title: "Success")
                                             }
         }) { (error) in
             self.showFailureAlert(with: (error?.localizedDescription)!)
@@ -182,11 +191,11 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     func getSPoolParams() -> AnyObject {
-            var spoolIds = [String]()
-            for spool in scannedSpools {
-                //spoolIds.append("1")
-                spoolIds.append("\((spool.id)!)")
-            }
+        var spoolIds = [String]()
+        for spool in scannedSpools {
+            //spoolIds.append("1")
+            spoolIds.append("\((spool.id)!)")
+        }
         return spoolIds as AnyObject
     }
     
@@ -224,7 +233,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         return(misc1 as AnyObject, misc2 as AnyObject)
     }
     
-     //MARK:- Navigation
+    //MARK:- Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
@@ -308,18 +317,18 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             self.showFailureAlert(with: "Spool already added to load.")
             return
         }
-    
+        
         self.scanCode = spoolId
-
+        
         self.getSpool()
-//        let spool = Spool.init(info: ["id":spoolId as AnyObject])
-//        scannedSpools.append(spool)
-//        self.tableView.reloadData()
+        //        let spool = Spool.init(info: ["id":spoolId as AnyObject])
+        //        scannedSpools.append(spool)
+        //        self.tableView.reloadData()
     }
     
     func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didError error: Error,
                               from connection: AVCaptureConnection) {
         self.setScanCode(data: nil)
     }
-
+    
 }

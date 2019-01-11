@@ -143,19 +143,19 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             }
             return cell!
         }
-        if self.role == 1 && self.spool?.state == WeldState.fitting {
+        if self.role == 1 && self.spool?.state == WeldState.fitting && self.spool?.status != "On Hold" {
             cell?.enable(enable: true)
-        } else if self.role == 2 && self.spool?.state == WeldState.welding {
+        } else if self.role == 2 && self.spool?.state == WeldState.welding && self.spool?.status != "On Hold" {
             cell?.enable(enable: true)
         } 
-        else if self.role == 4 && self.spool?.state == WeldState.qa {
+        else if self.role == 4 && self.spool?.state == WeldState.qa && self.spool?.status != "On Hold" {
             cell?.enable(enable: true)
         }
         else {
             cell?.enable(enable: false)
         }
         
-        if indexPath.row == self.menuItems.count - 1 || self.role == 3 {
+        if indexPath.row == self.menuItems.count - 1 || self.role == 3 && self.spool?.status != "On Hold" {
             cell?.enable(enable: true)
         }
         
