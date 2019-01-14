@@ -37,7 +37,8 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         saveBtn.isEnabled = scannedSpools.count > 0 || self.load!.materials.count > 0 ? true : false
-        self.truckNumberTF.text = load?.truckNumber
+        
+        self.truckNumberTF.text = (load?.truckNumber != nil) ? load?.truckNumber : UserDefaults.standard.value(forKey: "truck_number") as? String
     }
     
     override func didReceiveMemoryWarning() {
@@ -76,6 +77,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                                             DispatchQueue.main.async {
                                                 MBProgressHUD.hideHud(view: self.view)
                                                 self.load!.saveLoad(loadInfo: responseData)
+                                                self.truckNumberTF.text = self.load?.truckNumber
                                                 self.tableView.reloadData()
                                             }
         }) { (error) in
@@ -85,6 +87,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     @IBAction override func moreAction(_ sender: Any) {
+        UserDefaults.standard.set(truckNumberTF.text, forKey: "truck_number")
         let miscClosure: () -> Void = {
             self.performSegue(withIdentifier: "showMiscSegue", sender: self)
         }

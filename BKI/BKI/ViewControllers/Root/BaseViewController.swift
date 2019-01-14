@@ -47,6 +47,7 @@ class BaseViewController: UIViewController {
     }
 
     @objc func backButtonAction(sender:AnyObject?) {
+        UserDefaults.standard.removeObject(forKey: "truck_number")
         self.navigationController?.popViewController(animated: true)
     }
     
