@@ -88,6 +88,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     
     @IBAction override func moreAction(_ sender: Any) {
         UserDefaults.standard.set(truckNumberTF.text, forKey: "truck_number")
+        var shouldSubmit = false
         let miscClosure: () -> Void = {
             self.performSegue(withIdentifier: "showMiscSegue", sender: self)
         }
@@ -97,10 +98,14 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         let cancelClosure: () -> Void = {
             
         }
-        let buttonTitles = scannedSpools.count > 0 || self.load!.materials.count > 0 ? ["Cancel","Miscellaneous","Submit"] :  ["Cancel","Miscellaneous"]
+//        let buttonTitles = scannedSpools.count > 0 || self.load!.materials.count > 0 ? ["Cancel","Miscellaneous","Submit"] :  ["Cancel","Miscellaneous"]
+        let buttonTitles = ["Cancel","Miscellaneous","Submit"]
+        if scannedSpools.count > 0 || self.load!.materials.count > 0  {
+            shouldSubmit = true
+        }
         self.alertVC.presentActionSheetWithActionsAndTitle(actions:
             [cancelClosure,miscClosure,submitClosure], buttonTitles:
-            buttonTitles, controller: self, title: "Choose Option")
+            buttonTitles, controller: self, title: "Choose Option", shouldSubmit: shouldSubmit)
         return
     }
     
@@ -181,7 +186,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                                                             v.tableView.reloadData()
                                                         }
                                                     }
-                                                    
+                                                UserDefaults.standard.removeObject(forKey: "truck_number")
                                                     self.navigationController?.popViewController(animated: true)
                                                 }
                                                 self.alertVC.presentAlertWithTitleAndActions(actions: [okClosure],
@@ -278,6 +283,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                 let spool  = Spool.init(info: responseData)
                 if spool.status == "On Hold" {
                     self.showFailureAlert(with: "The Spool is on hold and hence no operation can be performed on it.")
+                    return
                 } else if (self.role == 3 && spool.state != WeldState.readyToShip) {
                     self.showFailureAlert(with: "You can access spools which are in state of ready to ship.")
                     return

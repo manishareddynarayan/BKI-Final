@@ -73,7 +73,7 @@ class RBAAlertController: NSObject {
             self.rbaAlert.addTextField(configurationHandler: { (textField) -> Void in
                 
             })
-            self.addButtons(withTitle: buttonTitles, withActions: actions)
+            self.addButtons(withTitle: buttonTitles, withActions: actions, shouldSubmit: nil)
             self.presentController.present(self.rbaAlert, animated: true, completion: nil)
         }
     }
@@ -81,21 +81,21 @@ class RBAAlertController: NSObject {
     func presentAlertWithActions(actions:[()->()]?, buttonTitles:[String], controller:UIViewController, message:String) -> Void {
         DispatchQueue.main.async() {
             self.initAlertController(message: message, controller: controller)
-            self.addButtons(withTitle: buttonTitles, withActions: actions)
+            self.addButtons(withTitle: buttonTitles, withActions: actions, shouldSubmit: nil)
             self.presentController.present(self.rbaAlert, animated: true, completion: nil)
         }
     }
     
-    func presentActionSheetWithActionsAndTitle(actions:[()->()]?, buttonTitles:[String], controller:UIViewController, title:String) -> Void {
+    func presentActionSheetWithActionsAndTitle(actions:[()->()]?, buttonTitles:[String], controller:UIViewController, title:String, shouldSubmit: Bool) -> Void {
         DispatchQueue.main.async() {
             self.presentController = controller
             self.rbaAlert = UIAlertController (title: title, message: "", preferredStyle: .actionSheet)
-            self.addButtons(withTitle: buttonTitles, withActions: actions)
+            self.addButtons(withTitle: buttonTitles, withActions: actions, shouldSubmit: shouldSubmit)
             self.presentController.present(self.rbaAlert, animated: true, completion: nil)
         }
     }
     
-    func addButtons(withTitle buttonTitles:[String], withActions actions:[()->()]?) -> Void {
+    func addButtons(withTitle buttonTitles:[String], withActions actions:[()->()]?, shouldSubmit: Bool?) -> Void {
         for (idx,title) in buttonTitles.enumerated()
         {
             if idx == 0 {
@@ -106,12 +106,22 @@ class RBAAlertController: NSObject {
                 self.rbaAlert.addAction(buttonAction)
                 
             }
-            else {
+            else if idx == 2 && title == "Submit" {
                 let buttonAction = UIAlertAction (title: title, style: .default, handler: {(action: UIAlertAction!) in
                     let action = actions?[idx]
                     action!()
                 })
+                if !shouldSubmit! {
+                buttonAction.isEnabled = false
+                buttonAction.setValue(UIColor.red, forKey: "titleTextColor")
+                }
                 self.rbaAlert.addAction(buttonAction)
+            } else {
+                    let buttonAction = UIAlertAction (title: title, style: .default, handler: {(action: UIAlertAction!) in
+                        let action = actions?[idx]
+                        action!()
+                    })
+                    self.rbaAlert.addAction(buttonAction)
             }
         }
     }
@@ -120,7 +130,7 @@ class RBAAlertController: NSObject {
         
         DispatchQueue.main.async() {
             self.initAlertControllerWithTitle(title: title, message: message, controller: controller)
-            self.addButtons(withTitle: buttonTitles, withActions: actions)
+            self.addButtons(withTitle: buttonTitles, withActions: actions, shouldSubmit: nil)
             self.presentController.present(self.rbaAlert, animated: true, completion: nil)
         }
         
