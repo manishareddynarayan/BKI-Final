@@ -36,7 +36,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        saveBtn.isEnabled = scannedSpools.count > 0 || self.load!.materials.count > 0 ? true : false
+        saveBtn.isEnabled = scannedSpools.count > 0 || self.load!.materials.count > 0 || (self.load?.spools.count) != 0 ? true : false
         
         self.truckNumberTF.text = (load?.truckNumber != nil) ? load?.truckNumber : UserDefaults.standard.value(forKey: "truck_number") as? String
     }
@@ -100,7 +100,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         }
 //        let buttonTitles = scannedSpools.count > 0 || self.load!.materials.count > 0 ? ["Cancel","Miscellaneous","Submit"] :  ["Cancel","Miscellaneous"]
         let buttonTitles = ["Cancel","Miscellaneous","Submit"]
-        if scannedSpools.count > 0 || self.load!.materials.count > 0  {
+        if scannedSpools.count > 0 || self.load!.materials.count > 0 ||  (load?.spools.count) != 0 {
             shouldSubmit = true
         }
         self.alertVC.presentActionSheetWithActionsAndTitle(actions:
@@ -290,7 +290,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                 }
                 self.scannedSpools.append(spool)
                 BKIModel.setSpoolNumebr(number: self.spool?.code!)
-                self.saveBtn.isEnabled = self.scannedSpools.count > 0 || self.load!.materials.count > 0 ? true : false
+                self.saveBtn.isEnabled = self.scannedSpools.count > 0 || self.load!.materials.count > 0 || (self.load?.spools.count) != 0 ? true : false
                 self.tableView.reloadData()
             }
         }) { (error) in
