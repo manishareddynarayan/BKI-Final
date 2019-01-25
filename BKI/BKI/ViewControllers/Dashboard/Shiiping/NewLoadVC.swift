@@ -78,6 +78,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                                                 MBProgressHUD.hideHud(view: self.view)
                                                 self.load!.saveLoad(loadInfo: responseData)
                                                 self.truckNumberTF.text = self.load?.truckNumber
+                                                self.saveBtn.isEnabled = self.scannedSpools.count > 0 || self.load!.materials.count > 0 || (self.load?.spools.count) != 0 ? true : false
                                                 self.tableView.reloadData()
                                             }
         }) { (error) in
