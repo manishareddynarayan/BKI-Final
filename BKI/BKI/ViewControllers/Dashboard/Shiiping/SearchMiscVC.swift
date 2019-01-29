@@ -121,7 +121,7 @@ class SearchMiscVC: BaseViewController, UITextFieldDelegate, UITableViewDelegate
     range: NSRange, replacementString string: String) -> Bool {
         
         let searchStr = textField.text! + string
-        if searchStr.count > 3 {
+        if searchStr.count > 0 {
             self.searchForMaterial(text: searchStr)
         }
         return true
