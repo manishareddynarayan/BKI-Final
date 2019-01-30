@@ -100,7 +100,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             
         }
 //        let buttonTitles = scannedSpools.count > 0 || self.load!.materials.count > 0 ? ["Cancel","Miscellaneous","Submit"] :  ["Cancel","Miscellaneous"]
-        let buttonTitles = ["Cancel","Miscellaneous","Submit"]
+        let buttonTitles = ["Cancel","Add Misc Material","Submit"]
         if scannedSpools.count > 0 || self.load!.materials.count > 0 ||  (load?.spools.count) != 0 {
             shouldSubmit = true
         }
