@@ -125,7 +125,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let numberOnly = NSCharacterSet.init(charactersIn: "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-")
+        let numberOnly = NSCharacterSet.init(charactersIn: "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-_.")
         let stringFromTextField = NSCharacterSet.init(charactersIn: string)
         let strValid = numberOnly.isSuperset(of: stringFromTextField as CharacterSet)
         return strValid
