@@ -92,6 +92,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                             print(response)
                             let status = response["current_state"] as! String
                             self.showFailureAlert(with: "Sorry! You cannot access this Spool as it is in \((status)) stage")
+                            self.spool = nil
                             self.tableView.reloadData()
                         }
                     }, failBlock: { (error) in

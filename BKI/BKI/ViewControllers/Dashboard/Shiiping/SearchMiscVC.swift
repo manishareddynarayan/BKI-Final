@@ -119,9 +119,9 @@ class SearchMiscVC: BaseViewController, UITextFieldDelegate, UITableViewDelegate
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn
     range: NSRange, replacementString string: String) -> Bool {
-        
-        let searchStr = textField.text! + string
+        var searchStr = textField.text! + string
         if searchStr.count > 0 {
+            searchStr = string.count == 0 ? String(searchStr.dropLast()) : searchStr
             self.searchForMaterial(text: searchStr)
         }
         return true

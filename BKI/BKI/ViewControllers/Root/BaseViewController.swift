@@ -146,7 +146,7 @@ extension UIViewController {
                         weld?.saveWeld(weldInfo: weldInfo)
                     }
                     MBProgressHUD.hideHud(view: self.view)
-                    self.navigationController?.popViewController(animated: true)
+//                    self.navigationController?.popViewController(animated: true)
                     let previousVC = self.navigationController?.viewControllers.last as? DashBoardVC
                     previousVC?.shouldChangeState = true
                 }

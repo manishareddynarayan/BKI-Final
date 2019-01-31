@@ -53,7 +53,8 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
             DispatchQueue.main.async {
                 print(responseData)
                 MBProgressHUD.hideHud(view: self.view)
-                self.alertVC.presentAlertWithTitleAndMessage(title: "Success", message: "Heat numbers are updated.", controller: self)
+//                self.alertVC.presentAlertWithTitleAndMessage(title: "Success", message: "Heat numbers are updated.", controller: self)
+                self.navigationController?.popViewController(animated: true)
                 self.tableView.reloadData()
             }
         }) { (error) in

@@ -228,7 +228,7 @@ extension String
     }
     
     func containsSpecialCharacters() ->Bool {
-        let regex = try! NSRegularExpression(pattern: ".*[^A-Za-z0-9].*", options: NSRegularExpression.Options())
+        let regex = try! NSRegularExpression(pattern: ".*[^A-Za-z0-9._-].*", options: NSRegularExpression.Options())
         if regex.firstMatch(in: self, options: NSRegularExpression.MatchingOptions(), range:NSMakeRange(0, self.count)) != nil {
             print("could not handle special characters")
             return true
