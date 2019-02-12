@@ -14,16 +14,24 @@ class SearchMiscVC: BaseViewController, UITextFieldDelegate, UITableViewDelegate
     var material = Material()
     var materialsArr = [Material]()
     @IBOutlet weak var searchTF: AUTextField!
-  
+    var load = Load()
+    var text:String!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.searchTF.textAlignment = .left
         self.searchTF.textColor = UIColor.white
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "materialCell")
-        
+        searchTF.text = text
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
 
         // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        searchTF.resignFirstResponder()
+        self.hideNavigationController()
+        let title = load.number != nil ? "Load Number " + self.load.number! : "New load"
+        self.navigationItem.title = title
+
     }
 
     override func didReceiveMemoryWarning() {

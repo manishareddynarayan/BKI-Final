@@ -118,7 +118,7 @@ class BKIModel: NSObject {
                 status = "qa"
                 break;
             case .verified:
-                status = "verified"
+                status = "approved"
                 break;
             case .complete:
                 status = "approved"

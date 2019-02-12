@@ -9,11 +9,11 @@
 import UIKit
 
 class MiscCell: BaseCell, UITextFieldDelegate, TextInputDelegate {
-    @IBOutlet weak var qtyLbl: UILabel!
+    @IBOutlet weak var descLbl: UILabel!
     @IBOutlet weak var qtyTF: AUTextField!
     @IBOutlet weak var decTF: AUTextField!
     @IBOutlet weak var weightTF: AUTextField!
-    
+    @IBOutlet weak var descTF: AUTextField!
     var quantityCompletedBlock:((_ text:String) -> Void)?
     var weightCompletedBlock:((_ text:String) -> Void)?
 
@@ -34,14 +34,14 @@ class MiscCell: BaseCell, UITextFieldDelegate, TextInputDelegate {
     }
     
     func configureCell(material:Material) {
-        self.qtyTF.tag = self.indexPath.row
+        self.qtyTF.tag = self.indexPath.row + 1
         self.weightTF.tag = self.indexPath.row + 2
         self.qtyTF.text = material.quantity != 0 ? "\(material.quantity)" : ""
         self.weightTF.text = material.weight != 0 ? "\(material.weight)" : ""
-        self.decTF.text = material.desc
-        self.decTF.tag = self.indexPath.row + 1
-        self.decTF.designToolBarWithNext(isNext: true, withPrev: false, delegate: self)
-        self.qtyTF.designToolBarWithNext(isNext: true, withPrev: true, delegate: self)
+        self.descLbl.text = material.desc
+//        self.decTF.tag = self.indexPath.row + 1
+//        self.decTF.designToolBarWithNext(isNext: true, withPrev: false, delegate: self)
+        self.qtyTF.designToolBarWithNext(isNext: true, withPrev: false, delegate: self)
         self.weightTF.designToolBarWithNext(isNext: false, withPrev: true, delegate: self)
     }
     
@@ -49,7 +49,7 @@ class MiscCell: BaseCell, UITextFieldDelegate, TextInputDelegate {
         if textField == qtyTF || textField == weightTF {
             return true
         }
-        self.descEnterBlock!()
+//        self.descEnterBlock!()
         return false
     }
     

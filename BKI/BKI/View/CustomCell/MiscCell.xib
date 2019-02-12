@@ -19,20 +19,6 @@
                 <rect key="frame" x="0.0" y="0.0" width="322" height="67.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Description" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FtG-56-MQ1" customClass="AUTextField" customModule="BKI" customModuleProvider="target">
-                        <rect key="frame" x="16" y="25.5" width="127" height="17"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="127" id="3W1-cR-1aY"/>
-                            <constraint firstAttribute="height" constant="17" id="Ova-az-rbX"/>
-                        </constraints>
-                        <nil key="textColor"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <textInputTraits key="textInputTraits"/>
-                        <connections>
-                            <outlet property="delegate" destination="KGk-i7-Jjw" id="QJg-Yl-uHc"/>
-                        </connections>
-                    </textField>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Quantity" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jeK-sc-AXv" customClass="AUTextField" customModule="BKI" customModuleProvider="target">
                         <rect key="frame" x="163" y="25.5" width="50" height="17"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -66,22 +52,31 @@
                             <outlet property="delegate" destination="KGk-i7-Jjw" id="dBe-bJ-hG2"/>
                         </connections>
                     </textField>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="75B-id-cNa">
+                        <rect key="frame" x="16" y="25.5" width="127" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="127" id="v6V-qo-JpT"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="mZy-qI-Ymp" firstAttribute="leading" secondItem="jeK-sc-AXv" secondAttribute="trailing" constant="10" id="6OO-1D-YLH"/>
                     <constraint firstItem="jeK-sc-AXv" firstAttribute="width" secondItem="mZy-qI-Ymp" secondAttribute="width" id="HOa-7l-hM7"/>
                     <constraint firstItem="mBF-yn-ECX" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" constant="10" id="ITP-Rn-8V4"/>
                     <constraint firstItem="mBF-yn-ECX" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="IsH-yg-TSu"/>
-                    <constraint firstItem="FtG-56-MQ1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="VrQ-kM-KF1"/>
+                    <constraint firstItem="75B-id-cNa" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="f38-9B-BPe"/>
                     <constraint firstItem="jeK-sc-AXv" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="f7l-VT-r7I"/>
-                    <constraint firstItem="jeK-sc-AXv" firstAttribute="leading" secondItem="FtG-56-MQ1" secondAttribute="trailing" constant="20" id="hqA-5y-7VT"/>
-                    <constraint firstItem="FtG-56-MQ1" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="iUr-Zs-ieA"/>
+                    <constraint firstItem="jeK-sc-AXv" firstAttribute="leading" secondItem="75B-id-cNa" secondAttribute="trailing" constant="20" id="qRd-KP-PSa"/>
                     <constraint firstItem="mZy-qI-Ymp" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="s7y-DR-wUc"/>
+                    <constraint firstItem="75B-id-cNa" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="yqG-NR-3kQ"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="decTF" destination="FtG-56-MQ1" id="xfY-2m-faU"/>
+                <outlet property="descLbl" destination="75B-id-cNa" id="Kpz-Lj-93H"/>
                 <outlet property="qtyTF" destination="jeK-sc-AXv" id="oqZ-X1-OuF"/>
                 <outlet property="weightTF" destination="mZy-qI-Ymp" id="KEi-Yr-eh6"/>
             </connections>

@@ -8,19 +8,33 @@
 
 import UIKit
 
-class LoadMiscTVC: BaseTableViewController, TextInputDelegate {
+class LoadMiscTVC: BaseTableViewController, TextInputDelegate ,UITextFieldDelegate{
 
     var load = Load()
+    var material = Material()
+    var materialsArr = [Material]()
+    var text:String!
+
     @IBOutlet var saveBtn: UIBarButtonItem!
-    
+    @IBOutlet weak var searchTF: AUTextField!
+    var isSearchMisc = true
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        if load.materials.count == 0 {
+            self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "materialCell")
+            searchTF.text = text
+        } else {
+            isSearchMisc = false
+            self.tableView.register(UINib(nibName: "MiscCell", bundle: nil), forCellReuseIdentifier: "miscCell")
+        }
+        self.searchTF.textAlignment = .left
+        self.searchTF.textColor = UIColor.white
         self.tableView.register(UINib(nibName: "MiscCell", bundle: nil), forCellReuseIdentifier: "miscCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         self.hideNavigationController()
         let title = load.number != nil ? "Load Number " + self.load.number! : "New load"
         self.navigationItem.title = title
+        searchTF.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -36,10 +50,29 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        if isSearchMisc {
+            if (searchTF.text?.count)! > 0 && self.materialsArr.count == 0 {
+                return 1
+            }
+            return self.materialsArr.count > 0 ? self.materialsArr.count : 0
+        }
         return load.materials.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if isSearchMisc {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "materialCell")
+            
+            if indexPath.row == 0 && (searchTF.text?.count)! > 0 && self.materialsArr.count == 0 {
+                cell?.textLabel?.text = "+ Add '\((searchTF?.text!)!)'"
+                cell?.textLabel?.textColor = UIColor.brickRed
+            } else {
+                let material = self.materialsArr[indexPath.row]
+                cell?.textLabel?.text = material.desc
+                cell?.textLabel?.textColor = UIColor.black
+            }
+            return cell!
+        } else {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "miscCell", for: indexPath) as? MiscCell
         
@@ -47,15 +80,16 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate {
         let material = load.materials[indexPath.row]
         cell?.configureCell(material: material)
         cell?.qtyTF.formDelegate = self
-        cell?.decTF.formDelegate = self
+//        cell?.decTF.formDelegate = self
         cell?.weightTF.formDelegate = self
-        cell?.descEnterBlock = {
-            let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "searchMiscVC", storyBoard: "Main") as? SearchMiscVC
-            vc?.material = material
-            self.present(vc!, animated: true, completion: {
-                
-            })
-        }
+//        cell?.descLbl.text = Weld.description()
+//        cell?.descEnterBlock = {
+//            let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "searchMiscVC", storyBoard: "Main") as? SearchMiscVC
+//            vc?.material = material
+//            self.present(vc!, animated: true, completiosn: {
+//
+//            })
+//        }
         cell?.quantityCompletedBlock = { (text)  in
             if (text.count) > 0 {
                 material.quantity = Int(text)!
@@ -103,10 +137,52 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate {
                 self.showFailureAlert(with: (error?.localizedDescription)!)
             }
         }
-
-        return cell!
+            return cell!
+        }
     }
  
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        searchTF.resignFirstResponder()
+        if isSearchMisc {
+        tableView.deselectRow(at: indexPath, animated: false)
+        if indexPath.row == 0 && (searchTF.text?.count)! > 0 && self.materialsArr.count == 0 {
+            self.material.desc = searchTF.text!
+            createMaterial(materialDesc: searchTF.text!, indexPath: indexPath)
+        } else {
+            let material = self.materialsArr[indexPath.row]
+            self.material.miscellaneousMaterialId = material.miscellaneousMaterialId
+            self.material.desc = material.desc
+            self.load.materials.append(material)
+            isSearchMisc = false
+            self.tableView.reloadData()
+        }
+            searchTF.text = ""
+        }
+    }
+    
+    func createMaterial(materialDesc:String,indexPath:IndexPath) {
+        var material:[String:AnyObject] = [String:AnyObject]()
+        material["material"] = materialDesc as AnyObject
+        HTTPWrapper.sharedInstance.performAPIRequest("miscellaneous_materials",
+                                      methodType: "POST", parameters: material, successBlock: { (responseData) in
+                                        DispatchQueue.main.async {
+                                            print(responseData)
+                                            self.materialsArr.removeAll()
+                                            let material = Material.init(info: responseData)
+                                            self.materialsArr.append(material)
+                                            let newMaterial = self.materialsArr[indexPath.row]
+                                            self.material.miscellaneousMaterialId = newMaterial.miscellaneousMaterialId
+                                            self.material.desc = newMaterial.desc
+                                            self.isSearchMisc = false
+                                            self.load.materials.append(newMaterial)
+                                            self.tableView.reloadData()
+                                        }
+        }) { (error) in
+            self.showFailureAlert(with: (error?.localizedDescription)!)
+        }
+    }
+
+
     @IBAction func addnewMaterialAction(_ sender: Any) {
         let newMaterial = Material.init()
         self.load.materials.append(newMaterial)
@@ -120,13 +196,38 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate {
         let cell = self.tableView.cellForRow(at: indexPath) as? MiscCell
         textField.resignFirstResponder()
         if next {
-            let material = self.load.materials[indexPath.row]
-            material.quantity = Int(textField.text!)!
-            cell?.decTF.becomeFirstResponder()
+//            let material = self.load.materials[indexPath.row]
+//            material.quantity = Int(textField.text!)!
+            cell?.weightTF.becomeFirstResponder()
         }
         else {
             cell?.qtyTF.becomeFirstResponder()
         }
+    }
+    
+    func searchForMaterial(text:String) {
+        HTTPWrapper.sharedInstance.performAPIRequest("miscellaneous_materials/search?q=\(text)",
+            methodType: "GET", parameters: nil, successBlock: { (responseData) in
+                DispatchQueue.main.async {
+                    self.materialsArr.removeAll()
+                    let materials = responseData["results"] as? [[String:AnyObject]]
+                    for mat in materials! {
+                        let material = Material.init(info: mat)
+                        self.materialsArr.append(material)
+                    }
+                    self.tableView.reloadData()
+                }
+        }) { (error) in
+            self.showFailureAlert(with: (error?.localizedDescription)!)
+        }
+    }
+
+    @IBAction func removeSearch(_ sender: Any) {
+        isSearchMisc = false
+        searchTF.text = ""
+        self.tableView.register(UINib(nibName: "MiscCell", bundle: nil), forCellReuseIdentifier: "miscCell")
+
+        tableView.reloadData()
     }
     
     //MARK: TextInput Delegate
@@ -141,6 +242,44 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate {
     func textFieldDidPressedDoneButton(_ textField: AUSessionField) {
         textField.resignFirstResponder()
     }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn
+        range: NSRange, replacementString string: String) -> Bool {
+        if textField == searchTF {
+            self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "materialCell")
+//            searchTF.text = text
+            isSearchMisc = true
+            var searchStr = textField.text! + string
+            if searchStr.count > 0 {
+                searchStr = string.count == 0 ? String(searchStr.dropLast()) : searchStr
+                self.searchForMaterial(text: searchStr)
+            }
+            return true
+        }
+        isSearchMisc = false
+//        let storyboard : UIStoryboard = UIStoryboard(name: "searchNavigationController", bundle: nil)
+//
+//        let vc = storyboard.instantiateViewController(withIdentifier: "searchMiscVC") as? SearchMiscVC
+//        let navigationController = UINavigationController(rootViewController: vc!)
+//
+//        self.present(navigationController, animated: true, completion: nil)
+
+//        self.performSegue(withIdentifier: "showSearchMiscSegue", sender: self)
+
+//        let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "searchMiscVC", storyBoard: "Main") as? SearchMiscVC
+//        vc?.load = self.load
+////        vc?.material = matmerial
+////        vc?.text =
+//        self.present(vc!, animated: false, completion: {
+//
+//        })
+        return true
+    }
     
-    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        // Get the new view controller using segue.destinationViewController.
+//        // Pass the selected object to the new view controller.
+//
+//        let searchMiscVC = segue.destination as? SearchMiscVC
+//        searchMiscVC?.load = self.load
+//    }
 }

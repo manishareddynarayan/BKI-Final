@@ -144,6 +144,7 @@ extension UIViewController {
                             return weld.id == weldInfo["id"] as? Int
                         }).first
                         weld?.saveWeld(weldInfo: weldInfo)
+                        weld?.isChecked = false
                     }
                     MBProgressHUD.hideHud(view: self.view)
 //                    self.navigationController?.popViewController(animated: true)
@@ -186,7 +187,7 @@ class BaseTableViewController: UITableViewController {
         if let vc  = self as? LoadMiscTVC {
             if vc.load.materials.count > 0 {
                 for mat in vc.load.materials {
-                    if mat.desc.count == 0 || mat.quantity <= 0 {
+                    if mat.desc?.count == 0 || mat.quantity <= 0 {
                         self.showFailureAlert(with: "Please fill quantity and description for all materials.")
                         return
                     }

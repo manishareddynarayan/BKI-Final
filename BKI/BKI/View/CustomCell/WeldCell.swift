@@ -17,7 +17,7 @@ class WeldCell: UITableViewCell, UITextFieldDelegate, UIPickerViewDataSource,UIP
     var statusChangeddBlock:(() -> Void)?
 
     @IBOutlet weak var statusTF: AUTextField!
-    let arr = [["Type":"Rolled","Value":1],["Type":"Position","Value":2],["Type":"Orbital","Value":3]]
+    let arr = [["Type":"Select","Value":0],["Type":"Rolled","Value":1],["Type":"Position","Value":2],["Type":"Orbital","Value":3]]
    
     override func awakeFromNib() {
         super.awakeFromNib()

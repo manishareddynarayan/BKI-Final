@@ -32,7 +32,8 @@ class InspectionCell: BaseCell {
         let state = weld.getWeldState(state: weld.state!).capitalized
         self.statusLbl.text = state
         self.statusLbl.isHidden = false
-        if state == "Verified" {
+        if state == "Approved" {
+            weld.isChecked = true
             self.statusLbl.textColor = UIColor.muddyGreen
         } else if state == "Reject" {
             self.statusLbl.textColor = UIColor.scarlet

@@ -11,7 +11,7 @@ import UIKit
 class Material: BKIModel {
 
     var quantity = 0
-    var desc = ""
+    var desc:String?
     var miscellaneousMaterialId:Int?
     var weight = 0.0
     
