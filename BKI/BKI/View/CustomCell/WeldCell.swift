@@ -60,7 +60,7 @@ class WeldCell: UITableViewCell, UITextFieldDelegate, UIPickerViewDataSource,UIP
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        statusTF.text = "Rolled"
+        statusTF.text = arr[0]["Type"] as? String
         let statusDict = arr[row]
         return statusDict["Type"] as? String
     }
