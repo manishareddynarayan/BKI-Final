@@ -17,7 +17,7 @@ class WeldCell: UITableViewCell, UITextFieldDelegate, UIPickerViewDataSource,UIP
     var statusChangeddBlock:(() -> Void)?
 
     @IBOutlet weak var statusTF: AUTextField!
-    let arr = [["Type":"Select","Value":0],["Type":"Rolled","Value":1],["Type":"Position","Value":2],["Type":"Orbital","Value":3]]
+    let arr = [["Type":"Rolled","Value":1],["Type":"Position","Value":2],["Type":"Orbital","Value":3]]
    
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -60,6 +60,7 @@ class WeldCell: UITableViewCell, UITextFieldDelegate, UIPickerViewDataSource,UIP
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        statusTF.text = arr[0]["Type"] as? String
         let statusDict = arr[row]
         return statusDict["Type"] as? String
     }
