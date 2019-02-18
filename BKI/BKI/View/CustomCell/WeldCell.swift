@@ -60,6 +60,7 @@ class WeldCell: UITableViewCell, UITextFieldDelegate, UIPickerViewDataSource,UIP
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        self.completeBtn.isEnabled = true
         statusTF.text = arr[0]["Type"] as? String
         self.statusChangeddBlock!()
         let statusDict = arr[row]

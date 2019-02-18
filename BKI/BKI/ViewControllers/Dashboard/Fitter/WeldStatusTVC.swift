@@ -87,6 +87,7 @@ class WeldStatusTVC: BaseTableViewController, UIPickerViewDelegate, UIPickerView
             cell?.completeBtn.setTitle(weld?.state == WeldState.fitting ? "Mark Complete" : "Completed", for: .normal)
             cell?.completeBtn.isUserInteractionEnabled = weld?.state == WeldState.fitting ? true : false
         } else if self.role == 2 {
+            cell?.completeBtn.isEnabled = false
             cell?.completeBtn.setTitle(weld?.state == WeldState.welding ? "Complete" : "Completed", for: .normal)
             let enable = weld?.state == WeldState.welding ? true : false
             cell?.completeBtn.isUserInteractionEnabled = enable
