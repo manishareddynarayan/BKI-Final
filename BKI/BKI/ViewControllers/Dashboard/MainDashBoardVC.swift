@@ -37,7 +37,7 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
     }
     
     @IBAction func logoutAction(_ sender: Any) {
-        self.loogoutUser()
+        self.logoutUser()
     }
     
     // MARK: - Navigation
@@ -50,11 +50,7 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
                 
                 return
             }
-            if BKIModel.userRole() == "qa" {
-                vc.role = 4
-            } else {
-                vc.role = ((sender as? IndexPath)?.row)! + 1
-            }
+            vc.role = BKIModel.userRole() == "qa" ?  4 : ((sender as? IndexPath)?.row)! + 1
         }
     }
  

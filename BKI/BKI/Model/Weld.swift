@@ -17,7 +17,8 @@ class Weld: BKIModel {
     var weldSpec:String?
     var weldMethod:String?
     var isChecked = false
-    var canceledReason:String?
+    var qARejectReason:String?
+    var welderRejectReason:String?
     override init () {
         // uncomment this line if your class has been inherited from any other class
         super.init()
@@ -50,6 +51,12 @@ class Weld: BKIModel {
         }
         if let state = weldInfo["state"] as? String {
             self.setModelState(state: state)
+        }
+        if let welder_Reject_Reason = weldInfo["welding_reject_reason"] as? String {
+            self.welderRejectReason = welder_Reject_Reason
+        }
+        if let qa_reject_reason = weldInfo["qa_reject_reason"] as? String {
+            self.qARejectReason = qa_reject_reason
         }
     }
 }

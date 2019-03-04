@@ -21,7 +21,7 @@ class BaseViewController: UIViewController {
     var role:Int!
     var scanCode:String?
     var spool:Spool?
-  
+    var shouldRejectWholeSpool = false
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -72,7 +72,7 @@ class BaseViewController: UIViewController {
         self.navigationController?.popToRootViewController(animated: true)
     }
     
-    func loogoutUser() {
+    func logoutUser() {
         let cancelClosure: () -> Void = {
             
         }
@@ -90,6 +90,79 @@ class BaseViewController: UIViewController {
         guard let vc = scanNVC.viewControllers[0] as? ScannerViewController else { return }
         vc.delegate = self as? ScannerDelegate
         self.present(scanNVC, animated: true, completion: nil)
+    }
+    
+    func rejectWelds() {
+        let submitClosure: () -> Void = {
+            let tf = self.alertVC.rbaAlert.textFields?.first
+            if (tf?.text?.count)! > 0 {
+                (self.spool?.welds.count)! > 0 ? self.updateWeldsWith("reject", rejectReason: tf?.text!, isSpoolUpdate:false) : self.updateWeldsWith("rejected", rejectReason:nil, isSpoolUpdate:true)
+            } else {
+                self.alertVC.presentAlertWithTitleAndMessage(title: "Error", message: "Please enter reason for rejection.", controller: self)
+            }
+        }
+        let cancelClosure: () -> Void = {
+            //self.navigationController?.popViewController(animated: true)
+        }
+        self.alertVC.presentAlertWithInputField(actions: [cancelClosure,submitClosure], buttonTitles: ["Cancel","Submit"], controller: self, message: "A message should be a short, complete sentence.")
+    }
+    
+    func getSelectedWeldIds() -> [Int] {
+        let weldIds = self.spool?.welds.filter({ (weld) -> Bool in
+            return weld.isChecked
+        }).map({ (weld) -> Int in
+            weld.id!
+        })
+        return weldIds!
+    }
+    
+    func getAllWeldIds() -> [Int] {
+        var weldIds:[Int] = []
+        if (self.spool?.welds.count)! > 0 {
+            for weld in (self.spool?.welds)! {
+                weldIds.append(weld.id!)
+            }
+        }
+        return weldIds
+    }
+    
+    func resetWeldStatus() {
+        for weld in (self.spool?.welds)! {
+            weld.isChecked = false
+        }
+    }
+    
+    func showActionButtons(approveBtn:UIButton,rejectBtn:UIButton) {
+        let isHidden = self.getSelectedWeldIds().count > 0 ? false : true
+        if isHidden {
+            approveBtn.alpha = 0.5
+            rejectBtn.alpha = 0.5
+        } else {
+            approveBtn.alpha = 1
+            rejectBtn.alpha = 1
+        }
+        approveBtn.isEnabled = !isHidden
+        rejectBtn.isEnabled = !isHidden
+    }
+    
+    func showRejectButton(rejectBtn:UIButton)  {
+        let isHidden = self.getSelectedWeldIds().count > 0 ? false : true
+        if isHidden {
+            rejectBtn.alpha = 0.5
+        } else {
+            rejectBtn.alpha = 1
+        }
+        rejectBtn.isEnabled = !isHidden
+    }
+    
+    func updateWeldsWith(_ status:String, rejectReason:String?, isSpoolUpdate:Bool) {
+        var weldParams = ["event":status] as [String : Any]
+        let weldIds = shouldRejectWholeSpool ? self.getAllWeldIds() : self.getSelectedWeldIds()
+        weldParams["weld_ids"] = weldIds
+        if rejectReason != nil {
+            weldParams["reject_reason"] = rejectReason
+        }
+        self.updateSpoolStateWith(spool: self.spool!, params: weldParams as [String : AnyObject], isSpoolUpdate: isSpoolUpdate)
     }
     
     func textFieldDidPressNextOrPrev(next: Bool, textField: AUSessionField) {
@@ -136,7 +209,6 @@ extension UIViewController {
         }
     HTTPWrapper.sharedInstance.performAPIRequest(endPoint, methodType: "PUT", parameters: body, successBlock: { (responseData) in
             DispatchQueue.main.async {
-                print(responseData)
                 DispatchQueue.main.async {
                     let welds = responseData["welds"] as? [[String:AnyObject]]
                     for weldInfo in welds! {

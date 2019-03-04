@@ -9,18 +9,22 @@
 import UIKit
 
 class WeldCell: UITableViewCell, UITextFieldDelegate, UIPickerViewDataSource,UIPickerViewDelegate {
-
+    @IBOutlet weak var checkBtn: UIButton!
     @IBOutlet weak var nameLbl: UILabel!
-    
+    @IBOutlet weak var commentsBtn: UIButton!
     @IBOutlet weak var completeBtn: UIButton!
     var markAsCompletedBlock:(() -> Void)?
+    var viewComments:(() -> Void)?
     var statusChangeddBlock:(() -> Void)?
+    var isChecked = false
+    var selectionChangedBlock:((_ isChecked:Bool) -> Void)?
 
     @IBOutlet weak var statusTF: AUTextField!
     let arr = [["Type":"Rolled","Value":1],["Type":"Position","Value":2],["Type":"Orbital","Value":3]]
    
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.checkBtn.isHidden = true
         self.statusTF.isHidden = true
         self.statusTF.textAlignment = .left
         self.statusTF.addPickerView(with: self)
@@ -33,13 +37,30 @@ class WeldCell: UITableViewCell, UITextFieldDelegate, UIPickerViewDataSource,UIP
         // Configure the view for the selected state
     }
     
+    @IBAction func onSelectWeld(_ sender: Any) {
+        self.isChecked = !self.isChecked
+        self.setImageForCheckBtn()
+        self.selectionChangedBlock!(self.isChecked)
+    }
+    
+    private func setImageForCheckBtn() {
+        let image = self.isChecked ? "Check" : "unCheck"
+        checkBtn.setImage(UIImage.init(named: image), for: .normal)
+    }
+    
     func configureWeldCell(weld:Weld) {
         self.nameLbl.text = weld.number
         self.statusTF.text = (weld.weldType != nil) ? weld.weldType : ""
+        self.isChecked = weld.isChecked
+        self.setImageForCheckBtn()
     }
     
     @IBAction func markAction(_ sender: Any) {
         self.markAsCompletedBlock!()
+    }
+    
+    @IBAction func viewComments(_ sender: Any) {
+        self.viewComments!()
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
