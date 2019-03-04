@@ -170,7 +170,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             let menu = self.menuItems[indexPath.row]
             guard let vc = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? BaseViewController else {
                 guard let vc1 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? FitterPartTVC else {
-                    guard let vc2 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? WeldStatusTVC else {
+                    guard let vc2 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? WeldStatusVC else {
                         return
                     }
                     vc2.role = self.role

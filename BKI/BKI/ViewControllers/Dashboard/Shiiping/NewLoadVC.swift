@@ -111,7 +111,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     @IBAction func scanAction(_ sender: Any) {
-        
+        UserDefaults.standard.set(truckNumberTF.text, forKey: "truck_number")
         self.showScanner()
     }
     

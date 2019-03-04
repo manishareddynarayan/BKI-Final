@@ -8,16 +8,25 @@
 
 import UIKit
 
-class WeldStatusTVC: BaseTableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-
+class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSource,UITableViewDelegate,UITableViewDataSource {
+    
     var weldsArr = [Weld]()
-    var spool:Spool?
-    let httpWrapper = HTTPWrapper.sharedInstance
-    var role:Int!
-
+    @IBOutlet weak var baseView: UIView!
+    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var rejectOptionsView: UIView!
+    @IBOutlet weak var rejectSpoolBtn: UIButton!
+    @IBOutlet weak var rejectBtn: UIButton!
+    @IBOutlet weak var alertView: UIView!
+    @IBOutlet weak var blurView: UIView!
+    @IBOutlet weak var alertMessageLabel2: UILabel!
+    @IBOutlet weak var alertTitle2: UILabel!
+    @IBOutlet weak var alertMessageLabel1: UILabel!
+    @IBOutlet weak var alertTitle1: UILabel!
+    @IBOutlet weak var alertViewOkBtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         tableView.register(UINib(nibName: "WeldCell", bundle: nil), forCellReuseIdentifier: "weldCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         self.navigationItem.title = "Spool Number " + BKIModel.spoolNumebr()!
@@ -25,6 +34,15 @@ class WeldStatusTVC: BaseTableViewController, UIPickerViewDelegate, UIPickerView
         let frame = (self.spool?.welds.count)! > 0 ? CGRect.zero : self.headerView.frame
         self.headerView.frame = frame
         self.headerView.isHidden = ((self.spool?.welds.count)! > 0)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.bgImageview.isHidden = true
+        self.view.backgroundColor = UIColor.white
+        rejectOptionsView.isHidden = self.role == 1 ? true : false
+        super.viewWillAppear(animated)
+        self.showRejectButton(rejectBtn: rejectBtn)
+        self.resetWeldStatus()
     }
     
     func updateWeldStatus(weld:Weld) {
@@ -45,7 +63,6 @@ class WeldStatusTVC: BaseTableViewController, UIPickerViewDelegate, UIPickerView
             event = "complete"
             break
         }
-        //let params = ["event":event]
         params["event"] = event as AnyObject
         MBProgressHUD.showHud(view: self.view)
         httpWrapper.performAPIRequest("spools/\((self.spool?.id)!)/welds/\((weld.id)!)", methodType: "PUT", parameters: ["weld":params as AnyObject], successBlock: { (responseData) in
@@ -63,33 +80,43 @@ class WeldStatusTVC: BaseTableViewController, UIPickerViewDelegate, UIPickerView
     @IBAction func updateSpoolStatus(_ sender: Any) {
         let event = (self.spool?.state == .fitting) ? "fitted" : "welded"
         let params = ["event":event]
-       // self.updateSpoolStateWith(spool: self.spool!, params: params as [String : AnyObject])
+        // self.updateSpoolStateWith(spool: self.spool!, params: params as [String : AnyObject])
         self.updateSpoolStateWith(spool: self.spool!, params: params as [String : AnyObject], isSpoolUpdate: true)
     }
     
+    @IBAction func rejectSpool(_ sender: Any) {
+        shouldRejectWholeSpool = true
+        rejectWelds()
+    }
+    
+    @IBAction func rejectWelds(_ sender: Any) {
+        shouldRejectWholeSpool = false
+        rejectWelds()
+    }
     // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return (self.spool?.welds.count)!
     }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "weldCell", for: indexPath) as? WeldCell
         let weld = self.spool?.welds[indexPath.row]
         cell?.configureWeldCell(weld: weld!)
+        cell?.checkBtn.isHidden = role == 1 ? true : false
         cell?.statusTF.isHidden = role == 1 ? true : false
-
+        cell?.commentsBtn.isHidden = (weld?.welderRejectReason == nil && weld?.qARejectReason == nil) ? true : false
         if  self.role == 1 {
             cell?.completeBtn.setTitle(weld?.state == WeldState.fitting ? "Mark Complete" : "Completed", for: .normal)
             cell?.completeBtn.isUserInteractionEnabled = weld?.state == WeldState.fitting ? true : false
         } else if self.role == 2 {
-            cell?.completeBtn.isEnabled = false
+            cell?.completeBtn.isEnabled = (cell?.statusTF.text?.count == 0) ? false : true
             cell?.completeBtn.setTitle(weld?.state == WeldState.welding ? "Complete" : "Completed", for: .normal)
-            let enable = weld?.state == WeldState.welding ? true : false
+            let enable = weld?.state == WeldState.welding  ? true : false
             cell?.completeBtn.isUserInteractionEnabled = enable
             cell?.statusTF.isUserInteractionEnabled = enable
         }
@@ -99,16 +126,47 @@ class WeldStatusTVC: BaseTableViewController, UIPickerViewDelegate, UIPickerView
         cell!.statusChangeddBlock = {
             weld?.weldType = cell?.statusTF.text!
         }
+        cell?.viewComments = {
+            if weld?.qARejectReason == nil || weld?.welderRejectReason == nil {
+                let title = weld?.qARejectReason == nil ? "Welder Reason" : "QA Reason"
+                let message = weld?.qARejectReason == nil ? weld?.welderRejectReason : weld?.qARejectReason
+                self.alertVC.presentAlertWithTitleAndMessage(title: title, message: message!, controller: self)
+            } else {
+                self.setUpAlertView(weld: weld!)
+            }
+        }
+        cell?.selectionChangedBlock = { (isChecked) in
+            weld?.isChecked = isChecked
+            tableView.reloadData()
+            self.showRejectButton(rejectBtn: self.rejectBtn)
+        }
         return cell!
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+    func setUpAlertView(weld:Weld) {
+        self.navigationController?.navigationBar.alpha = 0.6
+        self.navigationController?.navigationBar.isUserInteractionEnabled = false
+        self.baseView.isUserInteractionEnabled = false
+        self.blurView.isHidden = false
+        self.blurView.alpha = 0.4
+        self.blurView.isUserInteractionEnabled = false
+        self.alertView.isHidden = false
+        self.alertTitle1.text = "Welder Reason"
+        self.alertTitle2.text = "QA Reason"
+        self.alertMessageLabel1.text = weld.welderRejectReason
+        self.alertMessageLabel2.text = weld.qARejectReason
     }
-
+    
+    @IBAction func okOnClick(_ sender: Any) {
+        alertView.isHidden = true
+        self.baseView.isUserInteractionEnabled = true
+        self.navigationController?.navigationBar.alpha = 1
+        self.navigationController?.navigationBar.isUserInteractionEnabled = true
+        self.blurView.isHidden = true
+    }
 }
 
-extension WeldStatusTVC {
+extension WeldStatusVC {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -121,5 +179,4 @@ extension WeldStatusTVC {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return "dsjh"
     }
-    
 }

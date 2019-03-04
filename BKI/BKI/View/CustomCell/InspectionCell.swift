@@ -33,9 +33,10 @@ class InspectionCell: BaseCell {
         self.statusLbl.text = state
         self.statusLbl.isHidden = false
         if state == "Approved" {
-            weld.isChecked = true
+//            weld.isChecked = true
             self.statusLbl.textColor = UIColor.muddyGreen
-        } else if state == "Reject" {
+        } else if state == "Fitting" {
+            self.statusLbl.text = "Rejected"
             self.statusLbl.textColor = UIColor.scarlet
         }
         else {
@@ -55,5 +56,4 @@ class InspectionCell: BaseCell {
         let image = self.isChecked ? "Check" : "unCheck"
         checkBtn.setImage(UIImage.init(named: image), for: .normal)
     }
-    
 }

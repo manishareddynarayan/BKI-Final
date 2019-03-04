@@ -12,11 +12,7 @@ class RootViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if BKIModel.isUserLoggedIn() {
-            getUserDetails()
-        } else {
-            self.appDelegate?.setupRootViewController()
-        }
+        BKIModel.isUserLoggedIn() ? getUserDetails() : self.appDelegate?.setupRootViewController()
     }
 
     override func didReceiveMemoryWarning() {
