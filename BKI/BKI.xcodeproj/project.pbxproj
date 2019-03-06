@@ -302,7 +302,7 @@
 				4F760A3821785CF800B1931A /* QA */,
 				4FCD149121526B37002B70A9 /* MainDashBoardVC.swift */,
 				4FCD149321526FF8002B70A9 /* DashBoardVC.swift */,
-				4FA551EA2150F74B00EA6F9B /* Shiiping */,
+				4FA551EA2150F74B00EA6F9B /* Shipping */,
 				4FA551E92150F73C00EA6F9B /* Welding */,
 				4FA551E82150F72A00EA6F9B /* Fitter */,
 			);
@@ -327,7 +327,7 @@
 			path = Welding;
 			sourceTree = "<group>";
 		};
-		4FA551EA2150F74B00EA6F9B /* Shiiping */ = {
+		4FA551EA2150F74B00EA6F9B /* Shipping */ = {
 			isa = PBXGroup;
 			children = (
 				4F312B722154FB50003D0358 /* NewLoadVC.swift */,
@@ -335,7 +335,7 @@
 				4FCDEDB4216224C60071E9F6 /* OpenLoadVC.swift */,
 				4FCDEDC2216F46410071E9F6 /* LoadMiscTVC.swift */,
 			);
-			path = Shiiping;
+			path = Shipping;
 			sourceTree = "<group>";
 		};
 		4FA551EB2150F7A300EA6F9B /* Model */ = {

@@ -92,11 +92,11 @@ class BaseViewController: UIViewController {
         self.present(scanNVC, animated: true, completion: nil)
     }
     
-    func rejectWelds() {
+    func rejectWelds(andUpdate tableView:UITableView) {
         let submitClosure: () -> Void = {
             let tf = self.alertVC.rbaAlert.textFields?.first
             if (tf?.text?.count)! > 0 {
-                (self.spool?.welds.count)! > 0 ? self.updateWeldsWith("reject", rejectReason: tf?.text!, isSpoolUpdate:false) : self.updateWeldsWith("rejected", rejectReason:nil, isSpoolUpdate:true)
+                (self.spool?.welds.count)! > 0 ? self.updateWeldsWith("reject", rejectReason: tf?.text!, isSpoolUpdate:false, updateTableView: tableView) : self.updateWeldsWith("rejected", rejectReason:nil, isSpoolUpdate:true, updateTableView: tableView)
             } else {
                 self.alertVC.presentAlertWithTitleAndMessage(title: "Error", message: "Please enter reason for rejection.", controller: self)
             }
@@ -155,14 +155,14 @@ class BaseViewController: UIViewController {
         rejectBtn.isEnabled = !isHidden
     }
     
-    func updateWeldsWith(_ status:String, rejectReason:String?, isSpoolUpdate:Bool) {
+    func updateWeldsWith(_ status:String, rejectReason:String?, isSpoolUpdate:Bool,updateTableView tableView:UITableView) {
         var weldParams = ["event":status] as [String : Any]
         let weldIds = shouldRejectWholeSpool ? self.getAllWeldIds() : self.getSelectedWeldIds()
         weldParams["weld_ids"] = weldIds
         if rejectReason != nil {
             weldParams["reject_reason"] = rejectReason
         }
-        self.updateSpoolStateWith(spool: self.spool!, params: weldParams as [String : AnyObject], isSpoolUpdate: isSpoolUpdate)
+        self.updateSpoolStateWith(spool: self.spool!, params: weldParams as [String : AnyObject], isSpoolUpdate: isSpoolUpdate, updateTableView: tableView)
     }
     
     func textFieldDidPressNextOrPrev(next: Bool, textField: AUSessionField) {
@@ -196,7 +196,7 @@ extension UIViewController {
         }
     }
     
-    func updateSpoolStateWith(spool:Spool, params:[String:AnyObject], isSpoolUpdate:Bool) {
+    func updateSpoolStateWith(spool:Spool, params:[String:AnyObject], isSpoolUpdate:Bool,updateTableView tableView:UITableView) {
         MBProgressHUD.showHud(view: self.view)
         var endPoint = "spools/\((spool.id)!)/welds/modify_state"
         var body = [String:AnyObject]()
@@ -218,6 +218,7 @@ extension UIViewController {
                         weld?.saveWeld(weldInfo: weldInfo)
                         weld?.isChecked = false
                     }
+                    tableView.reloadData()
                     MBProgressHUD.hideHud(view: self.view)
 //                    self.navigationController?.popViewController(animated: true)
                     let previousVC = self.navigationController?.viewControllers.last as? DashBoardVC
