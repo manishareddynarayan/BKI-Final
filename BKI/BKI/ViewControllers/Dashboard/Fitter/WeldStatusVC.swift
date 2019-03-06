@@ -81,17 +81,17 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
         let event = (self.spool?.state == .fitting) ? "fitted" : "welded"
         let params = ["event":event]
         // self.updateSpoolStateWith(spool: self.spool!, params: params as [String : AnyObject])
-        self.updateSpoolStateWith(spool: self.spool!, params: params as [String : AnyObject], isSpoolUpdate: true, updateTableView: self.tableView)
+        self.updateSpoolStateWith(spool: self.spool!, params: params as [String : AnyObject], isSpoolUpdate: true)
     }
     
     @IBAction func rejectSpool(_ sender: Any) {
         shouldRejectWholeSpool = true
-        rejectWelds(andUpdate: self.tableView)
+        rejectWelds()
     }
     
     @IBAction func rejectWelds(_ sender: Any) {
         shouldRejectWholeSpool = false
-        rejectWelds(andUpdate: self.tableView)
+        rejectWelds()
     }
     // MARK: - Table view data source
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -103,6 +103,7 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "weldCell", for: indexPath) as? WeldCell
         let weld = self.spool?.welds[indexPath.row]
         cell?.configureWeldCell(weld: weld!)
@@ -114,12 +115,10 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
             cell?.completeBtn.isUserInteractionEnabled = weld?.state == WeldState.fitting ? true : false
         } else if self.role == 2 {
             cell?.completeBtn.isEnabled = (cell?.statusTF.text?.count == 0) ? false : true
-            cell?.completeBtn.setTitle((weld?.state == WeldState.welding || weld?.state == WeldState.fitting) ? "Complete" : "Completed", for: .normal)
+            cell?.completeBtn.setTitle(weld?.state == WeldState.welding ? "Complete" : "Completed", for: .normal)
             let enable = weld?.state == WeldState.welding  ? true : false
-            cell?.checkBtn.isEnabled = enable
-            cell?.completeBtn.isEnabled = enable
-            cell?.statusTF.isEnabled = enable
-            cell?.commentsBtn.alpha = enable ? 1 : 0.5
+            cell?.completeBtn.isUserInteractionEnabled = enable
+            cell?.statusTF.isUserInteractionEnabled = enable
         }
         cell!.markAsCompletedBlock = {
             self.updateWeldStatus(weld: weld!)
@@ -138,6 +137,7 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
         cell?.selectionChangedBlock = { (isChecked) in
             weld?.isChecked = isChecked
+            tableView.reloadData()
             self.showRejectButton(rejectBtn: self.rejectBtn)
         }
         return cell!

@@ -41,6 +41,7 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBAction func approveWeldsAction(_ sender: Any) {
         (self.spool?.welds.count)! > 0 ? self.updateWeldsWith("verify", rejectReason: nil, isSpoolUpdate:false, updateTableView: tableView) : self.updateWeldsWith("accepted", rejectReason: nil, isSpoolUpdate:true, updateTableView: tableView)
+        (self.spool?.welds.count)! > 0 ? self.updateWeldsWith("verify", rejectReason: nil, isSpoolUpdate:false) : self.updateWeldsWith("accepted", rejectReason: nil, isSpoolUpdate:true)
     }
     
     @IBAction func rejectWeldsAction(_ sender: Any) {
@@ -51,6 +52,7 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func rejectWholeSpool(_ sender: Any) {
         shouldRejectWholeSpool = true
         rejectWelds(andUpdate: self.tableView)
+        rejectWelds()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
