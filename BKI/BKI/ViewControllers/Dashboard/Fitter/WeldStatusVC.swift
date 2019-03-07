@@ -81,17 +81,17 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
         let event = (self.spool?.state == .fitting) ? "fitted" : "welded"
         let params = ["event":event]
         // self.updateSpoolStateWith(spool: self.spool!, params: params as [String : AnyObject])
-        self.updateSpoolStateWith(spool: self.spool!, params: params as [String : AnyObject], isSpoolUpdate: true)
+        self.updateSpoolStateWith(spool: self.spool!, params: params as [String : AnyObject], isSpoolUpdate: true, updateTableView: tableView)
     }
     
     @IBAction func rejectSpool(_ sender: Any) {
         shouldRejectWholeSpool = true
-        rejectWelds()
+        rejectWelds(andUpdate: self.tableView)
     }
     
     @IBAction func rejectWelds(_ sender: Any) {
         shouldRejectWholeSpool = false
-        rejectWelds()
+        rejectWelds(andUpdate: self.tableView)
     }
     // MARK: - Table view data source
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -119,6 +119,7 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
             let enable = weld?.state == WeldState.welding  ? true : false
             cell?.completeBtn.isUserInteractionEnabled = enable
             cell?.statusTF.isUserInteractionEnabled = enable
+            cell?.checkBtn.isEnabled = enable
         }
         cell!.markAsCompletedBlock = {
             self.updateWeldStatus(weld: weld!)
