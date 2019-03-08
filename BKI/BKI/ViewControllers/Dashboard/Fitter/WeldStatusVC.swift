@@ -114,15 +114,15 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
             cell?.completeBtn.setTitle(weld?.state == WeldState.fitting ? "Mark Complete" : "Completed", for: .normal)
             cell?.completeBtn.isUserInteractionEnabled = weld?.state == WeldState.fitting ? true : false
         } else if self.role == 2 {
-            cell?.completeBtn.isEnabled = (cell?.statusTF.text?.count == 0) ? false : true
             cell?.completeBtn.setTitle((weld?.state == WeldState.welding || weld?.state == WeldState.fitting) ? "Complete" : "Completed", for: .normal)
             let enable = weld?.state == WeldState.welding  ? true : false
-            cell?.completeBtn.isEnabled = enable
+            cell?.completeBtn.isEnabled = (cell?.statusTF.text?.count != 0 && weld?.state == WeldState.welding)  ? true : false
             cell?.statusTF.isEnabled = enable
             cell?.checkBtn.isEnabled = enable
         }
         cell!.markAsCompletedBlock = {
             self.updateWeldStatus(weld: weld!)
+            weld?.isChecked = false
         }
         cell!.statusChangeddBlock = {
             weld?.weldType = cell?.statusTF.text!
