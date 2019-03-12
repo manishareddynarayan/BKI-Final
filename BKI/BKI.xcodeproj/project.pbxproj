@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C0697FD222FF24600303E57 /* AlternateDescriptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0697FC222FF24600303E57 /* AlternateDescriptionVC.swift */; };
+		3C0698002230E98700303E57 /* AlternateDescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0697FE2230E98700303E57 /* AlternateDescriptionCell.swift */; };
+		3C0698012230E98700303E57 /* AlternateDescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C0697FF2230E98700303E57 /* AlternateDescriptionCell.xib */; };
 		4F2F45FB2147D95200E5956C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2F45FA2147D95200E5956C /* AppDelegate.swift */; };
 		4F2F46002147D95200E5956C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F2F45FE2147D95200E5956C /* Main.storyboard */; };
 		4F2F46022147D95300E5956C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F2F46012147D95300E5956C /* Assets.xcassets */; };
@@ -78,6 +81,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3C0697FC222FF24600303E57 /* AlternateDescriptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternateDescriptionVC.swift; sourceTree = "<group>"; };
+		3C0697FE2230E98700303E57 /* AlternateDescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternateDescriptionCell.swift; sourceTree = "<group>"; };
+		3C0697FF2230E98700303E57 /* AlternateDescriptionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlternateDescriptionCell.xib; sourceTree = "<group>"; };
 		4F2F45F72147D95200E5956C /* BKI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BKI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F2F45FA2147D95200E5956C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4F2F45FF2147D95200E5956C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -316,6 +322,7 @@
 				4FA76CBA215B8B71002377F3 /* FitterPartTVC.swift */,
 				4F312B762154FC3A003D0358 /* DrawingVC.swift */,
 				4F312B782154FC64003D0358 /* ScanVC.swift */,
+				3C0697FC222FF24600303E57 /* AlternateDescriptionVC.swift */,
 			);
 			path = Fitter;
 			sourceTree = "<group>";
@@ -498,6 +505,8 @@
 				4FCDEDC5216F46BE0071E9F6 /* MiscCell.xib */,
 				4F760A3B21787ABA00B1931A /* InspectionCell.swift */,
 				4F760A3C21787ABA00B1931A /* InspectionCell.xib */,
+				3C0697FE2230E98700303E57 /* AlternateDescriptionCell.swift */,
+				3C0697FF2230E98700303E57 /* AlternateDescriptionCell.xib */,
 			);
 			path = CustomCell;
 			sourceTree = "<group>";
@@ -599,6 +608,7 @@
 				4F312B892158C7D2003D0358 /* cross@3x.png in Resources */,
 				4F2F46002147D95200E5956C /* Main.storyboard in Resources */,
 				4FA76CB9215B8082002377F3 /* WeldCell.xib in Resources */,
+				3C0698012230E98700303E57 /* AlternateDescriptionCell.xib in Resources */,
 				4FCDEDB3216223F30071E9F6 /* OpenLoadCell.xib in Resources */,
 				4F312B832158C73F003D0358 /* Scanner.storyboard in Resources */,
 				4FA551F42150F98F00EA6F9B /* Root.storyboard in Resources */,
@@ -673,6 +683,7 @@
 				4FA5525D2150FB4500EA6F9B /* NSString+RENumberFormat.m in Sources */,
 				4FCD149221526B37002B70A9 /* MainDashBoardVC.swift in Sources */,
 				4FCDEDC6216F46BE0071E9F6 /* MiscCell.swift in Sources */,
+				3C0698002230E98700303E57 /* AlternateDescriptionCell.swift in Sources */,
 				4F312B752154FB6E003D0358 /* SearchMiscVC.swift in Sources */,
 				4FCD149F215397A0002B70A9 /* User.swift in Sources */,
 				4FCDEDB2216223F30071E9F6 /* OpenLoadCell.swift in Sources */,
@@ -695,6 +706,7 @@
 				4FA552692150FB5400EA6F9B /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				4FA5525F2150FB4500EA6F9B /* AUFormattedField.swift in Sources */,
 				4FCDEDB92164C4280071E9F6 /* Spool.swift in Sources */,
+				3C0697FD222FF24600303E57 /* AlternateDescriptionVC.swift in Sources */,
 				4FCD149D215396FE002B70A9 /* BKIModel.swift in Sources */,
 				4FA5525C2150FB4500EA6F9B /* AUPasswordField.swift in Sources */,
 				4FCDEDBF2165F3B50071E9F6 /* Component.swift in Sources */,
