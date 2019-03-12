@@ -17,6 +17,7 @@ let SIGNUPSEGUE = "SignupSegue"
 let FORGOTPWDSEGUE = "ForgotPwdSegue"
 let DOCUMENTDETAILSEGUE = "DocDetailSegue"
 let DASHBOARDSEGUE = "DashboardSegue"
+let ALTERNATEDESCRIPTIONSEGUE = "AlternateDescriptionSegue"
 
 
 //MARK: Role Enum

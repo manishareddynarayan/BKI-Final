@@ -72,25 +72,7 @@ class AlternateDescriptionVC: BaseViewController, UITableViewDataSource, UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         cell = tableView.dequeueReusableCell(withIdentifier: "alternateDescriptionCell") as? AlternateDescriptionCell
-        var heading:String = ""
-        var size:String = ""
-        var notes:String = ""
-        var description:String = ""
-        if data.count>1{
-            if let headingCheck = data[indexPath.row + 1]["key"] as? String{
-                heading = headingCheck.uppercased()
-            }
-            if let sizeCheck = data[indexPath.row + 1]["size"] as? String{
-                size = sizeCheck
-            }
-            if let notesCheck = data[indexPath.row + 1]["item_notes"] as? String{
-                notes = notesCheck
-            }
-            if let descriptionCheck = data[indexPath.row + 1]["alternate_description"] as? String{
-                description = descriptionCheck
-            }
-            cell.setCell(heading: heading, size: size, notes: notes, description: description)
-        }
+        cell.setCell(data: self.data, index: indexPath.row)
         return cell
     }
 }

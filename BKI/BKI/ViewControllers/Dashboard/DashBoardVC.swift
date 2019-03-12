@@ -43,7 +43,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     
     
     @IBAction func alternateDescriptionBtn(_ sender: Any) {
-        self.performSegue(withIdentifier: "AlternateDescriptionSegue", sender: self)
+        self.performSegue(withIdentifier: ALTERNATEDESCRIPTIONSEGUE, sender: self)
     }
     
  
@@ -132,7 +132,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
-        if segue.identifier == "AlternateDescriptionSegue"{
+        if segue.identifier == ALTERNATEDESCRIPTIONSEGUE{
             let alternateDescriptionVC = segue.destination as? AlternateDescriptionVC
             alternateDescriptionVC?.spoolID = String((self.spool?.id)!)
         }
