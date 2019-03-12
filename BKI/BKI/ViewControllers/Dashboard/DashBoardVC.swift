@@ -16,13 +16,16 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     var shouldChangeState = false
    
     @IBOutlet weak var spoolLbl: UILabel!
-   
+    @IBOutlet weak var alternateDescriptionBtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.menuItems = User.shared.getUserMenuItems(with: self.role)
         tableView.register(UINib(nibName: "DashBoardCell", bundle: nil), forCellReuseIdentifier: "DashboardCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
+        
+       alternateDescriptionBtn.isHidden = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -38,6 +41,12 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         }
     }
     
+    
+    @IBAction func alternateDescriptionBtn(_ sender: Any) {
+        self.performSegue(withIdentifier: "AlternateDescriptionSegue", sender: self)
+    }
+    
+ 
     func loadScanData(data:AVMetadataMachineReadableCodeObject?) {
         guard data != nil else {
             self.setScanCode(data: nil)
@@ -63,6 +72,12 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     self.shouldChangeState = false
                     return
                 }
+                if self.role == 1 {
+                    self.alternateDescriptionBtn.isHidden = false
+                }else{
+                    self.alternateDescriptionBtn.isHidden = true
+                }
+                
                 if self.spool?.status == "On Hold" {
                     self.showFailureAlert(with: "The Spool is on hold and hence no operation can be performed on it.")
                 } else if self.role == 2 && self.spool?.state != WeldState.welding {
@@ -116,6 +131,11 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "AlternateDescriptionSegue"{
+            let alternateDescriptionVC = segue.destination as? AlternateDescriptionVC
+            alternateDescriptionVC?.spoolID = String((self.spool?.id)!)
+        }
     }
     
     //MARK: TableView DataSource methods
