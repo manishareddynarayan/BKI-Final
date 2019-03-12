@@ -70,6 +70,7 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 print(responseData)
                 MBProgressHUD.hideHud(view: self.view)
                 weld.saveWeld(weldInfo: responseData)
+                self.showRejectButton(rejectBtn: self.rejectBtn)
                 self.tableView.reloadData()
             }
         }) { (error) in
