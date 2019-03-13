@@ -9,7 +9,6 @@
 import UIKit
 
 class AlternateDescriptionCell: BaseCell {
-    
     @IBOutlet weak var descriptionLbl: UILabel!
     @IBOutlet weak var notesLbl: UILabel!
     @IBOutlet weak var sizeLbl: UILabel!
@@ -20,6 +19,5 @@ class AlternateDescriptionCell: BaseCell {
         sizeLbl.text = data.size!
         notesLbl.text = data.notes!
         descriptionLbl.text = data.altDescription!
-        
     }
 }

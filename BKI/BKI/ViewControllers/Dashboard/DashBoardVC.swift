@@ -76,6 +76,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 if self.role == 1 {
                     self.getAlternateDescriptionData()
                 }
+
                 if self.spool?.status == "On Hold" {
                     self.showFailureAlert(with: "The Spool is on hold and hence no operation can be performed on it.")
                 } else if self.role == 2 && self.spool?.state != WeldState.welding {
@@ -161,6 +162,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         if segue.identifier == ALTERNATEDESCRIPTIONSEGUE{
             let alternateDescriptionVC = segue.destination as? AlternateDescriptionVC
             alternateDescriptionVC?.altData = self.altData
+
         }
     }
     
