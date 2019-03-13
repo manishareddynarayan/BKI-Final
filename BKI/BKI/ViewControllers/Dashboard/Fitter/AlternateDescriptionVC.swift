@@ -13,8 +13,7 @@ class AlternateDescriptionVC: BaseViewController, UITableViewDataSource, UITable
     @IBOutlet weak var noDataLbl: UILabel!
     @IBOutlet weak var tableView: UITableView!
     var cell:AlternateDescriptionCell!
-    var data:[[String:AnyObject]] = [[:]]
-    var spoolID:String!
+    var altData = [AlternateDescription()]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +22,6 @@ class AlternateDescriptionVC: BaseViewController, UITableViewDataSource, UITable
         tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableViewAutomaticDimension
         noDataLbl.isHidden = true
-        getData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,44 +33,13 @@ class AlternateDescriptionVC: BaseViewController, UITableViewDataSource, UITable
         self.backButtonAction(sender: sender as AnyObject)
     }
     
-    func getData(){
-        MBProgressHUD.showHud(view: self.view)
-        httpWrapper.performAPIRequest("spools/\(String(describing: self.spoolID!))/spool_grouped_components", methodType: "GET", parameters: nil, successBlock: { (responseData) in
-            DispatchQueue.main.async {
-                self.setData(responseData: responseData)
-                MBProgressHUD.hideHud(view: self.view)
-                self.tableView.reloadData()
-                if self.data.count <= 1{
-                    self.noDataLbl.isHidden = false
-                }else{
-                    self.noDataLbl.isHidden = true
-                }
-            }
-        }) { (error) in
-            MBProgressHUD.hideHud(view: self.view)
-
-            self.showFailureAlert(with: (error?.localizedDescription)!)
-        }
-    }
-    
-    func setData(responseData:[String:AnyObject]){
-        for (key,value) in responseData{
-            if key != "Pipe"{
-                for i in 0...(responseData[key]!.count! - 1){
-                    let valueDict = ((value as? NSArray)![i] as? [String:AnyObject])!
-                    data.append(["key":key as AnyObject,"alternate_description":valueDict["alternate_description"]!, "item_notes":valueDict["item_notes"]!, "size":valueDict["size"]!])
-                }
-            }
-        }
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count - 1
+        return altData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         cell = tableView.dequeueReusableCell(withIdentifier: "alternateDescriptionCell") as? AlternateDescriptionCell
-        cell.setCell(data: self.data, index: indexPath.row)
+        cell.setCell(data: altData[indexPath.row])
         return cell
     }
 }

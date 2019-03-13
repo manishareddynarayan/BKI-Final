@@ -10,6 +10,7 @@
 		3C0697FD222FF24600303E57 /* AlternateDescriptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0697FC222FF24600303E57 /* AlternateDescriptionVC.swift */; };
 		3C0698002230E98700303E57 /* AlternateDescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0697FE2230E98700303E57 /* AlternateDescriptionCell.swift */; };
 		3C0698012230E98700303E57 /* AlternateDescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C0697FF2230E98700303E57 /* AlternateDescriptionCell.xib */; };
+		3C7168E92237855A00464B29 /* AlternateDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7168E82237855A00464B29 /* AlternateDescription.swift */; };
 		4F2F45FB2147D95200E5956C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2F45FA2147D95200E5956C /* AppDelegate.swift */; };
 		4F2F46002147D95200E5956C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F2F45FE2147D95200E5956C /* Main.storyboard */; };
 		4F2F46022147D95300E5956C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F2F46012147D95300E5956C /* Assets.xcassets */; };
@@ -84,6 +85,7 @@
 		3C0697FC222FF24600303E57 /* AlternateDescriptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternateDescriptionVC.swift; sourceTree = "<group>"; };
 		3C0697FE2230E98700303E57 /* AlternateDescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternateDescriptionCell.swift; sourceTree = "<group>"; };
 		3C0697FF2230E98700303E57 /* AlternateDescriptionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlternateDescriptionCell.xib; sourceTree = "<group>"; };
+		3C7168E82237855A00464B29 /* AlternateDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternateDescription.swift; sourceTree = "<group>"; };
 		4F2F45F72147D95200E5956C /* BKI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BKI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F2F45FA2147D95200E5956C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4F2F45FF2147D95200E5956C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -355,6 +357,7 @@
 				4FCDEDBA2164C4890071E9F6 /* Material.swift */,
 				4FCDEDBC2165F3A30071E9F6 /* Weld.swift */,
 				4FCDEDBE2165F3B50071E9F6 /* Component.swift */,
+				3C7168E82237855A00464B29 /* AlternateDescription.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -730,6 +733,7 @@
 				4F312B732154FB50003D0358 /* NewLoadVC.swift in Sources */,
 				4FCD149821536317002B70A9 /* DashBoardCell.swift in Sources */,
 				4FA552702150FB8800EA6F9B /* Constants.swift in Sources */,
+				3C7168E92237855A00464B29 /* AlternateDescription.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

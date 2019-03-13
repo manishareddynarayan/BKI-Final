@@ -14,6 +14,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     @IBOutlet weak var tableView: UITableView!
     var menuItems: [[String:String]]!
     var shouldChangeState = false
+    var altData = [AlternateDescription()]
    
     @IBOutlet weak var spoolLbl: UILabel!
     @IBOutlet weak var alternateDescriptionBtn: UIButton!
@@ -50,7 +51,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     func loadScanData(data:AVMetadataMachineReadableCodeObject?) {
         guard data != nil else {
             self.setScanCode(data: nil)
-            self.spoolLbl.text = ""
+            self.spoolLbl.text = self.spool?.code != nil ? spool?.code! : ""
             self.tableView.reloadData()
             return
         }
@@ -73,11 +74,9 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     return
                 }
                 if self.role == 1 {
-                    self.alternateDescriptionBtn.isHidden = false
-                }else{
-                    self.alternateDescriptionBtn.isHidden = true
+                    self.getAlternateDescriptionData()
                 }
-                
+
                 if self.spool?.status == "On Hold" {
                     self.showFailureAlert(with: "The Spool is on hold and hence no operation can be performed on it.")
                 } else if self.role == 2 && self.spool?.state != WeldState.welding {
@@ -122,6 +121,34 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         }
     }
     
+    func getAlternateDescriptionData(){
+        MBProgressHUD.showHud(view: self.view)
+        httpWrapper.performAPIRequest("spools/\(String(describing: self.spool!.id!))/spool_grouped_components", methodType: "GET", parameters: nil, successBlock: { (responseData) in
+            DispatchQueue.main.async {
+                self.altData.removeAll()
+                for (key,value) in responseData{
+                    if key != "Pipe"{
+                        for i in 0...(responseData[key]!.count! - 1){
+                            let valueDict = ((value as? NSArray)![i] as? [String:AnyObject])!
+                            let alternateDescription = AlternateDescription.init(key: key,values: valueDict)
+                            self.altData.append(alternateDescription)
+                        }
+                    }
+                }
+                MBProgressHUD.hideHud(view: self.view)
+                self.tableView.reloadData()
+                if self.altData.count == 0{
+                    self.alternateDescriptionBtn.isHidden = true
+                }else{
+                    self.alternateDescriptionBtn.isHidden = false
+                }
+            }
+        }) { (error) in
+            MBProgressHUD.hideHud(view: self.view)
+            self.showFailureAlert(with: (error?.localizedDescription)!)
+        }
+    }
+    
     @IBAction func backAction(_ sender: Any) {
         self.backButtonAction(sender: sender as AnyObject)
     }
@@ -134,7 +161,8 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         
         if segue.identifier == ALTERNATEDESCRIPTIONSEGUE{
             let alternateDescriptionVC = segue.destination as? AlternateDescriptionVC
-            alternateDescriptionVC?.spoolID = String((self.spool?.id)!)
+            alternateDescriptionVC?.altData = self.altData
+
         }
     }
     
