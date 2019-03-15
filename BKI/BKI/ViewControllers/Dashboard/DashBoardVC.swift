@@ -131,7 +131,9 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                         for i in 0...(responseData[key]!.count! - 1){
                             let valueDict = ((value as? NSArray)![i] as? [String:AnyObject])!
                             let alternateDescription = AlternateDescription.init(key: key,values: valueDict)
-                            self.altData.append(alternateDescription)
+                            if alternateDescription.notes != "-" || alternateDescription.altDescription != "-"{
+                                self.altData.append(alternateDescription)
+                            }
                         }
                     }
                 }
