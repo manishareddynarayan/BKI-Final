@@ -36,9 +36,10 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        saveBtn.isEnabled = scannedSpools.count > 0 || self.load!.materials.count > 0 || (self.load?.spools.count) != 0 ? true : false
         
         self.truckNumberTF.text = (load?.truckNumber != nil) ? load?.truckNumber : UserDefaults.standard.value(forKey: "truck_number") as? String
+        
+        saveBtn.isEnabled = scannedSpools.count > 0 || self.load!.materials.count > 0 || (self.load?.spools.count) != 0 || self.truckNumberTF.text != "" ? true : false
     }
     
     override func didReceiveMemoryWarning() {
@@ -116,11 +117,16 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     @IBAction func saveAction(_ sender: Any) {
-        self.updateLoad(isSubmit: false)
+        if (truckNumberTF.text?.count)! > 10{
+            self.alertVC.presentAlertWithTitleAndMessage(title: "Failed", message: "Truck number should not contain more than 10 characters", controller: self)
+        }else{
+            self.updateLoad(isSubmit: false)
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        saveBtn.isEnabled = textField.text?.count ?? 0 > 0 ? true : false
         return false
     }
     
