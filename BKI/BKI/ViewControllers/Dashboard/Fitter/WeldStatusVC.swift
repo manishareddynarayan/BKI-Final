@@ -43,13 +43,19 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
         super.viewWillAppear(animated)
         self.showRejectButton(rejectBtn: rejectBtn)
         self.resetWeldStatus()
+        rejectSpoolButtonState()
+    }
+    
+    func rejectSpoolButtonState() {
+        rejectSpoolBtn.isEnabled = !checkWeldingWeldStatus() ? false : true
+        rejectSpoolBtn.alpha = !checkWeldingWeldStatus() ? 0.5 : 1
     }
     
     func updateWeldStatus(weld:Weld) {
         //weld qa complete verify  reject weld_type
         var event = "weld"
         var params = [String:AnyObject]()
-        switch self.spool?.state {
+        switch weld.state {
         case .fitting?:
             event = "weld"
             break
@@ -76,6 +82,14 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }) { (error) in
             self.showFailureAlert(with: (error?.localizedDescription)!)
         }
+        
+        if checkLastFitting(){
+            self.spool?.lastFittingCompletion = true
+        }
+        if checkLastWelding(){
+            self.rejectSpoolBtn.isEnabled = false
+            self.rejectSpoolBtn.alpha = 0.5
+        }
     }
     
     @IBAction func updateSpoolStatus(_ sender: Any) {
@@ -87,12 +101,15 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     @IBAction func rejectSpool(_ sender: Any) {
         shouldRejectWholeSpool = true
-        rejectWelds(andUpdate: self.tableView)
+        rejectWelds(andUpdate: self.tableView, caller: "weld")
+
     }
     
     @IBAction func rejectWelds(_ sender: Any) {
         shouldRejectWholeSpool = false
-        rejectWelds(andUpdate: self.tableView)
+        rejectWelds(andUpdate: self.tableView, caller: "weld")
+//        rejectBtn.isEnabled = false
+//        rejectBtn.alpha = 0.5
     }
     // MARK: - Table view data source
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -112,14 +129,18 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
         cell?.statusTF.isHidden = role == 1 ? true : false
         cell?.commentsBtn.isHidden = (weld?.welderRejectReason == nil && weld?.qARejectReason == nil) ? true : false
         if  self.role == 1 {
-            cell?.completeBtn.setTitle(weld?.state == WeldState.fitting ? "Mark Complete" : "Completed", for: .normal)
+            cell?.completeBtn.setImage((weld?.state == WeldState.fitting) ? UIImage.init(named: "tickCircle") : UIImage.init(named: "tick"), for: .normal)
             cell?.completeBtn.isUserInteractionEnabled = weld?.state == WeldState.fitting ? true : false
         } else if self.role == 2 {
-            cell?.completeBtn.setTitle((weld?.state == WeldState.welding || weld?.state == WeldState.fitting) ? "Complete" : "Completed", for: .normal)
+            cell?.completeBtn.setImage((weld?.state == WeldState.welding || weld?.state == WeldState.fitting) ? UIImage.init(named: "tickCircle") : UIImage.init(named: "tick"), for: .normal)
             let enable = weld?.state == WeldState.welding  ? true : false
             cell?.completeBtn.isEnabled = (cell?.statusTF.text?.count != 0 && weld?.state == WeldState.welding)  ? true : false
             cell?.statusTF.isEnabled = enable
             cell?.checkBtn.isEnabled = enable
+            
+            cell?.nameLbl.alpha = enable ? 1 : 0.5
+            cell?.completeBtn.alpha = enable ? 1 : 0.5
+            cell?.statusTF.alpha = enable ? 1 : 0.5
         }
         cell!.markAsCompletedBlock = {
             self.updateWeldStatus(weld: weld!)

@@ -18,6 +18,7 @@ class Spool: BKIModel {
     var welds = [Weld]()
     var components = [Component]()
     var pdfUrl:String?
+    var lastFittingCompletion = false
     
     override init () {
         // uncomment this line if your class has been inherited from any other class

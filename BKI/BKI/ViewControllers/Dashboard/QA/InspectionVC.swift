@@ -15,6 +15,7 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var actionView: UIView!
     @IBOutlet weak var rejectBtn: UIButton!
     @IBOutlet weak var approveBtn: UIButton!
+    @IBOutlet weak var rejectSpoolBtn: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,23 +35,40 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
             self.tableView.isHidden = true
             rejectBtn.isEnabled = true
             rejectBtn.alpha = 1
-            approveBtn.isEnabled = true
-            approveBtn.alpha = 1
+            approveBtn.isEnabled = checkHeatNumbers() ? true : false
+            approveBtn.alpha = checkHeatNumbers() ? 1 : 0.5
         }
+        rejectSpoolBtn.isEnabled = checkQaWeldStatus() ? true : false
+        rejectSpoolBtn.alpha = checkQaWeldStatus() ? 1 : 0.5
     }
     
     @IBAction func approveWeldsAction(_ sender: Any) {
-        (self.spool?.welds.count)! > 0 ? self.updateWeldsWith("verify", rejectReason: nil, isSpoolUpdate:false, updateTableView: tableView) : self.updateWeldsWith("accepted", rejectReason: nil, isSpoolUpdate:true, updateTableView: tableView)
+        (self.spool?.welds.count)! > 0 ? self.updateWeldsWith("verify", rejectReason: nil, isSpoolUpdate:false, updateTableView: tableView, caller: "qa") : self.updateWeldsWith("accepted", rejectReason: nil, isSpoolUpdate:true, updateTableView: tableView, caller: "qa")
+        approveBtn.isEnabled = false
+        approveBtn.alpha = 0.5
+        rejectBtn.isEnabled = false
+        rejectBtn.alpha = 0.5
+        rejectSpoolButtonState()
     }
     
     @IBAction func rejectWeldsAction(_ sender: Any) {
         shouldRejectWholeSpool = false
-        rejectWelds(andUpdate: self.tableView)
+        rejectWelds(andUpdate: self.tableView, caller: "qa")
+        approveBtn.isEnabled = false
+        approveBtn.alpha = 0.5
+        rejectBtn.isEnabled = false
+        rejectBtn.alpha = 0.5
+        rejectSpoolButtonState()
+    }
+    
+    func rejectSpoolButtonState() {
+        rejectSpoolBtn.isEnabled = checkQaWeldStatus() ? true : false
+        rejectSpoolBtn.alpha = checkQaWeldStatus() ? 1 : 0.5
     }
     
     @IBAction func rejectWholeSpool(_ sender: Any) {
         shouldRejectWholeSpool = true
-        rejectWelds(andUpdate: self.tableView)
+        rejectWelds(andUpdate: self.tableView, caller: "qa")
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -60,6 +78,11 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "inspectionCell") as? InspectionCell
         let weld = self.spool?.welds[indexPath.row]
+        if weld!.state != WeldState.qa{
+            cell?.isUserInteractionEnabled = false
+            cell?.weldLbl.alpha = 0.5
+            cell?.statusLbl.alpha = 0.5
+        }
         cell?.configureWeld(weld: weld!)
         cell?.selectionChangeddBlock = { (isChecked) in
             weld?.isChecked = isChecked

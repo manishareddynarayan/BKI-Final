@@ -15,6 +15,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     var menuItems: [[String:String]]!
     var shouldChangeState = false
     var altData = [AlternateDescription()]
+    var scanned:Bool = false
    
     @IBOutlet weak var spoolLbl: UILabel!
     @IBOutlet weak var alternateDescriptionBtn: UIButton!
@@ -40,12 +41,41 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         if self.scanCode != nil && self.role != 3{
             self.getSpoolDetails()
         }
+        
+        if let spool = self.spool{
+            if spool.lastFittingCompletion && !checkHeatNumbers() && self.role == 1{
+                alertVC.presentAlertWithTitleAndMessage(title: "Warning", message: "Please enter heat numbers to move the spool to next state", controller: self)
+                self.spool?.lastFittingCompletion = false
+            }
+        }
     }
     
     
     @IBAction func alternateDescriptionBtn(_ sender: Any) {
         self.performSegue(withIdentifier: ALTERNATEDESCRIPTIONSEGUE, sender: self)
     }
+    
+//    func checkWeldStatus() -> Bool{
+//        if let spool = self.spool{
+//            for weld in spool.welds{
+//                if weld.state == WeldState.fitting{
+//                    return false
+//                }
+//            }
+//        }
+//        return true
+//    }
+//
+//    func checkHeatNumbers() -> Bool{
+//        if let spool = self.spool{
+//            for component in spool.components{
+//                if component.heatNumber == ""{
+//                    return false
+//                }
+//            }
+//        }
+//        return true
+//    }
     
  
     func loadScanData(data:AVMetadataMachineReadableCodeObject?) {
@@ -77,29 +107,36 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     self.getAlternateDescriptionData()
                 }
 
-                if self.spool?.status == "On Hold" {
-                    self.showFailureAlert(with: "The Spool is on hold and hence no operation can be performed on it.")
-                } else if self.role == 2 && self.spool?.state != WeldState.welding {
-                    self.showFailureAlert(with: "You can access spools which are in state of welding.")
+//                if self.spool?.status == "On Hold" {
+//                    self.showFailureAlert(with: "The Spool is on hold and hence no operation can be performed on it.")
+//                }
+//                    else if self.role == 2 && self.spool?.state != WeldState.welding {
+//                    self.showFailureAlert(with: "You can access spools which are in state of welding.")
+//                }
+//                else  if (self.role == 1 && self.spool?.state != WeldState.fitting) {
+//                    self.showFailureAlert(with: "You can access spools which are in state of fitting.")
+//                }
+//                else if (self.role == 4 && self.spool?.state != WeldState.qa)  {
+//                    self.showFailureAlert(with: "You can access spools which are in state of QA.")
+//                }
+                
+                if !self.checkHeatNumbers() && !self.checkFittingWeldStatus() && self.scanned{
+                    self.alertVC.presentAlertWithTitleAndMessage(title: "Warning", message: "Please enter heat numbers to move the spool to next state", controller: self)
                 }
-                else  if (self.role == 1 && self.spool?.state != WeldState.fitting) {
-                    self.showFailureAlert(with: "You can access spools which are in state of fitting.")
-                }
-                else if (self.role == 4 && self.spool?.state != WeldState.qa)  {
-                    self.showFailureAlert(with: "You can access spools which are in state of QA.")
-                }
+                self.scanned = false
+                
                 self.tableView.reloadData()
             }
         }) { (error) in
             DispatchQueue.main.async {
-                
-                if self.shouldChangeState {
-                    self.spool = nil
-                    self.tableView.reloadData()
-                    self.shouldChangeState = false
-                    MBProgressHUD.hideHud(view: self.view)
-                    return
-                }
+                MBProgressHUD.hideHud(view: self.view)
+
+//                if self.shouldChangeState {
+//                    self.spool = nil
+//                    self.tableView.reloadData()
+//                    self.shouldChangeState = false
+//                    return
+//                }
                 if error?.code == 403 {
                     self.httpWrapper.performAPIRequest("spools/\((self.scanCode)!)/current_stage", methodType: "GET", parameters: nil, successBlock: { (response) in
                         DispatchQueue.main.async {
@@ -194,22 +231,23 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             }
             return cell!
         }
-        if self.role == 1 && self.spool?.state == WeldState.fitting && self.spool?.status != "On Hold" {
-            cell?.enable(enable: true)
-        } else if self.role == 2 && self.spool?.state == WeldState.welding && self.spool?.status != "On Hold" {
-            cell?.enable(enable: true)
-        } 
-        else if self.role == 4 && self.spool?.state == WeldState.qa && self.spool?.status != "On Hold" {
-            cell?.enable(enable: true)
-        }
-        else {
-            cell?.enable(enable: false)
-        }
+//        if self.role == 1 && self.spool?.state == WeldState.fitting && self.spool?.status != "On Hold" {
+//            cell?.enable(enable: true)
+//        } else if self.role == 2 && self.spool?.state == WeldState.welding && self.spool?.status != "On Hold" {
+//            cell?.enable(enable: true)
+//        }
+//        else if self.role == 4 && self.spool?.state == WeldState.qa && self.spool?.status != "On Hold" {
+//            cell?.enable(enable: true)
+//        }
+//        else {
+//            cell?.enable(enable: false)
+//        }
+//
+//        if indexPath.row == self.menuItems.count - 1 || self.role == 3 && self.spool?.status != "On Hold" {
+//            cell?.enable(enable: true)
+//        }
         
-        if indexPath.row == self.menuItems.count - 1 || self.role == 3 && self.spool?.status != "On Hold" {
-            cell?.enable(enable: true)
-        }
-        
+        cell?.enable(enable: true)
         return cell!
     }
 
@@ -245,6 +283,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     func scanDidCompletedWith(_ data:AVMetadataMachineReadableCodeObject?)
     {
         self.loadScanData(data: data)
+        scanned = true
     }
     
     func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didError error: Error, from connection: AVCaptureConnection) {
