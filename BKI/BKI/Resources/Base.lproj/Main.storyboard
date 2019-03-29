@@ -666,6 +666,7 @@
                         <outlet property="approveBtn" destination="ovV-6U-XnH" id="iGG-ro-IhE"/>
                         <outlet property="emptyView" destination="CxH-kT-Wkm" id="nmF-4j-RMH"/>
                         <outlet property="rejectBtn" destination="DTN-Fo-pLY" id="e1d-KS-eIh"/>
+                        <outlet property="rejectSpoolBtn" destination="rQd-2L-708" id="e61-fW-zc3"/>
                         <outlet property="tableView" destination="bTp-cR-BJH" id="qEg-Qz-mcq"/>
                     </connections>
                 </viewController>

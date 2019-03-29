@@ -92,11 +92,85 @@ class BaseViewController: UIViewController {
         self.present(scanNVC, animated: true, completion: nil)
     }
     
-    func rejectWelds(andUpdate tableView:UITableView) {
+    func checkLastFitting() -> Bool{
+        var fittingState = 0
+        if let spool = self.spool{
+            for weld in spool.welds{
+                if weld.state == WeldState.fitting{
+                    fittingState += 1
+                }
+            }
+        }
+        if fittingState == 1{
+            return true
+        }
+        return false
+    }
+    
+    func checkLastWelding() -> Bool{
+        var weldingState = 0
+        if let spool = self.spool{
+            for weld in spool.welds{
+                if weld.state == WeldState.welding{
+                    weldingState += 1
+                }
+            }
+        }
+        if weldingState == 1{
+            return true
+        }
+        return false
+    }
+    
+    func checkFittingWeldStatus() -> Bool{
+        if let spool = self.spool{
+            for weld in spool.welds{
+                if weld.state == WeldState.fitting{
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
+    func checkWeldingWeldStatus() -> Bool{
+        if let spool = self.spool{
+            for weld in spool.welds{
+                if weld.state == WeldState.welding{
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
+    func checkQaWeldStatus() -> Bool{
+        if let spool = self.spool{
+            for weld in spool.welds{
+                if weld.state == WeldState.qa{
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
+    func checkHeatNumbers() -> Bool{
+        if let spool = self.spool{
+            for component in spool.components{
+                if component.heatNumber == ""{
+                    return false
+                }
+            }
+        }
+        return true
+    }
+    
+    func rejectWelds(andUpdate tableView:UITableView, caller:String) {
         let submitClosure: () -> Void = {
             let tf = self.alertVC.rbaAlert.textFields?.first
             if (tf?.text?.count)! > 0 {
-                (self.spool?.welds.count)! > 0 ? self.updateWeldsWith("reject", rejectReason: tf?.text!, isSpoolUpdate:false, updateTableView: tableView) : self.updateWeldsWith("rejected", rejectReason:nil, isSpoolUpdate:true, updateTableView: tableView)
+                (self.spool?.welds.count)! > 0 ? self.updateWeldsWith("reject", rejectReason: tf?.text!, isSpoolUpdate:false, updateTableView: tableView, caller: caller) : self.updateWeldsWith("rejected", rejectReason:nil, isSpoolUpdate:true, updateTableView: tableView, caller: caller)
             } else {
                 self.alertVC.presentAlertWithTitleAndMessage(title: "Error", message: "Please enter reason for rejection.", controller: self)
             }
@@ -126,6 +200,26 @@ class BaseViewController: UIViewController {
         return weldIds
     }
     
+    func getWeldingStateWeldIds() -> [Int] {
+        let weldIds = self.spool?.welds.filter({ (weld) -> Bool in
+            let bool = weld.getWeldState(state: weld.state!) == "welding" ? true:false
+            return bool
+        }).map({ (weld) -> Int in
+            return weld.id!
+        })
+        return weldIds!
+    }
+    
+    func getQaStateWeldIds() -> [Int] {
+        let weldIds = self.spool?.welds.filter({ (weld) -> Bool in
+            let bool = weld.getWeldState(state: weld.state!) == "qa" ? true:false
+            return bool
+        }).map({ (weld) -> Int in
+            return weld.id!
+        })
+        return weldIds!
+    }
+    
     func resetWeldStatus() {
         for weld in (self.spool?.welds)! {
             weld.isChecked = false
@@ -134,14 +228,14 @@ class BaseViewController: UIViewController {
     
     func showActionButtons(approveBtn:UIButton,rejectBtn:UIButton) {
         let isHidden = self.getSelectedWeldIds().count > 0 ? false : true
-        if isHidden {
+        if isHidden || !checkHeatNumbers(){
             approveBtn.alpha = 0.5
-            rejectBtn.alpha = 0.5
+            approveBtn.isEnabled = false
         } else {
             approveBtn.alpha = 1
-            rejectBtn.alpha = 1
+            approveBtn.isEnabled = true
         }
-        approveBtn.isEnabled = !isHidden
+        rejectBtn.alpha = isHidden ? 0.5 : 1
         rejectBtn.isEnabled = !isHidden
     }
     
@@ -155,9 +249,20 @@ class BaseViewController: UIViewController {
         rejectBtn.isEnabled = !isHidden
     }
     
-    func updateWeldsWith(_ status:String, rejectReason:String?, isSpoolUpdate:Bool,updateTableView tableView:UITableView) {
+    func updateWeldsWith(_ status:String, rejectReason:String?, isSpoolUpdate:Bool,updateTableView tableView:UITableView, caller:String) {
         var weldParams = ["event":status] as [String : Any]
-        let weldIds = shouldRejectWholeSpool ? self.getAllWeldIds() : self.getSelectedWeldIds()
+//        var weldIds:[Int]
+//        if shouldRejectWholeSpool{
+//            if 1{
+//                weldIds = getWeldingStateWeldIds()
+//            }else{
+//                weldIds = getQaStateWeldIds()
+//            }
+//        }else{
+//            weldIds = self.getSelectedWeldIds()
+//        }
+        let weldIds = shouldRejectWholeSpool ? (caller == "weld" ? self.getWeldingStateWeldIds() : getQaStateWeldIds()) : self.getSelectedWeldIds()
+        
         weldParams["weld_ids"] = weldIds
         if rejectReason != nil {
             weldParams["reject_reason"] = rejectReason
@@ -223,6 +328,13 @@ extension UIViewController {
 //                    self.navigationController?.popViewController(animated: true)
                     let previousVC = self.navigationController?.viewControllers.last as? DashBoardVC
                     previousVC?.shouldChangeState = true
+                    
+                    let inspectionVC = self.navigationController?.viewControllers.last as? InspectionVC
+                    inspectionVC?.rejectSpoolButtonState()
+                    inspectionVC?.showRejectButton(rejectBtn: (inspectionVC?.rejectBtn)!)
+                    let weldStatusVC = self.navigationController?.viewControllers.last as? WeldStatusVC
+                    weldStatusVC?.rejectSpoolButtonState()
+                    weldStatusVC?.showRejectButton(rejectBtn: (weldStatusVC?.rejectBtn)!)
                 }
             }
         }) { (error) in

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -26,7 +26,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <textField opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Weld Type" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Pr-1R-yK7" customClass="AUTextField" customModule="BKI" customModuleProvider="target">
-                        <rect key="frame" x="87.5" y="13.5" width="70.5" height="17"/>
+                        <rect key="frame" x="87.5" y="13.5" width="81.5" height="17"/>
                         <nil key="textColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
@@ -38,7 +38,7 @@
                         </connections>
                     </textField>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="auA-cc-9Gz">
-                        <rect key="frame" x="297" y="11" width="19" height="22"/>
+                        <rect key="frame" x="286" y="11" width="19" height="22"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="19" id="Qeq-uj-SFr"/>
                         </constraints>
@@ -48,13 +48,14 @@
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KFQ-VO-wqc">
-                        <rect key="frame" x="158" y="12" width="134" height="20"/>
+                        <rect key="frame" x="234" y="11" width="22" height="22"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="134" id="lCx-Um-hUb"/>
+                            <constraint firstAttribute="width" constant="22" id="rth-b4-clp"/>
+                            <constraint firstAttribute="height" constant="22" id="xK6-nS-wQk"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <inset key="titleEdgeInsets" minX="9" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <state key="normal" title="Mark Complete" image="checkmark">
+                        <state key="normal" image="tickCircle">
                             <color key="titleColor" red="0.49803921569999998" green="0.043137254899999998" blue="0.0039215686269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </state>
                         <connections>
@@ -73,13 +74,13 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="auA-cc-9Gz" secondAttribute="trailing" constant="4" id="3Cm-FJ-GMo"/>
+                    <constraint firstAttribute="trailing" secondItem="auA-cc-9Gz" secondAttribute="trailing" constant="15" id="3Cm-FJ-GMo"/>
                     <constraint firstItem="Gxp-vm-ZFu" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="6TO-0M-Xbv"/>
                     <constraint firstItem="Gxp-vm-ZFu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="JvX-zf-ciF"/>
                     <constraint firstItem="2Pr-1R-yK7" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="SEO-pe-TmL"/>
-                    <constraint firstItem="auA-cc-9Gz" firstAttribute="leading" secondItem="KFQ-VO-wqc" secondAttribute="trailing" constant="5" id="UWK-5I-i4t"/>
+                    <constraint firstItem="auA-cc-9Gz" firstAttribute="leading" secondItem="KFQ-VO-wqc" secondAttribute="trailing" constant="30" id="UWK-5I-i4t"/>
                     <constraint firstItem="2Pr-1R-yK7" firstAttribute="leading" secondItem="dev-FM-bgm" secondAttribute="trailing" constant="10" id="VUd-gN-OMi"/>
-                    <constraint firstItem="KFQ-VO-wqc" firstAttribute="leading" secondItem="2Pr-1R-yK7" secondAttribute="trailing" id="cWG-Ki-Nux"/>
+                    <constraint firstItem="KFQ-VO-wqc" firstAttribute="leading" secondItem="2Pr-1R-yK7" secondAttribute="trailing" constant="65" id="cWG-Ki-Nux"/>
                     <constraint firstItem="dev-FM-bgm" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="iR8-ma-7cY"/>
                     <constraint firstItem="auA-cc-9Gz" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="pJf-hS-xVw"/>
                     <constraint firstItem="KFQ-VO-wqc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="uMW-Ox-t8H"/>
@@ -100,6 +101,7 @@
     </objects>
     <resources>
         <image name="checkmark" width="14" height="10"/>
-        <image name="warning" width="12" height="10"/>
+        <image name="tickCircle" width="48" height="48"/>
+        <image name="warning" width="16" height="14"/>
     </resources>
 </document>
