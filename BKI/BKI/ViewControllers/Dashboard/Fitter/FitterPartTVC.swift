@@ -22,8 +22,11 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         self.navigationItem.title = "Spool Number " + BKIModel.spoolNumebr()!
         self.navigationItem.rightBarButtonItem = saveBtn
-        saveBtn.isEnabled = (self.spool?.components.count)! > 0 ? true : false
+        saveBtn.isEnabled = (self.spool?.components.count)! > 0 && self.spool?.loadedAt == nil ? true : false
         self.tableView.reloadData()
+        if self.spool?.loadedAt != nil{
+            self.alertVC.presentAlertWithTitleAndMessage(title: "Warning", message: "You cannot modify heat numbers as the spool is added to a load", controller: self)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -32,7 +35,10 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
     }
     
     @IBAction func saveAction(_ sender: Any) {
-        
+        var showAlert = false
+        for component in (self.spool?.components)! {
+            print(component)
+        }
         var components = [[String:AnyObject]]()
         for row in 0 ..< (self.spool?.components.count)! {
             let indexPath = IndexPath(row: row, section: 0)
@@ -42,9 +48,10 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
         }
         
         for component in (self.spool?.components)! {
-            if component.heatNumber.count != 0 {
             let dict = ["id":component.id!, "heat_number": component.heatNumber] as [String : Any]
             components.append(dict as [String : AnyObject])
+            if component.heatNumber.count == 0 {
+                showAlert = true
             }
         }
         let spoolParams = ["components_attributes":components]
@@ -54,6 +61,9 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
                 print(responseData)
                 MBProgressHUD.hideHud(view: self.view)
 //                self.alertVC.presentAlertWithTitleAndMessage(title: "Success", message: "Heat numbers are updated.", controller: self)
+                if showAlert{
+                    self.alertVC.presentAlertWithTitleAndMessage(title: "Warning", message: "Please enter heat numbers to move the spool to next state", controller: self)
+                }
                 self.navigationController?.popViewController(animated: true)
                 self.tableView.reloadData()
             }
@@ -77,14 +87,15 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "partCell", for: indexPath) as? PartCell
         cell?.indexPath = indexPath
         let component = self.spool?.components[indexPath.row]
+        let isLoaded = self.spool?.loadedAt != nil ? true : false
         if indexPath.row == 0 {
-            cell?.configureCell(component: component!, isNext:true, isPrev: false)
+            cell?.configureCell(component: component!, isNext:true, isPrev: false, isLoaded: isLoaded)
         }
         else if indexPath.row == (self.spool?.components.count)! - 1 {
-            cell?.configureCell(component: component!, isNext:false, isPrev: true)
+            cell?.configureCell(component: component!, isNext:false, isPrev: true, isLoaded: isLoaded)
         }
         else {
-            cell?.configureCell(component: component!, isNext:true, isPrev: true)
+            cell?.configureCell(component: component!, isNext:true, isPrev: true, isLoaded: isLoaded)
         }
         cell?.heatTF.formDelegate = self
         return cell!

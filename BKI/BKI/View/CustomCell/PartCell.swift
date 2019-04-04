@@ -20,13 +20,14 @@ class PartCell: BaseCell, UITextFieldDelegate,TextInputDelegate {
         // Initialization code
     }
 
-    func configureCell(component:Component, isNext:Bool, isPrev:Bool) {
+    func configureCell(component:Component, isNext:Bool, isPrev:Bool, isLoaded:Bool) {
         self.component = component
         self.heatTF.tag = self.indexPath.row
         self.heatTF.textAlignment = .left
         self.heatLbl.text = self.component.part_number!
         self.heatTF.text = self.component.heatNumber
         self.heatTF.designToolBarWithNext(isNext: isNext, withPrev: isPrev, delegate: self)
+        self.heatTF.isUserInteractionEnabled = !isLoaded
     }
     func getTextField() -> AUTextField {
         return self.heatTF

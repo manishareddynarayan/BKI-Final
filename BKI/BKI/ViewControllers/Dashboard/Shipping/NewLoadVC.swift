@@ -126,7 +126,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        saveBtn.isEnabled = textField.text?.count ?? 0 > 0 ? true : false
+        saveBtn.isEnabled = scannedSpools.count > 0 || self.load!.materials.count > 0 || (self.load?.spools.count) != 0 || textField.text?.count ?? 0 > 0 ? true : false
         return false
     }
     
@@ -143,9 +143,10 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         if scannedSpools.count > 0 {
             loadParams["spool_ids"] =  self.getSPoolParams()
         }
-        if truckNumberTF.text?.count != 0 {
-            loadParams["truck_number"] = truckNumberTF.text as AnyObject
-        }
+//        if truckNumberTF.text?.count != 0 {
+//            loadParams["truck_number"] = truckNumberTF.text as AnyObject
+//        }
+        loadParams["truck_number"] = truckNumberTF.text as AnyObject
         if  self.load!.materials.count > 0 {
             let (misc1, misc2) = self.getMiscMaterialParams()
             loadParams["loads_miscellaneous_materials_attributes"] = misc1 as AnyObject
@@ -256,6 +257,15 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         miscVC?.load = self.load!
     }
     
+    @objc func showDrawingVC(spool:Spool, role:Int){
+        if let vc = self.getViewControllerWithIdentifier(identifier: "DrawingVC") as? BaseViewController
+        {
+            vc.spool = spool
+            vc.role = role
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
     //MARK:- TableView DataSource methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return  self.isEdit ? self.scannedSpools.count + (self.load?.spools.count)! : self.scannedSpools.count
@@ -275,6 +285,10 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             spool = self.scannedSpools[row]
         }
         cell?.spoolLbl.text = "\(spool.code!)"
+//        cell?.viewDrawingBtn.addTarget(self, action: #selector(showDrawingVC), for: .touchUpInside)
+        cell?.viewDrawingBlock = {
+            self.showDrawingVC(spool: spool, role: self.role)
+        }
         return cell!
     }
     
@@ -289,12 +303,34 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                 MBProgressHUD.hideHud(view: self.view)
                 let spool  = Spool.init(info: responseData)
                 if spool.status == "On Hold" {
-                    self.showFailureAlert(with: "The Spool is on hold and hence no operation can be performed on it.")
+                    
+                    self.alertVC.presentAlertWithTitleAndActions(actions: [{
+                        self.dismiss(animated: true, completion: nil)
+                        },{
+                            self.showDrawingVC(spool: spool, role: self.role)
+                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "The Spool is on hold and hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
+                    
+//                    self.showFailureAlert(with: "The Spool is on hold and hence no operation can be performed on it.")
                     return
                 } else if (self.role == 3 && spool.state != WeldState.readyToShip) {
-                    self.showFailureAlert(with: "You can access spools which are in state of ready to ship.")
+                    
+                    self.alertVC.presentAlertWithTitleAndActions(actions: [{
+                        self.dismiss(animated: true, completion: nil)
+                        },{
+                            self.showDrawingVC(spool: spool, role: self.role)
+                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "You can perform operations on spools which are in state of ready to ship. You can only view the drawing.", title: "Warning")
+                    
+//                    self.showFailureAlert(with: "You can access spools which are in state of ready to ship.")
+                    return
+                }else if !self.checkHeatNumbers(){
+                    self.alertVC.presentAlertWithTitleAndActions(actions: [{
+                        self.dismiss(animated: true, completion: nil)
+                        },{
+                            self.showDrawingVC(spool: spool, role: self.role)
+                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "You cannot add this spool as the heat numbers are not present.", title: "Warning")
                     return
                 }
+                
                 self.scannedSpools.append(spool)
                 BKIModel.setSpoolNumebr(number: self.spool?.code!)
                 self.saveBtn.isEnabled = self.scannedSpools.count > 0 || self.load!.materials.count > 0 || (self.load?.spools.count) != 0 ? true : false

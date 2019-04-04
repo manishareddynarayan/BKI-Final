@@ -107,9 +107,9 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     self.getAlternateDescriptionData()
                 }
 
-//                if self.spool?.status == "On Hold" {
-//                    self.showFailureAlert(with: "The Spool is on hold and hence no operation can be performed on it.")
-//                }
+                if self.spool?.status == "On Hold" {
+                    self.showFailureAlert(with: "The Spool is on hold and hence no operation can be performed on it.")
+                }
 //                    else if self.role == 2 && self.spool?.state != WeldState.welding {
 //                    self.showFailureAlert(with: "You can access spools which are in state of welding.")
 //                }
@@ -246,8 +246,22 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
 //        if indexPath.row == self.menuItems.count - 1 || self.role == 3 && self.spool?.status != "On Hold" {
 //            cell?.enable(enable: true)
 //        }
+        if self.spool?.status == "On Hold" {
+            if indexPath.row == 2 && self.role == 1{
+                cell?.enable(enable: true)
+            }else if indexPath.row == 1 && self.role == 2{
+                cell?.enable(enable: true)
+            }else if indexPath.row == 1 && self.role == 4{
+                cell?.enable(enable: true)
+            }else if indexPath.row == self.menuItems.count - 1{
+                cell?.enable(enable: true)
+            }else{
+                cell?.enable(enable: false)
+            }
+        }else{
+            cell?.enable(enable: true)
+        }
         
-        cell?.enable(enable: true)
         return cell!
     }
 

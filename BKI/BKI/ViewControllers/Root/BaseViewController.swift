@@ -96,9 +96,10 @@ class BaseViewController: UIViewController {
         var fittingState = 0
         if let spool = self.spool{
             for weld in spool.welds{
-                if weld.state == WeldState.fitting{
-                    fittingState += 1
-                }
+                fittingState = weld.state == WeldState.fitting ? (fittingState + 1) : fittingState
+//                if weld.state == WeldState.fitting{
+//                    fittingState += 1
+//                }
             }
         }
         if fittingState == 1{
@@ -111,9 +112,10 @@ class BaseViewController: UIViewController {
         var weldingState = 0
         if let spool = self.spool{
             for weld in spool.welds{
-                if weld.state == WeldState.welding{
-                    weldingState += 1
-                }
+                weldingState = weld.state == WeldState.welding ? (weldingState + 1) : weldingState
+//                if weld.state == WeldState.welding{
+//                    weldingState += 1
+//                }
             }
         }
         if weldingState == 1{
