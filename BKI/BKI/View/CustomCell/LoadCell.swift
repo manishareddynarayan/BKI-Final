@@ -10,8 +10,11 @@ import UIKit
 
 class LoadCell: BaseCell {
 
+    var viewDrawingBlock:(() -> Void)?
     
+    @IBOutlet weak var viewDrawingBtn: UIButton!
     @IBOutlet weak var spoolLbl: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -21,6 +24,9 @@ class LoadCell: BaseCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    @IBAction func viewDrawing(_ sender: Any) {
+        self.viewDrawingBlock!()
     }
     
 }

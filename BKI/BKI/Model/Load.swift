@@ -33,7 +33,10 @@ class Load: BKIModel {
         }
         if let truckNumber = loadInfo["truck_number"] as? String {
             self.truckNumber = truckNumber
+        }else{
+            self.truckNumber = ""
         }
+            
         if let number = loadInfo["load_number"] as? String {
             self.number = number
         }
