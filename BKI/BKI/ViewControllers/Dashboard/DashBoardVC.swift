@@ -165,11 +165,13 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 self.altData.removeAll()
                 for (key,value) in responseData{
                     if key != "Pipe"{
-                        for i in 0...(responseData[key]!.count! - 1){
-                            let valueDict = ((value as? NSArray)![i] as? [String:AnyObject])!
-                            let alternateDescription = AlternateDescription.init(key: key,values: valueDict)
-                            if alternateDescription.notes != "-" || alternateDescription.altDescription != "-"{
-                                self.altData.append(alternateDescription)
+                        if responseData[key]!.count! > 0{
+                            for i in 0...(responseData[key]!.count! - 1){
+                                let valueDict = ((value as? NSArray)![i] as? [String:AnyObject])!
+                                let alternateDescription = AlternateDescription.init(key: key,values: valueDict)
+                                if alternateDescription.notes != "-" || alternateDescription.altDescription != "-"{
+                                    self.altData.append(alternateDescription)
+                                }
                             }
                         }
                     }
