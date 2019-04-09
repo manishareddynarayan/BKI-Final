@@ -298,7 +298,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     
     func getSpool() -> Void {
         MBProgressHUD.showHud(view: self.view)
-        httpWrapper.performAPIRequest("spools/\(self.scanCode!)", methodType: "GET", parameters: nil, successBlock: { (responseData) in
+        httpWrapper.performAPIRequest("spools/\(self.scanCode!)?scan=true", methodType: "GET", parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
                 MBProgressHUD.hideHud(view: self.view)
                 let spool  = Spool.init(info: responseData)

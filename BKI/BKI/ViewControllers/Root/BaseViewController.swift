@@ -65,7 +65,7 @@ class BaseViewController: UIViewController {
         guard data != nil else {
             return
         }
-        self.scanCode = data?.stringValue!.components(separatedBy: "_").last
+        self.scanCode = data?.stringValue!//.components(separatedBy: "_").last
     }
     
     @IBAction func moreAction(_ sender: Any) {

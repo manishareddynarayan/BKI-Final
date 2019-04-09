@@ -91,7 +91,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     
     func getSpoolDetails() {
         MBProgressHUD.showHud(view: self.view)
-        httpWrapper.performAPIRequest("spools/\(self.scanCode!)", methodType: "GET", parameters: nil, successBlock: { (responseData) in
+        httpWrapper.performAPIRequest("spools/\(self.scanCode!)?scan=true", methodType: "GET", parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
                 print(responseData)
                 MBProgressHUD.hideHud(view: self.view)
