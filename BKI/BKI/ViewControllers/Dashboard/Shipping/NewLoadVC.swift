@@ -318,16 +318,16 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                         self.dismiss(animated: true, completion: nil)
                         },{
                             self.showDrawingVC(spool: spool, role: self.role)
-                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "You can perform operations on spools which are in state of ready to ship. You can only view the drawing.", title: "Warning")
+                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "The Spool is not ready to be loaded yet. You can view the drawing by clicking on the button below.", title: "Warning")
                     
 //                    self.showFailureAlert(with: "You can access spools which are in state of ready to ship.")
                     return
-                }else if !self.checkHeatNumbers(){
+                }else if !self.checkHeatNumbersWithSpool(spool: spool){
                     self.alertVC.presentAlertWithTitleAndActions(actions: [{
                         self.dismiss(animated: true, completion: nil)
                         },{
                             self.showDrawingVC(spool: spool, role: self.role)
-                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "You cannot add this spool as the heat numbers are not present.", title: "Warning")
+                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "You cannot add this spool as the heat numbers are not present. You can view the drawing by clicking on the button below.", title: "Warning")
                     return
                 }
                 

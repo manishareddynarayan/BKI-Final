@@ -168,6 +168,15 @@ class BaseViewController: UIViewController {
         return true
     }
     
+    func checkHeatNumbersWithSpool(spool: Spool) -> Bool{
+            for component in spool.components{
+                if component.heatNumber == ""{
+                    return false
+                }
+            }
+        return true
+    }
+    
     func rejectWelds(andUpdate tableView:UITableView, caller:String) {
         let submitClosure: () -> Void = {
             let tf = self.alertVC.rbaAlert.textFields?.first
