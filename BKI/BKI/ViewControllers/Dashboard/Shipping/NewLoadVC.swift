@@ -321,8 +321,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                         }], buttonTitles: ["OK","View Drawing"], controller: self, message: "The Spool is already added to a load. You can view the drawing by clicking on the button below.", title: "Warning")
                     
                     return
-                }
-                else if (self.role == 3 && spool.state != WeldState.readyToShip) {
+                } else if (self.role == 3 && spool.state != WeldState.readyToShip) {
                     
                     self.alertVC.presentAlertWithTitleAndActions(actions: [{
                         self.dismiss(animated: true, completion: nil)
