@@ -312,7 +312,17 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                     
 //                    self.showFailureAlert(with: "The Spool is on hold and hence no operation can be performed on it.")
                     return
-                } else if (self.role == 3 && spool.state != WeldState.readyToShip) {
+                }
+                else if (self.role == 3 && (spool.state == WeldState.inShipping || spool.state == WeldState.shipped)) {
+                    self.alertVC.presentAlertWithTitleAndActions(actions: [{
+                        self.dismiss(animated: true, completion: nil)
+                        },{
+                            self.showDrawingVC(spool: spool, role: self.role)
+                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "The Spool is already added to a load. You can view the drawing by clicking on the button below.", title: "Warning")
+                    
+                    return
+                }
+                else if (self.role == 3 && spool.state != WeldState.readyToShip) {
                     
                     self.alertVC.presentAlertWithTitleAndActions(actions: [{
                         self.dismiss(animated: true, completion: nil)
@@ -322,7 +332,8 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                     
 //                    self.showFailureAlert(with: "You can access spools which are in state of ready to ship.")
                     return
-                }else if !self.checkHeatNumbersWithSpool(spool: spool){
+                }
+                else if !self.checkHeatNumbersWithSpool(spool: spool){
                     self.alertVC.presentAlertWithTitleAndActions(actions: [{
                         self.dismiss(animated: true, completion: nil)
                         },{
