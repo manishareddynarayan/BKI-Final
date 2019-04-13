@@ -65,7 +65,7 @@ class BaseViewController: UIViewController {
         guard data != nil else {
             return
         }
-        self.scanCode = data?.stringValue!.components(separatedBy: "_").last
+        self.scanCode = data?.stringValue!//.components(separatedBy: "_").last
     }
     
     @IBAction func moreAction(_ sender: Any) {
@@ -165,6 +165,15 @@ class BaseViewController: UIViewController {
                 }
             }
         }
+        return true
+    }
+    
+    func checkHeatNumbersWithSpool(spool: Spool) -> Bool{
+            for component in spool.components{
+                if component.heatNumber == ""{
+                    return false
+                }
+            }
         return true
     }
     

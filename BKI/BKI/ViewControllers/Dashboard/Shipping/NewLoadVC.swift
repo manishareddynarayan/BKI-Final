@@ -298,7 +298,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     
     func getSpool() -> Void {
         MBProgressHUD.showHud(view: self.view)
-        httpWrapper.performAPIRequest("spools/\(self.scanCode!)", methodType: "GET", parameters: nil, successBlock: { (responseData) in
+        httpWrapper.performAPIRequest("spools/\(self.scanCode!)?scan=true", methodType: "GET", parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
                 MBProgressHUD.hideHud(view: self.view)
                 let spool  = Spool.init(info: responseData)
@@ -312,22 +312,32 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                     
 //                    self.showFailureAlert(with: "The Spool is on hold and hence no operation can be performed on it.")
                     return
+                }
+                else if (self.role == 3 && (spool.state == WeldState.inShipping || spool.state == WeldState.shipped)) {
+                    self.alertVC.presentAlertWithTitleAndActions(actions: [{
+                        self.dismiss(animated: true, completion: nil)
+                        },{
+                            self.showDrawingVC(spool: spool, role: self.role)
+                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "The Spool is already added to a load. You can view the drawing by clicking on the button below.", title: "Warning")
+                    
+                    return
                 } else if (self.role == 3 && spool.state != WeldState.readyToShip) {
                     
                     self.alertVC.presentAlertWithTitleAndActions(actions: [{
                         self.dismiss(animated: true, completion: nil)
                         },{
                             self.showDrawingVC(spool: spool, role: self.role)
-                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "You can perform operations on spools which are in state of ready to ship. You can only view the drawing.", title: "Warning")
+                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "The Spool is not ready to be loaded yet. You can view the drawing by clicking on the button below.", title: "Warning")
                     
 //                    self.showFailureAlert(with: "You can access spools which are in state of ready to ship.")
                     return
-                }else if !self.checkHeatNumbers(){
+                }
+                else if !self.checkHeatNumbersWithSpool(spool: spool){
                     self.alertVC.presentAlertWithTitleAndActions(actions: [{
                         self.dismiss(animated: true, completion: nil)
                         },{
                             self.showDrawingVC(spool: spool, role: self.role)
-                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "You cannot add this spool as the heat numbers are not present.", title: "Warning")
+                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "You cannot add this spool as the heat numbers are not present. You can view the drawing by clicking on the button below.", title: "Warning")
                     return
                 }
                 

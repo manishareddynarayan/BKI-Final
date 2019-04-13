@@ -41,6 +41,8 @@ enum WeldState:Int {
     case verified
     case complete
     case reject
+    case inShipping
+    case shipped
 }
 
 

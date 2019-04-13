@@ -102,14 +102,12 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBAction func rejectSpool(_ sender: Any) {
         shouldRejectWholeSpool = true
         rejectWelds(andUpdate: self.tableView, caller: "weld")
-
+        
     }
     
     @IBAction func rejectWelds(_ sender: Any) {
         shouldRejectWholeSpool = false
         rejectWelds(andUpdate: self.tableView, caller: "weld")
-//        rejectBtn.isEnabled = false
-//        rejectBtn.alpha = 0.5
     }
     // MARK: - Table view data source
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -142,13 +140,16 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
             cell?.completeBtn.alpha = enable ? 1 : 0.5
             cell?.statusTF.alpha = enable ? 1 : 0.5
         }
+        
         cell!.markAsCompletedBlock = {
             self.updateWeldStatus(weld: weld!)
             weld?.isChecked = false
         }
+        
         cell!.statusChangeddBlock = {
             weld?.weldType = cell?.statusTF.text!
         }
+        
         cell?.viewComments = {
             if weld?.qARejectReason == nil || weld?.welderRejectReason == nil {
                 let title = weld?.qARejectReason == nil ? "Welder Reason" : "QA Reason"

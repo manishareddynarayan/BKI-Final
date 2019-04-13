@@ -91,7 +91,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     
     func getSpoolDetails() {
         MBProgressHUD.showHud(view: self.view)
-        httpWrapper.performAPIRequest("spools/\(self.scanCode!)", methodType: "GET", parameters: nil, successBlock: { (responseData) in
+        httpWrapper.performAPIRequest("spools/\(self.scanCode!)?scan=true", methodType: "GET", parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
                 print(responseData)
                 MBProgressHUD.hideHud(view: self.view)
@@ -165,11 +165,13 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 self.altData.removeAll()
                 for (key,value) in responseData{
                     if key != "Pipe"{
-                        for i in 0...(responseData[key]!.count! - 1){
-                            let valueDict = ((value as? NSArray)![i] as? [String:AnyObject])!
-                            let alternateDescription = AlternateDescription.init(key: key,values: valueDict)
-                            if alternateDescription.notes != "-" || alternateDescription.altDescription != "-"{
-                                self.altData.append(alternateDescription)
+                        if responseData[key]!.count! > 0{
+                            for i in 0...(responseData[key]!.count! - 1){
+                                let valueDict = ((value as? NSArray)![i] as? [String:AnyObject])!
+                                let alternateDescription = AlternateDescription.init(key: key,values: valueDict)
+                                if alternateDescription.notes != "-" || alternateDescription.altDescription != "-"{
+                                    self.altData.append(alternateDescription)
+                                }
                             }
                         }
                     }
