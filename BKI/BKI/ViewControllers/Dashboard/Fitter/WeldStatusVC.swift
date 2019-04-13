@@ -108,8 +108,6 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBAction func rejectWelds(_ sender: Any) {
         shouldRejectWholeSpool = false
         rejectWelds(andUpdate: self.tableView, caller: "weld")
-        //        rejectBtn.isEnabled = false
-        //        rejectBtn.alpha = 0.5
     }
     // MARK: - Table view data source
     func numberOfSections(in tableView: UITableView) -> Int {
