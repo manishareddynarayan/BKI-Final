@@ -17,6 +17,7 @@ let SIGNUPSEGUE = "SignupSegue"
 let FORGOTPWDSEGUE = "ForgotPwdSegue"
 let DOCUMENTDETAILSEGUE = "DocDetailSegue"
 let DASHBOARDSEGUE = "DashboardSegue"
+let ALTERNATEDESCRIPTIONSEGUE = "AlternateDescriptionSegue"
 
 
 //MARK: Role Enum
@@ -40,6 +41,8 @@ enum WeldState:Int {
     case verified
     case complete
     case reject
+    case inShipping
+    case shipped
 }
 
 

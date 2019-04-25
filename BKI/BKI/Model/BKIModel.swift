@@ -93,6 +93,12 @@ class BKIModel: NSObject {
         else if state == "ready_to_ship" {
             self.state = WeldState.readyToShip
         }
+        else if state == "in_shipping" {
+            self.state = WeldState.inShipping
+        }
+        else if state == "shipping" {
+            self.state = WeldState.shipped
+        }
         else if state == "verified" {
             self.state = WeldState.verified
         }

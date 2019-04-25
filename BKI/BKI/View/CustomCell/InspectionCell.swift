@@ -28,6 +28,7 @@ class InspectionCell: BaseCell {
     }
     
     func configureWeld(weld:Weld) {
+        
         self.weldLbl.text = weld.number
         let state = weld.getWeldState(state: weld.state!).capitalized
         self.statusLbl.text = state
@@ -36,7 +37,7 @@ class InspectionCell: BaseCell {
 //            weld.isChecked = true
             self.statusLbl.textColor = UIColor.muddyGreen
         } else if state == "Fitting" {
-            self.statusLbl.text = "Rejected"
+            self.statusLbl.text = (weld.qARejectReason != nil && (weld.qARejectReason?.count)! > 0) ? "Rejected" : ""
             self.statusLbl.textColor = UIColor.scarlet
         }
         else {

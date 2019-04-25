@@ -15,7 +15,6 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         tableView.register(UINib(nibName: "DashBoardCell", bundle: nil), forCellReuseIdentifier: "DashboardCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         

@@ -18,6 +18,7 @@ struct Constant {
     let kBaseURL = "http://52.90.117.124/api/v1/"
     
 }
+
 class HTTPWrapper: NSObject {
     
     var constant = Constant()

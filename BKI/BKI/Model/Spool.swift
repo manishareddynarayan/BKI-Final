@@ -18,6 +18,8 @@ class Spool: BKIModel {
     var welds = [Weld]()
     var components = [Component]()
     var pdfUrl:String?
+    var loadedAt:String?
+    var lastFittingCompletion = false
     
     override init () {
         // uncomment this line if your class has been inherited from any other class
@@ -65,6 +67,9 @@ class Spool: BKIModel {
         }
         if let compoenents = spoolInfo["components"] as? [[String:AnyObject]] {
             self.saveComponents(components: compoenents)
+        }
+        if let loadedAt = spoolInfo["loaded_at"] as? String{
+            self.loadedAt = loadedAt
         }
     }
     

@@ -9,16 +9,15 @@
 import UIKit
 
 class AlternateDescriptionCell: BaseCell {
-
     @IBOutlet weak var descriptionLbl: UILabel!
     @IBOutlet weak var notesLbl: UILabel!
     @IBOutlet weak var sizeLbl: UILabel!
     @IBOutlet weak var headingLbl: UILabel!
     
-    func setCell(heading: String, size: String, notes: String, description: String){
-        headingLbl.text = heading
-        sizeLbl.text = size
-        descriptionLbl.text = description
-        notesLbl.text = notes
+    func setCell(data:AlternateDescription){
+        headingLbl.text = data.heading!
+        sizeLbl.text = data.size!
+        notesLbl.text = data.notes!
+        descriptionLbl.text = data.altDescription!
     }
 }
