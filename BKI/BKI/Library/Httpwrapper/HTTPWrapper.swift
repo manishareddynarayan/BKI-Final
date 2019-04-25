@@ -15,8 +15,7 @@ struct Constant {
     
    // let kBaseURL = "http://192.168.0.47:3000/"
      //let kBaseURL = "http://869c8d41.ngrok.io/"
-    let kBaseURL = "http://18.234.109.171/api/v1/"
-
+    let kBaseURL = "http://52.90.117.124/api/v1/"
     
 }
 class HTTPWrapper: NSObject {
