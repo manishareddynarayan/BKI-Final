@@ -91,7 +91,7 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate ,UITextFieldDelega
 //            })
 //        }
         cell?.quantityCompletedBlock = { (text)  in
-            if (text.count) > 0 {
+            if (text.count) > 0 && (text.count) < 18 {
                 material.quantity = Int(text)!
             }                
         }
