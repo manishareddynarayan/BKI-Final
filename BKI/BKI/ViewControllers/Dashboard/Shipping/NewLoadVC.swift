@@ -16,6 +16,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     @IBOutlet var saveBtn: UIButton!
     @IBOutlet var scanBtn: UIButton!
     @IBOutlet weak var truckNumberTF: AUTextField!
+    @IBOutlet weak var totalWeightLbl: UILabel!
     
     var load:Load?
     var isEdit = false
@@ -40,12 +41,30 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         self.truckNumberTF.text = (load?.truckNumber != nil) ? load?.truckNumber : UserDefaults.standard.value(forKey: "truck_number") as? String
         
         saveBtn.isEnabled = scannedSpools.count > 0 || self.load!.materials.count > 0 || (self.load?.spools.count) != 0 || self.truckNumberTF.text != "" ? true : false
+        
+        self.setTotalWeight()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func setTotalWeight(){
+        var weight = 0.0
+        for spool in (load?.spools)!{
+            weight += spool.weight
+        }
+        for material in (load?.materials)!{
+            weight += material.weight
+        }
+        for spool in scannedSpools{
+            weight += spool.weight
+        }
+        self.load?.total_weight = weight
+        self.totalWeightLbl.text = String(format: "%.2f", weight)
+    }
+    
     
     func createNewLoad() {
         MBProgressHUD.showHud(view: self.view)
@@ -79,6 +98,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                                                 MBProgressHUD.hideHud(view: self.view)
                                                 self.load!.saveLoad(loadInfo: responseData)
                                                 self.truckNumberTF.text = self.load?.truckNumber
+                                                self.totalWeightLbl.text = String(format: "%.2f",  (self.load?.total_weight)!)
                                                 self.saveBtn.isEnabled = self.scannedSpools.count > 0 || self.load!.materials.count > 0 || (self.load?.spools.count) != 0 ? true : false
                                                 self.tableView.reloadData()
                                             }
@@ -345,6 +365,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                 BKIModel.setSpoolNumebr(number: self.spool?.code!)
                 self.saveBtn.isEnabled = self.scannedSpools.count > 0 || self.load!.materials.count > 0 || (self.load?.spools.count) != 0 ? true : false
                 self.tableView.reloadData()
+                self.setTotalWeight()
             }
         }) { (error) in
             DispatchQueue.main.async {

@@ -132,7 +132,7 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
         } else if self.role == 2 {
             cell?.completeBtn.setImage((weld?.state == WeldState.welding || weld?.state == WeldState.fitting) ? UIImage.init(named: "tickCircle") : UIImage.init(named: "tick"), for: .normal)
             let enable = weld?.state == WeldState.welding  ? true : false
-            cell?.completeBtn.isEnabled = (cell?.statusTF.text?.count != 0 && weld?.state == WeldState.welding)  ? true : false
+            cell?.completeBtn.isEnabled = (weld?.state == WeldState.welding)  ? true : false
             cell?.statusTF.isEnabled = enable
             cell?.checkBtn.isEnabled = enable
             
@@ -142,8 +142,13 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
         
         cell!.markAsCompletedBlock = {
-            self.updateWeldStatus(weld: weld!)
-            weld?.isChecked = false
+            if cell?.statusTF.text?.count != 0 {
+                self.updateWeldStatus(weld: weld!)
+                weld?.isChecked = false
+            }else{
+                self.showFailureAlert(with: "Please enter weld type to complete the weld")
+            }
+            
         }
         
         cell!.statusChangeddBlock = {
