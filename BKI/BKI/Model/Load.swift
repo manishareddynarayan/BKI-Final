@@ -15,6 +15,7 @@ class Load: BKIModel {
     var spools = [Spool]()
     var materials = [Material]()
     var truckNumber:String?
+    var total_weight = 0.0
     
     override init () {
         // uncomment this line if your class has been inherited from any other class
@@ -44,6 +45,11 @@ class Load: BKIModel {
         if let status = loadInfo["load_status"] as? String {
             self.status = status
         }
+        
+        if let weight = loadInfo["total_weight"]?.doubleValue {
+            self.total_weight = weight
+        }
+        
         self.spools.removeAll()
         if let spools = loadInfo["spools"] as? [[String:AnyObject]] {
             for (_,spool) in spools.enumerated() {

@@ -19,6 +19,7 @@ class Spool: BKIModel {
     var components = [Component]()
     var pdfUrl:String?
     var loadedAt:String?
+    var weight = 0.0
     var lastFittingCompletion = false
     
     override init () {
@@ -70,6 +71,9 @@ class Spool: BKIModel {
         }
         if let loadedAt = spoolInfo["loaded_at"] as? String{
             self.loadedAt = loadedAt
+        }
+        if let weight = spoolInfo["weight"] as? String{
+            self.weight = Double(weight)!
         }
     }
     
