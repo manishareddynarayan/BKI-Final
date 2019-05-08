@@ -142,7 +142,7 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
         
         cell!.markAsCompletedBlock = {
-            if cell?.statusTF.text?.count != 0 {
+            if cell?.statusTF.text?.count != 0  || self.role == 1{
                 self.updateWeldStatus(weld: weld!)
                 weld?.isChecked = false
             }else{

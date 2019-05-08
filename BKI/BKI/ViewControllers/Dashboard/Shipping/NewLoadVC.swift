@@ -17,13 +17,13 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     @IBOutlet var scanBtn: UIButton!
     @IBOutlet weak var truckNumberTF: AUTextField!
     @IBOutlet weak var totalWeightLbl: UILabel!
-    
     var load:Load?
     var isEdit = false
     var scannedSpools = [Spool]()
     var newMaterials = [Material]()
     @IBOutlet var miscBtn: UIBarButtonItem!
     @IBOutlet weak var bottomView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "LoadCell", bundle: nil), forCellReuseIdentifier: "loadCell")
@@ -120,7 +120,6 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         let cancelClosure: () -> Void = {
             
         }
-//        let buttonTitles = scannedSpools.count > 0 || self.load!.materials.count > 0 ? ["Cancel","Miscellaneous","Submit"] :  ["Cancel","Miscellaneous"]
         let buttonTitles = ["Cancel","Add Misc Material","Submit"]
         if scannedSpools.count > 0 || self.load!.materials.count > 0 ||  (load?.spools.count) != 0 {
             shouldSubmit = true
@@ -297,13 +296,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "loadCell", for: indexPath) as? LoadCell
-        var spool:Spool!
-        if indexPath.row <= (self.load?.spools.count)! - 1 {
-            spool = self.load?.spools[indexPath.row]
-        } else {
-            let row = indexPath.row - (self.load?.spools.count)!
-            spool = self.scannedSpools[row]
-        }
+        let spool = getSpoolAtRow(indexPath: indexPath)
         cell?.spoolLbl.text = "\(spool.code!)"
 //        cell?.viewDrawingBtn.addTarget(self, action: #selector(showDrawingVC), for: .touchUpInside)
         cell?.viewDrawingBlock = {
@@ -313,7 +306,22 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let spool = getSpoolAtRow(indexPath: indexPath)
+        if let vc = self.getViewControllerWithIdentifier(identifier:"DrawingVC") as? BaseViewController {
+            vc.spool = spool
+            self.navigationController?.pushViewController(vc, animated: true)
+            return
+        }
+    }
+    func getSpoolAtRow(indexPath:IndexPath) -> Spool {
+        var spool:Spool!
+        if indexPath.row <= (self.load?.spools.count)! - 1 {
+            spool = self.load?.spools[indexPath.row]
+        } else {
+            let row = indexPath.row - (self.load?.spools.count)!
+            spool = self.scannedSpools[row]
+        }
+        return spool
     }
     
     func getSpool() -> Void {
@@ -329,8 +337,6 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                         },{
                             self.showDrawingVC(spool: spool, role: self.role)
                         }], buttonTitles: ["OK","View Drawing"], controller: self, message: "The Spool is on hold and hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
-                    
-//                    self.showFailureAlert(with: "The Spool is on hold and hence no operation can be performed on it.")
                     return
                 }
                 else if (self.role == 3 && (spool.state == WeldState.inShipping || spool.state == WeldState.shipped)) {
@@ -348,8 +354,6 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                         },{
                             self.showDrawingVC(spool: spool, role: self.role)
                         }], buttonTitles: ["OK","View Drawing"], controller: self, message: "The Spool is not ready to be loaded yet. You can view the drawing by clicking on the button below.", title: "Warning")
-                    
-//                    self.showFailureAlert(with: "You can access spools which are in state of ready to ship.")
                     return
                 }
                 else if !self.checkHeatNumbersWithSpool(spool: spool){
@@ -383,8 +387,6 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     //MARK:- Scan Delegate Methods
     func scanDidCompletedWith(_ data:AVMetadataMachineReadableCodeObject?) {
         guard data != nil else {
-            //self.scanCode = "kndsfjk"
-            //BKIModel.setSpoolNumebr(number: self.scanCode)
             return
         }
         let spoolId = data?.stringValue!.components(separatedBy: "_").last
