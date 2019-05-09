@@ -178,7 +178,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 }
                 MBProgressHUD.hideHud(view: self.view)
                 self.tableView.reloadData()
-                if self.altData.count == 0{
+                if self.altData.isEmpty{
                     self.alternateDescriptionBtn.isHidden = true
                 }else{
                     self.alternateDescriptionBtn.isHidden = false
@@ -268,8 +268,6 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       
-        
         guard indexPath.row == self.menuItems.count - 1 && self.role != 3   else {
             let menu = self.menuItems[indexPath.row]
             guard let vc = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? BaseViewController else {

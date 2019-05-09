@@ -22,7 +22,7 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         self.navigationItem.title = "Spool Number " + BKIModel.spoolNumebr()!
         self.navigationItem.rightBarButtonItem = saveBtn
-        saveBtn.isEnabled = (self.spool?.components.count)! > 0 && self.spool?.loadedAt == nil ? true : false
+        saveBtn.isEnabled = !((self.spool?.components.isEmpty)!)  && self.spool?.loadedAt == nil
         self.tableView.reloadData()
         if self.spool?.loadedAt != nil{
             self.alertVC.presentAlertWithTitleAndMessage(title: "Warning", message: "You cannot modify heat numbers as the spool is added to a load", controller: self)
@@ -50,7 +50,7 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
         for component in (self.spool?.components)! {
             let dict = ["id":component.id!, "heat_number": component.heatNumber] as [String : Any]
             components.append(dict as [String : AnyObject])
-            if component.heatNumber.count == 0 {
+            if component.heatNumber.isEmpty {
                 showAlert = true
             }
         }

@@ -71,16 +71,16 @@ class SearchMiscVC: BaseViewController, UITextFieldDelegate, UITableViewDelegate
     */
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (searchTF.text?.count)! > 0 && self.materialsArr.count == 0 {
+        if !((searchTF.text?.isEmpty)!) && self.materialsArr.isEmpty {
             return 1
         }
-        return self.materialsArr.count > 0 ? self.materialsArr.count : 0
+        return !(self.materialsArr.isEmpty) ? self.materialsArr.count : 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "materialCell")
         
-        if indexPath.row == 0 && (searchTF.text?.count)! > 0 && self.materialsArr.count == 0 {
+        if indexPath.row == 0 && !((searchTF.text?.isEmpty)!) && self.materialsArr.isEmpty {
             cell?.textLabel?.text = "+ Add '\((searchTF?.text!)!)'"
             cell?.textLabel?.textColor = UIColor.brickRed
         } else {
@@ -94,7 +94,7 @@ class SearchMiscVC: BaseViewController, UITextFieldDelegate, UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: false)
-        if indexPath.row == 0 && (searchTF.text?.count)! > 0 && self.materialsArr.count == 0 {
+        if indexPath.row == 0 && !((searchTF.text?.isEmpty)!) && self.materialsArr.isEmpty {
             self.material.desc = searchTF.text!
             createMaterial(materialDesc: searchTF.text!, indexPath: indexPath)
         } else {
@@ -128,8 +128,8 @@ class SearchMiscVC: BaseViewController, UITextFieldDelegate, UITableViewDelegate
     func textField(_ textField: UITextField, shouldChangeCharactersIn
     range: NSRange, replacementString string: String) -> Bool {
         var searchStr = textField.text! + string
-        if searchStr.count > 0 {
-            searchStr = string.count == 0 ? String(searchStr.dropLast()) : searchStr
+        if !(searchStr.isEmpty) {
+            searchStr = string.isEmpty ? String(searchStr.dropLast()) : searchStr
             self.searchForMaterial(text: searchStr)
         }
         return true

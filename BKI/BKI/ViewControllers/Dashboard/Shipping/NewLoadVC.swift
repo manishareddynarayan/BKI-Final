@@ -16,13 +16,14 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     @IBOutlet var saveBtn: UIButton!
     @IBOutlet var scanBtn: UIButton!
     @IBOutlet weak var truckNumberTF: AUTextField!
-    
+    @IBOutlet weak var totalWeightLbl: UILabel!
     var load:Load?
     var isEdit = false
     var scannedSpools = [Spool]()
     var newMaterials = [Material]()
     @IBOutlet var miscBtn: UIBarButtonItem!
     @IBOutlet weak var bottomView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "LoadCell", bundle: nil), forCellReuseIdentifier: "loadCell")
@@ -39,13 +40,31 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         
         self.truckNumberTF.text = (load?.truckNumber != nil) ? load?.truckNumber : UserDefaults.standard.value(forKey: "truck_number") as? String
         
-        saveBtn.isEnabled = scannedSpools.count > 0 || self.load!.materials.count > 0 || (self.load?.spools.count) != 0 || self.truckNumberTF.text != "" ? true : false
+        saveBtn.isEnabled = !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || self.truckNumberTF.text != ""
+        
+        self.setTotalWeight()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func setTotalWeight(){
+        var weight = 0.0
+        for spool in (load?.spools)!{
+            weight += spool.weight
+        }
+        for material in (load?.materials)!{
+            weight += material.weight
+        }
+        for spool in scannedSpools{
+            weight += spool.weight
+        }
+        self.load?.total_weight = weight
+        self.totalWeightLbl.text = String(format: "%.2f", weight)
+    }
+    
     
     func createNewLoad() {
         MBProgressHUD.showHud(view: self.view)
@@ -79,7 +98,8 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                                                 MBProgressHUD.hideHud(view: self.view)
                                                 self.load!.saveLoad(loadInfo: responseData)
                                                 self.truckNumberTF.text = self.load?.truckNumber
-                                                self.saveBtn.isEnabled = self.scannedSpools.count > 0 || self.load!.materials.count > 0 || (self.load?.spools.count) != 0 ? true : false
+                                                self.totalWeightLbl.text = String(format: "%.2f",  (self.load?.total_weight)!)
+                                                self.saveBtn.isEnabled = !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!)
                                                 self.tableView.reloadData()
                                             }
         }) { (error) in
@@ -100,9 +120,8 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         let cancelClosure: () -> Void = {
             
         }
-//        let buttonTitles = scannedSpools.count > 0 || self.load!.materials.count > 0 ? ["Cancel","Miscellaneous","Submit"] :  ["Cancel","Miscellaneous"]
         let buttonTitles = ["Cancel","Add Misc Material","Submit"]
-        if scannedSpools.count > 0 || self.load!.materials.count > 0 ||  (load?.spools.count) != 0 {
+        if !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) ||  !((load?.spools.isEmpty)!) {
             shouldSubmit = true
         }
         self.alertVC.presentActionSheetWithActionsAndTitle(actions:
@@ -126,7 +145,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        saveBtn.isEnabled = scannedSpools.count > 0 || self.load!.materials.count > 0 || (self.load?.spools.count) != 0 || textField.text?.count ?? 0 > 0 ? true : false
+        saveBtn.isEnabled = !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || textField.text?.count ?? 0 > 0
         return false
     }
     
@@ -140,14 +159,14 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     func updateLoad(isSubmit:Bool) {
         var loadParams:[String:AnyObject] = [String:AnyObject]()
         var params = [String:AnyObject]()
-        if scannedSpools.count > 0 {
+        if !(scannedSpools.isEmpty) {
             loadParams["spool_ids"] =  self.getSPoolParams()
         }
 //        if truckNumberTF.text?.count != 0 {
 //            loadParams["truck_number"] = truckNumberTF.text as AnyObject
 //        }
         loadParams["truck_number"] = truckNumberTF.text as AnyObject
-        if  self.load!.materials.count > 0 {
+        if  !(self.load!.materials.isEmpty) {
             let (misc1, misc2) = self.getMiscMaterialParams()
             loadParams["loads_miscellaneous_materials_attributes"] = misc1 as AnyObject
             //            loadParams["miscellaneous_material"] = misc2 as AnyObject
@@ -163,7 +182,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         }
         
         if isSubmit {
-            if truckNumberTF.text?.count == 0 {
+            if (truckNumberTF.text?.isEmpty)! {
                 let okClosure: () -> Void = {
                     
                 }
@@ -234,13 +253,13 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         }
         var misc1 = [String:AnyObject]()
         var misc2 =  [String:AnyObject]()
-        if misc_material_attributes.count > 0 {
+        if !(misc_material_attributes.isEmpty) {
             for (idx,ma) in misc_material_attributes.enumerated() {
                 let i = "\(idx)"
                 misc1[i] = ma as AnyObject
             }
         }
-        if misc_materia_params.count > 0 {
+        if !(misc_materia_params.isEmpty) {
             for (idx,ma) in misc_materia_params.enumerated() {
                 let i = "\(idx)"
                 misc2[i] = ma as AnyObject
@@ -277,13 +296,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "loadCell", for: indexPath) as? LoadCell
-        var spool:Spool!
-        if indexPath.row <= (self.load?.spools.count)! - 1 {
-            spool = self.load?.spools[indexPath.row]
-        } else {
-            let row = indexPath.row - (self.load?.spools.count)!
-            spool = self.scannedSpools[row]
-        }
+        let spool = getSpoolAtRow(indexPath: indexPath)
         cell?.spoolLbl.text = "\(spool.code!)"
 //        cell?.viewDrawingBtn.addTarget(self, action: #selector(showDrawingVC), for: .touchUpInside)
         cell?.viewDrawingBlock = {
@@ -293,7 +306,22 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let spool = getSpoolAtRow(indexPath: indexPath)
+        if let vc = self.getViewControllerWithIdentifier(identifier:"DrawingVC") as? BaseViewController {
+            vc.spool = spool
+            self.navigationController?.pushViewController(vc, animated: true)
+            return
+        }
+    }
+    func getSpoolAtRow(indexPath:IndexPath) -> Spool {
+        var spool:Spool!
+        if indexPath.row <= (self.load?.spools.count)! - 1 {
+            spool = self.load?.spools[indexPath.row]
+        } else {
+            let row = indexPath.row - (self.load?.spools.count)!
+            spool = self.scannedSpools[row]
+        }
+        return spool
     }
     
     func getSpool() -> Void {
@@ -309,8 +337,6 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                         },{
                             self.showDrawingVC(spool: spool, role: self.role)
                         }], buttonTitles: ["OK","View Drawing"], controller: self, message: "The Spool is on hold and hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
-                    
-//                    self.showFailureAlert(with: "The Spool is on hold and hence no operation can be performed on it.")
                     return
                 }
                 else if (self.role == 3 && (spool.state == WeldState.inShipping || spool.state == WeldState.shipped)) {
@@ -328,8 +354,6 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                         },{
                             self.showDrawingVC(spool: spool, role: self.role)
                         }], buttonTitles: ["OK","View Drawing"], controller: self, message: "The Spool is not ready to be loaded yet. You can view the drawing by clicking on the button below.", title: "Warning")
-                    
-//                    self.showFailureAlert(with: "You can access spools which are in state of ready to ship.")
                     return
                 }
                 else if !self.checkHeatNumbersWithSpool(spool: spool){
@@ -343,8 +367,9 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                 
                 self.scannedSpools.append(spool)
                 BKIModel.setSpoolNumebr(number: self.spool?.code!)
-                self.saveBtn.isEnabled = self.scannedSpools.count > 0 || self.load!.materials.count > 0 || (self.load?.spools.count) != 0 ? true : false
+                self.saveBtn.isEnabled = !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!)
                 self.tableView.reloadData()
+                self.setTotalWeight()
             }
         }) { (error) in
             DispatchQueue.main.async {
@@ -362,8 +387,6 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     //MARK:- Scan Delegate Methods
     func scanDidCompletedWith(_ data:AVMetadataMachineReadableCodeObject?) {
         guard data != nil else {
-            //self.scanCode = "kndsfjk"
-            //BKIModel.setSpoolNumebr(number: self.scanCode)
             return
         }
         let spoolId = data?.stringValue!.components(separatedBy: "_").last

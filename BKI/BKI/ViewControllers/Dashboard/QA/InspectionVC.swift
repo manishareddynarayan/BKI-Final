@@ -31,7 +31,7 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
         self.resetWeldStatus()
         self.showActionButtons(approveBtn: approveBtn, rejectBtn: rejectBtn)
         self.tableView.reloadData()
-        if self.spool?.welds.count == 0 {
+        if (self.spool?.welds.isEmpty)! {
             self.tableView.isHidden = true
             rejectBtn.isEnabled = true
             rejectBtn.alpha = 1
@@ -43,7 +43,7 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func approveWeldsAction(_ sender: Any) {
-        (self.spool?.welds.count)! > 0 ? self.updateWeldsWith("verify", rejectReason: nil, isSpoolUpdate:false, updateTableView: tableView, caller: "qa") : self.updateWeldsWith("accepted", rejectReason: nil, isSpoolUpdate:true, updateTableView: tableView, caller: "qa")
+        !((self.spool?.welds.isEmpty)!) ? self.updateWeldsWith("verify", rejectReason: nil, isSpoolUpdate:false, updateTableView: tableView, caller: "qa") : self.updateWeldsWith("accepted", rejectReason: nil, isSpoolUpdate:true, updateTableView: tableView, caller: "qa")
         approveBtn.isEnabled = false
         approveBtn.alpha = 0.5
         rejectBtn.isEnabled = false

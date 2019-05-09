@@ -24,7 +24,7 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if self.openLoadsArr.count == 0 {
+        if self.openLoadsArr.isEmpty {
             self.getOpenLoads()
         }
     }

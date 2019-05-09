@@ -31,9 +31,9 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         self.navigationItem.title = "Spool Number " + BKIModel.spoolNumebr()!
         self.hideNavigationController()
-        let frame = (self.spool?.welds.count)! > 0 ? CGRect.zero : self.headerView.frame
+        let frame = !((self.spool?.welds.isEmpty)!) ? CGRect.zero : self.headerView.frame
         self.headerView.frame = frame
-        self.headerView.isHidden = ((self.spool?.welds.count)! > 0)
+        self.headerView.isHidden = !((self.spool?.welds.isEmpty)!)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -131,8 +131,8 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
             cell?.completeBtn.isUserInteractionEnabled = weld?.state == WeldState.fitting ? true : false
         } else if self.role == 2 {
             cell?.completeBtn.setImage((weld?.state == WeldState.welding || weld?.state == WeldState.fitting) ? UIImage.init(named: "tickCircle") : UIImage.init(named: "tick"), for: .normal)
-            let enable = weld?.state == WeldState.welding  ? true : false
-            cell?.completeBtn.isEnabled = (cell?.statusTF.text?.count != 0 && weld?.state == WeldState.welding)  ? true : false
+            let enable = weld?.state == WeldState.welding
+            cell?.completeBtn.isEnabled = enable
             cell?.statusTF.isEnabled = enable
             cell?.checkBtn.isEnabled = enable
             
@@ -142,8 +142,13 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
         
         cell!.markAsCompletedBlock = {
-            self.updateWeldStatus(weld: weld!)
-            weld?.isChecked = false
+            if !((cell?.statusTF.text?.isEmpty)!)  || self.role == 1{
+                self.updateWeldStatus(weld: weld!)
+                weld?.isChecked = false
+            }else{
+                self.showFailureAlert(with: "Please enter weld type to complete the weld")
+            }
+            
         }
         
         cell!.statusChangeddBlock = {

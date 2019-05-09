@@ -148,7 +148,7 @@ extension ScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
         captureSession.stopRunning()
 //        scanBtn.isEnabled = true
 
-        if metadataObjects.count == 0 {
+        if metadataObjects.isEmpty {
             qrCodeFrameView?.frame = CGRect.zero
             messageLabel.text = "No code is detected"
             let userInfoDict = [ NSLocalizedDescriptionKey :  "No code is detected."]
