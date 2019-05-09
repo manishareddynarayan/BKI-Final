@@ -20,7 +20,7 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate ,UITextFieldDelega
     var isSearchMisc = true
     override func viewDidLoad() {
         super.viewDidLoad()
-        if load.materials.count == 0 {
+        if load.materials.isEmpty {
             self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "materialCell")
             searchTF.text = text
         } else {
@@ -51,10 +51,10 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate ,UITextFieldDelega
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         if isSearchMisc {
-            if (searchTF.text?.count)! > 0 && self.materialsArr.count == 0 {
+            if !((searchTF.text?.isEmpty)!) && self.materialsArr.isEmpty {
                 return 1
             }
-            return self.materialsArr.count > 0 ? self.materialsArr.count : 0
+            return !(self.materialsArr.isEmpty) ? self.materialsArr.count : 0
         }
         return load.materials.count
     }
@@ -63,7 +63,7 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate ,UITextFieldDelega
         if isSearchMisc {
             let cell = tableView.dequeueReusableCell(withIdentifier: "materialCell")
             
-            if indexPath.row == 0 && (searchTF.text?.count)! > 0 && self.materialsArr.count == 0 {
+            if indexPath.row == 0 && !((searchTF.text?.isEmpty)!) && self.materialsArr.isEmpty {
                 cell?.textLabel?.text = "+ Add '\((searchTF?.text!)!)'"
                 cell?.textLabel?.textColor = UIColor.brickRed
             } else {
@@ -91,12 +91,12 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate ,UITextFieldDelega
 //            })
 //        }
         cell?.quantityCompletedBlock = { (text)  in
-            if (text.count) > 0 && (text.count) < 18 {
+            if !(text.isEmpty) && (text.count) < 18 {
                 material.quantity = Int(text)!
             }                
         }
         cell?.weightCompletedBlock = { (text)  in
-            if (text.count) > 0 {
+            if !(text.isEmpty) {
                 material.weight = Double(text)!
             }
         }
@@ -145,7 +145,7 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate ,UITextFieldDelega
         searchTF.resignFirstResponder()
         if isSearchMisc {
         tableView.deselectRow(at: indexPath, animated: false)
-        if indexPath.row == 0 && (searchTF.text?.count)! > 0 && self.materialsArr.count == 0 {
+        if indexPath.row == 0 && !((searchTF.text?.isEmpty)!) && self.materialsArr.isEmpty {
             self.material.desc = searchTF.text!
             createMaterial(materialDesc: searchTF.text!, indexPath: indexPath)
         } else {
@@ -253,8 +253,8 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate ,UITextFieldDelega
 //            searchTF.text = text
             isSearchMisc = true
             var searchStr = textField.text! + string
-            if searchStr.count > 0 {
-                searchStr = string.count == 0 ? String(searchStr.dropLast()) : searchStr
+            if !(searchStr.isEmpty) {
+                searchStr = string.isEmpty ? String(searchStr.dropLast()) : searchStr
                 self.searchForMaterial(text: searchStr)
             }
             return true

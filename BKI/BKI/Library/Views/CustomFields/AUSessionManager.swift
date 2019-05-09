@@ -23,7 +23,7 @@ class AUSessionManager: NSObject {
             if textField is AUSessionField {
                let currentTextField = textField as! AUSessionField
                 
-                if currentTextField.text?.count == 0 && currentTextField.isRequired {
+                if (currentTextField.text?.isEmpty)! && currentTextField.isRequired {
                     fieldDict["Error"] = "\(fieldDict["Key"] as! String) is required." as AnyObject
                     currentTextField.shakeTextField(numberOfShakes: 0, direction: 1, maxShakes: 6)
                     return fieldDict
@@ -62,7 +62,7 @@ class AUSessionManager: NSObject {
             }
             else {
                 let currentTextField = textField as! REFormattedNumberField
-                if currentTextField.text?.count == 0 && currentTextField.isRequired {
+                if (currentTextField.text?.isEmpty)! && currentTextField.isRequired {
                     fieldDict["Error"] = "Please enter \(fieldDict["Key"] as! String)." as AnyObject
                     currentTextField.shakeTextField(numberOfShakes: 0, direction: 1, maxShakes: 6)
 

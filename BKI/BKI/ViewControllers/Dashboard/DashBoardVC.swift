@@ -178,7 +178,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 }
                 MBProgressHUD.hideHud(view: self.view)
                 self.tableView.reloadData()
-                if self.altData.count == 0{
+                if self.altData.isEmpty{
                     self.alternateDescriptionBtn.isHidden = true
                 }else{
                     self.alternateDescriptionBtn.isHidden = false

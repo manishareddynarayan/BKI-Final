@@ -71,7 +71,7 @@ class MiscCell: BaseCell, UITextFieldDelegate, TextInputDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         var text = textField.text
         let idx = (textField.text?.index((textField.text?.startIndex)!, offsetBy: range.location))
-        if  string.count > 0 {
+        if  !(string.isEmpty) {
             let char:Character = string[string.startIndex]
             text?.insert(char, at: idx!)
         }

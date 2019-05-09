@@ -180,8 +180,8 @@ class BaseViewController: UIViewController {
     func rejectWelds(andUpdate tableView:UITableView, caller:String) {
         let submitClosure: () -> Void = {
             let tf = self.alertVC.rbaAlert.textFields?.first
-            if (tf?.text?.count)! > 0 {
-                (self.spool?.welds.count)! > 0 ? self.updateWeldsWith("reject", rejectReason: tf?.text!, isSpoolUpdate:false, updateTableView: tableView, caller: caller) : self.updateWeldsWith("rejected", rejectReason:nil, isSpoolUpdate:true, updateTableView: tableView, caller: caller)
+            if !((tf?.text?.isEmpty)!) {
+                !((self.spool?.welds.isEmpty)!) ? self.updateWeldsWith("reject", rejectReason: tf?.text!, isSpoolUpdate:false, updateTableView: tableView, caller: caller) : self.updateWeldsWith("rejected", rejectReason:nil, isSpoolUpdate:true, updateTableView: tableView, caller: caller)
             } else {
                 self.alertVC.presentAlertWithTitleAndMessage(title: "Error", message: "Please enter reason for rejection.", controller: self)
             }
@@ -203,7 +203,7 @@ class BaseViewController: UIViewController {
     
     func getAllWeldIds() -> [Int] {
         var weldIds:[Int] = []
-        if (self.spool?.welds.count)! > 0 {
+        if !((self.spool?.welds.isEmpty)!) {
             for weld in (self.spool?.welds)! {
                 weldIds.append(weld.id!)
             }
@@ -238,7 +238,7 @@ class BaseViewController: UIViewController {
     }
     
     func showActionButtons(approveBtn:UIButton,rejectBtn:UIButton) {
-        let isHidden = self.getSelectedWeldIds().count > 0 ? false : true
+        let isHidden = !(self.getSelectedWeldIds().isEmpty) ? false : true
         if isHidden || !checkHeatNumbers(){
             approveBtn.alpha = 0.5
             approveBtn.isEnabled = false
@@ -251,7 +251,7 @@ class BaseViewController: UIViewController {
     }
     
     func showRejectButton(rejectBtn:UIButton)  {
-        let isHidden = self.getSelectedWeldIds().count > 0 ? false : true
+        let isHidden = !(self.getSelectedWeldIds().isEmpty) ? false : true
         if isHidden {
             rejectBtn.alpha = 0.5
         } else {
@@ -381,9 +381,9 @@ class BaseTableViewController: UITableViewController {
     
     @objc func backButtonAction(sender:AnyObject?) {
         if let vc  = self as? LoadMiscTVC {
-            if vc.load.materials.count > 0 {
+            if !(vc.load.materials.isEmpty) {
                 for mat in vc.load.materials {
-                    if mat.desc?.count == 0 || mat.quantity <= 0 {
+                    if (mat.desc?.isEmpty)! || mat.quantity <= 0 {
                         self.showFailureAlert(with: "Please fill quantity and description for all materials.")
                         return
                     }

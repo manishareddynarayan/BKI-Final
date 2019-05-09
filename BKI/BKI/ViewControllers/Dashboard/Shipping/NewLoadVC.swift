@@ -40,7 +40,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         
         self.truckNumberTF.text = (load?.truckNumber != nil) ? load?.truckNumber : UserDefaults.standard.value(forKey: "truck_number") as? String
         
-        saveBtn.isEnabled = scannedSpools.count > 0 || self.load!.materials.count > 0 || (self.load?.spools.count) != 0 || self.truckNumberTF.text != "" ? true : false
+        saveBtn.isEnabled = !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || self.truckNumberTF.text != "" ? true : false
         
         self.setTotalWeight()
     }
@@ -99,7 +99,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                                                 self.load!.saveLoad(loadInfo: responseData)
                                                 self.truckNumberTF.text = self.load?.truckNumber
                                                 self.totalWeightLbl.text = String(format: "%.2f",  (self.load?.total_weight)!)
-                                                self.saveBtn.isEnabled = self.scannedSpools.count > 0 || self.load!.materials.count > 0 || (self.load?.spools.count) != 0 ? true : false
+                                                self.saveBtn.isEnabled = !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) ? true : false
                                                 self.tableView.reloadData()
                                             }
         }) { (error) in
@@ -121,7 +121,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
             
         }
         let buttonTitles = ["Cancel","Add Misc Material","Submit"]
-        if scannedSpools.count > 0 || self.load!.materials.count > 0 ||  (load?.spools.count) != 0 {
+        if !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) ||  !((load?.spools.isEmpty)!) {
             shouldSubmit = true
         }
         self.alertVC.presentActionSheetWithActionsAndTitle(actions:
@@ -145,7 +145,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        saveBtn.isEnabled = scannedSpools.count > 0 || self.load!.materials.count > 0 || (self.load?.spools.count) != 0 || textField.text?.count ?? 0 > 0 ? true : false
+        saveBtn.isEnabled = !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || textField.text?.count ?? 0 > 0 ? true : false
         return false
     }
     
@@ -159,14 +159,14 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     func updateLoad(isSubmit:Bool) {
         var loadParams:[String:AnyObject] = [String:AnyObject]()
         var params = [String:AnyObject]()
-        if scannedSpools.count > 0 {
+        if !(scannedSpools.isEmpty) {
             loadParams["spool_ids"] =  self.getSPoolParams()
         }
 //        if truckNumberTF.text?.count != 0 {
 //            loadParams["truck_number"] = truckNumberTF.text as AnyObject
 //        }
         loadParams["truck_number"] = truckNumberTF.text as AnyObject
-        if  self.load!.materials.count > 0 {
+        if  !(self.load!.materials.isEmpty) {
             let (misc1, misc2) = self.getMiscMaterialParams()
             loadParams["loads_miscellaneous_materials_attributes"] = misc1 as AnyObject
             //            loadParams["miscellaneous_material"] = misc2 as AnyObject
@@ -182,7 +182,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         }
         
         if isSubmit {
-            if truckNumberTF.text?.count == 0 {
+            if (truckNumberTF.text?.isEmpty)! {
                 let okClosure: () -> Void = {
                     
                 }
@@ -253,13 +253,13 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         }
         var misc1 = [String:AnyObject]()
         var misc2 =  [String:AnyObject]()
-        if misc_material_attributes.count > 0 {
+        if !(misc_material_attributes.isEmpty) {
             for (idx,ma) in misc_material_attributes.enumerated() {
                 let i = "\(idx)"
                 misc1[i] = ma as AnyObject
             }
         }
-        if misc_materia_params.count > 0 {
+        if !(misc_materia_params.isEmpty) {
             for (idx,ma) in misc_materia_params.enumerated() {
                 let i = "\(idx)"
                 misc2[i] = ma as AnyObject
@@ -367,7 +367,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                 
                 self.scannedSpools.append(spool)
                 BKIModel.setSpoolNumebr(number: self.spool?.code!)
-                self.saveBtn.isEnabled = self.scannedSpools.count > 0 || self.load!.materials.count > 0 || (self.load?.spools.count) != 0 ? true : false
+                self.saveBtn.isEnabled = !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!)  ? true : false
                 self.tableView.reloadData()
                 self.setTotalWeight()
             }

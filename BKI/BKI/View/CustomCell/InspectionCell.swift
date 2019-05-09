@@ -37,7 +37,7 @@ class InspectionCell: BaseCell {
 //            weld.isChecked = true
             self.statusLbl.textColor = UIColor.muddyGreen
         } else if state == "Fitting" {
-            self.statusLbl.text = (weld.qARejectReason != nil && (weld.qARejectReason?.count)! > 0) ? "Rejected" : ""
+            self.statusLbl.text = (weld.qARejectReason != nil && !(weld.qARejectReason?.isEmpty)!) ? "Rejected" : ""
             self.statusLbl.textColor = UIColor.scarlet
         }
         else {
