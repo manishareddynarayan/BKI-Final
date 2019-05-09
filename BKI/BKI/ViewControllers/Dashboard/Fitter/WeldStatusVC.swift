@@ -131,7 +131,7 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
             cell?.completeBtn.isUserInteractionEnabled = weld?.state == WeldState.fitting ? true : false
         } else if self.role == 2 {
             cell?.completeBtn.setImage((weld?.state == WeldState.welding || weld?.state == WeldState.fitting) ? UIImage.init(named: "tickCircle") : UIImage.init(named: "tick"), for: .normal)
-            let enable = weld?.state == WeldState.welding  ? true : false
+            let enable = weld?.state == WeldState.welding
             cell?.completeBtn.isEnabled = enable
             cell?.statusTF.isEnabled = enable
             cell?.checkBtn.isEnabled = enable

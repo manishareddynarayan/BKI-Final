@@ -40,7 +40,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         
         self.truckNumberTF.text = (load?.truckNumber != nil) ? load?.truckNumber : UserDefaults.standard.value(forKey: "truck_number") as? String
         
-        saveBtn.isEnabled = !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || self.truckNumberTF.text != "" ? true : false
+        saveBtn.isEnabled = !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || self.truckNumberTF.text != ""
         
         self.setTotalWeight()
     }
@@ -99,7 +99,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                                                 self.load!.saveLoad(loadInfo: responseData)
                                                 self.truckNumberTF.text = self.load?.truckNumber
                                                 self.totalWeightLbl.text = String(format: "%.2f",  (self.load?.total_weight)!)
-                                                self.saveBtn.isEnabled = !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) ? true : false
+                                                self.saveBtn.isEnabled = !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!)
                                                 self.tableView.reloadData()
                                             }
         }) { (error) in
@@ -145,7 +145,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        saveBtn.isEnabled = !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || textField.text?.count ?? 0 > 0 ? true : false
+        saveBtn.isEnabled = !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || textField.text?.count ?? 0 > 0
         return false
     }
     
@@ -367,7 +367,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                 
                 self.scannedSpools.append(spool)
                 BKIModel.setSpoolNumebr(number: self.spool?.code!)
-                self.saveBtn.isEnabled = !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!)  ? true : false
+                self.saveBtn.isEnabled = !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!)
                 self.tableView.reloadData()
                 self.setTotalWeight()
             }
