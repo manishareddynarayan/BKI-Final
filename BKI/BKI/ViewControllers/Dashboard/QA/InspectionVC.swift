@@ -16,7 +16,6 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var rejectBtn: UIButton!
     @IBOutlet weak var approveBtn: UIButton!
     @IBOutlet weak var rejectSpoolBtn: UIButton!
-    var count = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "InspectionCell", bundle: nil), forCellReuseIdentifier: "inspectionCell")
@@ -44,12 +43,10 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBAction func approveWeldsAction(_ sender: Any) {
         if  !checkHeatNumbers() {
-            for weld in self.spool!.welds {
-                if  weld.state == .verified{
-                    count +=  1
-                }
-            }
-            if self.spool?.welds.count == count + self.getSelectedWeldIds().count {
+            let welds = self.spool!.welds.filter({ (weld) -> Bool in
+                return  weld.state == .verified
+            })
+            if self.spool?.welds.count == welds.count + self.getSelectedWeldIds().count {
                 let okClosure: () -> Void = {
                     self.tableView.reloadData()
                 }
@@ -57,7 +54,6 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
             } else {
                 updateWeldStatus()
             }
-            count = 0
         }
         updateWeldStatus()
     }
