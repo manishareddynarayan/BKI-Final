@@ -239,7 +239,7 @@ class BaseViewController: UIViewController {
     
     func showActionButtons(approveBtn:UIButton,rejectBtn:UIButton) {
         let isHidden = (self.getSelectedWeldIds().isEmpty)
-        if isHidden || !checkHeatNumbers(){
+        if isHidden {
             approveBtn.alpha = 0.5
             approveBtn.isEnabled = false
         } else {
@@ -252,11 +252,7 @@ class BaseViewController: UIViewController {
     
     func showRejectButton(rejectBtn:UIButton)  {
         let isHidden = (self.getSelectedWeldIds().isEmpty)
-        if isHidden {
-            rejectBtn.alpha = 0.5
-        } else {
-            rejectBtn.alpha = 1
-        }
+        rejectBtn.alpha = isHidden ? 0.5 : 1
         rejectBtn.isEnabled = !isHidden
     }
     

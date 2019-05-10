@@ -16,7 +16,7 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var rejectBtn: UIButton!
     @IBOutlet weak var approveBtn: UIButton!
     @IBOutlet weak var rejectSpoolBtn: UIButton!
-    
+    var count = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "InspectionCell", bundle: nil), forCellReuseIdentifier: "inspectionCell")
@@ -43,12 +43,23 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func approveWeldsAction(_ sender: Any) {
-        !((self.spool?.welds.isEmpty)!) ? self.updateWeldsWith("verify", rejectReason: nil, isSpoolUpdate:false, updateTableView: tableView, caller: "qa") : self.updateWeldsWith("accepted", rejectReason: nil, isSpoolUpdate:true, updateTableView: tableView, caller: "qa")
-        approveBtn.isEnabled = false
-        approveBtn.alpha = 0.5
-        rejectBtn.isEnabled = false
-        rejectBtn.alpha = 0.5
-        rejectSpoolButtonState()
+        if  !checkHeatNumbers() {
+            for weld in self.spool!.welds {
+                if  weld.state == .verified{
+                    count +=  1
+                }
+            }
+            if self.spool?.welds.count == count + self.getSelectedWeldIds().count {
+                let okClosure: () -> Void = {
+                    self.tableView.reloadData()
+                }
+                alertVC.presentAlertWithTitleAndActions(actions: [okClosure], buttonTitles: ["OK"], controller: self, message: "Please enter heat numbers to complete all the welds.", title: "Error")
+            } else {
+                updateWeldStatus()
+            }
+            count = 0
+        }
+        updateWeldStatus()
     }
     
     @IBAction func rejectWeldsAction(_ sender: Any) {
@@ -64,6 +75,15 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     func rejectSpoolButtonState() {
         rejectSpoolBtn.isEnabled = checkQaWeldStatus() ? true : false
         rejectSpoolBtn.alpha = checkQaWeldStatus() ? 1 : 0.5
+    }
+    
+    func updateWeldStatus () {
+        !((self.spool?.welds.isEmpty)!) ? self.updateWeldsWith("verify", rejectReason: nil, isSpoolUpdate:false, updateTableView: tableView, caller: "qa") : self.updateWeldsWith("accepted", rejectReason: nil, isSpoolUpdate:true, updateTableView: tableView, caller: "qa")
+        approveBtn.isEnabled = false
+        approveBtn.alpha = 0.5
+        rejectBtn.isEnabled = false
+        rejectBtn.alpha = 0.5
+        rejectSpoolButtonState()
     }
     
     @IBAction func rejectWholeSpool(_ sender: Any) {
