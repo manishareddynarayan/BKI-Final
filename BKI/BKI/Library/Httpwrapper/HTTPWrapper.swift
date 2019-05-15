@@ -15,7 +15,10 @@ struct Constant {
     
    // let kBaseURL = "http://192.168.0.47:3000/"
      //let kBaseURL = "http://869c8d41.ngrok.io/"
-    let kBaseURL = "http://52.90.117.124/api/v1/"
+    // Satging
+//    let kBaseURL = "http://52.90.117.124/api/v1/"
+    //Production
+    let kBaseURL = "https://api.bkimechanical.com/api/v1/"
     
 }
 
@@ -76,7 +79,7 @@ class HTTPWrapper: NSObject {
         let defs = BKIModel.initUserdefsWithSuitName()
         if defs?.object(forKey: "access-token") != nil {
             let token = (defs?.object(forKey: "access-token") as? String)!
-            request.setValue(token, forHTTPHeaderField: "X-ACCESS-TOKEN")
+            request.setValue(token, forHTTPHeaderField: "x-access-token")
         }        //phone: <user phone number>, role: "client" }, action: 'sign_in'
         self.sendRequest(request: request, successBlock: successBlock, failBlock: failBlock)
     }
@@ -96,7 +99,7 @@ class HTTPWrapper: NSObject {
         let defs = BKIModel.initUserdefsWithSuitName()
         if defs?.object(forKey: "access-token") != nil {
             let token = (defs?.object(forKey: "access-token") as? String)!
-            request.setValue(token, forHTTPHeaderField: "X-ACCESS-TOKEN")
+            request.setValue(token, forHTTPHeaderField: "x-access-token")
         }        
 
         var postbody = Data()
@@ -267,8 +270,8 @@ class HTTPWrapper: NSObject {
             print("headre \(headers)")
             let defs = BKIModel.initUserdefsWithSuitName()
             //print("StatusCoe\(statusCode)")
-            if headers["X-ACCESS-TOKEN"] != nil {
-                defs?.set( headers["X-ACCESS-TOKEN"] as? String, forKey: "access-token")
+            if headers["x-access-token"] != nil {
+                defs?.set( headers["x-access-token"] as? String, forKey: "access-token")
             }
             
             if statusCode >= 400 {

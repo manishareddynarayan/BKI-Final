@@ -65,7 +65,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sjo-1p-OlL">
                                         <rect key="frame" x="22" y="295" width="331" height="137"/>
                                         <subviews>
-                                            <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="testuser7@example.com" placeholder="Enter your username or email ID" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DO3-fL-Lh5" customClass="AUEmailField" customModule="BKI" customModuleProvider="target">
+                                            <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="nishanth.p@westagilelabs.com" placeholder="Enter your username or email ID" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DO3-fL-Lh5" customClass="AUEmailField" customModule="BKI" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="331" height="68"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
