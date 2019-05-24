@@ -370,6 +370,14 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                 self.saveBtn.isEnabled = !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!)
                 self.tableView.reloadData()
                 self.setTotalWeight()
+                
+                if let projectId = self.load?.projectId{
+                    if projectId != spool.projectId{
+                        self.alertVC.presentAlertWithTitleAndMessage(title: "Warning", message: "The scanned spool is from a different project. ", controller: self)
+                    }
+                }else{
+                    self.load?.projectId = spool.projectId
+                }
             }
         }) { (error) in
             DispatchQueue.main.async {
