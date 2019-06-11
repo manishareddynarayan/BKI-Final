@@ -16,9 +16,9 @@ struct Constant {
    // let kBaseURL = "http://192.168.0.47:3000/"
      //let kBaseURL = "http://869c8d41.ngrok.io/"
     // Satging
-    let kBaseURL = "http://52.90.117.124/api/v1/"
+//    let kBaseURL = "http://52.90.117.124/api/v1/"
     //Production
-    //let kBaseURL = "https://api.bkimechanical.com/api/v1/"
+    let kBaseURL = "https://api.bkimechanical.com/api/v1/"
     
 }
 
@@ -77,8 +77,8 @@ class HTTPWrapper: NSObject {
         //request.setValue(token, forHTTPHeaderField: "X-API-TOKEN")
         request.httpMethod = methodType
         let defs = BKIModel.initUserdefsWithSuitName()
-        if defs?.object(forKey: "access-token") != nil {
-            let token = (defs?.object(forKey: "access-token") as? String)!
+        if defs?.object(forKey: "ACCESS-TOKEN") != nil {
+            let token = (defs?.object(forKey: "ACCESS-TOKEN") as? String)!
             request.setValue(token, forHTTPHeaderField: "X-ACCESS-TOKEN")
         }        //phone: <user phone number>, role: "client" }, action: 'sign_in'
         self.sendRequest(request: request, successBlock: successBlock, failBlock: failBlock)
@@ -97,8 +97,8 @@ class HTTPWrapper: NSObject {
         request.addValue(contentType, forHTTPHeaderField: "content-type")
 //        let token = HTTPWrapper.sharedInstance.token
         let defs = BKIModel.initUserdefsWithSuitName()
-        if defs?.object(forKey: "access-token") != nil {
-            let token = (defs?.object(forKey: "access-token") as? String)!
+        if defs?.object(forKey: "ACCESS-TOKEN") != nil {
+            let token = (defs?.object(forKey: "ACCESS-TOKEN") as? String)!
             request.setValue(token, forHTTPHeaderField: "X-ACCESS-TOKEN")
         }        
 
@@ -271,7 +271,7 @@ class HTTPWrapper: NSObject {
             let defs = BKIModel.initUserdefsWithSuitName()
             //print("StatusCoe\(statusCode)")
             if headers["X-ACCESS-TOKEN"] != nil {
-                defs?.set( headers["X-ACCESS-TOKEN"] as? String, forKey: "access-token")
+                defs?.set( headers["X-ACCESS-TOKEN"] as? String, forKey: "ACCESS-TOKEN")
             }
             
             if statusCode >= 400 {
