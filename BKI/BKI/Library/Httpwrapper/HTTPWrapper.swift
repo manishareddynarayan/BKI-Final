@@ -77,9 +77,9 @@ class HTTPWrapper: NSObject {
         //request.setValue(token, forHTTPHeaderField: "X-API-TOKEN")
         request.httpMethod = methodType
         let defs = BKIModel.initUserdefsWithSuitName()
-        if defs?.object(forKey: "ACCESS-TOKEN") != nil {
-            let token = (defs?.object(forKey: "ACCESS-TOKEN") as? String)!
-            request.setValue(token, forHTTPHeaderField: "X-ACCESS-TOKEN")
+        if defs?.object(forKey: "access-token") != nil {
+            let token = (defs?.object(forKey: "access-token") as? String)!
+            request.setValue(token, forHTTPHeaderField: "x-access-token")
         }        //phone: <user phone number>, role: "client" }, action: 'sign_in'
         self.sendRequest(request: request, successBlock: successBlock, failBlock: failBlock)
     }
@@ -97,9 +97,9 @@ class HTTPWrapper: NSObject {
         request.addValue(contentType, forHTTPHeaderField: "content-type")
 //        let token = HTTPWrapper.sharedInstance.token
         let defs = BKIModel.initUserdefsWithSuitName()
-        if defs?.object(forKey: "ACCESS-TOKEN") != nil {
-            let token = (defs?.object(forKey: "ACCESS-TOKEN") as? String)!
-            request.setValue(token, forHTTPHeaderField: "X-ACCESS-TOKEN")
+        if defs?.object(forKey: "access-token") != nil {
+            let token = (defs?.object(forKey: "access-token") as? String)!
+            request.setValue(token, forHTTPHeaderField: "x-access-token")
         }        
 
         var postbody = Data()
@@ -270,8 +270,8 @@ class HTTPWrapper: NSObject {
             print("headre \(headers)")
             let defs = BKIModel.initUserdefsWithSuitName()
             //print("StatusCoe\(statusCode)")
-            if headers["X-ACCESS-TOKEN"] != nil {
-                defs?.set( headers["X-ACCESS-TOKEN"] as? String, forKey: "ACCESS-TOKEN")
+            if headers["x-access-token"] != nil {
+                defs?.set( headers["x-access-token"] as? String, forKey: "access-token")
             }
             
             if statusCode >= 400 {
