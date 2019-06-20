@@ -16,15 +16,16 @@ struct Constant {
    // let kBaseURL = "http://192.168.0.47:3000/"
      //let kBaseURL = "http://869c8d41.ngrok.io/"
     // Satging
-//    let kBaseURL = "http://52.90.117.124/api/v1/"
+    let kBaseURL = "http://52.90.117.124/api/v1/"
     //Production
-    let kBaseURL = "https://api.bkimechanical.com/api/v1/"
+//    let kBaseURL = "https://api.bkimechanical.com/api/v1/"
     
 }
 
 class HTTPWrapper: NSObject {
     
     var constant = Constant()
+    var xAccessToken:String = "x-access-token"
     
     typealias SuccessHandler = ([String:AnyObject]) -> ()
     typealias FailureHandler = (NSError!) -> ()
@@ -34,6 +35,7 @@ class HTTPWrapper: NSObject {
     // Can't init is singleton
     private override init() {
         
+        xAccessToken = self.constant.kBaseURL == "http://52.90.117.124/api/v1/" ? "X-ACCESS-TOKEN" : "x-access-token"
         //userType = UserType.Client
     }
     
@@ -79,7 +81,7 @@ class HTTPWrapper: NSObject {
         let defs = BKIModel.initUserdefsWithSuitName()
         if defs?.object(forKey: "access-token") != nil {
             let token = (defs?.object(forKey: "access-token") as? String)!
-            request.setValue(token, forHTTPHeaderField: "x-access-token")
+            request.setValue(token, forHTTPHeaderField: xAccessToken)
         }        //phone: <user phone number>, role: "client" }, action: 'sign_in'
         self.sendRequest(request: request, successBlock: successBlock, failBlock: failBlock)
     }
@@ -99,7 +101,7 @@ class HTTPWrapper: NSObject {
         let defs = BKIModel.initUserdefsWithSuitName()
         if defs?.object(forKey: "access-token") != nil {
             let token = (defs?.object(forKey: "access-token") as? String)!
-            request.setValue(token, forHTTPHeaderField: "x-access-token")
+            request.setValue(token, forHTTPHeaderField: xAccessToken)
         }        
 
         var postbody = Data()
@@ -270,8 +272,8 @@ class HTTPWrapper: NSObject {
             print("headre \(headers)")
             let defs = BKIModel.initUserdefsWithSuitName()
             //print("StatusCoe\(statusCode)")
-            if headers["x-access-token"] != nil {
-                defs?.set( headers["x-access-token"] as? String, forKey: "access-token")
+            if headers[self.xAccessToken] != nil {
+                defs?.set( headers[self.xAccessToken] as? String, forKey: "access-token")
             }
             
             if statusCode >= 400 {
