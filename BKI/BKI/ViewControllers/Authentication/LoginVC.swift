@@ -44,13 +44,13 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
     
     @IBAction func signInAction(_ sender: Any) {
         
-        let dict = self.sessionManager.validateRequiredFields()
-        if dict != nil {
-            if let error = dict!["Error"] as? String {
-                self.alertVC.presentAlertWithTitleAndMessage(title: "ERROR", message: error , controller: self)
-                return
-            }
-        }
+//        let dict = self.sessionManager.validateRequiredFields()
+//        if dict != nil {
+//            if let error = dict!["Error"] as? String {
+//                self.alertVC.presentAlertWithTitleAndMessage(title: "ERROR", message: error , controller: self)
+//                return
+//            }
+//        }
         MBProgressHUD.showHud(view: self.view)
 
         let loginParams = ["email":emailTF.text!,"password":passwordTF.text!,"platform":"mobile"]
