@@ -18,7 +18,10 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
 
         emailTF.designToolBarWithNext(isNext: true, withPrev: false, delegate: self)
         passwordTF.designToolBarWithNext(isNext: false, withPrev: true, delegate: self)
-
+        
+        if let username = UserDefaults.standard.string(forKey: "recentUsername"){
+            emailTF.text = username
+        }
         // Do any additional setup after loading the view.
     }
 
@@ -51,6 +54,8 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
 //                return
 //            }
 //        }
+        UserDefaults.standard.set(emailTF.text!, forKey: "recentUsername")
+        
         MBProgressHUD.showHud(view: self.view)
 
         let loginParams = ["email":emailTF.text!,"password":passwordTF.text!,"platform":"mobile"]
