@@ -16,9 +16,9 @@ struct Constant {
    // let kBaseURL = "http://192.168.0.47:3000/"
      //let kBaseURL = "http://869c8d41.ngrok.io/"
     // Satging
-//    let kBaseURL = "http://52.90.117.124/api/v1/"
+    let kBaseURL = "http://54.196.109.252/api/v1/"
     //Production
-    let kBaseURL = "https://api.bkimechanical.com/api/v1/"
+//    let kBaseURL = "https://api.bkimechanical.com/api/v1/"
     
 }
 
@@ -35,7 +35,7 @@ class HTTPWrapper: NSObject {
     // Can't init is singleton
     private override init() {
         
-        xAccessToken = self.constant.kBaseURL == "http://52.90.117.124/api/v1/" ? "X-ACCESS-TOKEN" : "x-access-token"
+        xAccessToken = self.constant.kBaseURL == "http://54.196.109.252/api/v1/" ? "X-ACCESS-TOKEN" : "x-access-token"
         //userType = UserType.Client
     }
     
