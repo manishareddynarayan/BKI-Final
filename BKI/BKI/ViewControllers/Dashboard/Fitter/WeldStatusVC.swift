@@ -34,6 +34,7 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
         let frame = !((self.spool?.welds.isEmpty)!) ? CGRect.zero : self.headerView.frame
         self.headerView.frame = frame
         self.headerView.isHidden = !((self.spool?.welds.isEmpty)!)
+        self.tableView.isHidden = (self.spool?.welds.isEmpty)!
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -41,11 +41,12 @@ class PartCell: BaseCell, UITextFieldDelegate,TextInputDelegate {
     
     //MARK: TextField Delegate Methods
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if string.isEmpty {
-            return true
-        }
-        let isFound = string.containsSpecialCharacters()
-        return !isFound
+//        if string.isEmpty {
+//            return true
+//        }
+//        let isFound = string.containsSpecialCharacters()
+//        return !isFound
+        return true
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {

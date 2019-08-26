@@ -55,29 +55,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         self.performSegue(withIdentifier: ALTERNATEDESCRIPTIONSEGUE, sender: self)
     }
     
-//    func checkWeldStatus() -> Bool{
-//        if let spool = self.spool{
-//            for weld in spool.welds{
-//                if weld.state == WeldState.fitting{
-//                    return false
-//                }
-//            }
-//        }
-//        return true
-//    }
-//
-//    func checkHeatNumbers() -> Bool{
-//        if let spool = self.spool{
-//            for component in spool.components{
-//                if component.heatNumber == ""{
-//                    return false
-//                }
-//            }
-//        }
-//        return true
-//    }
-    
- 
+
     func loadScanData(data:AVMetadataMachineReadableCodeObject?) {
         guard data != nil else {
             self.setScanCode(data: nil)
@@ -87,6 +65,22 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         }
         self.setScanCode(data: data)
        // self.getSpoolDetails()
+    }
+    
+    func saveHeatNumbersforNoWelds(){
+        var components = [[String:AnyObject]]()
+        for component in (self.spool?.components)! {
+            let dict = ["id":component.id!, "heat_number": component.heatNumber] as [String : Any]
+            components.append(dict as [String : AnyObject])
+        }
+        let spoolParams = ["components_attributes":components]
+        httpWrapper.performAPIRequest("spools/\((self.spool?.id)!)", methodType: "PUT", parameters: ["spool":spoolParams as AnyObject], successBlock: { (responseData) in
+            DispatchQueue.main.async {
+                print(responseData)
+            }
+        }) { (error) in
+            self.showFailureAlert(with:(error?.localizedDescription)! )
+        }
     }
     
     func getSpoolDetails() {
@@ -124,6 +118,15 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     self.alertVC.presentAlertWithTitleAndMessage(title: "Warning", message: "Please enter heat numbers to move the spool to next state", controller: self)
                 }
                 self.scanned = false
+                
+                if self.spool?.welds.count == 0{
+                    if self.checkHeatNumbers(){
+                        if self.spool?.state != WeldState.inShipping && self.spool?.state != WeldState.readyToShip && self.spool?.state != WeldState.shipped{
+                            //Calling API to move spool to shipping
+                            self.saveHeatNumbersforNoWelds()
+                        }
+                    }
+                }
                 
                 self.tableView.reloadData()
             }
