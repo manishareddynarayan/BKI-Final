@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FRv-iJ-ezC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FRv-iJ-ezC">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -114,6 +114,22 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6eC-SF-2LT">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XXl-Tt-2Ut">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="507"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No welds available for this spool." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pDQ-hB-6Iq">
+                                                <rect key="frame" x="32" y="243" width="256" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="pDQ-hB-6Iq" firstAttribute="centerX" secondItem="XXl-Tt-2Ut" secondAttribute="centerX" id="ccX-dA-gPB"/>
+                                            <constraint firstItem="pDQ-hB-6Iq" firstAttribute="centerY" secondItem="XXl-Tt-2Ut" secondAttribute="centerY" id="gfb-1Y-CQH"/>
+                                        </constraints>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IST-Xr-zIh">
                                         <rect key="frame" x="10" y="507" width="300" height="51"/>
                                         <subviews>
@@ -167,41 +183,9 @@
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eee-jr-IKe">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="507"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <view key="tableHeaderView" contentMode="scaleToFill" id="XXl-Tt-2Ut">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No welds available for this spool." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pDQ-hB-6Iq">
-                                                    <rect key="frame" x="32" y="139.5" width="256" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LWf-Ln-Dt0">
-                                                    <rect key="frame" x="60" y="192" width="200" height="50"/>
-                                                    <color key="backgroundColor" red="0.53725490200000003" green="0.050980392159999999" blue="0.047058823530000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="7QK-HY-GHs"/>
-                                                        <constraint firstAttribute="width" constant="200" id="XAs-CP-o2f"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
-                                                    <state key="normal" title="Complete Spool"/>
-                                                    <connections>
-                                                        <action selector="updateSpoolStatus:" destination="dDu-GD-PcF" eventType="touchUpInside" id="YQp-vm-z90"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <constraints>
-                                                <constraint firstItem="LWf-Ln-Dt0" firstAttribute="centerX" secondItem="XXl-Tt-2Ut" secondAttribute="centerX" id="X43-Et-ixe"/>
-                                                <constraint firstItem="pDQ-hB-6Iq" firstAttribute="centerX" secondItem="XXl-Tt-2Ut" secondAttribute="centerX" id="ccX-dA-gPB"/>
-                                                <constraint firstItem="LWf-Ln-Dt0" firstAttribute="top" secondItem="pDQ-hB-6Iq" secondAttribute="bottom" constant="31.5" id="eWD-zM-Tn9"/>
-                                                <constraint firstItem="pDQ-hB-6Iq" firstAttribute="centerY" secondItem="XXl-Tt-2Ut" secondAttribute="centerY" id="gfb-1Y-CQH"/>
-                                            </constraints>
-                                        </view>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="s8w-kv-7oq" customClass="WeldCell" customModule="BKI" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="328" width="320" height="44"/>
+                                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="s8w-kv-7oq" id="5k4-Vf-j9j">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -219,12 +203,16 @@
                                 <constraints>
                                     <constraint firstItem="eee-jr-IKe" firstAttribute="top" secondItem="6eC-SF-2LT" secondAttribute="top" id="28U-Lj-md2"/>
                                     <constraint firstItem="IST-Xr-zIh" firstAttribute="top" secondItem="eee-jr-IKe" secondAttribute="bottom" id="8LN-Og-KTi"/>
+                                    <constraint firstAttribute="trailing" secondItem="XXl-Tt-2Ut" secondAttribute="trailing" id="Bn8-xX-Asz"/>
                                     <constraint firstItem="IST-Xr-zIh" firstAttribute="top" secondItem="eee-jr-IKe" secondAttribute="bottom" id="Oh4-XL-XIl"/>
+                                    <constraint firstItem="XXl-Tt-2Ut" firstAttribute="top" secondItem="6eC-SF-2LT" secondAttribute="top" id="UIL-CA-oCJ"/>
                                     <constraint firstAttribute="trailing" secondItem="IST-Xr-zIh" secondAttribute="trailing" constant="10" id="ZBV-d4-zv6"/>
                                     <constraint firstAttribute="trailing" secondItem="eee-jr-IKe" secondAttribute="trailing" id="aLG-QC-IpB"/>
                                     <constraint firstItem="eee-jr-IKe" firstAttribute="leading" secondItem="6eC-SF-2LT" secondAttribute="leading" id="hxo-lq-7ZC"/>
+                                    <constraint firstItem="IST-Xr-zIh" firstAttribute="top" secondItem="XXl-Tt-2Ut" secondAttribute="bottom" id="iIK-jo-YVw"/>
                                     <constraint firstAttribute="bottom" secondItem="IST-Xr-zIh" secondAttribute="bottom" constant="10" id="qwh-1F-s0t"/>
                                     <constraint firstItem="IST-Xr-zIh" firstAttribute="leading" secondItem="6eC-SF-2LT" secondAttribute="leading" constant="10" id="rBr-R5-sC0"/>
+                                    <constraint firstItem="XXl-Tt-2Ut" firstAttribute="leading" secondItem="6eC-SF-2LT" secondAttribute="leading" id="xD9-f6-oVl"/>
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P8O-R9-07q">

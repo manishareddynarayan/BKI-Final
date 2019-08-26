@@ -32,10 +32,12 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
         self.tableView.reloadData()
         if (self.spool?.welds.isEmpty)! {
             self.tableView.isHidden = true
-            rejectBtn.isEnabled = true
-            rejectBtn.alpha = 1
-            approveBtn.isEnabled = checkHeatNumbers() ? true : false
-            approveBtn.alpha = checkHeatNumbers() ? 1 : 0.5
+            rejectBtn.isEnabled = false
+            approveBtn.isEnabled = false
+            emptyView.isHidden = false
+//            rejectBtn.alpha = 0.5
+//            approveBtn.isEnabled = checkHeatNumbers() ? true : false
+//            approveBtn.alpha = checkHeatNumbers() ? 1 : 0.5
         }
         rejectSpoolBtn.isEnabled = checkQaWeldStatus() ? true : false
         rejectSpoolBtn.alpha = checkQaWeldStatus() ? 1 : 0.5

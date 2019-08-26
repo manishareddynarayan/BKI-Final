@@ -13,7 +13,7 @@ import  Bolts
 //import CRNotifications
 struct Constant {
     
-   // let kBaseURL = "http://192.168.0.47:3000/"
+//    let kBaseURL = "http://192.168.0.203:3001/api/v1/"
      //let kBaseURL = "http://869c8d41.ngrok.io/"
     // Satging
     let kBaseURL = "http://54.196.109.252/api/v1/"
