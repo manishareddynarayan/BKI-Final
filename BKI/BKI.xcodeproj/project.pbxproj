@@ -897,7 +897,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "BKI/Utilities/BKI-Bridging-Header.h";
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "BKI/Utilities/BKI-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -922,7 +922,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "BKI/Utilities/BKI-Bridging-Header.h";
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "BKI/Utilities/BKI-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
