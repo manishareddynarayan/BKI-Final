@@ -181,7 +181,7 @@ class BaseViewController: UIViewController {
         let submitClosure: () -> Void = {
             let tf = self.alertVC.rbaAlert.textFields?.first
             if !((tf?.text?.isEmpty)!) {
-                !((self.spool?.welds.isEmpty)!) ? self.updateWeldsWith("reject", rejectReason: tf?.text!, isSpoolUpdate:false, updateTableView: tableView, caller: caller) : self.updateWeldsWith("rejected", rejectReason:nil, isSpoolUpdate:true, updateTableView: tableView, caller: caller)
+                !((self.spool?.welds.isEmpty)!) ? self.updateWeldsWith("reject", rejectReason: tf?.text!, isSpoolUpdate:false, updateTableView: tableView, caller: caller, testMethodsWelds: nil) : self.updateWeldsWith("rejected", rejectReason:nil, isSpoolUpdate:true, updateTableView: tableView, caller: caller, testMethodsWelds: nil)
             } else {
                 self.alertVC.presentAlertWithTitleAndMessage(title: "Error", message: "Please enter reason for rejection.", controller: self)
             }
@@ -256,7 +256,7 @@ class BaseViewController: UIViewController {
         rejectBtn.isEnabled = !isHidden
     }
     
-    func updateWeldsWith(_ status:String, rejectReason:String?, isSpoolUpdate:Bool,updateTableView tableView:UITableView, caller:String) {
+    func updateWeldsWith(_ status:String, rejectReason:String?, isSpoolUpdate:Bool,updateTableView tableView:UITableView, caller:String, testMethodsWelds :[String:([String:String])]?) {
         var weldParams = ["event":status] as [String : Any]
 //        var weldIds:[Int]
 //        if shouldRejectWholeSpool{
@@ -271,6 +271,7 @@ class BaseViewController: UIViewController {
         let weldIds = shouldRejectWholeSpool ? (caller == "weld" ? self.getWeldingStateWeldIds() : getQaStateWeldIds()) : self.getSelectedWeldIds()
         
         weldParams["weld_ids"] = weldIds
+        weldParams["test_method_welds"] = testMethodsWelds
         if rejectReason != nil {
             weldParams["reject_reason"] = rejectReason
         }
@@ -312,12 +313,20 @@ extension UIViewController {
         MBProgressHUD.showHud(view: self.view)
         var endPoint = "spools/\((spool.id)!)/welds/modify_state"
         var body = [String:AnyObject]()
+        var mutableParams = params
+        let event = mutableParams["event"]
+        mutableParams.removeValue(forKey: "event")
         if isSpoolUpdate {
            endPoint = "spools/\((spool.id)!)/modify_state"
-            body = params
+            body = ["event":event!, "weld":mutableParams as AnyObject]
         }
         else {
-            body = ["weld":params as AnyObject]
+            if let testWeldsMethod = mutableParams["test_method_welds"]{
+                mutableParams.removeValue(forKey: "test_method_welds")
+                body = ["event":event!,"test_method_welds":testWeldsMethod,"weld":mutableParams as AnyObject]
+            }else{
+                body = ["event":event!,"weld":params as AnyObject]
+            }
         }
     HTTPWrapper.sharedInstance.performAPIRequest(endPoint, methodType: "PUT", parameters: body, successBlock: { (responseData) in
             DispatchQueue.main.async {

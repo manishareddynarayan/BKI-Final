@@ -16,6 +16,9 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var rejectBtn: UIButton!
     @IBOutlet weak var approveBtn: UIButton!
     @IBOutlet weak var rejectSpoolBtn: UIButton!
+//    var testMethodsWelds : [String:([Int:([String:String])])] = ["test_method_welds": [Int: [String:String]]()]
+    var testMethodsWelds : [String:([String:String])] = [String: [String:String]]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "InspectionCell", bundle: nil), forCellReuseIdentifier: "inspectionCell")
@@ -23,7 +26,7 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
         self.bgImageview.isHidden = true
         self.view.backgroundColor = UIColor.white
         self.navigationItem.title = "Spool Number " + BKIModel.spoolNumebr()!
-    }  
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -52,9 +55,9 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
                 let okClosure: () -> Void = {
                     self.tableView.reloadData()
                 }
-                alertVC.presentAlertWithTitleAndActions(actions: [okClosure], buttonTitles: ["OK"], controller: self, message: "Please enter heat numbers to complete all the welds.", title: "Error")
+                alertVC.presentAlertWithTitleAndActions(actions: [okClosure], buttonTitles: ["OK"], controller: self, message: "Please enter heat numbers.", title: "Error")
             } else {
-                updateWeldStatus()
+//                updateWeldStatus()
             }
         }
         updateWeldStatus()
@@ -76,7 +79,7 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func updateWeldStatus () {
-        !((self.spool?.welds.isEmpty)!) ? self.updateWeldsWith("verify", rejectReason: nil, isSpoolUpdate:false, updateTableView: tableView, caller: "qa") : self.updateWeldsWith("accepted", rejectReason: nil, isSpoolUpdate:true, updateTableView: tableView, caller: "qa")
+        !((self.spool?.welds.isEmpty)!) ? self.updateWeldsWith("verify", rejectReason: nil, isSpoolUpdate:false, updateTableView: tableView, caller: "qa", testMethodsWelds: testMethodsWelds) : self.updateWeldsWith("accepted", rejectReason: nil, isSpoolUpdate:true, updateTableView: tableView, caller: "qa", testMethodsWelds: testMethodsWelds)
         approveBtn.isEnabled = false
         approveBtn.alpha = 0.5
         rejectBtn.isEnabled = false
@@ -96,16 +99,22 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "inspectionCell") as? InspectionCell
         let weld = self.spool?.welds[indexPath.row]
+        let testMethods = self.spool?.testMethods
         if weld!.state != WeldState.qa{
             cell?.isUserInteractionEnabled = false
             cell?.weldLbl.alpha = 0.5
             cell?.statusLbl.alpha = 0.5
         }
-        cell?.configureWeld(weld: weld!)
+        cell?.configureWeld(weld: weld!, testMethods: testMethods!)
         cell?.selectionChangeddBlock = { (isChecked) in
             weld?.isChecked = isChecked
             tableView.reloadData()
             self.showActionButtons(approveBtn: self.approveBtn, rejectBtn: self.rejectBtn)
+        }
+        
+        cell?.testMethodChangeddBlock = { (testMethod) -> () in
+            self.testMethodsWelds[String(weld!.id!)] = ["test_method":testMethod]
+            weld?.testMethod = testMethod
         }
         return cell!
     }
