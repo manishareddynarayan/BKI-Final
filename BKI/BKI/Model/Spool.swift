@@ -22,6 +22,7 @@ class Spool: BKIModel {
     var weight = 0.0
     var projectId:Int?
     var lastFittingCompletion = false
+    var testMethods:[String:Int] = [:]
     
     override init () {
         // uncomment this line if your class has been inherited from any other class
@@ -78,6 +79,11 @@ class Spool: BKIModel {
         }
         if let projectId = spoolInfo["project_id"] as? Int{
             self.projectId = projectId
+        }
+        if let testMethods = spoolInfo["test_methods"] as? [String:Int]{
+            for (key, value) in testMethods{
+                self.testMethods[key] = value
+            }
         }
     }
     

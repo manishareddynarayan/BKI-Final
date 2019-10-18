@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,7 +14,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XFO-WQ-Nmf">
@@ -27,9 +25,9 @@
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weld 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="81e-Ic-MXC">
-                        <rect key="frame" x="43" y="12" width="160" height="19.5"/>
+                        <rect key="frame" x="43" y="12.5" width="75" height="19.5"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="160" id="kc0-eU-zuu"/>
+                            <constraint firstAttribute="width" constant="75" id="kc0-eU-zuu"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" red="0.53725490200000003" green="0.050980392159999999" blue="0.047058823530000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -44,20 +42,35 @@
                         <color key="textColor" red="0.53725490200000003" green="0.050980392159999999" blue="0.047058823530000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Test Method" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9cZ-V5-VJ6">
+                        <rect key="frame" x="128" y="9.5" width="95" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="95" id="VKY-eO-aJS"/>
+                            <constraint firstAttribute="height" constant="25" id="jYu-AJ-mi9"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="rightImage" value="down"/>
+                        </userDefinedRuntimeAttributes>
+                    </textField>
                 </subviews>
                 <constraints>
                     <constraint firstItem="XFO-WQ-Nmf" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="0YA-uR-84q"/>
                     <constraint firstItem="2Y5-TE-obw" firstAttribute="centerY" secondItem="XFO-WQ-Nmf" secondAttribute="centerY" id="4nS-hz-ecZ"/>
                     <constraint firstAttribute="trailing" secondItem="2Y5-TE-obw" secondAttribute="trailing" constant="19" id="8se-iP-09l"/>
                     <constraint firstItem="81e-Ic-MXC" firstAttribute="centerY" secondItem="XFO-WQ-Nmf" secondAttribute="centerY" id="HWP-PP-3YO"/>
+                    <constraint firstItem="9cZ-V5-VJ6" firstAttribute="leading" secondItem="81e-Ic-MXC" secondAttribute="trailing" constant="10" id="ZEf-Vb-9Y7"/>
                     <constraint firstItem="XFO-WQ-Nmf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="19" id="bQV-ow-phs"/>
                     <constraint firstItem="81e-Ic-MXC" firstAttribute="leading" secondItem="XFO-WQ-Nmf" secondAttribute="trailing" constant="10" id="cZB-bx-uRb"/>
+                    <constraint firstItem="9cZ-V5-VJ6" firstAttribute="centerY" secondItem="81e-Ic-MXC" secondAttribute="centerY" id="fpX-xt-nDw"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="checkBtn" destination="XFO-WQ-Nmf" id="gzM-he-r0I"/>
                 <outlet property="statusLbl" destination="2Y5-TE-obw" id="3ms-Vb-QeE"/>
+                <outlet property="testMethodTF" destination="9cZ-V5-VJ6" id="TfL-5g-cBm"/>
                 <outlet property="weldLbl" destination="81e-Ic-MXC" id="3nd-mn-DUe"/>
             </connections>
             <point key="canvasLocation" x="137.59999999999999" y="154.72263868065968"/>
