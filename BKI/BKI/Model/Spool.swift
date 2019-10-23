@@ -23,6 +23,7 @@ class Spool: BKIModel {
     var projectId:Int?
     var lastFittingCompletion = false
     var testMethods:[String:Int] = [:]
+    var isStainlessSteel:Bool?
     
     override init () {
         // uncomment this line if your class has been inherited from any other class
@@ -84,6 +85,9 @@ class Spool: BKIModel {
             for (key, value) in testMethods{
                 self.testMethods[key] = value
             }
+        }
+        if let isStainlessSteel = spoolInfo["stainless_steel?"] as? Bool{
+            self.isStainlessSteel = isStainlessSteel
         }
     }
     

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_0" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,18 +14,23 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dev-FM-bgm">
-                        <rect key="frame" x="38" y="12" width="39.5" height="20"/>
+                        <rect key="frame" x="38" y="12" width="40" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="kLg-KT-ocN"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <textField opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Weld Type" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Pr-1R-yK7" customClass="AUTextField" customModule="BKI" customModuleProvider="target">
-                        <rect key="frame" x="87.5" y="13.5" width="81.5" height="17"/>
-                        <nil key="textColor"/>
+                        <rect key="frame" x="88" y="12.5" width="85" height="19"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="85" id="Nth-Dx-4SD"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
                         <userDefinedRuntimeAttributes>
@@ -38,7 +41,7 @@
                         </connections>
                     </textField>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="auA-cc-9Gz">
-                        <rect key="frame" x="286" y="11" width="19" height="22"/>
+                        <rect key="frame" x="291" y="11" width="19" height="22"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="19" id="Qeq-uj-SFr"/>
                         </constraints>
@@ -48,7 +51,7 @@
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KFQ-VO-wqc">
-                        <rect key="frame" x="234" y="11" width="22" height="22"/>
+                        <rect key="frame" x="254" y="11" width="22" height="22"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="22" id="rth-b4-clp"/>
                             <constraint firstAttribute="height" constant="22" id="xK6-nS-wQk"/>
@@ -72,19 +75,49 @@
                             <action selector="onSelectWeld:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ZNO-kJ-Q5J"/>
                         </connections>
                     </button>
+                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Gas Id" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HT7-F7-npe" customClass="AUTextField" customModule="BKI" customModuleProvider="target">
+                        <rect key="frame" x="183" y="12.5" width="31" height="19"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                    <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aKA-wr-OjV">
+                        <rect key="frame" x="214" y="12.5" width="20" height="19"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="7Z6-dr-vrC"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="leftImage" value="down"/>
+                        </userDefinedRuntimeAttributes>
+                    </textField>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rIP-vF-cwN">
+                        <rect key="frame" x="214" y="11" width="20" height="22"/>
+                        <state key="normal" image="down"/>
+                        <connections>
+                            <action selector="gasIdDropDown:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="qC1-f1-zhv"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="auA-cc-9Gz" secondAttribute="trailing" constant="15" id="3Cm-FJ-GMo"/>
+                    <constraint firstAttribute="trailing" secondItem="auA-cc-9Gz" secondAttribute="trailing" constant="10" id="3Cm-FJ-GMo"/>
                     <constraint firstItem="Gxp-vm-ZFu" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="6TO-0M-Xbv"/>
+                    <constraint firstItem="KFQ-VO-wqc" firstAttribute="leading" secondItem="rIP-vF-cwN" secondAttribute="trailing" constant="20" id="8Y4-aK-lg8"/>
+                    <constraint firstItem="rIP-vF-cwN" firstAttribute="centerY" secondItem="aKA-wr-OjV" secondAttribute="centerY" id="B1w-t3-0j1"/>
+                    <constraint firstItem="aKA-wr-OjV" firstAttribute="leading" secondItem="HT7-F7-npe" secondAttribute="trailing" id="Elm-WO-yCM"/>
+                    <constraint firstItem="rIP-vF-cwN" firstAttribute="width" secondItem="aKA-wr-OjV" secondAttribute="width" id="FPL-jv-SKI"/>
                     <constraint firstItem="Gxp-vm-ZFu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="JvX-zf-ciF"/>
+                    <constraint firstItem="HT7-F7-npe" firstAttribute="centerY" secondItem="2Pr-1R-yK7" secondAttribute="centerY" id="PBN-7B-Ux7"/>
+                    <constraint firstItem="aKA-wr-OjV" firstAttribute="centerY" secondItem="HT7-F7-npe" secondAttribute="centerY" id="RwC-S3-cjB"/>
                     <constraint firstItem="2Pr-1R-yK7" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="SEO-pe-TmL"/>
-                    <constraint firstItem="auA-cc-9Gz" firstAttribute="leading" secondItem="KFQ-VO-wqc" secondAttribute="trailing" constant="30" id="UWK-5I-i4t"/>
+                    <constraint firstItem="auA-cc-9Gz" firstAttribute="leading" secondItem="KFQ-VO-wqc" secondAttribute="trailing" constant="15" id="UWK-5I-i4t"/>
                     <constraint firstItem="2Pr-1R-yK7" firstAttribute="leading" secondItem="dev-FM-bgm" secondAttribute="trailing" constant="10" id="VUd-gN-OMi"/>
-                    <constraint firstItem="KFQ-VO-wqc" firstAttribute="leading" secondItem="2Pr-1R-yK7" secondAttribute="trailing" constant="65" id="cWG-Ki-Nux"/>
+                    <constraint firstItem="HT7-F7-npe" firstAttribute="leading" secondItem="2Pr-1R-yK7" secondAttribute="trailing" constant="10" id="a77-8w-Hwj"/>
                     <constraint firstItem="dev-FM-bgm" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="iR8-ma-7cY"/>
                     <constraint firstItem="auA-cc-9Gz" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="pJf-hS-xVw"/>
                     <constraint firstItem="KFQ-VO-wqc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="uMW-Ox-t8H"/>
                     <constraint firstItem="dev-FM-bgm" firstAttribute="leading" secondItem="Gxp-vm-ZFu" secondAttribute="trailing" constant="6" id="vRb-h0-KSa"/>
+                    <constraint firstItem="rIP-vF-cwN" firstAttribute="leading" secondItem="aKA-wr-OjV" secondAttribute="leading" id="zmU-pb-U5M"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -93,15 +126,19 @@
                 <outlet property="checkBtn" destination="Gxp-vm-ZFu" id="YgK-6r-fgV"/>
                 <outlet property="commentsBtn" destination="auA-cc-9Gz" id="Omi-bD-XaZ"/>
                 <outlet property="completeBtn" destination="KFQ-VO-wqc" id="ZHE-pI-syo"/>
+                <outlet property="gasIdDropDown" destination="aKA-wr-OjV" id="vH1-m3-cPA"/>
+                <outlet property="gasIdDropDownBtn" destination="rIP-vF-cwN" id="ln3-fe-LQE"/>
+                <outlet property="gasIdTF" destination="HT7-F7-npe" id="mqK-0n-OUx"/>
                 <outlet property="nameLbl" destination="dev-FM-bgm" id="hpk-ma-znb"/>
                 <outlet property="statusTF" destination="2Pr-1R-yK7" id="GXh-Oe-cje"/>
             </connections>
-            <point key="canvasLocation" x="-120" y="120"/>
+            <point key="canvasLocation" x="-120" y="119.36619718309859"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="checkmark" width="14" height="10"/>
-        <image name="tickCircle" width="48" height="48"/>
-        <image name="warning" width="16" height="14"/>
+        <image name="down" width="9" height="5"/>
+        <image name="tickCircle" width="24" height="24"/>
+        <image name="warning" width="20" height="17.5"/>
     </resources>
 </document>

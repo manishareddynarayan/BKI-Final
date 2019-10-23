@@ -13,6 +13,10 @@ class WeldCell: UITableViewCell, UITextFieldDelegate, UIPickerViewDataSource,UIP
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var commentsBtn: UIButton!
     @IBOutlet weak var completeBtn: UIButton!
+    @IBOutlet weak var gasIdDropDown: UITextField!
+    @IBOutlet weak var gasIdTF: AUTextField!
+    @IBOutlet weak var gasIdDropDownBtn: UIButton!
+    
     var markAsCompletedBlock:(() -> Void)?
     var viewComments:(() -> Void)?
     var statusChangeddBlock:(() -> Void)?
@@ -21,6 +25,7 @@ class WeldCell: UITableViewCell, UITextFieldDelegate, UIPickerViewDataSource,UIP
 
     @IBOutlet weak var statusTF: AUTextField!
     let arr = [["Type":"Rolled","Value":1],["Type":"Position","Value":2],["Type":"Orbital","Value":3]]
+    let gasIdOptions:[String] = ["N/A"]
    
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,6 +33,8 @@ class WeldCell: UITableViewCell, UITextFieldDelegate, UIPickerViewDataSource,UIP
         self.statusTF.isHidden = true
         self.statusTF.textAlignment = .left
         self.statusTF.addPickerView(with: self)
+        self.gasIdDropDown.addPickerView(with: self)
+        self.gasIdTF.initToolBar()
         // Initialization code
     }
 
@@ -63,28 +70,42 @@ class WeldCell: UITableViewCell, UITextFieldDelegate, UIPickerViewDataSource,UIP
         self.viewComments!()
     }
     
+    @IBAction func gasIdDropDown(_ sender: Any) {
+        self.gasIdDropDown.becomeFirstResponder()
+    }
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return arr.count
+        let noOfRows = gasIdDropDown.isFirstResponder ? gasIdOptions.count : arr.count
+        return noOfRows
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let statusDict = arr[row]
-        guard let type = statusDict["Type"] as? String else {
-            return
+        if gasIdDropDown.isFirstResponder{
+            gasIdTF.text = gasIdOptions[row]
+        }else{
+            let statusDict = arr[row]
+            guard let type = statusDict["Type"] as? String else {
+                return
+            }
+            self.statusTF.text = type
+            self.statusChangeddBlock!()
         }
-        self.statusTF.text = type
-        self.statusChangeddBlock!()
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        self.completeBtn.isEnabled = true
-        statusTF.text = arr[0]["Type"] as? String
-        self.statusChangeddBlock!()
-        let statusDict = arr[row]
-        return statusDict["Type"] as? String
+        if gasIdDropDown.isFirstResponder{
+            gasIdTF.text = gasIdOptions[pickerView.selectedRow(inComponent: 0)]
+            return gasIdOptions[row]
+        }else{
+            self.completeBtn.isEnabled = true
+            statusTF.text = arr[0]["Type"] as? String
+            self.statusChangeddBlock!()
+            let statusDict = arr[row]
+            return statusDict["Type"] as? String
+        }
     }
 }
