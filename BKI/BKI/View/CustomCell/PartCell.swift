@@ -13,6 +13,7 @@ class PartCell: BaseCell, UITextFieldDelegate,TextInputDelegate {
     @IBOutlet weak var heatLbl: UILabel!
     @IBOutlet weak var heatTF: AUTextField!
     var component:Component!
+    var updatedHeatNumber:((_ component:Component) -> Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -51,6 +52,7 @@ class PartCell: BaseCell, UITextFieldDelegate,TextInputDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.component.heatNumber = textField.text!
+        self.updatedHeatNumber!(self.component)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

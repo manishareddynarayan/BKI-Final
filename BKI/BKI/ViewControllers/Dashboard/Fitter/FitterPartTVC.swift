@@ -12,6 +12,7 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
     
     var role:Int!
     var spool:Spool?
+    var components = [String:([String:([String:AnyObject])])]()
     @IBOutlet var saveBtn: UIBarButtonItem!
     let httpWrapper = HTTPWrapper.sharedInstance
     
@@ -37,9 +38,11 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
     @IBAction func saveAction(_ sender: Any) {
         var showAlert = false
         for component in (self.spool?.components)! {
-            print(component)
+            if component.heatNumber.isEmpty {
+                showAlert = true
+            }
         }
-        var components = [[String:AnyObject]]()
+//        var components = [[String:AnyObject]]()
         for row in 0 ..< (self.spool?.components.count)! {
             let indexPath = IndexPath(row: row, section: 0)
             let cell = tableView.cellForRow(at: indexPath) as? PartCell
@@ -47,28 +50,38 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
             textField?.resignFirstResponder()
         }
         
-        for component in (self.spool?.components)! {
-            let dict = ["id":component.id!, "heat_number": component.heatNumber] as [String : Any]
-            components.append(dict as [String : AnyObject])
-            if component.heatNumber.isEmpty {
-                showAlert = true
-            }
-        }
-        let spoolParams = ["components_attributes":components]
-        MBProgressHUD.showHud(view: self.view)
-        httpWrapper.performAPIRequest("spools/\((self.spool?.id)!)", methodType: "PUT", parameters: ["spool":spoolParams as AnyObject], successBlock: { (responseData) in
-            DispatchQueue.main.async {
-                print(responseData)
-                MBProgressHUD.hideHud(view: self.view)
-//                self.alertVC.presentAlertWithTitleAndMessage(title: "Success", message: "Heat numbers are updated.", controller: self)
-                if showAlert{
-                    self.alertVC.presentAlertWithTitleAndMessage(title: "Warning", message: "Please enter heat numbers to move the spool to next state", controller: self)
-                }
-                self.navigationController?.popViewController(animated: true)
-                self.tableView.reloadData()
-            }
-        }) { (error) in
-            self.showFailureAlert(with:(error?.localizedDescription)! )
+//        for component in (self.spool?.components)! {
+//            let dict = ["id":component.id!, "heat_number": component.heatNumber] as [String : Any]
+//            components.append(dict as [String : AnyObject])
+//            if component.heatNumber.isEmpty {
+//                showAlert = true
+//            }
+//        }
+        
+//        for component in (self.spool?.components)! {
+//            self.components[String(component.id!)] = [String:([String:AnyObject])]()
+//            self.components[String(component.id!)]!["heat_number_attributes"] = [String:AnyObject]()
+//            self.components[String(component.id!)]!["heat_number_attributes"]!["number"] = component.heatNumber as AnyObject
+//            self.components[String(component.id!)]!["heat_number_attributes"]!["done_by_id"] = User.shared.id as AnyObject
+//        }
+//        let spoolParams = ["component":self.components]
+        
+        if self.components.count > 0{
+            MBProgressHUD.showHud(view: self.view)
+                    httpWrapper.performAPIRequest("components/heat_numbers_update", methodType: "PUT", parameters: ["component":self.components as AnyObject], successBlock: { (responseData) in
+                        DispatchQueue.main.async {
+                            print(responseData)
+                            MBProgressHUD.hideHud(view: self.view)
+                            self.alertVC.presentAlertWithTitleAndMessage(title: "Success", message: "Heat numbers are updated.", controller: self)
+                            if showAlert{
+                                self.alertVC.presentAlertWithTitleAndMessage(title: "Warning", message: "Please enter heat numbers to move the spool to next state", controller: self)
+                            }
+                            self.navigationController?.popViewController(animated: true)
+                            self.tableView.reloadData()
+                        }
+                    }) { (error) in
+                        self.showFailureAlert(with:(error?.localizedDescription)! )
+                    }
         }
     }
     
@@ -98,6 +111,12 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
             cell?.configureCell(component: component!, isNext:true, isPrev: true, isLoaded: isLoaded)
         }
         cell?.heatTF.formDelegate = self
+        cell?.updatedHeatNumber = { component in
+            self.components[String(component.id!)] = [String:([String:AnyObject])]()
+            self.components[String(component.id!)]!["heat_number_attributes"] = [String:AnyObject]()
+            self.components[String(component.id!)]!["heat_number_attributes"]!["number"] = component.heatNumber as AnyObject
+            self.components[String(component.id!)]!["heat_number_attributes"]!["done_by_id"] = User.shared.id as AnyObject
+        }
         return cell!
     }
     
