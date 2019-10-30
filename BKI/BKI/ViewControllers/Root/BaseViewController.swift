@@ -89,6 +89,7 @@ class BaseViewController: UIViewController {
         storyBoard: "Scanner") as? UINavigationController else { return  }
         guard let vc = scanNVC.viewControllers[0] as? ScannerViewController else { return }
         vc.delegate = self as? ScannerDelegate
+        scanNVC.modalPresentationStyle = .fullScreen
         self.present(scanNVC, animated: true, completion: nil)
     }
     

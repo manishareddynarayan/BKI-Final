@@ -59,6 +59,7 @@ class WeldCell: UITableViewCell, UITextFieldDelegate, UIPickerViewDataSource,UIP
         self.nameLbl.text = weld.number
         self.statusTF.text = (weld.weldType != nil) ? weld.weldType : ""
         self.isChecked = weld.isChecked
+        self.gasIdTF.text = weld.gasId != nil ? weld.gasId : ""
         self.setImageForCheckBtn()
     }
     

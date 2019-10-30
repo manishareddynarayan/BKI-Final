@@ -71,6 +71,7 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
         rejectBtn.isEnabled = false
         rejectBtn.alpha = 0.5
         rejectSpoolButtonState()
+        self.showActionButtons(approveBtn: approveBtn, rejectBtn: rejectBtn)
     }
     
     func rejectSpoolButtonState() {

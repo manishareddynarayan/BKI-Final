@@ -397,7 +397,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         guard data != nil else {
             return
         }
-        let spoolId = data?.stringValue!.components(separatedBy: "_").last
+        let spoolId = data?.stringValue!//.components(separatedBy: "_").last
         var isFound = false
         var isFound1 = false
         isFound = ((self.load?.spools.contains { (spool) -> Bool in

@@ -129,8 +129,8 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
         cell?.configureWeldCell(weld: weld!)
         cell?.checkBtn.isHidden = role == 1 ? true : false
         cell?.statusTF.isHidden = role == 1 ? true : false
-        cell?.gasIdTF.isHidden = role == 1 && self.spool!.isStainlessSteel! ? true : false
-        cell?.gasIdDropDownBtn.isHidden = role == 1 && self.spool!.isStainlessSteel! ? true:false
+        cell?.gasIdTF.isHidden = (role == 2 && self.spool!.isStainlessSteel!) ? false : true
+        cell?.gasIdDropDownBtn.isHidden = role == 2 && self.spool!.isStainlessSteel! ? false:true
         
         cell?.commentsBtn.isHidden = (weld?.welderRejectReason == nil && weld?.qARejectReason == nil) ? true : false
         if  self.role == 1 {
@@ -154,7 +154,7 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         cell!.markAsCompletedBlock = {
             weld?.gasId = !((cell?.gasIdTF.text!.isEmpty)!) ? cell?.gasIdTF.text : nil
-            if (!((cell?.statusTF.text?.isEmpty)!) && !(cell?.gasIdTF.text!.isEmpty)!)  || self.role == 1{
+            if (!((cell?.statusTF.text?.isEmpty)!) && !(self.spool!.isStainlessSteel!)) || (!((cell?.statusTF.text?.isEmpty)!) && !(cell?.gasIdTF.text!.isEmpty)!)  || self.role == 1{
                 self.updateWeldStatus(weld: weld!)
                 weld?.isChecked = false
             }else{

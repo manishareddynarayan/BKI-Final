@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
@@ -18,16 +18,16 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dev-FM-bgm">
-                        <rect key="frame" x="38" y="12" width="40" height="20"/>
+                        <rect key="frame" x="38" y="12" width="60" height="20"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="40" id="kLg-KT-ocN"/>
+                            <constraint firstAttribute="width" constant="60" id="kLg-KT-ocN"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <textField opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Weld Type" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Pr-1R-yK7" customClass="AUTextField" customModule="BKI" customModuleProvider="target">
-                        <rect key="frame" x="88" y="12.5" width="85" height="19"/>
+                        <rect key="frame" x="108" y="12.666666666666664" width="85" height="19"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="85" id="Nth-Dx-4SD"/>
                         </constraints>
@@ -76,12 +76,12 @@
                         </connections>
                     </button>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Gas Id" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HT7-F7-npe" customClass="AUTextField" customModule="BKI" customModuleProvider="target">
-                        <rect key="frame" x="183" y="12.5" width="31" height="19"/>
+                        <rect key="frame" x="203" y="12.666666666666664" width="16" height="19"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
                     <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aKA-wr-OjV">
-                        <rect key="frame" x="214" y="12.5" width="20" height="19"/>
+                        <rect key="frame" x="219" y="12.666666666666664" width="20" height="19"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="20" id="7Z6-dr-vrC"/>
                         </constraints>
@@ -92,7 +92,7 @@
                         </userDefinedRuntimeAttributes>
                     </textField>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rIP-vF-cwN">
-                        <rect key="frame" x="214" y="11" width="20" height="22"/>
+                        <rect key="frame" x="219" y="11" width="20" height="22"/>
                         <state key="normal" image="down"/>
                         <connections>
                             <action selector="gasIdDropDown:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="qC1-f1-zhv"/>
@@ -102,7 +102,7 @@
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="auA-cc-9Gz" secondAttribute="trailing" constant="10" id="3Cm-FJ-GMo"/>
                     <constraint firstItem="Gxp-vm-ZFu" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="6TO-0M-Xbv"/>
-                    <constraint firstItem="KFQ-VO-wqc" firstAttribute="leading" secondItem="rIP-vF-cwN" secondAttribute="trailing" constant="20" id="8Y4-aK-lg8"/>
+                    <constraint firstItem="KFQ-VO-wqc" firstAttribute="leading" secondItem="rIP-vF-cwN" secondAttribute="trailing" constant="15" id="8Y4-aK-lg8"/>
                     <constraint firstItem="rIP-vF-cwN" firstAttribute="centerY" secondItem="aKA-wr-OjV" secondAttribute="centerY" id="B1w-t3-0j1"/>
                     <constraint firstItem="aKA-wr-OjV" firstAttribute="leading" secondItem="HT7-F7-npe" secondAttribute="trailing" id="Elm-WO-yCM"/>
                     <constraint firstItem="rIP-vF-cwN" firstAttribute="width" secondItem="aKA-wr-OjV" secondAttribute="width" id="FPL-jv-SKI"/>
@@ -139,6 +139,6 @@
         <image name="checkmark" width="14" height="10"/>
         <image name="down" width="9" height="5"/>
         <image name="tickCircle" width="24" height="24"/>
-        <image name="warning" width="20" height="17.5"/>
+        <image name="warning" width="20" height="18"/>
     </resources>
 </document>
