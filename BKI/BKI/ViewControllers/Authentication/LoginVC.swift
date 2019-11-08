@@ -12,7 +12,8 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
 
     @IBOutlet weak var passwordTF: AUPasswordField!
     @IBOutlet weak var emailTF: AUTextField!
-   
+    @IBOutlet weak var appVersionLbl: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,6 +23,10 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
         if let username = UserDefaults.standard.string(forKey: "recentUsername"){
             emailTF.text = username
         }
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        let buildVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+        appVersionLbl.text = "App version " + appVersion! + "("
+            + buildVersion! + ")"
         // Do any additional setup after loading the view.
     }
 
