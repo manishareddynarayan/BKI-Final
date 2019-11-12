@@ -20,9 +20,9 @@ struct Constant {
 //    let kBaseURL = "http://10.10.10.28:3000/api/v1/"
      //let kBaseURL = "http://869c8d41.ngrok.io/"
     // Satging
-    let kBaseURL = "http://54.196.109.252/api/v1/"
+//    let kBaseURL = "http://54.196.109.252/api/v1/"
     //Production
-//    let kBaseURL = "https://api.bkimechanical.com/api/v1/"
+    let kBaseURL = "https://api.bkimechanical.com/api/v1/"
     
 }
 
