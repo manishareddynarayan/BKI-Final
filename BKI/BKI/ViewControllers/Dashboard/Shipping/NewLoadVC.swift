@@ -349,6 +349,15 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                     return
                 } else if (self.role == 3 && spool.state != WeldState.readyToShip) {
                     
+                    if !spool.isCutListsCompleted!{
+                        self.alertVC.presentAlertWithTitleAndActions(actions: [{
+                        self.dismiss(animated: true, completion: nil)
+                        },{
+                            self.showDrawingVC(spool: spool, role: self.role)
+                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "Please complete all the cut lists to load the spool. You can view the drawing by clicking on the button below.", title: "Warning")
+                        return
+                    }
+                    
                     self.alertVC.presentAlertWithTitleAndActions(actions: [{
                         self.dismiss(animated: true, completion: nil)
                         },{
