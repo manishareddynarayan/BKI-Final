@@ -9,6 +9,7 @@
 import UIKit
 import Fabric
 import Crashlytics
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,7 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         UINavigationBar.appearance().barTintColor = UIColor.brickRed
         UINavigationBar.appearance().tintColor = UIColor.white
-        Fabric.with([Crashlytics.self])
+//        Fabric.with([Crashlytics.self])
+        FirebaseApp.configure()
         return true
     }
 
