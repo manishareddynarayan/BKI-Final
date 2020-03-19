@@ -23,6 +23,8 @@ class Spool: BKIModel {
     var projectId:Int?
     var lastFittingCompletion = false
     var testMethods:[String:Int] = [:]
+    var isStainlessSteel:Bool?
+    var isCutListsCompleted:Bool?
     
     override init () {
         // uncomment this line if your class has been inherited from any other class
@@ -84,6 +86,12 @@ class Spool: BKIModel {
             for (key, value) in testMethods{
                 self.testMethods[key] = value
             }
+        }
+        if let isStainlessSteel = spoolInfo["stainless_steel?"] as? Bool{
+            self.isStainlessSteel = isStainlessSteel
+        }
+        if let isCutListsCompleted = spoolInfo["cut_lists_completed?"] as? Bool{
+            self.isCutListsCompleted = isCutListsCompleted
         }
     }
     

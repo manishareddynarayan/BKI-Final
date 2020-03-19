@@ -6,5 +6,6 @@ target ‘BKI’ do
     pod 'Fabric'
     pod 'Crashlytics'
     pod 'Bolts'
-
+    pod 'Firebase/Analytics'
+	
 end

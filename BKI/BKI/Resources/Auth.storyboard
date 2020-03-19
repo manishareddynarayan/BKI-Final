@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="n2d-8r-u4c">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="n2d-8r-u4c">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -71,7 +69,6 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="68" id="GYM-NN-k1A"/>
                                                 </constraints>
-                                                <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <userDefinedRuntimeAttributes>
@@ -99,7 +96,6 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="68" id="RjN-Ne-jdl"/>
                                                 </constraints>
-                                                <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <userDefinedRuntimeAttributes>
@@ -153,6 +149,12 @@
                                             <constraint firstItem="nH1-UL-QXS" firstAttribute="centerY" secondItem="c0s-mr-ydA" secondAttribute="centerY" id="zHn-Ht-n4d"/>
                                         </constraints>
                                     </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CO9-NV-zaP">
+                                        <rect key="frame" x="169" y="644" width="37.5" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="zgQ-xk-ET8" secondAttribute="trailing" constant="22" id="1yR-If-Vxs"/>
@@ -170,11 +172,13 @@
                                     <constraint firstItem="g8b-MP-kyO" firstAttribute="leading" secondItem="ddq-Je-3ZH" secondAttribute="leading" constant="22" id="VCo-Gq-AO2"/>
                                     <constraint firstItem="c0s-mr-ydA" firstAttribute="top" secondItem="sjo-1p-OlL" secondAttribute="bottom" id="eke-mE-XFK"/>
                                     <constraint firstItem="VYN-TE-wtZ" firstAttribute="trailing" secondItem="g8b-MP-kyO" secondAttribute="trailing" id="hCF-ef-mYV"/>
+                                    <constraint firstItem="CO9-NV-zaP" firstAttribute="top" secondItem="zgQ-xk-ET8" secondAttribute="bottom" constant="25" id="jS3-Hg-rfO"/>
                                     <constraint firstAttribute="trailing" secondItem="RGx-4C-hNk" secondAttribute="trailing" constant="22" id="kLy-DS-AF0"/>
                                     <constraint firstItem="VYN-TE-wtZ" firstAttribute="leading" secondItem="g8b-MP-kyO" secondAttribute="leading" id="qgL-TG-xDx"/>
                                     <constraint firstAttribute="bottom" secondItem="zgQ-xk-ET8" secondAttribute="bottom" constant="25" id="qs3-sd-MkD"/>
                                     <constraint firstItem="g8b-MP-kyO" firstAttribute="centerX" secondItem="ddq-Je-3ZH" secondAttribute="centerX" id="uLy-Sl-E6Y"/>
                                     <constraint firstItem="VYN-TE-wtZ" firstAttribute="top" secondItem="g8b-MP-kyO" secondAttribute="bottom" constant="19" id="v9Y-c5-9Hl"/>
+                                    <constraint firstItem="CO9-NV-zaP" firstAttribute="centerX" secondItem="ddq-Je-3ZH" secondAttribute="centerX" id="zju-IC-pSb"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
@@ -189,6 +193,7 @@
                         <viewLayoutGuide key="safeArea" id="twp-r7-40m"/>
                     </view>
                     <connections>
+                        <outlet property="appVersionLbl" destination="CO9-NV-zaP" id="DJ5-HI-fOs"/>
                         <outlet property="emailTF" destination="DO3-fL-Lh5" id="qeI-f7-v69"/>
                         <outlet property="passwordTF" destination="njn-tN-GuJ" id="hmj-1h-NbM"/>
                     </connections>

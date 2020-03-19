@@ -91,6 +91,10 @@ class RBAAlertController: NSObject {
             self.presentController = controller
             self.rbaAlert = UIAlertController (title: title, message: "", preferredStyle: .actionSheet)
             self.addButtons(withTitle: buttonTitles, withActions: actions, shouldSubmit: shouldSubmit)
+            if let popoverPresentationController = self.rbaAlert.popoverPresentationController {
+                popoverPresentationController.sourceView = self.presentController.view
+                popoverPresentationController.sourceRect = CGRect(x: self.presentController.view.bounds.midX, y: self.presentController.view.bounds.maxY, width: 0, height: 0)
+            }
             self.presentController.present(self.rbaAlert, animated: true, completion: nil)
         }
     }

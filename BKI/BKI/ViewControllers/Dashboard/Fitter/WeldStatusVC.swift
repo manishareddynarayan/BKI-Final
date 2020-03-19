@@ -65,14 +65,17 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
             if weld.weldType != nil {
                 params["weld_type"] = weld.weldType as AnyObject
             }
+            if let gasId = weld.gasId{
+                params["backing_gas_id"] = gasId as AnyObject
+            }
             break
         default:
             event = "complete"
             break
         }
-        params["event"] = event as AnyObject
+//        params["event"] = event as AnyObject
         MBProgressHUD.showHud(view: self.view)
-        httpWrapper.performAPIRequest("spools/\((self.spool?.id)!)/welds/\((weld.id)!)", methodType: "PUT", parameters: ["weld":params as AnyObject], successBlock: { (responseData) in
+        httpWrapper.performAPIRequest("spools/\((self.spool?.id)!)/welds/\((weld.id)!)?event=\(event as AnyObject)", methodType: "PUT", parameters: ["weld":params] as [String:AnyObject], successBlock: { (responseData) in
             DispatchQueue.main.async {
                 print(responseData)
                 MBProgressHUD.hideHud(view: self.view)
@@ -126,6 +129,9 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
         cell?.configureWeldCell(weld: weld!)
         cell?.checkBtn.isHidden = role == 1 ? true : false
         cell?.statusTF.isHidden = role == 1 ? true : false
+        cell?.gasIdTF.isHidden = (role == 2 && self.spool!.isStainlessSteel!) ? false : true
+        cell?.gasIdDropDownBtn.isHidden = role == 2 && self.spool!.isStainlessSteel! ? false:true
+        
         cell?.commentsBtn.isHidden = (weld?.welderRejectReason == nil && weld?.qARejectReason == nil) ? true : false
         if  self.role == 1 {
             cell?.completeBtn.setImage((weld?.state == WeldState.fitting) ? UIImage.init(named: "tickCircle") : UIImage.init(named: "tick"), for: .normal)
@@ -136,18 +142,23 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
             cell?.completeBtn.isEnabled = enable
             cell?.statusTF.isEnabled = enable
             cell?.checkBtn.isEnabled = enable
+            cell?.gasIdDropDownBtn.isEnabled = enable
+            cell?.gasIdTF.isEnabled = enable
             
             cell?.nameLbl.alpha = enable ? 1 : 0.5
             cell?.completeBtn.alpha = enable ? 1 : 0.5
             cell?.statusTF.alpha = enable ? 1 : 0.5
+            cell?.gasIdDropDownBtn.alpha = enable ? 1 : 0.5
+            cell?.gasIdTF.alpha = enable ? 1 : 0.5
         }
         
         cell!.markAsCompletedBlock = {
-            if !((cell?.statusTF.text?.isEmpty)!)  || self.role == 1{
+            weld?.gasId = !((cell?.gasIdTF.text!.isEmpty)!) ? cell?.gasIdTF.text : nil
+            if (!((cell?.statusTF.text?.isEmpty)!) && !(self.spool!.isStainlessSteel!)) || (!((cell?.statusTF.text?.isEmpty)!) && !(cell?.gasIdTF.text!.isEmpty)!)  || self.role == 1{
                 self.updateWeldStatus(weld: weld!)
                 weld?.isChecked = false
             }else{
-                self.showFailureAlert(with: "Please enter weld type to complete the weld")
+                self.showFailureAlert(with: "Please enter all the fields to complete the weld")
             }
             
         }

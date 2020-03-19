@@ -339,7 +339,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                         }], buttonTitles: ["OK","View Drawing"], controller: self, message: "The Spool is on hold and hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
                     return
                 }
-                else if (self.role == 3 && (spool.state == WeldState.inShipping || spool.state == WeldState.shipped)) {
+                else if (self.role == 3 && (spool.state == WeldState.inShipping || spool.state == WeldState.shipped || spool.loadedAt != nil)) {
                     self.alertVC.presentAlertWithTitleAndActions(actions: [{
                         self.dismiss(animated: true, completion: nil)
                         },{
@@ -348,6 +348,15 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                     
                     return
                 } else if (self.role == 3 && spool.state != WeldState.readyToShip) {
+                    
+                    if !spool.isCutListsCompleted!{
+                        self.alertVC.presentAlertWithTitleAndActions(actions: [{
+                        self.dismiss(animated: true, completion: nil)
+                        },{
+                            self.showDrawingVC(spool: spool, role: self.role)
+                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "Please complete all the cut lists to load the spool. You can view the drawing by clicking on the button below.", title: "Warning")
+                        return
+                    }
                     
                     self.alertVC.presentAlertWithTitleAndActions(actions: [{
                         self.dismiss(animated: true, completion: nil)
@@ -363,6 +372,13 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                             self.showDrawingVC(spool: spool, role: self.role)
                         }], buttonTitles: ["OK","View Drawing"], controller: self, message: "You cannot add this spool as the heat numbers are not present. You can view the drawing by clicking on the button below.", title: "Warning")
                     return
+                }
+                
+                for spl in self.scannedSpools{
+                    if spl.id == spool.id{
+                        self.alertVC.presentAlertWithMessage(message: "The spool is already added to this load.", controller: self)
+                        return
+                    }
                 }
                 
                 self.scannedSpools.append(spool)
@@ -397,7 +413,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         guard data != nil else {
             return
         }
-        let spoolId = data?.stringValue!.components(separatedBy: "_").last
+        let spoolId = data?.stringValue!//.components(separatedBy: "_").last
         var isFound = false
         var isFound1 = false
         isFound = ((self.load?.spools.contains { (spool) -> Bool in

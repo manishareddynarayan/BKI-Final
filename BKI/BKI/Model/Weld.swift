@@ -20,6 +20,7 @@ class Weld: BKIModel {
     var qARejectReason:String?
     var welderRejectReason:String?
     var testMethod:String?
+    var gasId:String?
     
     override init () {
         // uncomment this line if your class has been inherited from any other class
@@ -62,6 +63,9 @@ class Weld: BKIModel {
         }
         if let testMethod = weldInfo["test_method"] as? String {
             self.testMethod = testMethod
+        }
+        if let gasId = weldInfo["backing_gas_id"] as? String {
+            self.gasId = gasId
         }
     }
 }
