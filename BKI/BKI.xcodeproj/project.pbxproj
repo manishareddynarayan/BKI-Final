@@ -84,6 +84,10 @@
 		C23043942424A59E005091CE /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23043932424A59E005091CE /* AppVersion.swift */; };
 		C23043972424D75C005091CE /* MainDashBoardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23043962424D75C005091CE /* MainDashBoardItem.swift */; };
 		C23043992424D79C005091CE /* DashBoardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23043982424D79C005091CE /* DashBoardState.swift */; };
+		C230439C2424E535005091CE /* HangerDashBoardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C230439B2424E535005091CE /* HangerDashBoardVC.swift */; };
+		C230439E2424E566005091CE /* HangerDashBoardDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C230439D2424E566005091CE /* HangerDashBoardDetailsVC.swift */; };
+		C23043A02424E731005091CE /* HangersBoardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C230439F2424E731005091CE /* HangersBoardState.swift */; };
+		C23043A22424E764005091CE /* HangerBoardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23043A12424E764005091CE /* HangerBoardItem.swift */; };
 		C2C3B86824237DE00089EA1C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2C3B86724237DE00089EA1C /* GoogleService-Info.plist */; };
 		CE2C6069083ED993BE06AD3B /* Pods_BKI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */; };
 /* End PBXBuildFile section */
@@ -193,6 +197,10 @@
 		C23043932424A59E005091CE /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
 		C23043962424D75C005091CE /* MainDashBoardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDashBoardItem.swift; sourceTree = "<group>"; };
 		C23043982424D79C005091CE /* DashBoardState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardState.swift; sourceTree = "<group>"; };
+		C230439B2424E535005091CE /* HangerDashBoardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HangerDashBoardVC.swift; sourceTree = "<group>"; };
+		C230439D2424E566005091CE /* HangerDashBoardDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HangerDashBoardDetailsVC.swift; sourceTree = "<group>"; };
+		C230439F2424E731005091CE /* HangersBoardState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HangersBoardState.swift; sourceTree = "<group>"; };
+		C23043A12424E764005091CE /* HangerBoardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HangerBoardItem.swift; sourceTree = "<group>"; };
 		C2C3B86724237DE00089EA1C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C67014901894AB5EF7A77A74 /* Pods-BKI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -326,6 +334,7 @@
 				4F760A3821785CF800B1931A /* QA */,
 				4FCD149121526B37002B70A9 /* MainDashBoardVC.swift */,
 				4FCD149321526FF8002B70A9 /* DashBoardVC.swift */,
+				C230439A2424E4EF005091CE /* New Group */,
 				C23043952424AEC7005091CE /* Hangers */,
 				4FA551EA2150F74B00EA6F9B /* Shipping */,
 				4FA551E92150F73C00EA6F9B /* Welding */,
@@ -468,6 +477,8 @@
 				C23043932424A59E005091CE /* AppVersion.swift */,
 				C23043962424D75C005091CE /* MainDashBoardItem.swift */,
 				C23043982424D79C005091CE /* DashBoardState.swift */,
+				C230439F2424E731005091CE /* HangersBoardState.swift */,
+				C23043A12424E764005091CE /* HangerBoardItem.swift */,
 				4FA552712150FBAC00EA6F9B /* BKI-Bridging-Header.h */,
 			);
 			path = Utilities;
@@ -581,8 +592,17 @@
 		C23043952424AEC7005091CE /* Hangers */ = {
 			isa = PBXGroup;
 			children = (
+				C230439B2424E535005091CE /* HangerDashBoardVC.swift */,
+				C230439D2424E566005091CE /* HangerDashBoardDetailsVC.swift */,
 			);
 			path = Hangers;
+			sourceTree = "<group>";
+		};
+		C230439A2424E4EF005091CE /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		DCD6994551BFFAB0C5AA21C9 /* Pods */ = {
@@ -762,6 +782,7 @@
 				4FA552572150FB4500EA6F9B /* AUTextField.swift in Sources */,
 				4FA552472150FB0000EA6F9B /* TextField_ext.swift in Sources */,
 				4F2F45FB2147D95200E5956C /* AppDelegate.swift in Sources */,
+				C23043A22424E764005091CE /* HangerBoardItem.swift in Sources */,
 				4FCDEDB72164C3B20071E9F6 /* Load.swift in Sources */,
 				4FCDEDBD2165F3A30071E9F6 /* Weld.swift in Sources */,
 				4FCDEDAE216220960071E9F6 /* LoadCell.swift in Sources */,
@@ -772,6 +793,8 @@
 				4FCD14902152337A002B70A9 /* RBAAlertController.swift in Sources */,
 				4FCD149B21536369002B70A9 /* BaseCell.swift in Sources */,
 				4F312B812158BBAC003D0358 /* ScannerViewController.swift in Sources */,
+				C230439C2424E535005091CE /* HangerDashBoardVC.swift in Sources */,
+				C23043A02424E731005091CE /* HangersBoardState.swift in Sources */,
 				4FA552692150FB5400EA6F9B /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				4FA5525F2150FB4500EA6F9B /* AUFormattedField.swift in Sources */,
 				4FCDEDB92164C4280071E9F6 /* Spool.swift in Sources */,
@@ -788,6 +811,7 @@
 				4FA552462150FB0000EA6F9B /* View_ext.swift in Sources */,
 				4FA552452150FB0000EA6F9B /* ViewController_ext.swift in Sources */,
 				4FCD149421526FF8002B70A9 /* DashBoardVC.swift in Sources */,
+				C230439E2424E566005091CE /* HangerDashBoardDetailsVC.swift in Sources */,
 				4FA5525A2150FB4500EA6F9B /* AUEmailField.swift in Sources */,
 				4FCD148E21522C00002B70A9 /* Extensions.swift in Sources */,
 				4FCDEDC3216F46410071E9F6 /* LoadMiscTVC.swift in Sources */,

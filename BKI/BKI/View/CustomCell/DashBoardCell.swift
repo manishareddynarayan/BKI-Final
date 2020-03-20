@@ -8,23 +8,29 @@
 
 import UIKit
 
-class DashBoardCell: BaseCell {
-
+class DashBoardCell: BaseCell,Reusable
+{
+    
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var container: UIView!
+  
+    static var nib: UINib?
+    {
+        return UINib(nibName: String(describing:DashBoardCell.self), bundle: nil)
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-         self.contentView.backgroundColor = UIColor.clear
+        self.contentView.backgroundColor = UIColor.clear
         titleLbl.textColor = UIColor.brickRed
         titleLbl.font = UIFont.systemMedium17
         self.backgroundColor = UIColor.clear
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     

@@ -199,6 +199,15 @@ extension DashBoardVC : ScannerDelegate
     {
         self.loadScanData(data: data)
         scanned = true
+        
+        if viewState == DashBoardState.hangers
+        {
+            guard let vc2 = self.getViewControllerWithIdentifier(identifier:"HangerDashBoardVC") as? HangerDashBoardVC else {
+                return
+            }
+            vc2.viewState = self.viewState
+            self.navigationController?.pushViewController(vc2, animated: true)
+        }
     }
     
     func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didError error: Error, from connection: AVCaptureConnection)
