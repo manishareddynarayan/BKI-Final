@@ -20,7 +20,7 @@ class AlternateDescriptionVC: BaseViewController, UITableViewDataSource, UITable
         tableView.register(UINib(nibName: "AlternateDescriptionCell", bundle: nil), forCellReuseIdentifier: "alternateDescriptionCell")
         tableView.separatorStyle = .none
         tableView.estimatedRowHeight = 200
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         noDataLbl.isHidden = true
     }
     

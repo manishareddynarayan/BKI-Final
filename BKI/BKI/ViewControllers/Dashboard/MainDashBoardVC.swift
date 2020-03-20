@@ -8,68 +8,88 @@
 
 import UIKit
 
-class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSource {
-
+class MainDashBoardVC: BaseViewController
+{
+    //MARK:- IBOutlet
     @IBOutlet weak var tableView: UITableView!
-    var roleArr = ["Fit-Up","Weld","Shipping"]
+    
+    //MARK:- Proprties
+    var roleArr = [MainDashBoardItem.init(name: "Fit-Up", type: .fitup),
+                   MainDashBoardItem.init(name: "Weld", type: .weld),
+                   MainDashBoardItem.init(name: "Shipping", type: .shipping),
+                   MainDashBoardItem.init(name: "Hangers", type: .hangers)]
    
-    override func viewDidLoad() {
+    //MARK:- View Life cycle
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "DashBoardCell", bundle: nil), forCellReuseIdentifier: "DashboardCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         
-        if BKIModel.userRole() == "qa" {
+        if BKIModel.userRole() == "qa"
+        {
             self.roleArr.removeAll()
-            self.roleArr.append("QA")
+            self.roleArr.append(MainDashBoardItem.init(name:"QA", type: .qa))
         }
-        // Do any additional setup after loading the view.
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool)
+    {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
     }
     
-    override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning()
+    {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func logoutAction(_ sender: Any) {
+    //MARK:- IBAction methods
+    @IBAction func logoutAction(_ sender: Any)
+    {
         self.logoutUser()
     }
     
-    // MARK: - Navigation
+    // MARK:- Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if segue.identifier == "DashboardSegue" {
-            guard let vc = segue.destination as? DashBoardVC else {
-                
-                return
-            }
-            vc.role = BKIModel.userRole() == "qa" ?  4 : ((sender as? IndexPath)?.row)! + 1
+        if segue.identifier == "DashboardSegue"
+        {
+            guard let vc = segue.destination as? DashBoardVC else { return }
+            vc.viewState = roleArr[((sender as? IndexPath)?.row)!].type
         }
     }
- 
-    //MARK: TableView DataSource methods
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+}
+
+//MARK:- UITableViewDataSource methods
+extension MainDashBoardVC:UITableViewDataSource
+{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
         return self.roleArr.count
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
         return 90.0
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardCell", for: indexPath) as? DashBoardCell
-        cell?.titleLbl.text = roleArr[indexPath.row]
+        cell?.titleLbl.text = roleArr[indexPath.row].name
         return cell!
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //tableView.deselectRow(at: indexPath, animated: false)
+}
+
+//MARK:- UITableViewDelegate methods
+extension MainDashBoardVC:UITableViewDelegate
+{
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
         self.performSegue(withIdentifier: "DashboardSegue", sender: indexPath)
     }
 }

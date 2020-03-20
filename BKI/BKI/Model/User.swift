@@ -85,6 +85,23 @@ class User: BKIModel {
             return self.getWelderMenu()
         case 3 :
             return self.getShippingMenu()
+        case 5 :
+            return self.getHangersMenu()
+        default:
+            return self.getTestingMenu()
+        }
+    }
+    
+    func getUserMenuItems(with state:DashBoardState) -> [[String:String]] {
+        switch (state) {
+        case .fitup :
+            return self.getFitterMenu()
+        case .weld :
+            return self.getWelderMenu()
+        case .shipping :
+            return self.getShippingMenu()
+        case .hangers :
+            return self.getHangersMenu()
         default:
             return self.getTestingMenu()
         }
@@ -113,6 +130,10 @@ class User: BKIModel {
                 ["Name":"View Drawing","Child":"DrawingVC"],
                 ["Name":"Scan New Spool","Child":"ScanVC"]]
     }
+    
+    func getHangersMenu() -> [[String:String]] {
+         return [["Name":"Get Hanger Packages","Child":"ScanVC"]]
+     }
     
     class func getRoleName(userRole:Role) -> String {
         if userRole == Role.fitter {

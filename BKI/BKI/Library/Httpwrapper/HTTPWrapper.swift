@@ -20,9 +20,9 @@ struct Constant {
 //    let kBaseURL = "http://10.10.10.28:3000/api/v1/"
      //let kBaseURL = "http://869c8d41.ngrok.io/"
     // Satging
-//    let kBaseURL = "http://54.196.109.252/api/v1/"
+    let kBaseURL = "http://54.196.109.252/api/v1/"
     //Production
-    let kBaseURL = "https://api.bkimechanical.com/api/v1/"
+//    let kBaseURL = "https://api.bkimechanical.com/api/v1/"
     
 }
 
@@ -32,7 +32,7 @@ class HTTPWrapper: NSObject {
     var xAccessToken:String = "x-access-token"
     
     typealias SuccessHandler = ([String:AnyObject]) -> ()
-    typealias FailureHandler = (NSError!) -> ()
+    typealias FailureHandler = (NSError?) -> ()
     
     var token = String()
     
@@ -117,7 +117,7 @@ class HTTPWrapper: NSObject {
             postbody.append("\r\n--\(boundary)\r\n".data(using: String.Encoding.utf8)!)
             if (body[i] is Data) {
                 print("image data")
-                let attachmentName = Date().timeIntervalSinceNow
+                _ = Date().timeIntervalSinceNow
                 let videoData: Data? = body[i] as? Data
                     postbody.append("Content-Disposition: form-data;name=\"\(attributeName)\";filename=\"\(attributeName)\"\r\n".data(using: String.Encoding.utf8)!)
                     postbody.append("Content-Type: image/png\r\n\r\n".data(using: String.Encoding.utf8)!)
@@ -187,7 +187,7 @@ class HTTPWrapper: NSObject {
         
         let taskResource = BFTaskCompletionSource<AnyObject>()
         
-        let imageData = UIImagePNGRepresentation(image)!
+        let imageData = image.pngData()!
         self.uploadImage(urlSchema: endPoint, parameters1: ["comment[image]"], body: [imageData], successBlock: { (responseData) in
             taskResource.set(result: responseData as AnyObject)
 
@@ -421,7 +421,7 @@ class HTTPWrapper: NSObject {
         DispatchQueue.main.async {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let topVC = appDelegate.window?.rootViewController
-            let alert = UIAlertController(title: "Error", message: message, preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: "Error", message: message, preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                 self.redirectUserToSignInScreenOnAuthExpire()
             }))

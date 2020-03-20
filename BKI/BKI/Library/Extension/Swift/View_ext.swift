@@ -10,45 +10,60 @@ import Foundation
 
 import UIKit
 
-extension UIView {
-    
-    
-    func callContactPerson(number:String) -> Void {
+extension UIView
+{
+    func callContactPerson(number:String) -> Void
+    {
         let phoneUrl = "tel://\(number)"
-        let url:NSURL = NSURL(string: phoneUrl as String)!
-        UIApplication.shared.openURL(url as URL)
+
+        if let url = URL(string: phoneUrl)
+        {
+          if #available(iOS 10, *)
+          {
+            UIApplication.shared.open(url, options: [:],
+              completionHandler: { (success) in
+                 print("Open \(phoneUrl): \(success)")
+             })
+          }
+          else
+          {
+            let success = UIApplication.shared.openURL(url)
+            print("Open \(phoneUrl): \(success)")
+          }
+        }
     }
     
     
-    func emptyViewToHideUnNecessaryRows() -> UIView? {
+    func emptyViewToHideUnNecessaryRows() -> UIView?
+    {
         let view = UIView(frame: CGRect(x:0, y:0, width:UIScreen.main.bounds.width, height:0))
         view.backgroundColor = UIColor.clear
         return view
     }
     
-    func emptyViewToHideUnNecessaryRowsOverButton() -> UIView? {
+    func emptyViewToHideUnNecessaryRowsOverButton() -> UIView?
+    {
         let view = UIView(frame: CGRect(x:0, y:0, width:UIScreen.main.bounds.width, height:100))
         view.backgroundColor = UIColor.clear
         return view
     }
     
-    
-    
-
-    
-    func applyPrimaryTheme() -> Void {
+    func applyPrimaryTheme() -> Void
+    {
         self.layer.cornerRadius = 13.0
         self.layer.borderWidth = 1.0
         self.layer.borderColor = UIColor.appTheamColor().cgColor
     }
-    func removePrimaryTheme() -> Void {
+    
+    func removePrimaryTheme() -> Void
+    {
         self.layer.cornerRadius = 0.0
         self.layer.borderWidth = 0.0
     }
     
     
-    func applyScecondaryBackGroundGradient() -> CAGradientLayer {
-        
+    func applyScecondaryBackGroundGradient() -> CAGradientLayer
+    {
         let firstColor = UIColor.init(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1.0).cgColor
         let secondColor = UIColor.init(red: 245.0/255.0, green: 245.0/255.0, blue: 255.0/255.0, alpha: 1.0).cgColor
         let gradient : CAGradientLayer = self.createGradientlayer(firstColor:firstColor , secondColor: secondColor)
@@ -60,19 +75,16 @@ extension UIView {
     }
     
     
-    func applyPrimaryBackGroundGradient() -> Void {
-        
+    func applyPrimaryBackGroundGradient() -> Void
+    {
         let firstColor = UIColor.init(red: 231.0/255.0, green: 239.0/255.0, blue: 248.0/255.0, alpha: 1.0).cgColor
         let secondColor =  UIColor.init(red: 250.0/255.0, green: 250.0/255.0, blue: 250.0/255.0, alpha: 1.0).cgColor
         let layer = self.createGradientlayer(firstColor: firstColor, secondColor:secondColor)
-        
         self.layer.insertSublayer(layer, at: 0)
     }
     
-    
-    
-    
-    func applyShadowatBottom() -> Void {
+    func applyShadowatBottom() -> Void
+    {
         //self.layer.masksToBounds = false;
        // self.layer.cornerRadius = 4;
         self.layer.shadowOffset = CGSize(width:0, height:5);
@@ -80,21 +92,25 @@ extension UIView {
         self.layer.shadowOpacity = 0.5;
     }
 
-    func applyShadowatBottom(offset:CGSize?,radius:CGFloat?,opacity:Float?) -> Void {
+    func applyShadowatBottom(offset:CGSize?,radius:CGFloat?,opacity:Float?) -> Void
+    {
         self.layer.masksToBounds = false;
-        if offset != nil {
+        if offset != nil
+        {
             self.layer.shadowOffset = offset!;
         }
-        if radius != nil {
+        if radius != nil
+        {
             self.layer.shadowRadius = radius!;
         }
-        if opacity != nil {
+        if opacity != nil
+        {
             self.layer.shadowOpacity = opacity!;
         }
-      
     }
     
-    func resetPrimaryShadow() -> Void {
+    func resetPrimaryShadow() -> Void
+    {
         self.layer.masksToBounds = true;
         self.layer.cornerRadius = 0;
         self.layer.shadowOffset = CGSize(width:0, height:0);
@@ -102,8 +118,8 @@ extension UIView {
         self.layer.shadowOpacity = 0;
     }
     
-    func applyPlainStyle() -> Void {
-       
+    func applyPlainStyle() -> Void
+    {
         self.layer.masksToBounds = false;
         self.layer.cornerRadius = 20;
         self.layer.borderColor = UIColor.black.cgColor
@@ -111,30 +127,28 @@ extension UIView {
     }
     
     
-    func createGradientlayer(firstColor:CGColor,secondColor:CGColor) -> CAGradientLayer {
-        
+    func createGradientlayer(firstColor:CGColor,secondColor:CGColor) -> CAGradientLayer
+    {
         let gradient: CAGradientLayer = CAGradientLayer()
         gradient.frame = self.bounds
         gradient.colors = [firstColor, secondColor]
-
         return gradient
     }
     
     
-    func createHorizantalGradientlayer(firstColor:CGColor,secondColor:CGColor) -> CAGradientLayer {
-        
+    func createHorizantalGradientlayer(firstColor:CGColor,secondColor:CGColor) -> CAGradientLayer
+    {
         let gradient: CAGradientLayer = CAGradientLayer()
         gradient.frame = self.bounds
         gradient.colors = [firstColor, secondColor]
         gradient.startPoint = CGPoint(x:0,y:0.5)
         gradient.endPoint = CGPoint(x:1,y:0.5)
-        
         return gradient
     }
     
     
-    func createSliderGradient() -> UIImage {
-        
+    func createSliderGradient() -> UIImage
+    {
         let firstColor = UIColor.init(red: 251.0/255.0, green: 143.0/255.0, blue: 80.0/255.0, alpha: 1.0).cgColor
         let secondColor = UIColor.init(red: 29.0/255.0, green: 96.0/255.0, blue: 200.0/255.0, alpha: 1.0).cgColor
         let sliderGradient = self.createGradientlayer(firstColor: firstColor, secondColor: secondColor)
@@ -151,18 +165,18 @@ extension UIView {
     }
     
     
-    func getViewFromNib(nibName:String) -> UIView? {
-        
+    func getViewFromNib(nibName:String) -> UIView?
+    {
         if let statusView = Bundle.main.loadNibNamed(nibName, owner: self, options: nil)?.first as? UIView
         {
             statusView.frame = self.bounds
             return statusView
         }
-        
         return nil
     }
     
-    func roundCorners(corners:UIRectCorner, radius: CGFloat) {
+    func roundCorners(corners:UIRectCorner, radius: CGFloat)
+    {
         let maskLayer = CAShapeLayer()
         maskLayer.path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius)).cgPath
         self.layer.mask = maskLayer
@@ -175,14 +189,15 @@ extension UIView {
 }
 
 
-extension MBProgressHUD {
-    static func showHud(view:UIView) {
+extension MBProgressHUD
+{
+    static func showHud(view:UIView)
+    {
         MBProgressHUD.showAdded(to: view, animated: true)
-
     }
     
-    
-    static func hideHud(view:UIView) {
+    static func hideHud(view:UIView)
+    {
         MBProgressHUD.hide(for: view, animated: true)
     }
 }

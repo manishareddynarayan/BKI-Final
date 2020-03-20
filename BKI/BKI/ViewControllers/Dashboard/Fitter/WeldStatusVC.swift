@@ -24,7 +24,7 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBOutlet weak var alertMessageLabel1: UILabel!
     @IBOutlet weak var alertTitle1: UILabel!
     @IBOutlet weak var alertViewOkBtn: UIButton!
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "WeldCell", bundle: nil), forCellReuseIdentifier: "weldCell")
@@ -40,7 +40,7 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
     override func viewWillAppear(_ animated: Bool) {
         self.bgImageview.isHidden = true
         self.view.backgroundColor = UIColor.white
-        rejectOptionsView.isHidden = self.role == 1 ? true : false
+        rejectOptionsView.isHidden = self.viewState == DashBoardState.fitup ? true : false
         super.viewWillAppear(animated)
         self.showRejectButton(rejectBtn: rejectBtn)
         self.resetWeldStatus()
@@ -127,16 +127,19 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
         let cell = tableView.dequeueReusableCell(withIdentifier: "weldCell", for: indexPath) as? WeldCell
         let weld = self.spool?.welds[indexPath.row]
         cell?.configureWeldCell(weld: weld!)
-        cell?.checkBtn.isHidden = role == 1 ? true : false
-        cell?.statusTF.isHidden = role == 1 ? true : false
-        cell?.gasIdTF.isHidden = (role == 2 && self.spool!.isStainlessSteel!) ? false : true
-        cell?.gasIdDropDownBtn.isHidden = role == 2 && self.spool!.isStainlessSteel! ? false:true
+        cell?.checkBtn.isHidden = viewState == DashBoardState.fitup ? true : false
+        cell?.statusTF.isHidden = viewState == DashBoardState.fitup  ? true : false
+        cell?.gasIdTF.isHidden = (viewState == DashBoardState.weld  && self.spool!.isStainlessSteel!) ? false : true
+        cell?.gasIdDropDownBtn.isHidden = viewState == DashBoardState.weld  && self.spool!.isStainlessSteel! ? false:true
         
         cell?.commentsBtn.isHidden = (weld?.welderRejectReason == nil && weld?.qARejectReason == nil) ? true : false
-        if  self.role == 1 {
+        if  self.viewState == DashBoardState.fitup
+        {
             cell?.completeBtn.setImage((weld?.state == WeldState.fitting) ? UIImage.init(named: "tickCircle") : UIImage.init(named: "tick"), for: .normal)
             cell?.completeBtn.isUserInteractionEnabled = weld?.state == WeldState.fitting ? true : false
-        } else if self.role == 2 {
+        }
+        else if self.viewState == DashBoardState.weld
+        {
             cell?.completeBtn.setImage((weld?.state == WeldState.welding || weld?.state == WeldState.fitting) ? UIImage.init(named: "tickCircle") : UIImage.init(named: "tick"), for: .normal)
             let enable = weld?.state == WeldState.welding
             cell?.completeBtn.isEnabled = enable
@@ -154,7 +157,8 @@ class WeldStatusVC: BaseViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         cell!.markAsCompletedBlock = {
             weld?.gasId = !((cell?.gasIdTF.text!.isEmpty)!) ? cell?.gasIdTF.text : nil
-            if (!((cell?.statusTF.text?.isEmpty)!) && !(self.spool!.isStainlessSteel!)) || (!((cell?.statusTF.text?.isEmpty)!) && !(cell?.gasIdTF.text!.isEmpty)!)  || self.role == 1{
+            if (!((cell?.statusTF.text?.isEmpty)!) && !(self.spool!.isStainlessSteel!)) || (!((cell?.statusTF.text?.isEmpty)!) && !(cell?.gasIdTF.text!.isEmpty)!)  || self.viewState == DashBoardState.fitup
+            {
                 self.updateWeldStatus(weld: weld!)
                 weld?.isChecked = false
             }else{

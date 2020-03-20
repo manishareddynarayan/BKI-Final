@@ -78,6 +78,13 @@
 		4FCDEDC3216F46410071E9F6 /* LoadMiscTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDC2216F46410071E9F6 /* LoadMiscTVC.swift */; };
 		4FCDEDC6216F46BE0071E9F6 /* MiscCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDC4216F46BE0071E9F6 /* MiscCell.swift */; };
 		4FCDEDC7216F46BE0071E9F6 /* MiscCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FCDEDC5216F46BE0071E9F6 /* MiscCell.xib */; };
+		C2304390242491DB005091CE /* UICollectionView+Reusable .swift in Sources */ = {isa = PBXBuildFile; fileRef = C230438C242491DB005091CE /* UICollectionView+Reusable .swift */; };
+		C2304391242491DB005091CE /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C230438D242491DB005091CE /* Reusable.swift */; };
+		C2304392242491DB005091CE /* UITableView+Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C230438F242491DB005091CE /* UITableView+Reusable.swift */; };
+		C23043942424A59E005091CE /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23043932424A59E005091CE /* AppVersion.swift */; };
+		C23043972424D75C005091CE /* MainDashBoardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23043962424D75C005091CE /* MainDashBoardItem.swift */; };
+		C23043992424D79C005091CE /* DashBoardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23043982424D79C005091CE /* DashBoardState.swift */; };
+		C2C3B86824237DE00089EA1C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2C3B86724237DE00089EA1C /* GoogleService-Info.plist */; };
 		CE2C6069083ED993BE06AD3B /* Pods_BKI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */; };
 /* End PBXBuildFile section */
 
@@ -180,6 +187,13 @@
 		4FCDEDC5216F46BE0071E9F6 /* MiscCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MiscCell.xib; sourceTree = "<group>"; };
 		8CDC640A54E9D1F0CC79C104 /* Pods-BKI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.release.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.release.xcconfig"; sourceTree = "<group>"; };
 		B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BKI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C230438C242491DB005091CE /* UICollectionView+Reusable .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Reusable .swift"; sourceTree = "<group>"; };
+		C230438D242491DB005091CE /* Reusable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
+		C230438F242491DB005091CE /* UITableView+Reusable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Reusable.swift"; sourceTree = "<group>"; };
+		C23043932424A59E005091CE /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
+		C23043962424D75C005091CE /* MainDashBoardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDashBoardItem.swift; sourceTree = "<group>"; };
+		C23043982424D79C005091CE /* DashBoardState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardState.swift; sourceTree = "<group>"; };
+		C2C3B86724237DE00089EA1C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C67014901894AB5EF7A77A74 /* Pods-BKI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -218,6 +232,8 @@
 			isa = PBXGroup;
 			children = (
 				4F2F46062147D95300E5956C /* Info.plist */,
+				C2C3B86724237DE00089EA1C /* GoogleService-Info.plist */,
+				C230438924249137005091CE /* Extension */,
 				4FCD147B21521FCD002B70A9 /* Resources */,
 				4FA5526C2150FB6B00EA6F9B /* Utilities */,
 				4FA551EB2150F7A300EA6F9B /* Model */,
@@ -310,6 +326,7 @@
 				4F760A3821785CF800B1931A /* QA */,
 				4FCD149121526B37002B70A9 /* MainDashBoardVC.swift */,
 				4FCD149321526FF8002B70A9 /* DashBoardVC.swift */,
+				C23043952424AEC7005091CE /* Hangers */,
 				4FA551EA2150F74B00EA6F9B /* Shipping */,
 				4FA551E92150F73C00EA6F9B /* Welding */,
 				4FA551E82150F72A00EA6F9B /* Fitter */,
@@ -448,6 +465,9 @@
 			isa = PBXGroup;
 			children = (
 				4FA5526E2150FB8800EA6F9B /* Constants.swift */,
+				C23043932424A59E005091CE /* AppVersion.swift */,
+				C23043962424D75C005091CE /* MainDashBoardItem.swift */,
+				C23043982424D79C005091CE /* DashBoardState.swift */,
 				4FA552712150FBAC00EA6F9B /* BKI-Bridging-Header.h */,
 			);
 			path = Utilities;
@@ -524,6 +544,47 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C230438924249137005091CE /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				C230438A242491DB005091CE /* Reusable */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		C230438A242491DB005091CE /* Reusable */ = {
+			isa = PBXGroup;
+			children = (
+				C230438D242491DB005091CE /* Reusable.swift */,
+				C230438B242491DB005091CE /* UICollectionView + Reusable */,
+				C230438E242491DB005091CE /* UITableView+Reusable */,
+			);
+			path = Reusable;
+			sourceTree = "<group>";
+		};
+		C230438B242491DB005091CE /* UICollectionView + Reusable */ = {
+			isa = PBXGroup;
+			children = (
+				C230438C242491DB005091CE /* UICollectionView+Reusable .swift */,
+			);
+			path = "UICollectionView + Reusable";
+			sourceTree = "<group>";
+		};
+		C230438E242491DB005091CE /* UITableView+Reusable */ = {
+			isa = PBXGroup;
+			children = (
+				C230438F242491DB005091CE /* UITableView+Reusable.swift */,
+			);
+			path = "UITableView+Reusable";
+			sourceTree = "<group>";
+		};
+		C23043952424AEC7005091CE /* Hangers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Hangers;
+			sourceTree = "<group>";
+		};
 		DCD6994551BFFAB0C5AA21C9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -568,6 +629,7 @@
 				TargetAttributes = {
 					4F2F45F62147D95200E5956C = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 1130;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -610,6 +672,7 @@
 				4FA5527321511C8B00EA6F9B /* Auth.storyboard in Resources */,
 				4F312B892158C7D2003D0358 /* cross@3x.png in Resources */,
 				4F2F46002147D95200E5956C /* Main.storyboard in Resources */,
+				C2C3B86824237DE00089EA1C /* GoogleService-Info.plist in Resources */,
 				4FA76CB9215B8082002377F3 /* WeldCell.xib in Resources */,
 				3C0698012230E98700303E57 /* AlternateDescriptionCell.xib in Resources */,
 				4FCDEDB3216223F30071E9F6 /* OpenLoadCell.xib in Resources */,
@@ -681,6 +744,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2304390242491DB005091CE /* UICollectionView+Reusable .swift in Sources */,
 				4FA5526A2150FB5400EA6F9B /* TPKeyboardAvoidingScrollView.m in Sources */,
 				4F760A3D21787ABA00B1931A /* InspectionCell.swift in Sources */,
 				4FA5525D2150FB4500EA6F9B /* NSString+RENumberFormat.m in Sources */,
@@ -692,6 +756,7 @@
 				4FCDEDB2216223F30071E9F6 /* OpenLoadCell.swift in Sources */,
 				4FA551F72150FADF00EA6F9B /* HTTPWrapper.swift in Sources */,
 				4FCDEDBB2164C4890071E9F6 /* Material.swift in Sources */,
+				C23043972424D75C005091CE /* MainDashBoardItem.swift in Sources */,
 				4FA551F02150F90200EA6F9B /* BaseViewController.swift in Sources */,
 				4FCDEDC1216B514F0071E9F6 /* WeldStatusVC.swift in Sources */,
 				4FA552572150FB4500EA6F9B /* AUTextField.swift in Sources */,
@@ -700,6 +765,7 @@
 				4FCDEDB72164C3B20071E9F6 /* Load.swift in Sources */,
 				4FCDEDBD2165F3A30071E9F6 /* Weld.swift in Sources */,
 				4FCDEDAE216220960071E9F6 /* LoadCell.swift in Sources */,
+				C2304392242491DB005091CE /* UITableView+Reusable.swift in Sources */,
 				4F312B792154FC64003D0358 /* ScanVC.swift in Sources */,
 				4FA5525E2150FB4500EA6F9B /* FormTextView.swift in Sources */,
 				4FA551EE2150F8F100EA6F9B /* RootViewController.swift in Sources */,
@@ -709,11 +775,13 @@
 				4FA552692150FB5400EA6F9B /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				4FA5525F2150FB4500EA6F9B /* AUFormattedField.swift in Sources */,
 				4FCDEDB92164C4280071E9F6 /* Spool.swift in Sources */,
+				C23043942424A59E005091CE /* AppVersion.swift in Sources */,
 				3C0697FD222FF24600303E57 /* AlternateDescriptionVC.swift in Sources */,
 				4FCD149D215396FE002B70A9 /* BKIModel.swift in Sources */,
 				4FA5525C2150FB4500EA6F9B /* AUPasswordField.swift in Sources */,
 				4FCDEDBF2165F3B50071E9F6 /* Component.swift in Sources */,
 				4FA552582150FB4500EA6F9B /* REFormattedNumberField.m in Sources */,
+				C2304391242491DB005091CE /* Reusable.swift in Sources */,
 				4FA76CB8215B8082002377F3 /* WeldCell.swift in Sources */,
 				4F760A3A21785D4500B1931A /* InspectionVC.swift in Sources */,
 				4FA5526B2150FB5400EA6F9B /* MBProgressHUD.m in Sources */,
@@ -732,6 +800,7 @@
 				4FA551F22150F93400EA6F9B /* LoginVC.swift in Sources */,
 				4F312B732154FB50003D0358 /* NewLoadVC.swift in Sources */,
 				4FCD149821536317002B70A9 /* DashBoardCell.swift in Sources */,
+				C23043992424D79C005091CE /* DashBoardState.swift in Sources */,
 				4FA552702150FB8800EA6F9B /* Constants.swift in Sources */,
 				3C7168E92237855A00464B29 /* AlternateDescription.swift in Sources */,
 			);
@@ -894,7 +963,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = BKI_Dev;
 				SWIFT_OBJC_BRIDGING_HEADER = "BKI/Utilities/BKI-Bridging-Header.h";
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "BKI/Utilities/BKI-Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -920,7 +989,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = BKI_Adhoc;
 				SWIFT_OBJC_BRIDGING_HEADER = "BKI/Utilities/BKI-Bridging-Header.h";
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "BKI/Utilities/BKI-Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

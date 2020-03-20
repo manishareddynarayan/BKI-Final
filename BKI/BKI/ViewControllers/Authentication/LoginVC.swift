@@ -8,50 +8,44 @@
 
 import UIKit
 
-class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
-
-    @IBOutlet weak var passwordTF: AUPasswordField!
+class LoginVC: BaseViewController
+{
+    //MARK:- IBOutlet
     @IBOutlet weak var emailTF: AUTextField!
+    @IBOutlet weak var passwordTF: AUPasswordField!
     @IBOutlet weak var appVersionLbl: UILabel!
     
-    override func viewDidLoad() {
+    //MARK:- View Life Cycle
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
 
         emailTF.designToolBarWithNext(isNext: true, withPrev: false, delegate: self)
         passwordTF.designToolBarWithNext(isNext: false, withPrev: true, delegate: self)
         
-        if let username = UserDefaults.standard.string(forKey: "recentUsername"){
+        if let username = UserDefaults.standard.string(forKey: "recentUsername")
+        {
             emailTF.text = username
         }
-        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-        let buildVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
-        appVersionLbl.text = "App version " + appVersion! + "("
-            + buildVersion! + ")"
-        // Do any additional setup after loading the view.
+        appVersionLbl.text = "App version \(AboutItem().version ?? "") (\(AboutItem().build ?? ""))"
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool)
+    {
         super.viewWillAppear(animated)
         
-        self.sessionManager.requiredFields = [["Field":emailTF,"Key":"Email"],["Field":passwordTF,"Key":"Password"]] as [[String : AnyObject]]
+        self.sessionManager.requiredFields = [["Field":emailTF as Any,"Key":"Email"],
+                                              ["Field":passwordTF as Any,"Key":"Password"]] as [[String : AnyObject]]
     }
-    override func didReceiveMemoryWarning() {
+    
+    override func didReceiveMemoryWarning()
+    {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
-    @IBAction func signInAction(_ sender: Any) {
-        
+     //MARK:- IBActions
+    @IBAction func signInAction(_ sender: Any)
+    {
 //        let dict = self.sessionManager.validateRequiredFields()
 //        if dict != nil {
 //            if let error = dict!["Error"] as? String {
@@ -79,16 +73,21 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
     @IBAction func forgotMyPasswordAction(_ sender: Any) {
         
     }
-    
-    //MARK:UItextField Input Delegate
-    func textFieldDidPressedNextButton(_ textField: AUSessionField) {
+}
+
+//MARK:- UItextField Input Delegate
+extension LoginVC : TextInputDelegate
+{
+    func textFieldDidPressedNextButton(_ textField: AUSessionField)
+    {
         let currentTag = textField.tag
         let nextTF = self.view.viewWithTag(currentTag+1)
         textField.resignFirstResponder()
         nextTF?.becomeFirstResponder()
     }
     
-    func textFieldDidPressedPreviousButton(_ textField: AUSessionField) {
+    func textFieldDidPressedPreviousButton(_ textField: AUSessionField)
+    {
         let currentTag = textField.tag
         let prevTF = self.view.viewWithTag(currentTag-1)
         textField.resignFirstResponder()
@@ -96,8 +95,8 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
         
     }
     
-    func textFieldDidPressedDoneButton(_ textField: AUSessionField) {
-        
+    func textFieldDidPressedDoneButton(_ textField: AUSessionField)
+    {
         textField.resignFirstResponder()
     }
 }

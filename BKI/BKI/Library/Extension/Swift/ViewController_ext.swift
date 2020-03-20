@@ -53,16 +53,16 @@ extension UIViewController
     
     
     func removeChildViewController() -> Void {
-        self.willMove(toParentViewController: nil)
+        self.willMove(toParent: nil)
         self.view.removeFromSuperview()
-        self.removeFromParentViewController()
+        self.removeFromParent()
     }
     
     
     func present(childVC:UIViewController) -> Void {
-        self.addChildViewController(childVC)
+        self.addChild(childVC)
         self.view.addSubview(childVC.view)
-        childVC.didMove(toParentViewController: self)
+        childVC.didMove(toParent: self)
     }
     
     
@@ -112,7 +112,7 @@ extension UIViewController
     
     func saveImageData(image: UIImage) {
         //let data : NSData = UIImagePNGRepresentation(image)!
-        let data : NSData = UIImageJPEGRepresentation(image, 0.1)! as NSData
+        let data : NSData = image.jpegData(compressionQuality: 0.1)! as NSData
         let defs = UserDefaults(suiteName: "group.com.priceit.app")
         defs?.set(data, forKey: "userPic")
         defs?.synchronize()
@@ -136,7 +136,7 @@ extension UIViewController
     
     //MARK:---- Navigation back
     func setBackBarButton() -> Void {
-        let backItem = UIBarButtonItem.init(image: UIImage.init(named: "backArrow"), style: UIBarButtonItemStyle.plain, target: self, action: (#selector(self.popViewController)))
+        let backItem = UIBarButtonItem.init(image: UIImage.init(named: "backArrow"), style: UIBarButtonItem.Style.plain, target: self, action: (#selector(self.popViewController)))
         backItem.tintColor = UIColor.white
         self.navigationItem.leftBarButtonItem = backItem
     }

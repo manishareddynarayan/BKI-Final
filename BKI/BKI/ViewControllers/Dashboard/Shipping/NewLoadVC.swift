@@ -167,7 +167,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
 //        }
         loadParams["truck_number"] = truckNumberTF.text as AnyObject
         if  !(self.load!.materials.isEmpty) {
-            let (misc1, misc2) = self.getMiscMaterialParams()
+            let (misc1, _) = self.getMiscMaterialParams()
             loadParams["loads_miscellaneous_materials_attributes"] = misc1 as AnyObject
             //            loadParams["miscellaneous_material"] = misc2 as AnyObject
         }
@@ -238,10 +238,10 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         //Add metrail params to this arr if material is already exists
         var misc_material_attributes = [[String:AnyObject]]()
         //Add metrail params to this arr if material is already not exists
-        var misc_materia_params = [[String:AnyObject]]()
+        let misc_materia_params = [[String:AnyObject]]()
         for material in self.load!.materials {
             if material.miscellaneousMaterialId == nil {
-                let dict = ["material":material.desc,"quantity":material.quantity,"weight": material.weight] as [String : Any]
+                let dict = ["material":material.desc as Any,"quantity":material.quantity,"weight": material.weight] as [String : Any]
                 misc_material_attributes.append(dict as [String : AnyObject])
             } else {
                 var dict = ["miscellaneous_material_id":material.miscellaneousMaterialId!,"quantity":material.quantity,"weight": material.weight] as [String : Any]
@@ -276,11 +276,11 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         miscVC?.load = self.load!
     }
     
-    @objc func showDrawingVC(spool:Spool, role:Int){
+    @objc func showDrawingVC(spool:Spool, state:DashBoardState){
         if let vc = self.getViewControllerWithIdentifier(identifier: "DrawingVC") as? BaseViewController
         {
             vc.spool = spool
-            vc.role = role
+            vc.viewState = state
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -300,7 +300,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
         cell?.spoolLbl.text = "\(spool.code!)"
 //        cell?.viewDrawingBtn.addTarget(self, action: #selector(showDrawingVC), for: .touchUpInside)
         cell?.viewDrawingBlock = {
-            self.showDrawingVC(spool: spool, role: self.role)
+            self.showDrawingVC(spool: spool, state: self.viewState)
         }
         return cell!
     }
@@ -335,25 +335,26 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                     self.alertVC.presentAlertWithTitleAndActions(actions: [{
                         self.dismiss(animated: true, completion: nil)
                         },{
-                            self.showDrawingVC(spool: spool, role: self.role)
+                            self.showDrawingVC(spool: spool, state: self.viewState)
                         }], buttonTitles: ["OK","View Drawing"], controller: self, message: "The Spool is on hold and hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
                     return
                 }
-                else if (self.role == 3 && (spool.state == WeldState.inShipping || spool.state == WeldState.shipped || spool.loadedAt != nil)) {
+                else if (self.viewState == DashBoardState.shipping && (spool.state == WeldState.inShipping || spool.state == WeldState.shipped || spool.loadedAt != nil))
+                {
                     self.alertVC.presentAlertWithTitleAndActions(actions: [{
                         self.dismiss(animated: true, completion: nil)
                         },{
-                            self.showDrawingVC(spool: spool, role: self.role)
+                            self.showDrawingVC(spool: spool, state: self.viewState)
                         }], buttonTitles: ["OK","View Drawing"], controller: self, message: "The Spool is already added to a load. You can view the drawing by clicking on the button below.", title: "Warning")
                     
                     return
-                } else if (self.role == 3 && spool.state != WeldState.readyToShip) {
+                } else if (self.viewState == DashBoardState.shipping && spool.state != WeldState.readyToShip) {
                     
                     if !spool.isCutListsCompleted!{
                         self.alertVC.presentAlertWithTitleAndActions(actions: [{
                         self.dismiss(animated: true, completion: nil)
                         },{
-                            self.showDrawingVC(spool: spool, role: self.role)
+                            self.showDrawingVC(spool: spool, state: self.viewState)
                         }], buttonTitles: ["OK","View Drawing"], controller: self, message: "Please complete all the cut lists to load the spool. You can view the drawing by clicking on the button below.", title: "Warning")
                         return
                     }
@@ -361,7 +362,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                     self.alertVC.presentAlertWithTitleAndActions(actions: [{
                         self.dismiss(animated: true, completion: nil)
                         },{
-                            self.showDrawingVC(spool: spool, role: self.role)
+                            self.showDrawingVC(spool: spool, state: self.viewState)
                         }], buttonTitles: ["OK","View Drawing"], controller: self, message: "The Spool is not ready to be loaded yet. You can view the drawing by clicking on the button below.", title: "Warning")
                     return
                 }
@@ -369,7 +370,7 @@ class NewLoadVC: BaseViewController, UITableViewDelegate, UITableViewDataSource,
                     self.alertVC.presentAlertWithTitleAndActions(actions: [{
                         self.dismiss(animated: true, completion: nil)
                         },{
-                            self.showDrawingVC(spool: spool, role: self.role)
+                            self.showDrawingVC(spool: spool, state: self.viewState)
                         }], buttonTitles: ["OK","View Drawing"], controller: self, message: "You cannot add this spool as the heat numbers are not present. You can view the drawing by clicking on the button below.", title: "Warning")
                     return
                 }

@@ -18,7 +18,7 @@ class BaseViewController: UIViewController {
     let bgImageview = UIImageView()
     let currentUser = User.shared
     let httpWrapper = HTTPWrapper.sharedInstance
-    var role:Int!
+    var viewState:DashBoardState!
     var scanCode:String?
     var spool:Spool?
     var shouldRejectWholeSpool = false
@@ -28,12 +28,13 @@ class BaseViewController: UIViewController {
         self.view.backgroundColor = UIColor.brickRed
         bgImageview.image = UIImage.init(named: "Splash")
         bgImageview.frame = self.view.bounds
+        bgImageview.contentMode = .scaleAspectFill
         self.view.addSubview(bgImageview)
-        self.view.sendSubview(toBack: self.bgImageview)
+        self.view.sendSubviewToBack(self.bgImageview)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage.init(named: "backArrow"),
         style: .plain, target: self, action: #selector(self.backButtonAction(sender:)))
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white,
-        NSAttributedStringKey.font: UIFont.systemSemiBold15]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white,
+        NSAttributedString.Key.font: UIFont.systemSemiBold15]
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -372,7 +373,7 @@ class BaseTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage.init(named: "backArrow"), style: .plain, target: self, action: #selector(self.backButtonAction(sender:)))
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white,NSAttributedStringKey.font: UIFont.systemSemiBold15]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white,NSAttributedString.Key.font: UIFont.systemSemiBold15]
     }
     
     override func viewWillAppear(_ animated: Bool) {

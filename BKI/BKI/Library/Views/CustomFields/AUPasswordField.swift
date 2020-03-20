@@ -16,7 +16,7 @@ class AUPasswordField: AUSessionField {
             //self._required = isRequired
             let secureBtn = UIButton.init(type: .custom)
             secureBtn.setImage(UIImage.init(named: secureImage), for: .normal)
-            secureBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -16, 0, 0)
+            secureBtn.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: -16, bottom: 0, right: 0)
             secureBtn.frame = CGRect(x: CGFloat(self.frame.size.width - 25), y: CGFloat(5), width: CGFloat(25), height: CGFloat(25))
             secureBtn.addTarget(self, action: #selector(self.showSecuredTextAction), for: .touchUpInside)
             self.rightView = secureBtn

@@ -9,11 +9,13 @@
 import UIKit
 
 class FitterPartTVC: BaseTableViewController, TextInputDelegate {
+
+    @IBOutlet var saveBtn: UIBarButtonItem!
     
     var role:Int!
+    var viewState :DashBoardState = DashBoardState.none
     var spool:Spool?
     var components = [String:([String:([String:AnyObject])])]()
-    @IBOutlet var saveBtn: UIBarButtonItem!
     let httpWrapper = HTTPWrapper.sharedInstance
     
     override func viewDidLoad() {
