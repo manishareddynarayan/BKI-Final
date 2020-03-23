@@ -78,7 +78,13 @@
 		4FCDEDC3216F46410071E9F6 /* LoadMiscTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDC2216F46410071E9F6 /* LoadMiscTVC.swift */; };
 		4FCDEDC6216F46BE0071E9F6 /* MiscCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDC4216F46BE0071E9F6 /* MiscCell.swift */; };
 		4FCDEDC7216F46BE0071E9F6 /* MiscCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FCDEDC5216F46BE0071E9F6 /* MiscCell.xib */; };
+		C207E4E32428BA7800C9E1C1 /* LabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C207E4E12428BA7800C9E1C1 /* LabelTableViewCell.swift */; };
+		C207E4E42428BA7800C9E1C1 /* LabelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C207E4E22428BA7800C9E1C1 /* LabelTableViewCell.xib */; };
+		C207E4E62428BB4900C9E1C1 /* HangersheaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C207E4E52428BB4900C9E1C1 /* HangersheaderView.swift */; };
+		C207E4E82428BB5900C9E1C1 /* HangersheaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C207E4E72428BB5900C9E1C1 /* HangersheaderView.xib */; };
 		C21B81D024287DF900567FFF /* AppStoryBoards.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21B81CF24287DF900567FFF /* AppStoryBoards.swift */; };
+		C21B81D42428A4BA00567FFF /* AssembleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C21B81D22428A4BA00567FFF /* AssembleTableViewCell.swift */; };
+		C21B81D52428A4BA00567FFF /* AssembleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C21B81D32428A4BA00567FFF /* AssembleTableViewCell.xib */; };
 		C2304390242491DB005091CE /* UICollectionView+Reusable .swift in Sources */ = {isa = PBXBuildFile; fileRef = C230438C242491DB005091CE /* UICollectionView+Reusable .swift */; };
 		C2304391242491DB005091CE /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C230438D242491DB005091CE /* Reusable.swift */; };
 		C2304392242491DB005091CE /* UITableView+Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C230438F242491DB005091CE /* UITableView+Reusable.swift */; };
@@ -192,7 +198,13 @@
 		4FCDEDC5216F46BE0071E9F6 /* MiscCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MiscCell.xib; sourceTree = "<group>"; };
 		8CDC640A54E9D1F0CC79C104 /* Pods-BKI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.release.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.release.xcconfig"; sourceTree = "<group>"; };
 		B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BKI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C207E4E12428BA7800C9E1C1 /* LabelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTableViewCell.swift; sourceTree = "<group>"; };
+		C207E4E22428BA7800C9E1C1 /* LabelTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LabelTableViewCell.xib; sourceTree = "<group>"; };
+		C207E4E52428BB4900C9E1C1 /* HangersheaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HangersheaderView.swift; sourceTree = "<group>"; };
+		C207E4E72428BB5900C9E1C1 /* HangersheaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HangersheaderView.xib; sourceTree = "<group>"; };
 		C21B81CF24287DF900567FFF /* AppStoryBoards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoryBoards.swift; sourceTree = "<group>"; };
+		C21B81D22428A4BA00567FFF /* AssembleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssembleTableViewCell.swift; sourceTree = "<group>"; };
+		C21B81D32428A4BA00567FFF /* AssembleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AssembleTableViewCell.xib; sourceTree = "<group>"; };
 		C230438C242491DB005091CE /* UICollectionView+Reusable .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Reusable .swift"; sourceTree = "<group>"; };
 		C230438D242491DB005091CE /* Reusable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		C230438F242491DB005091CE /* UITableView+Reusable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Reusable.swift"; sourceTree = "<group>"; };
@@ -543,6 +555,7 @@
 				4F760A3C21787ABA00B1931A /* InspectionCell.xib */,
 				3C0697FE2230E98700303E57 /* AlternateDescriptionCell.swift */,
 				3C0697FF2230E98700303E57 /* AlternateDescriptionCell.xib */,
+				C21B81D12428A48800567FFF /* AssembleCell */,
 			);
 			path = CustomCell;
 			sourceTree = "<group>";
@@ -555,6 +568,19 @@
 				B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C21B81D12428A48800567FFF /* AssembleCell */ = {
+			isa = PBXGroup;
+			children = (
+				C21B81D22428A4BA00567FFF /* AssembleTableViewCell.swift */,
+				C21B81D32428A4BA00567FFF /* AssembleTableViewCell.xib */,
+				C207E4E52428BB4900C9E1C1 /* HangersheaderView.swift */,
+				C207E4E72428BB5900C9E1C1 /* HangersheaderView.xib */,
+				C207E4E12428BA7800C9E1C1 /* LabelTableViewCell.swift */,
+				C207E4E22428BA7800C9E1C1 /* LabelTableViewCell.xib */,
+			);
+			path = AssembleCell;
 			sourceTree = "<group>";
 		};
 		C230438924249137005091CE /* Extension */ = {
@@ -682,6 +708,7 @@
 				4F2F46052147D95300E5956C /* LaunchScreen.storyboard in Resources */,
 				4F2F46022147D95300E5956C /* Assets.xcassets in Resources */,
 				4FCDEDC7216F46BE0071E9F6 /* MiscCell.xib in Resources */,
+				C207E4E42428BA7800C9E1C1 /* LabelTableViewCell.xib in Resources */,
 				4FCD149921536317002B70A9 /* DashBoardCell.xib in Resources */,
 				4F312B882158C7D2003D0358 /* cross@2x.png in Resources */,
 				4FA5527321511C8B00EA6F9B /* Auth.storyboard in Resources */,
@@ -689,11 +716,13 @@
 				4F2F46002147D95200E5956C /* Main.storyboard in Resources */,
 				C2C3B86824237DE00089EA1C /* GoogleService-Info.plist in Resources */,
 				4FA76CB9215B8082002377F3 /* WeldCell.xib in Resources */,
+				C207E4E82428BB5900C9E1C1 /* HangersheaderView.xib in Resources */,
 				3C0698012230E98700303E57 /* AlternateDescriptionCell.xib in Resources */,
 				4FCDEDB3216223F30071E9F6 /* OpenLoadCell.xib in Resources */,
 				4F312B832158C73F003D0358 /* Scanner.storyboard in Resources */,
 				4FA551F42150F98F00EA6F9B /* Root.storyboard in Resources */,
 				4F760A3E21787ABA00B1931A /* InspectionCell.xib in Resources */,
+				C21B81D52428A4BA00567FFF /* AssembleTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -763,6 +792,7 @@
 				4FA5526A2150FB5400EA6F9B /* TPKeyboardAvoidingScrollView.m in Sources */,
 				4F760A3D21787ABA00B1931A /* InspectionCell.swift in Sources */,
 				4FA5525D2150FB4500EA6F9B /* NSString+RENumberFormat.m in Sources */,
+				C207E4E62428BB4900C9E1C1 /* HangersheaderView.swift in Sources */,
 				4FCD149221526B37002B70A9 /* MainDashBoardVC.swift in Sources */,
 				4FCDEDC6216F46BE0071E9F6 /* MiscCell.swift in Sources */,
 				3C0698002230E98700303E57 /* AlternateDescriptionCell.swift in Sources */,
@@ -796,6 +826,8 @@
 				4FCDEDB92164C4280071E9F6 /* Spool.swift in Sources */,
 				C23043942424A59E005091CE /* AppVersion.swift in Sources */,
 				3C0697FD222FF24600303E57 /* AlternateDescriptionVC.swift in Sources */,
+				C21B81D42428A4BA00567FFF /* AssembleTableViewCell.swift in Sources */,
+				C207E4E32428BA7800C9E1C1 /* LabelTableViewCell.swift in Sources */,
 				4FCD149D215396FE002B70A9 /* BKIModel.swift in Sources */,
 				4FA5525C2150FB4500EA6F9B /* AUPasswordField.swift in Sources */,
 				4FCDEDBF2165F3B50071E9F6 /* Component.swift in Sources */,

@@ -11,7 +11,7 @@ import Foundation
 public enum HangersBoardState : String
 {
     case cutRods = "Cut Rods"
-    case cutStrructs = "Cut Structs"
+    case cutStruts = "Cut Struts"
     case assemble = "Assemble"
     case none
 }

@@ -15,7 +15,7 @@ class HangerDashBoardVC: BaseViewController
     
     //MARK:- Proprties
     var dataArr = [HangersBoardItem.init(name: "Cut Rods", type: .cutRods),
-                   HangersBoardItem.init(name: "Cut Structs", type: .cutStrructs),
+                   HangersBoardItem.init(name: "Cut Structs", type: .cutStruts),
                    HangersBoardItem.init(name: "Assemble", type: .assemble)]
    
     //MARK:- View Life cycle
