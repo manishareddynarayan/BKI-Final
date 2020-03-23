@@ -23,7 +23,7 @@ class MainDashBoardVC: BaseViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        tableView.register(UINib(nibName: "DashBoardCell", bundle: nil), forCellReuseIdentifier: "DashboardCell")
+        tableView.registerReusableCell(DashBoardCell.self)
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         
         if BKIModel.userRole() == "qa"
@@ -56,7 +56,7 @@ class MainDashBoardVC: BaseViewController
     {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if segue.identifier == "DashboardSegue"
+        if segue.identifier == DASHBOARDSEGUE
         {
             guard let vc = segue.destination as? DashBoardVC else { return }
             vc.viewState = roleArr[((sender as? IndexPath)?.row)!].type
@@ -79,9 +79,9 @@ extension MainDashBoardVC:UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardCell", for: indexPath) as? DashBoardCell
-        cell?.titleLbl.text = roleArr[indexPath.row].name
-        return cell!
+        let cell:DashBoardCell = tableView.dequeueReusableCell(indexPath: indexPath) as DashBoardCell
+        cell.titleLbl.text = roleArr[indexPath.row].name
+        return cell
     }
 }
 
@@ -90,6 +90,6 @@ extension MainDashBoardVC:UITableViewDelegate
 {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-        self.performSegue(withIdentifier: "DashboardSegue", sender: indexPath)
+        self.performSegue(withIdentifier: DASHBOARDSEGUE, sender: indexPath)
     }
 }

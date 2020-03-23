@@ -8,42 +8,48 @@
 
 import UIKit
 
-class DrawingVC: BaseViewController, UIWebViewDelegate {
-
+class DrawingVC: BaseViewController
+{
+    //MARK:- IBOutlet
     @IBOutlet weak var webView: UIWebView!
-    
-    override func viewDidLoad() {
+    //MARK:- View Life Cycle
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
-
         let urlStr = (self.spool?.pdfUrl != nil) ? self.spool?.pdfUrl : "https://retail.onlinesbi.com/sbi/downloads/form15-g.pdf"
         let request = URLRequest.init(url: URL.init(string: urlStr!)!)
         self.webView.loadRequest(request)
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool)
+    {
         super.viewWillAppear(animated)
         AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeRight)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool)
+    {
         super.viewWillDisappear(animated)
         AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
     }
     
-    override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning()
+    {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-    override var shouldAutorotate: Bool {
+    override var shouldAutorotate: Bool
+    {
         return false
     }
     
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask
+    {
        return UIInterfaceOrientationMask.landscapeRight
     }
     
-    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
+    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation
+    {
         return UIInterfaceOrientation.landscapeRight
     }
     /*
@@ -54,15 +60,17 @@ class DrawingVC: BaseViewController, UIWebViewDelegate {
         // Pass the selected object to the new view controller.
     }
     */
-
-    //MARK:Webview Delegate Methods
-    
-    func webViewDidStartLoad(_ webView: UIWebView) {
+}
+//MARK:- Webview Delegate Methods
+extension DrawingVC:UIWebViewDelegate
+{
+    func webViewDidStartLoad(_ webView: UIWebView)
+    {
         MBProgressHUD.showHud(view: webView)
     }
     
-    func webViewDidFinishLoad(_ webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView)
+    {
         MBProgressHUD.hideHud(view: webView)
     }
-
 }

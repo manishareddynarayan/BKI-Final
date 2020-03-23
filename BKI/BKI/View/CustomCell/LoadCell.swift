@@ -8,25 +8,31 @@
 
 import UIKit
 
-class LoadCell: BaseCell {
-
-    var viewDrawingBlock:(() -> Void)?
-    
+class LoadCell: BaseCell,Reusable
+{
+    //MARK:- IBOutlets
     @IBOutlet weak var viewDrawingBtn: UIButton!
     @IBOutlet weak var spoolLbl: UILabel!
+    //MARK:- Properties
+    static var nib: UINib?
+    {
+        return UINib(nibName: String(describing:LoadCell.self), bundle: nil)
+    }
+    var viewDrawingBlock:(() -> Void)?
     
-    override func awakeFromNib() {
+    //MARK:- Cell Default methods
+    override func awakeFromNib()
+    {
         super.awakeFromNib()
-        // Initialization code
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
+    
+    override func setSelected(_ selected: Bool, animated: Bool)
+    {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
-    @IBAction func viewDrawing(_ sender: Any) {
+    //MARK:- IBAction methods
+    @IBAction func viewDrawing(_ sender: Any)
+    {
         self.viewDrawingBlock!()
     }
-    
 }

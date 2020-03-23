@@ -8,26 +8,29 @@
 
 import UIKit
 
-class OpenLoadCell: BaseCell {
-
+class OpenLoadCell: BaseCell,Reusable
+{
     @IBOutlet weak var loadLbl: UILabel!
-    
+    //MARK:- Properties
+    static var nib: UINib?
+    {
+        return UINib(nibName: String(describing:OpenLoadCell.self), bundle: nil)
+    }
     var loadEditBlock:(() -> Void)?
-
-    override func awakeFromNib() {
+    
+    //MARK:- Cell Default methods
+    override func awakeFromNib()
+    {
         super.awakeFromNib()
-        // Initialization code
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
+    
+    override func setSelected(_ selected: Bool, animated: Bool)
+    {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
-    
-    @IBAction func editAction(_ sender: Any) {
+    //MARK:- IBAction methods
+    @IBAction func editAction(_ sender: Any)
+    {
         self.loadEditBlock!()
-
     }
-    
 }

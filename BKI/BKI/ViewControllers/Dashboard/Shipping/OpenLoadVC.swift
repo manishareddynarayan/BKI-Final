@@ -8,19 +8,21 @@
 
 import UIKit
 
-class OpenLoadVC: BaseViewController {
-
+class OpenLoadVC: BaseViewController
+{
+    //MARK:- IBOutlets
     @IBOutlet weak var tableView: UITableView!
-    
+    //MARK:- Properties
     var openLoadsArr = [Load]()
     var tatalPages = 1
     var currentPage = 1
     
+    //MARK:- View Life Cycle
     override func viewDidLoad()
     {
         super.viewDidLoad()
 
-        tableView.register(UINib(nibName: "OpenLoadCell", bundle: nil), forCellReuseIdentifier: "openLoadCell")
+        tableView.registerReusableCell(OpenLoadCell.self)
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
     }
     
@@ -32,7 +34,7 @@ class OpenLoadVC: BaseViewController {
             self.getOpenLoads()
         }
     }
-     // MARK: Navigation
+     // MARK:- Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
@@ -55,20 +57,17 @@ extension OpenLoadVC : UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "openLoadCell", for: indexPath) as? OpenLoadCell
+        let cell:OpenLoadCell = tableView.dequeueReusableCell(indexPath: indexPath) as OpenLoadCell
         let load = self.openLoadsArr[indexPath.row]
-        cell?.loadLbl.text = load.number!
-        cell!.loadEditBlock = {
-            guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier:
-                "NewLoadVC", storyBoard: "Main") as? NewLoadVC else {
-                    return
-            }
+        cell.loadLbl.text = load.number!
+        cell.loadEditBlock = {
+            let vc = NewLoadVC.instantiate(from: .Main)
             vc.load = load
             vc.isEdit = true
             vc.viewState = self.viewState
             self.navigationController?.pushViewController(vc, animated: true)
         }
-        return cell!
+        return cell
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)

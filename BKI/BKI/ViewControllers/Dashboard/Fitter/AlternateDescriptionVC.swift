@@ -8,38 +8,47 @@
 
 import UIKit
 
-class AlternateDescriptionVC: BaseViewController, UITableViewDataSource, UITableViewDelegate {
-    
+class AlternateDescriptionVC: BaseViewController
+{
+    //MARK:- IBOutlets
     @IBOutlet weak var noDataLbl: UILabel!
     @IBOutlet weak var tableView: UITableView!
-    var cell:AlternateDescriptionCell!
+    //MARK:- Properties
     var altData = [AlternateDescription()]
-    
-    override func viewDidLoad() {
+    //MARK:- View Life Cycle
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
-        tableView.register(UINib(nibName: "AlternateDescriptionCell", bundle: nil), forCellReuseIdentifier: "alternateDescriptionCell")
+        tableView.registerReusableCell(AlternateDescriptionCell.self)
         tableView.separatorStyle = .none
         tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableView.automaticDimension
         noDataLbl.isHidden = true
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool)
+    {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
      }
-    
-    @IBAction func backBtn(_ sender: Any) {
+    //MARK:- IBAction
+    @IBAction func backBtn(_ sender: Any)
+    {
         self.backButtonAction(sender: sender as AnyObject)
     }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return altData.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        cell = tableView.dequeueReusableCell(withIdentifier: "alternateDescriptionCell") as? AlternateDescriptionCell
-        cell.setCell(data: altData[indexPath.row])
-        return cell
-    }
+}
+//MARK:- UITableViewDataSource methods
+extension AlternateDescriptionVC: UITableViewDataSource, UITableViewDelegate
+{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+         return altData.count
+     }
+     
+     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+     {
+        let cell:AlternateDescriptionCell = tableView.dequeueReusableCell(indexPath: indexPath) as AlternateDescriptionCell
+         cell.setCell(data: altData[indexPath.row])
+         return cell
+     }
 }

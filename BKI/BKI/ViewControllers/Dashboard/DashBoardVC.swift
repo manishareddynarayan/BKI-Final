@@ -29,7 +29,7 @@ class DashBoardVC: BaseViewController
         
         self.menuItems = User.shared.getUserMenuItems(with:viewState)
         
-        tableView.register(UINib(nibName: "DashBoardCell", bundle: nil), forCellReuseIdentifier: "DashboardCell")
+        tableView.registerReusableCell(DashBoardCell.self)
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         
         alternateDescriptionBtn.isHidden = true
@@ -112,54 +112,54 @@ extension DashBoardVC : UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardCell", for: indexPath) as? DashBoardCell
+        let cell:DashBoardCell = tableView.dequeueReusableCell(indexPath: indexPath) as DashBoardCell
         let menu = self.menuItems[indexPath.row]
-        cell?.titleLbl.text = menu["Name"]
+        cell.titleLbl.text = menu["Name"]
         if spool == nil
         {
             if self.viewState == .shipping
             {
-                cell?.enable(enable: true)
+                cell.enable(enable: true)
             }
             else if self.menuItems.count - 1 == indexPath.row
             {
-                cell?.enable(enable: true)
+                cell.enable(enable: true)
             }
             else
             {
-                cell?.enable(enable: false)
+                cell.enable(enable: false)
             }
-            return cell!
+            return cell
         }
         
         if self.spool?.status == "On Hold"
         {
             if indexPath.row == 2 && self.viewState == .fitup
             {
-                cell?.enable(enable: true)
+                cell.enable(enable: true)
             }
             else if indexPath.row == 1 && self.viewState == .weld
             {
-                cell?.enable(enable: true)
+                cell.enable(enable: true)
             }
             else if indexPath.row == 1 && self.viewState == .qa
             {
-                cell?.enable(enable: true)
+                cell.enable(enable: true)
             }
             else if indexPath.row == self.menuItems.count - 1
             {
-                cell?.enable(enable: true)
+                cell.enable(enable: true)
             }
             else
             {
-                cell?.enable(enable: false)
+                cell.enable(enable: false)
             }
         }
         else
         {
-            cell?.enable(enable: true)
+            cell.enable(enable: true)
         }
-        return cell!
+        return cell
     }
 }
 //MARK:- TableView UITableViewDataSource methods
@@ -202,9 +202,7 @@ extension DashBoardVC : ScannerDelegate
         
         if viewState == DashBoardState.hangers
         {
-            guard let vc2 = self.getViewControllerWithIdentifier(identifier:"HangerDashBoardVC") as? HangerDashBoardVC else {
-                return
-            }
+             let vc2 = HangerDashBoardVC.instantiate(from: .Main) 
             vc2.viewState = self.viewState
             self.navigationController?.pushViewController(vc2, animated: true)
         }

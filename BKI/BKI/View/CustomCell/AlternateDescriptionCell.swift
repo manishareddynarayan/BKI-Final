@@ -8,13 +8,23 @@
 
 import UIKit
 
-class AlternateDescriptionCell: BaseCell {
+class AlternateDescriptionCell: BaseCell,Reusable
+{
+    //MARK:- IBOutlets
     @IBOutlet weak var descriptionLbl: UILabel!
     @IBOutlet weak var notesLbl: UILabel!
     @IBOutlet weak var sizeLbl: UILabel!
     @IBOutlet weak var headingLbl: UILabel!
     
-    func setCell(data:AlternateDescription){
+    //MARK:- Properties
+    static var nib: UINib?
+    {
+        return UINib(nibName: String(describing:AlternateDescriptionCell.self), bundle: nil)
+    }
+    
+    //MARK:- Configure Cell method
+    func setCell(data:AlternateDescription)
+    {
         headingLbl.text = data.heading!
         sizeLbl.text = data.size!
         notesLbl.text = data.notes!

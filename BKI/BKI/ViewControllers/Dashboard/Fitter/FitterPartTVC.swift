@@ -8,44 +8,52 @@
 
 import UIKit
 
-class FitterPartTVC: BaseTableViewController, TextInputDelegate {
-
+class FitterPartTVC: BaseTableViewController
+{
+    //MARK:- IBOutlets
     @IBOutlet var saveBtn: UIBarButtonItem!
-    
+    //MARK:- Properties
     var role:Int!
     var viewState :DashBoardState = DashBoardState.none
     var spool:Spool?
     var components = [String:([String:([String:AnyObject])])]()
     let httpWrapper = HTTPWrapper.sharedInstance
-    
-    override func viewDidLoad() {
+    //MARK:- View Life cycle
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         
-        self.tableView.register(UINib(nibName: "PartCell", bundle: nil), forCellReuseIdentifier: "partCell")
+        self.tableView.registerReusableCell(PartCell.self)
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         self.navigationItem.title = "Spool Number " + BKIModel.spoolNumebr()!
         self.navigationItem.rightBarButtonItem = saveBtn
         saveBtn.isEnabled = !((self.spool?.components.isEmpty)!)  && self.spool?.loadedAt == nil
         self.tableView.reloadData()
-        if self.spool?.loadedAt != nil{
+        if self.spool?.loadedAt != nil
+        {
             self.alertVC.presentAlertWithTitleAndMessage(title: "Warning", message: "You cannot modify heat numbers as the spool is added to a load", controller: self)
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool)
+    {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = false
     }
-    
-    @IBAction func saveAction(_ sender: Any) {
+    //MARK:- IBActions
+    @IBAction func saveAction(_ sender: Any)
+    {
         var showAlert = false
-        for component in (self.spool?.components)! {
-            if component.heatNumber.isEmpty {
+        for component in (self.spool?.components)!
+        {
+            if component.heatNumber.isEmpty
+            {
                 showAlert = true
             }
         }
 //        var components = [[String:AnyObject]]()
-        for row in 0 ..< (self.spool?.components.count)! {
+        for row in 0 ..< (self.spool?.components.count)!
+        {
             let indexPath = IndexPath(row: row, section: 0)
             let cell = tableView.cellForRow(at: indexPath) as? PartCell
             let textField = cell?.getTextField()
@@ -68,7 +76,8 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
 //        }
 //        let spoolParams = ["component":self.components]
         
-        if self.components.count > 0{
+        if self.components.count > 0
+        {
             MBProgressHUD.showHud(view: self.view)
                     httpWrapper.performAPIRequest("components/heat_numbers_update", methodType: "PUT", parameters: ["component":self.components as AnyObject], successBlock: { (responseData) in
                         DispatchQueue.main.async {
@@ -86,43 +95,6 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
                     }
         }
     }
-    
-    // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return (self.spool?.components.count)!
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "partCell", for: indexPath) as? PartCell
-        cell?.indexPath = indexPath
-        let component = self.spool?.components[indexPath.row]
-        let isLoaded = self.spool?.loadedAt != nil ? true : false
-        if indexPath.row == 0 {
-            cell?.configureCell(component: component!, isNext:true, isPrev: false, isLoaded: isLoaded)
-        }
-        else if indexPath.row == (self.spool?.components.count)! - 1 {
-            cell?.configureCell(component: component!, isNext:false, isPrev: true, isLoaded: isLoaded)
-        }
-        else {
-            cell?.configureCell(component: component!, isNext:true, isPrev: true, isLoaded: isLoaded)
-        }
-        cell?.heatTF.formDelegate = self
-        cell?.updatedHeatNumber = { component in
-            self.components[String(component.id!)] = [String:([String:AnyObject])]()
-            self.components[String(component.id!)]!["heat_number_attributes"] = [String:AnyObject]()
-            self.components[String(component.id!)]!["heat_number_attributes"]!["number"] = component.heatNumber as AnyObject
-            self.components[String(component.id!)]!["heat_number_attributes"]!["done_by_id"] = User.shared.id as AnyObject
-        }
-        return cell!
-    }
-    
-    
     /*
      // Override to support conditional editing of the table view.
      override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -167,26 +139,75 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
      // Pass the selected object to the new view controller.
      }
      */
+}
+// MARK: - Table view data source
+extension FitterPartTVC
+{
+    override func numberOfSections(in tableView: UITableView) -> Int
+    {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
+    }
     
-    func moveToNextOrPrevCell(_ textField:AUSessionField, next:Bool) {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        // #warning Incomplete implementation, return the number of rows
+        return (self.spool?.components.count)!
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        let cell:PartCell = tableView.dequeueReusableCell(indexPath: indexPath) as PartCell
+        cell.indexPath = indexPath
+        let component = self.spool?.components[indexPath.row]
+        let isLoaded = self.spool?.loadedAt != nil ? true : false
+        if indexPath.row == 0
+        {
+            cell.configureCell(component: component!, isNext:true, isPrev: false, isLoaded: isLoaded)
+        }
+        else if indexPath.row == (self.spool?.components.count)! - 1
+        {
+            cell.configureCell(component: component!, isNext:false, isPrev: true, isLoaded: isLoaded)
+        }
+        else
+        {
+            cell.configureCell(component: component!, isNext:true, isPrev: true, isLoaded: isLoaded)
+        }
+        cell.heatTF.formDelegate = self
+        cell.updatedHeatNumber = { component in
+            self.components[String(component.id!)] = [String:([String:AnyObject])]()
+            self.components[String(component.id!)]!["heat_number_attributes"] = [String:AnyObject]()
+            self.components[String(component.id!)]!["heat_number_attributes"]!["number"] = component.heatNumber as AnyObject
+            self.components[String(component.id!)]!["heat_number_attributes"]!["done_by_id"] = User.shared.id as AnyObject
+        }
+        return cell
+    }
+}
+//MARK:- TextInput Delegate
+extension FitterPartTVC:TextInputDelegate
+{
+    func textFieldDidPressedNextButton(_ textField: AUSessionField)
+    {
+        self.moveToNextOrPrevCell(textField, next: true)
+    }
+    
+    func textFieldDidPressedPreviousButton(_ textField: AUSessionField)
+    {
+        self.moveToNextOrPrevCell(textField, next: false)
+    }
+    
+    func textFieldDidPressedDoneButton(_ textField: AUSessionField)
+    {
+        textField.resignFirstResponder()
+    }
+    
+    func moveToNextOrPrevCell(_ textField:AUSessionField, next:Bool)
+    {
         let currentTag = textField.tag
         let nextRow = next ? currentTag+1 : currentTag-1
         let indexPath = IndexPath.init(row: nextRow, section: 0)
         let nextCell = self.tableView.cellForRow(at: indexPath) as? PartCell
         textField.resignFirstResponder()
         nextCell?.heatTF.becomeFirstResponder()
-    }
-    
-    //MARK: TextInput Delegate
-    func textFieldDidPressedNextButton(_ textField: AUSessionField) {
-        self.moveToNextOrPrevCell(textField, next: true)
-    }
-    
-    func textFieldDidPressedPreviousButton(_ textField: AUSessionField) {
-        self.moveToNextOrPrevCell(textField, next: false)
-    }
-    
-    func textFieldDidPressedDoneButton(_ textField: AUSessionField) {
-        textField.resignFirstResponder()
     }
 }
