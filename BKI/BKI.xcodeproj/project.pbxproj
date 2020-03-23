@@ -95,6 +95,11 @@
 		C230439E2424E566005091CE /* HangerDashBoardDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C230439D2424E566005091CE /* HangerDashBoardDetailsVC.swift */; };
 		C23043A02424E731005091CE /* HangersBoardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C230439F2424E731005091CE /* HangersBoardState.swift */; };
 		C23043A22424E764005091CE /* HangerBoardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C23043A12424E764005091CE /* HangerBoardItem.swift */; };
+		C2BC73BB2428D47D0055AAE6 /* StickyGridCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BC73BA2428D47D0055AAE6 /* StickyGridCollectionViewLayout.swift */; };
+		C2BC73BE2428D7D00055AAE6 /* LabelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BC73BC2428D7D00055AAE6 /* LabelCollectionViewCell.swift */; };
+		C2BC73BF2428D7D00055AAE6 /* LabelCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2BC73BD2428D7D00055AAE6 /* LabelCollectionViewCell.xib */; };
+		C2BC73C22428D7DF0055AAE6 /* ButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BC73C02428D7DF0055AAE6 /* ButtonCollectionViewCell.swift */; };
+		C2BC73C32428D7DF0055AAE6 /* ButtonCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2BC73C12428D7DF0055AAE6 /* ButtonCollectionViewCell.xib */; };
 		C2C3B86824237DE00089EA1C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2C3B86724237DE00089EA1C /* GoogleService-Info.plist */; };
 		CE2C6069083ED993BE06AD3B /* Pods_BKI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */; };
 /* End PBXBuildFile section */
@@ -215,6 +220,11 @@
 		C230439D2424E566005091CE /* HangerDashBoardDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HangerDashBoardDetailsVC.swift; sourceTree = "<group>"; };
 		C230439F2424E731005091CE /* HangersBoardState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HangersBoardState.swift; sourceTree = "<group>"; };
 		C23043A12424E764005091CE /* HangerBoardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HangerBoardItem.swift; sourceTree = "<group>"; };
+		C2BC73BA2428D47D0055AAE6 /* StickyGridCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyGridCollectionViewLayout.swift; sourceTree = "<group>"; };
+		C2BC73BC2428D7D00055AAE6 /* LabelCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCollectionViewCell.swift; sourceTree = "<group>"; };
+		C2BC73BD2428D7D00055AAE6 /* LabelCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LabelCollectionViewCell.xib; sourceTree = "<group>"; };
+		C2BC73C02428D7DF0055AAE6 /* ButtonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCollectionViewCell.swift; sourceTree = "<group>"; };
+		C2BC73C12428D7DF0055AAE6 /* ButtonCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ButtonCollectionViewCell.xib; sourceTree = "<group>"; };
 		C2C3B86724237DE00089EA1C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C67014901894AB5EF7A77A74 /* Pods-BKI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -488,6 +498,7 @@
 			children = (
 				4FA5526E2150FB8800EA6F9B /* Constants.swift */,
 				C21B81CF24287DF900567FFF /* AppStoryBoards.swift */,
+				C2BC73BA2428D47D0055AAE6 /* StickyGridCollectionViewLayout.swift */,
 				C23043932424A59E005091CE /* AppVersion.swift */,
 				C23043962424D75C005091CE /* MainDashBoardItem.swift */,
 				C23043982424D79C005091CE /* DashBoardState.swift */,
@@ -579,6 +590,10 @@
 				C207E4E72428BB5900C9E1C1 /* HangersheaderView.xib */,
 				C207E4E12428BA7800C9E1C1 /* LabelTableViewCell.swift */,
 				C207E4E22428BA7800C9E1C1 /* LabelTableViewCell.xib */,
+				C2BC73BC2428D7D00055AAE6 /* LabelCollectionViewCell.swift */,
+				C2BC73BD2428D7D00055AAE6 /* LabelCollectionViewCell.xib */,
+				C2BC73C02428D7DF0055AAE6 /* ButtonCollectionViewCell.swift */,
+				C2BC73C12428D7DF0055AAE6 /* ButtonCollectionViewCell.xib */,
 			);
 			path = AssembleCell;
 			sourceTree = "<group>";
@@ -717,10 +732,12 @@
 				C2C3B86824237DE00089EA1C /* GoogleService-Info.plist in Resources */,
 				4FA76CB9215B8082002377F3 /* WeldCell.xib in Resources */,
 				C207E4E82428BB5900C9E1C1 /* HangersheaderView.xib in Resources */,
+				C2BC73C32428D7DF0055AAE6 /* ButtonCollectionViewCell.xib in Resources */,
 				3C0698012230E98700303E57 /* AlternateDescriptionCell.xib in Resources */,
 				4FCDEDB3216223F30071E9F6 /* OpenLoadCell.xib in Resources */,
 				4F312B832158C73F003D0358 /* Scanner.storyboard in Resources */,
 				4FA551F42150F98F00EA6F9B /* Root.storyboard in Resources */,
+				C2BC73BF2428D7D00055AAE6 /* LabelCollectionViewCell.xib in Resources */,
 				4F760A3E21787ABA00B1931A /* InspectionCell.xib in Resources */,
 				C21B81D52428A4BA00567FFF /* AssembleTableViewCell.xib in Resources */,
 			);
@@ -806,6 +823,7 @@
 				4FA551F02150F90200EA6F9B /* BaseViewController.swift in Sources */,
 				4FCDEDC1216B514F0071E9F6 /* WeldStatusVC.swift in Sources */,
 				4FA552572150FB4500EA6F9B /* AUTextField.swift in Sources */,
+				C2BC73BE2428D7D00055AAE6 /* LabelCollectionViewCell.swift in Sources */,
 				4FA552472150FB0000EA6F9B /* TextField_ext.swift in Sources */,
 				4F2F45FB2147D95200E5956C /* AppDelegate.swift in Sources */,
 				C23043A22424E764005091CE /* HangerBoardItem.swift in Sources */,
@@ -821,6 +839,7 @@
 				4F312B812158BBAC003D0358 /* ScannerViewController.swift in Sources */,
 				C230439C2424E535005091CE /* HangerDashBoardVC.swift in Sources */,
 				C23043A02424E731005091CE /* HangersBoardState.swift in Sources */,
+				C2BC73BB2428D47D0055AAE6 /* StickyGridCollectionViewLayout.swift in Sources */,
 				4FA552692150FB5400EA6F9B /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				4FA5525F2150FB4500EA6F9B /* AUFormattedField.swift in Sources */,
 				4FCDEDB92164C4280071E9F6 /* Spool.swift in Sources */,
@@ -854,6 +873,7 @@
 				4FCD149821536317002B70A9 /* DashBoardCell.swift in Sources */,
 				C23043992424D79C005091CE /* DashBoardState.swift in Sources */,
 				4FA552702150FB8800EA6F9B /* Constants.swift in Sources */,
+				C2BC73C22428D7DF0055AAE6 /* ButtonCollectionViewCell.swift in Sources */,
 				3C7168E92237855A00464B29 /* AlternateDescription.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

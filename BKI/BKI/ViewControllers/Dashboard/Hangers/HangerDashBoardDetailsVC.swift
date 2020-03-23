@@ -13,11 +13,17 @@ class HangerDashBoardDetailsVC: BaseViewController
     @IBOutlet weak var packageLabel: UILabel!
     @IBOutlet weak var materialLabel: UILabel!
     @IBOutlet weak var detailTableView: UITableView!
-    @IBOutlet weak var containerViewWidth: NSLayoutConstraint!
-    @IBOutlet weak var containerViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var assembleCollectionView: UICollectionView!
+    @IBOutlet weak var gridLayout: StickyGridCollectionViewLayout!{
+        didSet
+        {
+            gridLayout.stickyRowsCount = 1
+            gridLayout.stickyColumnsCount = 0
+        }
+    }
     
     var hangerViewState : HangersBoardState = HangersBoardState.none
-    
+    var headernames = ["Hanger No.","Size","Description","Rod length (A)","Rod length (M)","Rod Width (F)","Rod size","QTY","Comp"]
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -26,22 +32,29 @@ class HangerDashBoardDetailsVC: BaseViewController
         detailTableView.registerReusableCell(LabelTableViewCell.self)
         detailTableView.registerReusableHeaderFooterView(HangersheaderView.self)
         detailTableView.tableFooterView = UIView()
-        
-        self.detailTableView.addObserver(self, forKeyPath: "contentSize", options: NSKeyValueObservingOptions.new, context: nil)
+
+        assembleCollectionView.registerReusableCell(LabelCollectionViewCell.self)
+        assembleCollectionView.registerReusableCell(ButtonCollectionViewCell.self)
+        assembleCollectionView.backgroundColor = .clear
+            
+        assembleCollectionView.isHidden = true
+        detailTableView.isHidden = false
         
         switch hangerViewState {
         case .cutRods:
             self.title = "Rod Cutting"
             packageLabel.text = "Package: Name of package"
-            materialLabel.text = "Zinc"
+            materialLabel.text = "Material: Zinc"
         case .cutStruts:
             self.title = "Unistrut Cutting"
             packageLabel.text = "Package: Name of package"
-            materialLabel.text = "Zinc"
+            materialLabel.text = "Material: Zinc"
         case .assemble:
             self.title = "Assemble"
             packageLabel.text = "Package: Name of package"
             materialLabel.text = ""
+            assembleCollectionView.isHidden = false
+            detailTableView.isHidden = true
         default:
             self.title = ""
             packageLabel.text = ""
@@ -55,22 +68,6 @@ class HangerDashBoardDetailsVC: BaseViewController
     {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-    }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)
-    {
-        containerViewWidth.constant = detailTableView.contentSize.width
-        containerViewHeight.constant = detailTableView.contentSize.height
-        var tableFrame = detailTableView.frame
-        tableFrame.size.height = detailTableView.contentSize.height;
-        tableFrame.size.width = detailTableView.contentSize.width; // if you would allow horiz scrolling
-        detailTableView.frame = tableFrame;
-        UIView.animate(withDuration: 0.01) {
-            DispatchQueue.main.async { [weak self] in
-                   self?.view?.updateConstraints()
-                    self?.view?.layoutIfNeeded()
-            }
-        }
     }
 }
 
@@ -92,7 +89,16 @@ extension HangerDashBoardDetailsVC:UITableViewDataSource
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return 4
+        switch hangerViewState {
+        case .cutRods:
+            return 3
+        case .cutStruts:
+            return 4
+        case .assemble:
+            return 0
+        default:
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
@@ -102,9 +108,6 @@ extension HangerDashBoardDetailsVC:UITableViewDataSource
             let cell = tableView.dequeueReusableCell(indexPath: indexPath) as LabelTableViewCell
             cell.nameLabel.text = "row \(indexPath.row)"
             cell.backgroundColor = .clear
-            return cell
-        case .assemble:
-            let cell = tableView.dequeueReusableCell(indexPath: indexPath) as AssembleTableViewCell
             return cell
         default:
             return UITableViewCell()
@@ -169,5 +172,54 @@ extension HangerDashBoardDetailsVC:UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat
     {
         return UITableView.automaticDimension
+    }
+}
+
+// MARK: - Collection view data source and delegate methods
+
+extension HangerDashBoardDetailsVC: UICollectionViewDataSource
+{
+    func numberOfSections(in collectionView: UICollectionView) -> Int
+    {
+        return 9
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+    {
+        return headernames.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+    {
+        if indexPath.section == 0
+        {
+            let labelcell = collectionView.dequeueReusableCell(indexPath: indexPath) as LabelCollectionViewCell
+            labelcell.backgroundColor = .clear //gridLayout.isItemSticky(at: indexPath) ? UIColor.arcColor() : .clear
+            labelcell.nameLabel.text =  headernames[indexPath.row]
+            return labelcell
+        }
+        else
+        {
+            if (indexPath.row == collectionView.numberOfItems(inSection: indexPath.section)-1)
+            {
+                let buttoncell = collectionView.dequeueReusableCell(indexPath: indexPath) as ButtonCollectionViewCell
+                buttoncell.backgroundColor = .clear
+                return  buttoncell
+            }
+            else
+            {
+                let labelcell = collectionView.dequeueReusableCell(indexPath: indexPath) as LabelCollectionViewCell
+                labelcell.backgroundColor = gridLayout.isItemSticky(at: indexPath) ? .red : .clear
+                labelcell.nameLabel.text = "sec \(indexPath.section) row \(indexPath.row)"
+                return labelcell
+            }
+        }
+    }
+}
+extension HangerDashBoardDetailsVC: UICollectionViewDelegateFlowLayout
+{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
+    {
+        return CGSize(width: 100, height: 100)
     }
 }
