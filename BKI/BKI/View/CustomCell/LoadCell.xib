@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,7 +14,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fxc-Ob-BMj">
@@ -25,8 +23,19 @@
                         <color key="textColor" red="0.49803921569999998" green="0.043137254899999998" blue="0.0039215686269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W4r-UX-w9E">
+                        <rect key="frame" x="280" y="2" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="6S3-gX-oiA"/>
+                            <constraint firstAttribute="height" constant="40" id="rUs-uO-kzs"/>
+                        </constraints>
+                        <state key="normal" image="Cross-1"/>
+                        <connections>
+                            <action selector="didTapDeleteSpoolFromLoad:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="5fS-4K-hGv"/>
+                        </connections>
+                    </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yk1-Wc-dvU">
-                        <rect key="frame" x="269" y="9.5" width="22" height="25"/>
+                        <rect key="frame" x="258" y="9.5" width="22" height="25"/>
                         <state key="normal" image="pdf">
                             <color key="titleColor" red="0.53725490200000003" green="0.050980392159999999" blue="0.0078431372550000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </state>
@@ -37,13 +46,16 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="yk1-Wc-dvU" firstAttribute="centerY" secondItem="Fxc-Ob-BMj" secondAttribute="centerY" id="5Ki-fi-Mm1"/>
-                    <constraint firstAttribute="trailing" secondItem="yk1-Wc-dvU" secondAttribute="trailing" constant="29" id="auZ-0U-1Qf"/>
+                    <constraint firstItem="W4r-UX-w9E" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ZGL-sM-gW6"/>
+                    <constraint firstItem="W4r-UX-w9E" firstAttribute="leading" secondItem="yk1-Wc-dvU" secondAttribute="trailing" id="nsX-n4-93n"/>
                     <constraint firstItem="Fxc-Ob-BMj" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="pPu-Qk-357"/>
                     <constraint firstItem="Fxc-Ob-BMj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="19" id="qXJ-Lh-NtY"/>
+                    <constraint firstAttribute="trailing" secondItem="W4r-UX-w9E" secondAttribute="trailing" id="vak-ZH-KAG"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="deleteSpoolButton" destination="W4r-UX-w9E" id="dyY-31-96E"/>
                 <outlet property="spoolLbl" destination="Fxc-Ob-BMj" id="Wnr-4u-MC8"/>
                 <outlet property="viewDrawingBtn" destination="yk1-Wc-dvU" id="aSh-Vc-j6B"/>
             </connections>
@@ -51,6 +63,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="Cross-1" width="12" height="12"/>
         <image name="pdf" width="22" height="25"/>
     </resources>
 </document>

@@ -42,14 +42,14 @@ extension UITextField
         let button = UIButton.init(frame: self.bounds)
         self.addSubview(button)
         button.setImage(UIImage.init(named: "DownArrow_small"), for: .normal)
-        button.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -button.frame.size.width + 30)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -button.frame.size.width + 30)
                 return button
     }
     
     @IBInspectable var leftImage: String {
         get { return "" }
         set {
-            self.leftViewMode = UITextFieldViewMode.always
+            self.leftViewMode = UITextField.ViewMode.always
             self.leftView = UIImageView.init(image: UIImage(named: newValue))
         }
     }
@@ -57,7 +57,7 @@ extension UITextField
     @IBInspectable var rightImage: String {
         get { return "" }
         set {
-            self.rightViewMode = UITextFieldViewMode.always
+            self.rightViewMode = UITextField.ViewMode.always
             self.rightView = UIImageView.init(image: UIImage(named: newValue))
         }
     }
@@ -65,13 +65,13 @@ extension UITextField
 
     func addLeftView(imageName:String) -> Void {
         
-        self.leftViewMode = UITextFieldViewMode.always
+        self.leftViewMode = UITextField.ViewMode.always
         self.leftView = UIImageView.init(image: UIImage(named: imageName))
     }
     
     func addRightView(imageName:String) -> Void {
         
-        self.rightViewMode = UITextFieldViewMode.always
+        self.rightViewMode = UITextField.ViewMode.always
         let imageview = UIImageView.init(image: UIImage(named: imageName))
         imageview.contentMode = .center
         imageview.isUserInteractionEnabled = true
@@ -104,7 +104,7 @@ extension UITextField
 
         keyBoardToolBar.frame = CGRect(x:0, y:0, width:UIScreen.main.bounds.size.width, height:44);
         keyBoardToolBar .barTintColor = UIColor.white
-        let spaceBtn = UIBarButtonItem (barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: self, action: nil)
+        let spaceBtn = UIBarButtonItem (barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: self, action: nil)
         let doneBtn = UIBarButtonItem (title: "Done", style: .plain, target: self, action: #selector(self.doneButtonAction(sender:)))
         
         
@@ -148,7 +148,7 @@ extension UIButton
 {
     func addUnderLine() -> Void {
         
-        let attributes = [NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue]
+        let attributes = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]
         let attributedText = NSAttributedString(string: self.currentTitle!, attributes: attributes)
         self.titleLabel?.attributedText = attributedText
     }
@@ -177,7 +177,7 @@ extension UITextView
         
         keyBoardToolBar.frame = CGRect(x:0, y:0, width:UIScreen.main.bounds.size.width, height:44);
         keyBoardToolBar .barTintColor = UIColor.white
-        let spaceBtn = UIBarButtonItem (barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: self, action: nil)
+        let spaceBtn = UIBarButtonItem (barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: self, action: nil)
         let doneBtn = UIBarButtonItem (title: "Done", style: .plain, target: self, action: #selector(self.doneButtonAction(sender:)))
         
         self.inputAccessoryView = keyBoardToolBar
@@ -237,7 +237,7 @@ extension String
     }
     
     func getStringSize(font:UIFont) -> CGSize {
-        let size: CGSize = self.size(withAttributes: [NSAttributedStringKey.font: font])
+        let size: CGSize = self.size(withAttributes: [NSAttributedString.Key.font: font])
         return size
     }
     func capitalizingFirstLetter() -> String {
@@ -383,8 +383,8 @@ extension String
     
     func convertPhoneNumberToNumberString() -> String {
         let okayChars : Set<Character> =
-            Set("0123456789+".characters)
-        return String(self.characters.filter {okayChars.contains($0) })
+            Set("0123456789+")
+        return String(self.filter {okayChars.contains($0) })
 
     }
 }
@@ -704,20 +704,20 @@ extension UIColor
     
     
     
-    class func getGrayColorFontAttribute() -> [NSAttributedStringKey:AnyObject]
+    class func getGrayColorFontAttribute() -> [NSAttributedString.Key:AnyObject]
     {
-        return [NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.gray]
+        return [NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): UIColor.gray]
     }
     
-    class func getStrikeColorFontAttribute() -> [NSAttributedStringKey:AnyObject]
+    class func getStrikeColorFontAttribute() -> [NSAttributedString.Key:AnyObject]
     {
-        return [NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.black]
+        return [NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): UIColor.black]
     }
 
     
-    class func getBlackColorFontAttribute() -> [NSAttributedStringKey:AnyObject]
+    class func getBlackColorFontAttribute() -> [NSAttributedString.Key:AnyObject]
     {
-        return [NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.black]
+        return [NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): UIColor.black]
     }
     
     class func getTextFieldPrimaryBackgroundColor( )-> UIColor

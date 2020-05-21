@@ -29,11 +29,11 @@ class BaseViewController: UIViewController {
         bgImageview.image = UIImage.init(named: "Splash")
         bgImageview.frame = self.view.bounds
         self.view.addSubview(bgImageview)
-        self.view.sendSubview(toBack: self.bgImageview)
+        self.view.sendSubviewToBack(self.bgImageview)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage.init(named: "backArrow"),
         style: .plain, target: self, action: #selector(self.backButtonAction(sender:)))
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white,
-        NSAttributedStringKey.font: UIFont.systemSemiBold15]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white,
+                                                                   NSAttributedString.Key.font: UIFont.systemSemiBold15]
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -372,7 +372,7 @@ class BaseTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage.init(named: "backArrow"), style: .plain, target: self, action: #selector(self.backButtonAction(sender:)))
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white,NSAttributedStringKey.font: UIFont.systemSemiBold15]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white,NSAttributedString.Key.font: UIFont.systemSemiBold15]
     }
     
     override func viewWillAppear(_ animated: Bool) {

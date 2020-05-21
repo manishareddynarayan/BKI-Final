@@ -41,15 +41,15 @@ class AUTextField: AUSessionField {
     }
     
     override open func textRect(forBounds bounds: CGRect) -> CGRect {
-        return UIEdgeInsetsInsetRect(bounds, TFPadding)
+        return bounds.inset(by: TFPadding)
     }
     
     override open func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        return UIEdgeInsetsInsetRect(bounds, TFPadding)
+        return bounds.inset(by: TFPadding)
     }
     
     override open func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return UIEdgeInsetsInsetRect(bounds, TFPadding)
+        return bounds.inset(by: TFPadding)
     }
 
 }

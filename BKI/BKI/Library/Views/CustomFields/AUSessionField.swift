@@ -102,20 +102,20 @@ import UIKit
     
     
     override open func textRect(forBounds bounds: CGRect) -> CGRect {
-        return UIEdgeInsetsInsetRect(bounds, padding)
+        return bounds.inset(by: padding)
     }
 
     override open func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        return UIEdgeInsetsInsetRect(bounds, padding)
+        return bounds.inset(by: padding)
     }
 
     override open func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return UIEdgeInsetsInsetRect(bounds, padding)
+        return bounds.inset(by: padding)
     }
     
     
     func getTextRect() -> CGRect {
-        let rect = UIEdgeInsetsInsetRect(bounds, padding)
+        let rect = bounds.inset(by: padding)
         if self.rightViewMode == .always {
             return adjustTextRectWithRightView(bounds: rect)
         }
@@ -157,11 +157,11 @@ import UIKit
         pickerView.dataSource = self
         self.inputView = pickerView
         let dict = self.pickerModel[0]
-        self.text = dict["name"] as! String
+        self.text = dict["name"] as? String
         //self.formDelegate.textFieldDidSelected!(self, object: dict)
     }
     
-    func addDatePickerAsInputView(with formate:String,mode:UIDatePickerMode, setCurrentDateAsMinimumDate:Bool) -> Void{
+    func addDatePickerAsInputView(with formate:String,mode:UIDatePicker.Mode, setCurrentDateAsMinimumDate:Bool) -> Void{
         let dobPicker = UIDatePicker();
         dobPicker.datePickerMode = mode
 
@@ -249,14 +249,14 @@ import UIKit
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
     {
         let dict = self.pickerModel[row]
-        self.text = dict["name"] as! String
+        self.text = dict["name"] as? String
         self.formDelegate.textFieldDidSelected!(self, object: dict)
     }
     
     public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
     {
         let dict = self.pickerModel[row]
-        return dict["name"] as! String
+        return dict["name"] as? String
     }
 }
 
@@ -264,12 +264,12 @@ extension UITextField {
     
     @IBInspectable var placeholderColor: UIColor {
         get {
-            guard let currentAttributedPlaceholderColor = attributedPlaceholder?.attribute(NSAttributedStringKey.foregroundColor, at: 0, effectiveRange: nil) as? UIColor else { return UIColor.clear }
+            guard let currentAttributedPlaceholderColor = attributedPlaceholder?.attribute(NSAttributedString.Key.foregroundColor, at: 0, effectiveRange: nil) as? UIColor else { return UIColor.clear }
             return currentAttributedPlaceholderColor
         }
         set {
             guard let currentAttributedString = attributedPlaceholder else { return }
-            let attributes = [NSAttributedStringKey.foregroundColor : newValue]
+            let attributes = [NSAttributedString.Key.foregroundColor : newValue]
             
             attributedPlaceholder = NSAttributedString(string: currentAttributedString.string, attributes: attributes)
         }

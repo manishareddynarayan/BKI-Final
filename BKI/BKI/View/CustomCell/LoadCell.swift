@@ -11,9 +11,11 @@ import UIKit
 class LoadCell: BaseCell {
 
     var viewDrawingBlock:(() -> Void)?
-    
+    var deleteSpoolBlock:(() -> Void)?
+
     @IBOutlet weak var viewDrawingBtn: UIButton!
     @IBOutlet weak var spoolLbl: UILabel!
+    @IBOutlet weak var deleteSpoolButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,6 +29,10 @@ class LoadCell: BaseCell {
     }
     @IBAction func viewDrawing(_ sender: Any) {
         self.viewDrawingBlock!()
+    }
+    @IBAction func didTapDeleteSpoolFromLoad(_ sender: UIButton)
+    {
+        self.deleteSpoolBlock!()
     }
     
 }
