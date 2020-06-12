@@ -78,7 +78,7 @@
 		4FCDEDC3216F46410071E9F6 /* LoadMiscTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDC2216F46410071E9F6 /* LoadMiscTVC.swift */; };
 		4FCDEDC6216F46BE0071E9F6 /* MiscCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDEDC4216F46BE0071E9F6 /* MiscCell.swift */; };
 		4FCDEDC7216F46BE0071E9F6 /* MiscCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FCDEDC5216F46BE0071E9F6 /* MiscCell.xib */; };
-		C27F3B7F2473ADCD00A75B0F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C27F3B7E2473ADCD00A75B0F /* GoogleService-Info.plist */; };
+		C2F7C3462493B52900DA9503 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2F7C3452493B52800DA9503 /* GoogleService-Info.plist */; };
 		CE2C6069083ED993BE06AD3B /* Pods_BKI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */; };
 /* End PBXBuildFile section */
 
@@ -181,7 +181,7 @@
 		4FCDEDC5216F46BE0071E9F6 /* MiscCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MiscCell.xib; sourceTree = "<group>"; };
 		8CDC640A54E9D1F0CC79C104 /* Pods-BKI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.release.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.release.xcconfig"; sourceTree = "<group>"; };
 		B1C46F39565F8F494B9732B3 /* Pods_BKI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BKI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C27F3B7E2473ADCD00A75B0F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C2F7C3452493B52800DA9503 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C67014901894AB5EF7A77A74 /* Pods-BKI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BKI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BKI/Pods-BKI.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -220,7 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				4F2F46062147D95300E5956C /* Info.plist */,
-				C27F3B7E2473ADCD00A75B0F /* GoogleService-Info.plist */,
+				C2F7C3452493B52800DA9503 /* GoogleService-Info.plist */,
 				4FCD147B21521FCD002B70A9 /* Resources */,
 				4FA5526C2150FB6B00EA6F9B /* Utilities */,
 				4FA551EB2150F7A300EA6F9B /* Model */,
@@ -613,7 +613,7 @@
 				4FA5527321511C8B00EA6F9B /* Auth.storyboard in Resources */,
 				4F312B892158C7D2003D0358 /* cross@3x.png in Resources */,
 				4F2F46002147D95200E5956C /* Main.storyboard in Resources */,
-				C27F3B7F2473ADCD00A75B0F /* GoogleService-Info.plist in Resources */,
+				C2F7C3462493B52900DA9503 /* GoogleService-Info.plist in Resources */,
 				4FA76CB9215B8082002377F3 /* WeldCell.xib in Resources */,
 				3C0698012230E98700303E57 /* AlternateDescriptionCell.xib in Resources */,
 				4FCDEDB3216223F30071E9F6 /* OpenLoadCell.xib in Resources */,
@@ -884,7 +884,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Batchelor & Kimball, Inc.";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 6.11;
+				CURRENT_PROJECT_VERSION = 6.12;
 				DEVELOPMENT_TEAM = YXK38U827T;
 				INFOPLIST_FILE = BKI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -910,7 +910,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Batchelor & Kimball, Inc.";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 6.11;
+				CURRENT_PROJECT_VERSION = 6.12;
 				DEVELOPMENT_TEAM = YXK38U827T;
 				INFOPLIST_FILE = BKI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
