@@ -93,13 +93,15 @@ class User: BKIModel {
     func getFitterMenu() -> [[String:String]] {
         return [["Name":"Status Fit-Up","Child":"WeldStatusVC"],
                 ["Name":"Heat Numbers","Child":"FitterHeatVC"],
-                ["Name":"View Drawing","Child":"DrawingVC"],
+                ["Name":"View Spool Drawing","Child":"DrawingVC"],
+                ["Name":"View ISO Drawing","Child":"DrawingVC"],
                 ["Name":"Scan New Spool","Child":"ScanVC"]]
     }
     
     func getWelderMenu() -> [[String:String]] {
         return [["Name":"Status Welds","Child":"WeldStatusVC"],
-         ["Name":"View Drawing","Child":"DrawingVC"],
+         ["Name":"View Spool Drawing","Child":"DrawingVC"],
+         ["Name":"View ISO Drawing","Child":"DrawingVC"],
          ["Name":"Scan New Spool","Child":"ScanVC"]]
     }
     
@@ -110,7 +112,8 @@ class User: BKIModel {
     
     func getTestingMenu() -> [[String:String]] {
         return [["Name":"Inspection","Child":"InspectionVC"],
-                ["Name":"View Drawing","Child":"DrawingVC"],
+                ["Name":"View Spool Drawing","Child":"DrawingVC"],
+                ["Name":"View ISO Drawing","Child":"DrawingVC"],
                 ["Name":"Scan New Spool","Child":"ScanVC"]]
     }
     

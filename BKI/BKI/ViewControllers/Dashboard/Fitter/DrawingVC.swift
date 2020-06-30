@@ -8,16 +8,20 @@
 
 import UIKit
 
-class DrawingVC: BaseViewController, UIWebViewDelegate {
+enum WEBURLState
+{
+    case pdfURL
+    case ISOURL
+}
+
+class DrawingVC: BaseViewController {
 
     @IBOutlet weak var webView: UIWebView!
+    var urltype = WEBURLState.pdfURL
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let urlStr = (self.spool?.pdfUrl != nil) ? self.spool?.pdfUrl : "https://retail.onlinesbi.com/sbi/downloads/form15-g.pdf"
-        let request = URLRequest.init(url: URL.init(string: urlStr!)!)
-        self.webView.loadRequest(request)
+        self.updateWebView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -46,17 +50,28 @@ class DrawingVC: BaseViewController, UIWebViewDelegate {
     override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
         return UIInterfaceOrientation.landscapeRight
     }
-    /*
-    // MARK: - Navigation
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+}
+//MARK:Private  Methods
+extension DrawingVC
+{
+    fileprivate func updateWebView()
+    {
+        var urlStr = "https://retail.onlinesbi.com/sbi/downloads/form15-g.pdf"
+        switch urltype {
+        case .pdfURL:
+            urlStr = ((self.spool?.pdfUrl != nil) ? self.spool?.pdfUrl : urlStr)!
+            break
+        case .ISOURL:
+            urlStr = ((self.spool?.isoDrawingURL != nil) ? self.spool?.isoDrawingURL : urlStr)!
+            break
+        }
+        let request = URLRequest.init(url: URL.init(string: urlStr)!)
+        self.webView.loadRequest(request)
     }
-    */
-
-    //MARK:Webview Delegate Methods
-    
+}
+//MARK:Webview Delegate Methods
+extension DrawingVC:UIWebViewDelegate
+{
     func webViewDidStartLoad(_ webView: UIWebView) {
         MBProgressHUD.showHud(view: webView)
     }
@@ -64,5 +79,4 @@ class DrawingVC: BaseViewController, UIWebViewDelegate {
     func webViewDidFinishLoad(_ webView: UIWebView) {
         MBProgressHUD.hideHud(view: webView)
     }
-
 }

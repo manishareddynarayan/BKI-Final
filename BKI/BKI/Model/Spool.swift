@@ -18,6 +18,7 @@ class Spool: BKIModel {
     var welds = [Weld]()
     var components = [Component]()
     var pdfUrl:String?
+    var isoDrawingURL:String?
     var loadedAt:String?
     var weight = 0.0
     var projectId:Int?
@@ -92,6 +93,9 @@ class Spool: BKIModel {
         }
         if let isCutListsCompleted = spoolInfo["cut_lists_completed?"] as? Bool{
             self.isCutListsCompleted = isCutListsCompleted
+        }
+        if let isoDrawingUrl = spoolInfo["iso_drawing_url"] as? String {
+            self.isoDrawingURL = isoDrawingUrl
         }
     }
     

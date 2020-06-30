@@ -89,7 +89,7 @@ class NewLoadVC: BaseViewController, TextInputDelegate {
             self.updateLoad(isSubmit: false)
         }
     }
-        
+    
     //MARK:- Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
@@ -98,11 +98,12 @@ class NewLoadVC: BaseViewController, TextInputDelegate {
         miscVC?.load = self.load!
     }
     
-    @objc func showDrawingVC(spool:Spool, role:Int){
-        if let vc = self.getViewControllerWithIdentifier(identifier: "DrawingVC") as? BaseViewController
+    func showDrawingVC(spool:Spool, role:Int,state:WEBURLState){
+        if let vc = self.getViewControllerWithIdentifier(identifier: "DrawingVC") as? DrawingVC
         {
             vc.spool = spool
             vc.role = role
+            vc.urltype = state
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -201,7 +202,7 @@ extension NewLoadVC:UITableViewDataSource
         let spool = getSpoolAtRow(indexPath: indexPath)
         cell?.spoolLbl.text = "\(spool.code!)"
         cell?.viewDrawingBlock = {
-            self.showDrawingVC(spool: spool, role: self.role)
+            self.showDrawingVC(spool: spool, role: self.role, state: .pdfURL)
         }
         cell?.deleteSpoolBlock = {
             
@@ -240,6 +241,14 @@ extension NewLoadVC:UITableViewDataSource
             
             // Present dialog message to user
             self.present(dialogMessage, animated: true, completion: nil)
+        }
+        cell?.isoButton.isHidden = (spool.isoDrawingURL == nil)
+        cell?.viewISODrawingBlock = {
+            guard (spool.isoDrawingURL != nil) else {
+                self.alertVC.presentAlertWithMessage(message: "No ISO URL found", controller: self)
+                return
+            }
+            self.showDrawingVC(spool: spool, role: self.role, state: .ISOURL)
         }
         return cell!
     }
@@ -355,16 +364,16 @@ extension NewLoadVC
                     self.alertVC.presentAlertWithTitleAndActions(actions: [{
                         self.dismiss(animated: true, completion: nil)
                         },{
-                            self.showDrawingVC(spool: spool, role: self.role)
-                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "The Spool is on hold and hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
+                            self.showDrawingVC(spool: spool, role: self.role, state: .pdfURL)
+                        }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Spool is on hold and hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
                     return
                 }
                 else if (self.role == 3 && (spool.state == WeldState.inShipping || spool.state == WeldState.shipped || spool.loadedAt != nil)) {
                     self.alertVC.presentAlertWithTitleAndActions(actions: [{
                         self.dismiss(animated: true, completion: nil)
                         },{
-                            self.showDrawingVC(spool: spool, role: self.role)
-                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "The Spool is already added to a load. You can view the drawing by clicking on the button below.", title: "Warning")
+                            self.showDrawingVC(spool: spool, role: self.role, state: .pdfURL)
+                        }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Spool is already added to a load. You can view the drawing by clicking on the button below.", title: "Warning")
                     
                     return
                 } else if (self.role == 3 && spool.state != WeldState.readyToShip) {
@@ -373,24 +382,24 @@ extension NewLoadVC
                         self.alertVC.presentAlertWithTitleAndActions(actions: [{
                             self.dismiss(animated: true, completion: nil)
                             },{
-                                self.showDrawingVC(spool: spool, role: self.role)
-                            }], buttonTitles: ["OK","View Drawing"], controller: self, message: "Please complete all the cut lists to load the spool. You can view the drawing by clicking on the button below.", title: "Warning")
+                                self.showDrawingVC(spool: spool, role: self.role, state: .pdfURL)
+                            }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "Please complete all the cut lists to load the spool. You can view the drawing by clicking on the button below.", title: "Warning")
                         return
                     }
                     
                     self.alertVC.presentAlertWithTitleAndActions(actions: [{
                         self.dismiss(animated: true, completion: nil)
                         },{
-                            self.showDrawingVC(spool: spool, role: self.role)
-                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "The Spool is not ready to be loaded yet. You can view the drawing by clicking on the button below.", title: "Warning")
+                            self.showDrawingVC(spool: spool, role: self.role, state: .pdfURL)
+                        }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Spool is not ready to be loaded yet. You can view the drawing by clicking on the button below.", title: "Warning")
                     return
                 }
                 else if !self.checkHeatNumbersWithSpool(spool: spool){
                     self.alertVC.presentAlertWithTitleAndActions(actions: [{
                         self.dismiss(animated: true, completion: nil)
                         },{
-                            self.showDrawingVC(spool: spool, role: self.role)
-                        }], buttonTitles: ["OK","View Drawing"], controller: self, message: "You cannot add this spool as the heat numbers are not present. You can view the drawing by clicking on the button below.", title: "Warning")
+                            self.showDrawingVC(spool: spool, role: self.role, state: .pdfURL)
+                        }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "You cannot add this spool as the heat numbers are not present. You can view the drawing by clicking on the button below.", title: "Warning")
                     return
                 }
                 

@@ -266,30 +266,47 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         }else{
             cell?.enable(enable: true)
         }
-        
+        // disbaling cell when ISO Drwaing url is nil,which one we are showing in web view.
+        if ((indexPath.row == self.menuItems.count - 2) && (self.spool?.isoDrawingURL == nil) && (self.menuItems[indexPath.row]["Child"] == "DrawingVC"))
+        {
+            cell?.enable(enable: false)
+        }
         return cell!
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard indexPath.row == self.menuItems.count - 1 && self.role != 3   else {
             let menu = self.menuItems[indexPath.row]
-            guard let vc = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? BaseViewController else {
-                guard let vc1 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? FitterPartTVC else {
-                    guard let vc2 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? WeldStatusVC else {
+            guard let vc = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? DrawingVC else {
+                guard let vc = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? BaseViewController else {
+                    guard let vc1 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? FitterPartTVC else {
+                        guard let vc2 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? WeldStatusVC else {
+                            return
+                        }
+                        vc2.role = self.role
+                        vc2.spool = self.spool
+                        self.navigationController?.pushViewController(vc2, animated: true)
                         return
                     }
-                    vc2.role = self.role
-                    vc2.spool = self.spool
-                    self.navigationController?.pushViewController(vc2, animated: true)
+                    vc1.role = self.role
+                    vc1.spool = self.spool
+                    self.navigationController?.pushViewController(vc1, animated: true)
                     return
                 }
-                vc1.role = self.role
-                vc1.spool = self.spool
-                self.navigationController?.pushViewController(vc1, animated: true)
+                vc.spool = self.spool
+                vc.role = self.role
+                self.navigationController?.pushViewController(vc, animated: true)
                 return
             }
             vc.spool = self.spool
             vc.role = self.role
+            
+            vc.urltype = ((indexPath.row == self.menuItems.count - 2) ? .ISOURL : .pdfURL)
+            if (indexPath.row == self.menuItems.count - 2) && ((spool?.isoDrawingURL) == nil)
+            {
+                self.alertVC.presentAlertWithMessage(message: "No ISO URL found", controller: self)
+                return
+            }
             self.navigationController?.pushViewController(vc, animated: true)
             return
         }

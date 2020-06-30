@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -36,6 +36,10 @@
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yk1-Wc-dvU">
                         <rect key="frame" x="258" y="9.5" width="22" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="5No-Rv-wd9"/>
+                            <constraint firstAttribute="width" constant="22" id="Azd-W4-Qre"/>
+                        </constraints>
                         <state key="normal" image="pdf">
                             <color key="titleColor" red="0.53725490200000003" green="0.050980392159999999" blue="0.0078431372550000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </state>
@@ -43,9 +47,35 @@
                             <action selector="viewDrawing:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="THP-P0-yu8"/>
                         </connections>
                     </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xnx-Se-VDw">
+                        <rect key="frame" x="210" y="2" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="GLc-rf-6ej"/>
+                            <constraint firstAttribute="width" constant="40" id="TlG-uv-G7E"/>
+                        </constraints>
+                        <state key="normal">
+                            <attributedString key="attributedTitle">
+                                <fragment content="ISO">
+                                    <attributes>
+                                        <color key="NSBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="NSColor" red="0.0" green="0.60502860915492962" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <font key="NSFont" metaFont="systemBold" size="11"/>
+                                        <font key="NSOriginalFont" metaFont="systemBold" size="11"/>
+                                        <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        <integer key="NSUnderline" value="1"/>
+                                    </attributes>
+                                </fragment>
+                            </attributedString>
+                        </state>
+                        <connections>
+                            <action selector="didTapISODrawing:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="9cc-eW-oUO"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="yk1-Wc-dvU" firstAttribute="leading" secondItem="Xnx-Se-VDw" secondAttribute="trailing" constant="8" id="0sU-cd-Rsh"/>
                     <constraint firstItem="yk1-Wc-dvU" firstAttribute="centerY" secondItem="Fxc-Ob-BMj" secondAttribute="centerY" id="5Ki-fi-Mm1"/>
+                    <constraint firstItem="Xnx-Se-VDw" firstAttribute="centerY" secondItem="W4r-UX-w9E" secondAttribute="centerY" id="IAY-b9-Ndg"/>
                     <constraint firstItem="W4r-UX-w9E" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ZGL-sM-gW6"/>
                     <constraint firstItem="W4r-UX-w9E" firstAttribute="leading" secondItem="yk1-Wc-dvU" secondAttribute="trailing" id="nsX-n4-93n"/>
                     <constraint firstItem="Fxc-Ob-BMj" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="pPu-Qk-357"/>
@@ -56,6 +86,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="deleteSpoolButton" destination="W4r-UX-w9E" id="dyY-31-96E"/>
+                <outlet property="isoButton" destination="Xnx-Se-VDw" id="7qT-04-AjU"/>
                 <outlet property="spoolLbl" destination="Fxc-Ob-BMj" id="Wnr-4u-MC8"/>
                 <outlet property="viewDrawingBtn" destination="yk1-Wc-dvU" id="aSh-Vc-j6B"/>
             </connections>

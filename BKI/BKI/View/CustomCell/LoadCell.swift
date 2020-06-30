@@ -12,10 +12,12 @@ class LoadCell: BaseCell {
 
     var viewDrawingBlock:(() -> Void)?
     var deleteSpoolBlock:(() -> Void)?
+    var viewISODrawingBlock:(() -> Void)?
 
     @IBOutlet weak var viewDrawingBtn: UIButton!
     @IBOutlet weak var spoolLbl: UILabel!
     @IBOutlet weak var deleteSpoolButton: UIButton!
+    @IBOutlet weak var isoButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,4 +37,8 @@ class LoadCell: BaseCell {
         self.deleteSpoolBlock!()
     }
     
+    @IBAction func didTapISODrawing(_ sender: UIButton)
+    {
+        self.viewISODrawingBlock!()
+    }
 }
