@@ -40,32 +40,22 @@
                             <constraint firstAttribute="height" constant="25" id="5No-Rv-wd9"/>
                             <constraint firstAttribute="width" constant="22" id="Azd-W4-Qre"/>
                         </constraints>
-                        <state key="normal" image="pdf">
+                        <state key="normal" image="SpoolPdf">
                             <color key="titleColor" red="0.53725490200000003" green="0.050980392159999999" blue="0.0078431372550000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </state>
                         <connections>
                             <action selector="viewDrawing:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="THP-P0-yu8"/>
                         </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xnx-Se-VDw">
-                        <rect key="frame" x="210" y="2" width="40" height="40"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xnx-Se-VDw">
+                        <rect key="frame" x="225" y="9.5" width="25" height="25"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="40" id="GLc-rf-6ej"/>
-                            <constraint firstAttribute="width" constant="40" id="TlG-uv-G7E"/>
+                            <constraint firstAttribute="height" constant="25" id="GLc-rf-6ej"/>
+                            <constraint firstAttribute="width" constant="25" id="TlG-uv-G7E"/>
                         </constraints>
-                        <state key="normal">
-                            <attributedString key="attributedTitle">
-                                <fragment content="ISO">
-                                    <attributes>
-                                        <color key="NSBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <color key="NSColor" red="0.0" green="0.60502860915492962" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <font key="NSFont" metaFont="systemBold" size="11"/>
-                                        <font key="NSOriginalFont" metaFont="systemBold" size="11"/>
-                                        <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        <integer key="NSUnderline" value="1"/>
-                                    </attributes>
-                                </fragment>
-                            </attributedString>
+                        <fontDescription key="fontDescription" name=".AppleSystemUIFontBold" family=".AppleSystemUIFont" pointSize="11"/>
+                        <state key="normal" image="ISOPdf">
+                            <color key="titleColor" red="0.0" green="0.60502860915492962" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </state>
                         <connections>
                             <action selector="didTapISODrawing:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="9cc-eW-oUO"/>
@@ -95,6 +85,7 @@
     </objects>
     <resources>
         <image name="Cross-1" width="12" height="12"/>
-        <image name="pdf" width="22" height="25"/>
+        <image name="ISOPdf" width="48" height="48"/>
+        <image name="SpoolPdf" width="48" height="48"/>
     </resources>
 </document>
