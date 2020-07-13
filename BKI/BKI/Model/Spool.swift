@@ -26,7 +26,8 @@ class Spool: BKIModel {
     var testMethods:[String:Int] = [:]
     var isStainlessSteel:Bool?
     var isCutListsCompleted:Bool?
-    
+    var isHPCategory:Bool?
+
     override init () {
         // uncomment this line if your class has been inherited from any other class
         super.init()
@@ -96,6 +97,9 @@ class Spool: BKIModel {
         }
         if let isoDrawingUrl = spoolInfo["iso_drawing_url"] as? String {
             self.isoDrawingURL = isoDrawingUrl
+        }
+        if let meterilaUrl = spoolInfo["material"] as? String {
+            self.isHPCategory = (meterilaUrl == "HP")
         }
     }
     

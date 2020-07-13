@@ -874,9 +874,9 @@
 			baseConfigurationReference = C67014901894AB5EF7A77A74 /* Pods-BKI.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Development: Gayathiri Mohanakrishna (9N4ZWXQ65A)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Batchelor & Kimball, Inc.";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 6.16;
+				CURRENT_PROJECT_VERSION = 6.19;
 				DEVELOPMENT_TEAM = YXK38U827T;
 				INFOPLIST_FILE = BKI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -887,7 +887,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Batchelorkimball.BKI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "f12d333e-c61b-4add-b70a-4090c6f5b4de";
-				PROVISIONING_PROFILE_SPECIFIER = BKI_Dev;
+				PROVISIONING_PROFILE_SPECIFIER = BKI_Adhoc;
 				SWIFT_OBJC_BRIDGING_HEADER = "BKI/Utilities/BKI-Bridging-Header.h";
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "BKI/Utilities/BKI-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -900,9 +900,9 @@
 			baseConfigurationReference = 8CDC640A54E9D1F0CC79C104 /* Pods-BKI.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Development: Gayathiri Mohanakrishna (9N4ZWXQ65A)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Batchelor & Kimball, Inc.";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 6.16;
+				CURRENT_PROJECT_VERSION = 6.19;
 				DEVELOPMENT_TEAM = YXK38U827T;
 				INFOPLIST_FILE = BKI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -913,7 +913,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Batchelorkimball.BKI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "17607d47-13b4-458f-9da5-f091a949ee7e";
-				PROVISIONING_PROFILE_SPECIFIER = BKI_Dev;
+				PROVISIONING_PROFILE_SPECIFIER = BKI_Adhoc;
 				SWIFT_OBJC_BRIDGING_HEADER = "BKI/Utilities/BKI-Bridging-Header.h";
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "BKI/Utilities/BKI-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
