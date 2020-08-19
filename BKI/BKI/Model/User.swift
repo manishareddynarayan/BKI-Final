@@ -96,7 +96,7 @@ class User: BKIModel {
                 ["Name":"View Drawing","Child":"DrawingVC"],
                 ["Name":"Scan New Spool","Child":"ScanVC"]]
     }
-    
+
     func getWelderMenu() -> [[String:String]] {
         return [["Name":"Status Welds","Child":"WeldStatusVC"],
          ["Name":"View Drawing","Child":"DrawingVC"],
@@ -113,6 +113,12 @@ class User: BKIModel {
                 ["Name":"View Drawing","Child":"DrawingVC"],
                 ["Name":"Scan New Spool","Child":"ScanVC"]]
     }
+    
+    func getHangersMenu() -> [[String:String]] {
+           return [["Name":"Cut Rods","Child":"WeldStatusVC"],
+                   ["Name":"Cut Strut","Child":"FitterHeatVC"],
+                   ["Name":"Assemble","Child":"DrawingVC"]]
+       }
     
     class func getRoleName(userRole:Role) -> String {
         if userRole == Role.fitter {

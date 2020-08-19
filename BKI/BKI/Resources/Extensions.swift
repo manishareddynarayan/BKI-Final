@@ -45,6 +45,10 @@ extension UIColor {
     @nonobjc class var scarlet: UIColor {
         return UIColor(red: 208.0 / 255.0, green: 2.0 / 255.0, blue: 27.0 / 255.0, alpha: 1.0)
     }
+    @nonobjc class var appRed: UIColor {
+        return UIColor(red: 127.0 / 255.0, green: 11.0 / 255.0, blue: 1.0 / 255.0, alpha: 1.0)
+    }
+
 }
 
 // Sample text styles

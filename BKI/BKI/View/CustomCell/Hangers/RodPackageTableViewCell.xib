@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RodPackageTableViewCell" rowHeight="107" id="KGk-i7-Jjw" customClass="RodPackageTableViewCell" customModule="BKI" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="342" height="107"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="342" height="107"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SYe-PI-Ziz">
+                        <rect key="frame" x="0.0" y="0.0" width="342" height="97"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Size:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="12O-JQ-l1Y">
+                                <rect key="frame" x="20" y="20" width="32.5" height="22"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                <color key="textColor" red="0.49803921569999998" green="0.043137254899999998" blue="0.0039215686269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNP-Ua-Ski">
+                                <rect key="frame" x="62.5" y="22.5" width="35.5" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y13-N3-6vE">
+                                <rect key="frame" x="20" y="57" width="100" height="30"/>
+                                <color key="backgroundColor" red="0.63921568630000003" green="0.066666666669999999" blue="0.14901960780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="V5g-sf-1hZ"/>
+                                    <constraint firstAttribute="width" constant="100" id="ix3-3A-Y74"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                                <state key="normal" title="View Details">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="showDetailsOnClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="3Fz-JE-rv9"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.67843137254901964" green="0.67843137254901964" blue="0.67843137254901964" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Y13-N3-6vE" firstAttribute="top" secondItem="12O-JQ-l1Y" secondAttribute="bottom" constant="15" id="24d-o3-iDa"/>
+                            <constraint firstItem="12O-JQ-l1Y" firstAttribute="leading" secondItem="SYe-PI-Ziz" secondAttribute="leading" constant="20" id="9mJ-Tc-0dn"/>
+                            <constraint firstItem="Y13-N3-6vE" firstAttribute="leading" secondItem="12O-JQ-l1Y" secondAttribute="leading" id="D9h-f7-w9F"/>
+                            <constraint firstAttribute="bottom" secondItem="Y13-N3-6vE" secondAttribute="bottom" constant="10" id="Qe1-ZL-vs4"/>
+                            <constraint firstItem="hNP-Ua-Ski" firstAttribute="centerY" secondItem="12O-JQ-l1Y" secondAttribute="centerY" id="dpo-FA-zJu"/>
+                            <constraint firstItem="12O-JQ-l1Y" firstAttribute="top" secondItem="SYe-PI-Ziz" secondAttribute="top" constant="20" id="ghC-af-RUi"/>
+                            <constraint firstItem="hNP-Ua-Ski" firstAttribute="leading" secondItem="12O-JQ-l1Y" secondAttribute="trailing" constant="10" id="mJ1-77-FB0"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="SYe-PI-Ziz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="5O7-hw-Xyt"/>
+                    <constraint firstAttribute="trailing" secondItem="SYe-PI-Ziz" secondAttribute="trailing" id="9je-If-41E"/>
+                    <constraint firstAttribute="bottom" secondItem="SYe-PI-Ziz" secondAttribute="bottom" constant="10" id="HYY-RV-Mpn"/>
+                    <constraint firstItem="SYe-PI-Ziz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="rDI-dL-Oar"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="sizeLabel" destination="hNP-Ua-Ski" id="X91-nF-2xB"/>
+            </connections>
+            <point key="canvasLocation" x="5.7971014492753632" y="-47.209821428571423"/>
+        </tableViewCell>
+    </objects>
+</document>
