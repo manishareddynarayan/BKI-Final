@@ -8,27 +8,35 @@
 
 import UIKit
 
-@objc protocol SolutionDelegate
+ protocol SolutionDelegate
 {
-    @objc optional func viewDetailsSolution()
-    @objc optional func didChooseSolution()
+    func solutionDidSelect(didChoose:Bool,solutionId:Int,isSolutionSelected:Bool,selectedStatId:Int)
 }
 
 class SolutionsViewController: BaseViewController {
     @IBOutlet var sizeLabel: UILabel!
     @IBOutlet var tableView: UITableView!
-    weak var delegate:SolutionDelegate!
-
+    @IBOutlet weak var descriptionTitle: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    var delegate:SolutionDelegate!
     var cuttingStat:CuttingStat?
+    var selectedStatId:Int?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "SolutionTableViewCell", bundle: nil), forCellReuseIdentifier: "SolutionTableViewCell")
         self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         self.sizeLabel.text = cuttingStat?.size
         self.navigationController?.navigationBar.isHidden = true
         self.bgImageview.isHidden = true
         self.view.backgroundColor = UIColor.appRed.withAlphaComponent(0.9)
+        if cuttingStat?.desc != nil {
+            self.descriptionLabel.text = cuttingStat?.desc
+        } else {
+            self.descriptionLabel.text = ""
+            self.descriptionTitle.text = ""
+        }
         // Do any additional setup after loading the view.
     }
     
@@ -52,10 +60,11 @@ extension SolutionsViewController :  UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SolutionTableViewCell", for: indexPath) as? SolutionTableViewCell
         let solution = self.cuttingStat!.solutions[indexPath.row]
-        cell?.prepareSolutionCellWith(solution: solution)
+        let showChooseOption = self.cuttingStat!.solutions.count > 1
+        cell?.prepareSolutionCellWith(solution: solution, showChooseOption: showChooseOption)
         cell?.viewDetails = {
             self.dismiss(animated: false) {
-                            self.delegate.viewDetailsSolution?()
+                self.delegate.solutionDidSelect(didChoose: false, solutionId: solution.id!, isSolutionSelected: self.cuttingStat!.solutions.count == 1, selectedStatId: self.selectedStatId!)
             }
         }
         cell?.chooseSolution = {
@@ -65,7 +74,7 @@ extension SolutionsViewController :  UITableViewDelegate, UITableViewDataSource{
                                             DispatchQueue.main.async {
                                                 MBProgressHUD.hideHud(view: self.view)
                                                 self.dismiss(animated: false) {
-self.delegate.didChooseSolution?()
+                                                    self.delegate.solutionDidSelect(didChoose: true, solutionId: solution.id!, isSolutionSelected: self.cuttingStat!.solutions.count == 1, selectedStatId: self.selectedStatId!)
                                                 }
                 }
             }) { (error) in

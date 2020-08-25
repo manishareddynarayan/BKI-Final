@@ -14,6 +14,7 @@ class SolutionTableViewCell: BaseCell {
     @IBOutlet var rodsCountLabel: UILabel!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var bundlesCountLabel: UILabel!
+    @IBOutlet weak var chooseButton: UIButton!
     var viewDetails:(() -> Void)?
     var chooseSolution:(() -> Void)?
 
@@ -30,12 +31,13 @@ class SolutionTableViewCell: BaseCell {
 
         // Configure the view for the selected state
     }
-    func prepareSolutionCellWith(solution:Solution) {
+    func prepareSolutionCellWith(solution:Solution,showChooseOption:Bool) {
         titleLabel.text = solution.name
         wastageCountLabel.text = solution.totalWastage
         rodsCountLabel.text = solution.numberOfRods
         bundlesCountLabel.text = solution.numberOfBundles
         cutsCountLabel.text = solution.totalCuts
+        chooseButton.isHidden = !showChooseOption
     }
     
     @IBAction func viewOnClick(_ sender: Any) {

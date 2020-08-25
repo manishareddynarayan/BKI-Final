@@ -107,7 +107,9 @@ extension MainDashBoardVC : ScannerDelegate{
     func scanDidCompletedWith(_ data:AVMetadataMachineReadableCodeObject?)
     {
         self.setScanCode(data: data)
-        getPackageDetails()
+        if self.scanCode != nil {
+            getPackageDetails()
+        }
     }
     
     func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didError error: Error, from connection: AVCaptureConnection) {

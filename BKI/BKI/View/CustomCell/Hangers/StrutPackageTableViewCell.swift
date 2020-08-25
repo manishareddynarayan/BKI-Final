@@ -18,8 +18,6 @@ class StrutPackageTableViewCell: BaseCell {
         super.awakeFromNib()
         self.contentView.backgroundColor = UIColor.clear
         self.backgroundColor = UIColor.clear
-
-
         // Initialization code
     }
 

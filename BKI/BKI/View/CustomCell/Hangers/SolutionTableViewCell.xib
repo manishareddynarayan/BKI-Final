@@ -201,6 +201,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="bundlesCountLabel" destination="Mjt-S3-gi4" id="1PZ-aD-K28"/>
+                <outlet property="chooseButton" destination="aSN-XW-sOh" id="EvA-zM-eU1"/>
                 <outlet property="cutsCountLabel" destination="Pn3-1J-g9D" id="j6F-1W-OWI"/>
                 <outlet property="rodsCountLabel" destination="VX4-l2-Rto" id="U9j-ar-4Pf"/>
                 <outlet property="titleLabel" destination="lzC-YK-hdY" id="I97-ZS-ZmX"/>

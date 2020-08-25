@@ -21,7 +21,7 @@ class PackageViewController: BaseViewController {
         self.packageDashboardTableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         self.navigationItem.title = "Package: \(hanger?.packageName ?? "")"
         self.packageDashboardTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-        // Do any additional setup after loading the view.
+        // Do any aditional setup after loading the view.
     }
     
     /*
@@ -57,6 +57,12 @@ extension PackageViewController:UITableViewDelegate, UITableViewDataSource {
                 return
             }
             vc.cuttingType = menu["Name"]
+            vc.hanger = self.hanger
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "AssembleViewController", storyBoard: "Hangers") as? AssembleViewController else {
+                return
+            }
             vc.hanger = self.hanger
             self.navigationController?.pushViewController(vc, animated: true)
         }

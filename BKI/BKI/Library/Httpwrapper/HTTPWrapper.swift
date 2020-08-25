@@ -26,6 +26,33 @@ struct Constant {
     
 }
 
+func validateMetaData(meta:[String:Int?]) -> (Int,Bool)
+{
+    var isNextPageAvailable = false
+    var pageIndex = 1
+    if  let currentPage = meta["current-page"] as? Int
+    {
+        if let totalPages = meta["total-pages"] as? Int
+        {
+            if currentPage < totalPages
+            {
+                if let nextPage = meta["next-page"] as? Int
+                {
+                    pageIndex = nextPage
+                    isNextPageAvailable = true
+                }
+            }
+            else
+            {
+                isNextPageAvailable = false
+                pageIndex = 1
+            }
+        }
+    }
+    return (pageIndex,isNextPageAvailable)
+}
+
+
 class HTTPWrapper: NSObject {
     
     var constant = Constant()
