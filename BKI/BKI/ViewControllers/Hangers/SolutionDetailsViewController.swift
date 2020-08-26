@@ -15,6 +15,7 @@ protocol SolutionDetailsDelegate
 
 class SolutionDetailsViewController: BaseViewController {
     
+    @IBOutlet weak var updateButton: UIButton!
     @IBOutlet weak var materialNameLabel: UILabel!
     @IBOutlet weak var packageNameLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
@@ -28,7 +29,7 @@ class SolutionDetailsViewController: BaseViewController {
     var packageBundle:PackageBundle?
     var selectedStatId:Int?
     var changedData =  [Int:Bool]()
-    var testMethodsWelds : [String:([String:Bool])] = [String: [String:Bool]]()
+    var solutionData : [String:([String:Bool])] = [String: [String:Bool]]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,9 +39,6 @@ class SolutionDetailsViewController: BaseViewController {
         self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         self.getPackageBundleDetails()
-        //        let completedBundles = packageBundle?.bundles.filter({$0.completed})
-
-        // Do any additional setup after loading the view.
     }
     
     func getPackageBundleDetails() {
@@ -61,6 +59,11 @@ class SolutionDetailsViewController: BaseViewController {
                     self.descriptionLabel.text = ""
                     self.descriptionTitle.text = ""
                 }
+                if self.packageBundle!.assemblyDidStart{
+                    self.updateButton.isHidden = true
+                } else {
+                    self.setUpdateButton()
+                }
                 self.tableView.reloadData()
             }
         }) { (error) in
@@ -70,25 +73,28 @@ class SolutionDetailsViewController: BaseViewController {
             }
         }
     }
+    
     func submitBundle() {
-//        var components = [String:AnyObject]()
-        
         for component in changedData {
-            self.testMethodsWelds["\(component.key)"] = ["completed":component.value]
-//            let dict = ["\(component.key)":["completed":component.value]]
-//            components.append(dict as [String : AnyObject])
+            self.solutionData["\(component.key)"] = ["completed":component.value]
         }
-        let spoolParams = ["bundle_info":testMethodsWelds]
+        let solutionParams = ["bundle_info":solutionData]
         MBProgressHUD.showHud(view: self.view)
-        self.httpWrapper.performAPIRequest("bundle_infos/update_bundles", methodType: "PUT", parameters: spoolParams as [String : AnyObject], successBlock: { (responseData) in
+        self.httpWrapper.performAPIRequest("bundle_infos/update_bundles", methodType: "PUT", parameters: solutionParams as [String : AnyObject], successBlock: { (responseData) in
             DispatchQueue.main.async {
                 MBProgressHUD.hideHud(view: self.view)
                 self.getPackageBundleDetails()
+                self.setUpdateButton()
             }
         }) { (error) in
             MBProgressHUD.hideHud(view: self.view)
             self.showFailureAlert(with:(error?.localizedDescription)! )
         }
+    }
+    
+    func setUpdateButton() {
+        let inCompleted = self.packageBundle?.bundles.filter({$0.completed == false})
+        self.updateButton.isHidden = inCompleted?.count == 0 ? true : false
     }
     
     override func backButtonAction(sender: AnyObject?) {
@@ -122,6 +128,7 @@ extension SolutionDetailsViewController: UITableViewDelegate,UITableViewDataSour
         cell?.label1.text = "Nest Bundle: \(indexPath.row + 1)"
         cell?.designCellWith(bundleData: bundleData!, showCheckButton: (self.didChooseSolution! || self.isSolutionSelected!))
         cell?.optionSelected = {
+            if !(self.packageBundle?.assemblyDidStart ?? true) {
             if self.changedData[bundleData!.id ?? 0]! {
                 self.changedData[bundleData!.id ?? 0] = false
             } else {
@@ -129,6 +136,7 @@ extension SolutionDetailsViewController: UITableViewDelegate,UITableViewDataSour
             }
             let image = self.changedData[(bundleData?.id)!]! ? "Check" : "unCheck"
             cell?.selectionButton.setImage(UIImage.init(named: image), for: .normal)
+            }
         }
         let image = changedData[(bundleData?.id)!]! ? "Check" : "unCheck"
         cell?.selectionButton.setImage(UIImage.init(named: image), for: .normal)

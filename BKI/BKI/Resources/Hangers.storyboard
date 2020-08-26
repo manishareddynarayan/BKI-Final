@@ -340,6 +340,7 @@
                         <outlet property="packageNameLabel" destination="J3D-cm-wGm" id="Kt7-Ff-Lf0"/>
                         <outlet property="sizeLabel" destination="YdP-xD-xhs" id="bpH-Sd-C4H"/>
                         <outlet property="tableView" destination="o3t-vA-vYe" id="i9A-fg-3y1"/>
+                        <outlet property="updateButton" destination="hKc-kD-UzV" id="JIR-bC-1dE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qCU-cq-BI6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

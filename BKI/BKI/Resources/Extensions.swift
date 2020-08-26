@@ -49,7 +49,7 @@ extension UIColor {
         return UIColor(red: 127.0 / 255.0, green: 11.0 / 255.0, blue: 1.0 / 255.0, alpha: 1.0)
     }
     @nonobjc class var cellBackGroundDark: UIColor {
-        return UIColor(red: 173.0 / 255.0, green: 173.0 / 255.0, blue: 173.0 / 255.0, alpha: 0.2)
+        return UIColor(red: 173.0 / 255.0, green: 173.0 / 255.0, blue: 173.0 / 255.0, alpha: 0.3)
     }
     @nonobjc class var cellBackGroundLight: UIColor {
         return UIColor(red: 173.0 / 255.0, green: 173.0 / 255.0, blue: 173.0 / 255.0, alpha: 0.1)

@@ -14,6 +14,7 @@ class PackageBundle:BKIModel {
     var packageName:String?
     var materialName:String?
     var bundles = [PackageBundleData]()
+    var assemblyDidStart = false
     override init () {
         // uncomment this line if your class has been inherited from any other class
         super.init()
@@ -33,6 +34,9 @@ class PackageBundle:BKIModel {
         }
         if let packageName = packageInfo["package_name"] as? String{
             self.packageName = packageName
+        }
+        if let assemblyDidStart = packageInfo["assembly_started"] as? Bool{
+            self.assemblyDidStart = assemblyDidStart
         }
         if let desc = packageInfo["info"]?["description"] as? String{
             self.desc = desc

@@ -22,7 +22,7 @@ struct Constant {
     // Satging
 //    let kBaseURL = "http://54.196.109.252/api/v1/"
     //Production
-    let kBaseURL = "https://api.bkimechanical.com/api/v1/"
+    let kBaseURL = "http://54.196.109.252/api/v1/"
     
 }
 
@@ -30,17 +30,14 @@ func validateMetaData(meta:[String:Int?]) -> (Int,Bool)
 {
     var isNextPageAvailable = false
     var pageIndex = 1
-    if  let currentPage = meta["current-page"] as? Int
+    if  let currentPage = meta["current_page"] as? Int
     {
-        if let totalPages = meta["total-pages"] as? Int
+        if let totalPages = meta["total_pages"] as? Int
         {
             if currentPage < totalPages
             {
-                if let nextPage = meta["next-page"] as? Int
-                {
-                    pageIndex = nextPage
+                    pageIndex = currentPage + 1
                     isNextPageAvailable = true
-                }
             }
             else
             {

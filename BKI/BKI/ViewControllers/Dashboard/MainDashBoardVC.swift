@@ -64,11 +64,15 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
             DispatchQueue.main.async {
                 MBProgressHUD.hideHud(view: self.view)
             hanger = Hanger.init(info: responseData)
-            guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "PackageViewController", storyBoard: "Hangers") as? PackageViewController else {
-                return
-            }
-            vc.hanger = hanger
-            self.navigationController?.pushViewController(vc, animated: true)
+                if hanger?.hangerState == "procure" || hanger?.hangerState == "receive" {
+                    self.showFailureAlert(with: "kindly complete the procurement process for this hanger.")
+                } else {
+                    guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "PackageViewController", storyBoard: "Hangers") as? PackageViewController else {
+                        return
+                    }
+                    vc.hanger = hanger
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             }
         }) { (error) in
             DispatchQueue.main.async {

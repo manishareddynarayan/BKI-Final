@@ -8,15 +8,46 @@
 
 import UIKit
 
+class HangerAssemble:BKIModel {
+    var hangerState:String?
+    var cuttingCompleted:Bool?
+    var hangerAssembleItems = [HangerAssembleItem]()
+
+    override init () {
+        // uncomment this line if your class has been inherited from any other class
+        super.init()
+    }
+    
+    convenience init(info:[String:AnyObject]) {
+        self.init()
+        self.saveAssembleItem(itemInfo: info)
+    }
+    func saveAssembleItem(itemInfo:[String:AnyObject]) {
+        if let hangerState = itemInfo["hanger_state"] as? String{
+            self.hangerState = hangerState
+        }
+        if let cuttingCompleted = itemInfo["cutting_completed"] as? Bool{
+                self.cuttingCompleted = cuttingCompleted
+        }
+        if let items = itemInfo["hanger_items"] as? [[String:AnyObject]] {
+            self.hangerAssembleItems.removeAll()
+            for (_,bundle) in items.enumerated() {
+                let newItem = HangerAssembleItem.init(info: bundle)
+                self.hangerAssembleItems.append(newItem)
+            }
+        }
+    }
+}
+
 class HangerAssembleItem:BKIModel {
-    var quantity:String?
-    var hangerNumber:String?
-    var hangerSize:String?
-    var desc:String?
-    var rodWidth:String?
-    var rodLengthA:String?
-    var rodLengthB:String?
-    var rodSize:String?
+    var quantity = ""
+    var hangerNumber = ""
+    var hangerSize = ""
+    var desc = ""
+    var rodWidth = ""
+    var rodLengthA = ""
+    var rodLengthB = ""
+    var rodSize = ""
     var completed:Bool?
 
     override init () {
@@ -52,6 +83,9 @@ class HangerAssembleItem:BKIModel {
         }
         if let rodLengthB = itemInfo["rod_length_b"] as? String{
             self.rodLengthB = rodLengthB
+        }
+        if let rodSize = itemInfo["rod_size"] as? String{
+            self.rodSize = rodSize
         }
         if let completed = itemInfo["completed"] as? Bool{
                 self.completed = completed

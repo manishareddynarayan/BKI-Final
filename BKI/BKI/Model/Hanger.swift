@@ -10,6 +10,7 @@ import UIKit
 
 class Hanger: BKIModel {
     var packageName:String?
+    var hangerState:String?
     var packageId:Int?
     override init () {
         // uncomment this line if your class has been inherited from any other class
@@ -28,6 +29,9 @@ class Hanger: BKIModel {
         }
         if let packageId = hangerInfo["package_id"] as? Int{
             self.packageId = packageId
+        }
+        if let hangerState = hangerInfo["state"] as? String{
+            self.hangerState = hangerState
         }
     }
 }

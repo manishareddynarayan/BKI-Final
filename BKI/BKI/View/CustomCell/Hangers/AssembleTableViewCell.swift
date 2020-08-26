@@ -10,9 +10,20 @@ import UIKit
 
 class AssembleTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var dropDownImgView: UIImageView!
     @IBOutlet weak var bgView: UIView!
     @IBOutlet weak var lowerView: UIView!
     @IBOutlet weak var upperView: UIView!
+    @IBOutlet weak var rodSizeLabel: UILabel!
+    @IBOutlet weak var rodWidthLabel: UILabel!
+    @IBOutlet weak var rodLengthBLabel: UILabel!
+    @IBOutlet weak var rodLengthALabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var selectionButton: UIButton!
+    @IBOutlet weak var sizeLAbel: UILabel!
+    @IBOutlet weak var quantityLabel: UILabel!
+    @IBOutlet weak var hangerNumber: UILabel!
+    var optionSelected:(() -> Void)?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -29,5 +40,17 @@ class AssembleTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+    func designCellWith(model:HangerAssembleItem) {
+        rodSizeLabel.text = model.rodSize
+        rodWidthLabel.text = model.rodWidth.isEmpty ? "-" : model.rodWidth
+        rodLengthALabel.text = model.rodLengthA.isEmpty ? "-" : model.rodLengthA
+        rodLengthBLabel.text = model.rodLengthB.isEmpty ? "-" : model.rodLengthB
+        descriptionLabel.text = model.desc.isEmpty ? "-" : model.desc
+        sizeLAbel.text = model.hangerSize.isEmpty ? "-" : model.hangerSize
+        quantityLabel.text = model.quantity.isEmpty ? "-" : model.quantity
+        hangerNumber.text = model.hangerNumber.isEmpty ? "-" : model.hangerNumber
+    }
+    @IBAction func chooseItem(_ sender: Any) {
+        self.optionSelected!()
+    }
 }

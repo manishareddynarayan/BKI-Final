@@ -65,7 +65,11 @@ class BaseViewController: UIViewController {
         guard data != nil else {
             return
         }
-        self.scanCode = data?.stringValue!//.components(separatedBy: "_").last
+        guard (data?.stringValue!.contains(":") ?? false) else {
+            return
+        }
+        let fullString = data?.stringValue!.split(separator: ":")
+        self.scanCode = String((fullString?[1])!).trimmingCharacters(in: .whitespaces)//.components(separatedBy: "_").last
     }
     
     @IBAction func moreAction(_ sender: Any) {
