@@ -20,7 +20,9 @@ class BaseViewController: UIViewController {
     let httpWrapper = HTTPWrapper.sharedInstance
     var role:Int!
     var scanCode:String?
+    var scanItem:String?
     var spool:Spool?
+    var hanger:Hanger?
     var shouldRejectWholeSpool = false
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,6 +71,7 @@ class BaseViewController: UIViewController {
             return
         }
         let fullString = data?.stringValue!.split(separator: ":")
+        self.scanItem = String((fullString?[0])!)
         self.scanCode = String((fullString?[1])!).trimmingCharacters(in: .whitespaces)//.components(separatedBy: "_").last
     }
     
@@ -89,6 +92,7 @@ class BaseViewController: UIViewController {
     }
     
     func showScanner() {
+        self.scanCode = ""
         guard let scanNVC = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "ScanNVC",
         storyBoard: "Scanner") as? UINavigationController else { return  }
         guard let vc = scanNVC.viewControllers[0] as? ScannerViewController else { return }

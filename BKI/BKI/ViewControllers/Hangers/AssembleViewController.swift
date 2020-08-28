@@ -12,7 +12,7 @@ class AssembleViewController: BaseViewController {
     
     @IBOutlet weak var packageNameLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
-    var hanger:Hanger?
+//    var hanger:Hanger?
     var allHangerItemsNextPage = 1
     var hangerAssemble:HangerAssemble?
     var hangerAssembleItems = [HangerAssembleItem]()
@@ -92,6 +92,7 @@ extension AssembleViewController:UITableViewDelegate,UITableViewDataSource {
                 cell?.dropDownImgView.transform = CGAffineTransform(rotationAngle: (0.0 * CGFloat(Double.pi)) / 180.0)
             })
         }
+        cell?.lowerView.isHidden = selectedIndex == indexPath ? false : true
         cell?.bgView.cornerRadius = 13
         cell?.optionSelected = {
             if hangerItem.completed! {
@@ -122,12 +123,14 @@ extension AssembleViewController:UITableViewDelegate,UITableViewDataSource {
         }
         return cell!
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if selectedIndex == indexPath {
-            return 258
+            return 254
         }
-        return 82
+        return 78
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if selectedIndex == indexPath {
             return

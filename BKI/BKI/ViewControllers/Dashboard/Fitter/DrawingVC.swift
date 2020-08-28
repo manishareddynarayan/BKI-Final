@@ -9,17 +9,17 @@
 import UIKit
 
 class DrawingVC: BaseViewController, UIWebViewDelegate {
-
+    
     @IBOutlet weak var webView: UIWebView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let urlStr = (self.spool?.pdfUrl != nil) ? self.spool?.pdfUrl : "https://retail.onlinesbi.com/sbi/downloads/form15-g.pdf"
+        let dummyURL = "https://retail.onlinesbi.com/sbi/downloads/form15-g.pdf"
+        let urlStr = self.spool != nil ? ((self.spool?.pdfUrl != nil) ? self.spool?.pdfUrl : dummyURL) : ((self.hanger?.drawingUrl != nil) ? self.hanger?.drawingUrl : dummyURL)
         let request = URLRequest.init(url: URL.init(string: urlStr!)!)
         self.webView.loadRequest(request)
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeRight)
@@ -40,21 +40,21 @@ class DrawingVC: BaseViewController, UIWebViewDelegate {
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-       return UIInterfaceOrientationMask.landscapeRight
+        return UIInterfaceOrientationMask.landscapeRight
     }
     
     override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
         return UIInterfaceOrientation.landscapeRight
     }
     /*
-    // MARK: - Navigation
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
     //MARK:Webview Delegate Methods
     
     func webViewDidStartLoad(_ webView: UIWebView) {
@@ -64,5 +64,5 @@ class DrawingVC: BaseViewController, UIWebViewDelegate {
     func webViewDidFinishLoad(_ webView: UIWebView) {
         MBProgressHUD.hideHud(view: webView)
     }
-
+    
 }

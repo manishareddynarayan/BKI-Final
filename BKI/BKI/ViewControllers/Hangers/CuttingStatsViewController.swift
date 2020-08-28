@@ -14,7 +14,7 @@ class CuttingStatsViewController: BaseViewController {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var titleLabel: UILabel!
     var cuttingType:String?
-    var hanger:Hanger?
+//    var hanger:Hanger?
     var cuttingStats = [CuttingStat]()
     
     override func viewDidLoad() {

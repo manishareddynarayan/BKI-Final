@@ -12,6 +12,7 @@ class Hanger: BKIModel {
     var packageName:String?
     var hangerState:String?
     var packageId:Int?
+    var drawingUrl:String?
     override init () {
         // uncomment this line if your class has been inherited from any other class
         super.init()
@@ -21,10 +22,10 @@ class Hanger: BKIModel {
         self.saveHanger(hangerInfo: info)
     }
     func saveHanger(hangerInfo:[String:AnyObject]) {
-        if let id = hangerInfo["id"] as? Int{
+        if let id = hangerInfo["hanger_id"] as? Int{
             self.id = id
         }
-        if let packageName = hangerInfo["packageID"] as? String{
+        if let packageName = hangerInfo["package_name"] as? String{
             self.packageName = packageName
         }
         if let packageId = hangerInfo["package_id"] as? Int{
@@ -32,6 +33,9 @@ class Hanger: BKIModel {
         }
         if let hangerState = hangerInfo["state"] as? String{
             self.hangerState = hangerState
+        }
+        if let drawingUrl = hangerInfo["drawing_url"] as? String{
+            self.drawingUrl = drawingUrl
         }
     }
 }

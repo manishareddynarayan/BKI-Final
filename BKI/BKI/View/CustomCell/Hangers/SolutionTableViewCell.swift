@@ -33,10 +33,10 @@ class SolutionTableViewCell: BaseCell {
     }
     func prepareSolutionCellWith(solution:Solution,showChooseOption:Bool) {
         titleLabel.text = solution.name
-        wastageCountLabel.text = solution.totalWastage
-        rodsCountLabel.text = solution.numberOfRods
-        bundlesCountLabel.text = solution.numberOfBundles
-        cutsCountLabel.text = solution.totalCuts
+        wastageCountLabel.text = solution.totalWastage  == nil ? "0" : solution.totalWastage
+        rodsCountLabel.text = solution.numberOfRods == nil ? "0" : solution.numberOfRods
+        bundlesCountLabel.text = solution.numberOfBundles == nil ? "0" : solution.numberOfBundles
+        cutsCountLabel.text = solution.totalCuts == nil ? "0" : solution.totalCuts
         chooseButton.isHidden = !showChooseOption
     }
     

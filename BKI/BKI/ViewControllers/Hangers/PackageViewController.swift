@@ -12,7 +12,7 @@ class PackageViewController: BaseViewController {
 
     @IBOutlet var packageDashboardTableView: UITableView!
     var menuItems: [[String:String]]!
-    var hanger:Hanger?
+//    var hanger:Hanger?
     
     override func viewDidLoad() {
         super.viewDidLoad()

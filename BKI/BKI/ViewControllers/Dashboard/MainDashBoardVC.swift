@@ -57,15 +57,18 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
         }
     }
     func getPackageDetails() {
+        if self.scanItem != "Hanger" {
+            self.showFailureAlert(with:"You have not a scanned a hanger, please check.")
+            return
+        }
         MBProgressHUD.showHud(view: self.view)
-
         httpWrapper.performAPIRequest("hangers/\(self.scanCode!)/scan", methodType: "GET", parameters: nil, successBlock: { (responseData) in
             var hanger:Hanger?
             DispatchQueue.main.async {
                 MBProgressHUD.hideHud(view: self.view)
             hanger = Hanger.init(info: responseData)
                 if hanger?.hangerState == "procure" || hanger?.hangerState == "receive" {
-                    self.showFailureAlert(with: "kindly complete the procurement process for this hanger.")
+                    self.showFailureAlert(with: "Kindly complete the procurement process for this hanger.")
                 } else {
                     guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "PackageViewController", storyBoard: "Hangers") as? PackageViewController else {
                         return
@@ -111,7 +114,7 @@ extension MainDashBoardVC : ScannerDelegate{
     func scanDidCompletedWith(_ data:AVMetadataMachineReadableCodeObject?)
     {
         self.setScanCode(data: data)
-        if self.scanCode != nil {
+        if self.scanCode != nil && !(self.scanCode?.isEmpty ?? true){
             getPackageDetails()
         }
     }

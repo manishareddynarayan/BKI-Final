@@ -84,6 +84,10 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     func getSpoolDetails() {
+        if self.scanItem == "Hanger" {
+            self.showFailureAlert(with:"You have scanned a hanger, please check.")
+            return
+        }
         MBProgressHUD.showHud(view: self.view)
         httpWrapper.performAPIRequest("spools/\(self.scanCode!)?scan=true", methodType: "GET", parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
