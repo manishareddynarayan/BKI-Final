@@ -23,7 +23,7 @@ class DrawingVC: BaseViewController {
         super.viewDidLoad()
         self.updateWebView()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         AppUtility.lockOrientation(.landscapeRight, andRotateTo: .landscapeRight)
@@ -44,7 +44,7 @@ class DrawingVC: BaseViewController {
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-       return UIInterfaceOrientationMask.landscapeRight
+        return UIInterfaceOrientationMask.landscapeRight
     }
     
     override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
@@ -59,7 +59,7 @@ extension DrawingVC
         var urlStr = "https://retail.onlinesbi.com/sbi/downloads/form15-g.pdf"
         switch urltype {
         case .pdfURL:
-            urlStr = ((self.spool?.pdfUrl != nil) ? self.spool?.pdfUrl : urlStr)!
+            urlStr = (self.spool != nil ? ((self.spool?.pdfUrl != nil) ? self.spool?.pdfUrl : urlStr) : ((self.hanger?.drawingUrl != nil) ? self.hanger?.drawingUrl : urlStr))!
             break
         case .ISOURL:
             urlStr = ((self.spool?.isoDrawingURL != nil) ? self.spool?.isoDrawingURL : urlStr)!

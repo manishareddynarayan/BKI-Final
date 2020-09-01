@@ -45,6 +45,15 @@ extension UIColor {
     @nonobjc class var scarlet: UIColor {
         return UIColor(red: 208.0 / 255.0, green: 2.0 / 255.0, blue: 27.0 / 255.0, alpha: 1.0)
     }
+    @nonobjc class var appRed: UIColor {
+        return UIColor(red: 127.0 / 255.0, green: 11.0 / 255.0, blue: 1.0 / 255.0, alpha: 1.0)
+    }
+    @nonobjc class var cellBackGroundDark: UIColor {
+        return UIColor(red: 173.0 / 255.0, green: 173.0 / 255.0, blue: 173.0 / 255.0, alpha: 0.3)
+    }
+    @nonobjc class var cellBackGroundLight: UIColor {
+        return UIColor(red: 173.0 / 255.0, green: 173.0 / 255.0, blue: 173.0 / 255.0, alpha: 0.1)
+    }
 }
 
 // Sample text styles

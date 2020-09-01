@@ -13,6 +13,7 @@ class Load: BKIModel {
     var number:String?
     var status:String?
     var spools = [Spool]()
+    var hangers = [Hanger]()
     var materials = [Material]()
     var truckNumber:String?
     var total_weight = 0.0
@@ -62,6 +63,15 @@ class Load: BKIModel {
                 self.spools.append(newSpool)
             }
         }
+        
+        self.hangers.removeAll()
+        if let hangers = loadInfo["hangers"] as? [[String:AnyObject]] {
+            for (_,hanger) in hangers.enumerated() {
+                let newHangers = Hanger.init(info: hanger)
+                self.hangers.append(newHangers)
+            }
+        }
+
         self.materials.removeAll()
         if let materials = loadInfo["loads_materials"] as? [[String:AnyObject]] {
             for (_,material) in materials.enumerated() {

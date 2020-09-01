@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import AVFoundation
 
 class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSource {
-
+    
     @IBOutlet weak var tableView: UITableView!
-    var roleArr = ["Fit-Up","Weld","Shipping"]
-   
+    var roleArr = ["Fit-Up","Weld","Shipping","Hangers"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "DashBoardCell", bundle: nil), forCellReuseIdentifier: "DashboardCell")
@@ -24,10 +25,13 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
         }
         // Do any additional setup after loading the view.
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
+        if self.scanCode != nil && self.role != 3{
+            // call API and move to hangers dashboard
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -52,7 +56,36 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
             vc.role = BKIModel.userRole() == "qa" ?  4 : ((sender as? IndexPath)?.row)! + 1
         }
     }
- 
+    func getPackageDetails() {
+        if self.scanItem != "Hanger" {
+            self.showFailureAlert(with:"You have not a scanned a hanger, please check.")
+            return
+        }
+        MBProgressHUD.showHud(view: self.view)
+        httpWrapper.performAPIRequest("hangers/\(self.scanCode!)/scan", methodType: "GET", parameters: nil, successBlock: { (responseData) in
+            var hanger:Hanger?
+            DispatchQueue.main.async {
+                MBProgressHUD.hideHud(view: self.view)
+            hanger = Hanger.init(info: responseData)
+                if hanger?.hangerState == "procure" || hanger?.hangerState == "receive" {
+                    self.showFailureAlert(with: "Kindly complete the procurement process for this hanger.")
+                } else {
+                    guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "PackageViewController", storyBoard: "Hangers") as? PackageViewController else {
+                        return
+                    }
+                    vc.hanger = hanger
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+        }) { (error) in
+            DispatchQueue.main.async {
+                MBProgressHUD.hideHud(view: self.view)
+                self.showFailureAlert(with: (error?.localizedDescription)!)
+                
+            }
+        }
+    }
+    
     //MARK: TableView DataSource methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.roleArr.count
@@ -70,6 +103,23 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //tableView.deselectRow(at: indexPath, animated: false)
+        if indexPath.row == 3 {
+            self.showScanner()
+            return
+        }
         self.performSegue(withIdentifier: "DashboardSegue", sender: indexPath)
+    }
+}
+extension MainDashBoardVC : ScannerDelegate{
+    func scanDidCompletedWith(_ data:AVMetadataMachineReadableCodeObject?)
+    {
+        self.setScanCode(data: data)
+        if self.scanCode != nil && !(self.scanCode?.isEmpty ?? true){
+            getPackageDetails()
+        }
+    }
+    
+    func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didError error: Error, from connection: AVCaptureConnection) {
+        self.setScanCode(data: nil)
     }
 }
