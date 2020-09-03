@@ -10,7 +10,7 @@ import UIKit
 
 class RodPackageTableViewCell: BaseCell {
 
-    @IBOutlet var sizeLabel: UILabel!
+    @IBOutlet var DescriptionLabel: UILabel!
     var viewDetails:(() -> Void)?
 
     override func awakeFromNib() {

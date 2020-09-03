@@ -67,7 +67,10 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
             DispatchQueue.main.async {
                 MBProgressHUD.hideHud(view: self.view)
             hanger = Hanger.init(info: responseData)
-                if hanger?.hangerState == "procure" || hanger?.hangerState == "receive" {
+                if hanger!.isArchivedOrRejected! {
+                    self.showFailureAlert(with: "The Hanger is in rejected or archived state hence no operation can be performed on it.")
+                    return
+                }    else if hanger?.hangerState == "procure" || hanger?.hangerState == "receive" {
                     self.showFailureAlert(with: "Kindly complete the procurement process for this hanger.")
                 } else {
                     guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "PackageViewController", storyBoard: "Hangers") as? PackageViewController else {

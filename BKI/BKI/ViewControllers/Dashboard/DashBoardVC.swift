@@ -255,7 +255,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
 //        if indexPath.row == self.menuItems.count - 1 || self.role == 3 && self.spool?.status != "On Hold" {
 //            cell?.enable(enable: true)
 //        }
-        if self.spool?.status == "On Hold" {
+        if self.spool?.status == "On Hold" || (self.spool?.isArchivedOrRejected)!{
             if indexPath.row == 2 && self.role == 1{
                 cell?.enable(enable: true)
             }else if indexPath.row == 1 && self.role == 2{

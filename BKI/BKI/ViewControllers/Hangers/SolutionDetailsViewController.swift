@@ -93,8 +93,8 @@ class SolutionDetailsViewController: BaseViewController {
     }
     
     func setUpdateButton() {
-        let inCompleted = self.packageBundle?.bundles.filter({$0.completed == false})
-        self.updateButton.isHidden = inCompleted?.count == 0 ? true : false
+        let inCompleted = self.changedData.filter({$0.value == false})
+        self.updateButton.isEnabled = inCompleted.count == 0 ? false : true
     }
     
     override func backButtonAction(sender: AnyObject?) {
@@ -127,6 +127,7 @@ extension SolutionDetailsViewController: UITableViewDelegate,UITableViewDataSour
         let bundleData = packageBundle?.bundles[indexPath.row]
         cell?.label1.text = "Nest Bundle: \(indexPath.row + 1)"
         cell?.designCellWith(bundleData: bundleData!, showCheckButton: (self.didChooseSolution! || self.isSolutionSelected!))
+        cell?.selectionButton.isEnabled = !self.packageBundle!.assemblyDidStart
         cell?.optionSelected = {
             if !(self.packageBundle?.assemblyDidStart ?? true) {
             if self.changedData[bundleData!.id ?? 0]! {
@@ -137,6 +138,7 @@ extension SolutionDetailsViewController: UITableViewDelegate,UITableViewDataSour
             let image = self.changedData[(bundleData?.id)!]! ? "Check" : "unCheck"
             cell?.selectionButton.setImage(UIImage.init(named: image), for: .normal)
             }
+            self.updateButton.isEnabled =  true
         }
         let image = changedData[(bundleData?.id)!]! ? "Check" : "unCheck"
         cell?.selectionButton.setImage(UIImage.init(named: image), for: .normal)

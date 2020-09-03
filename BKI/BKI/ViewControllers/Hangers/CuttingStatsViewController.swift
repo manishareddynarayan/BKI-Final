@@ -76,9 +76,10 @@ extension CuttingStatsViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if cuttingType == "Cut Rods" {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "RodPackageTableViewCell", for: indexPath) as? RodPackageTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "StrutPackageTableViewCell", for: indexPath) as?  StrutPackageTableViewCell
             let cuttingStat = cuttingStats[indexPath.row]
             cell?.sizeLabel.text = cuttingStat.size
+            cell?.descriptionLabel.text = cuttingStat.desc
             cell?.viewDetails = {
                 guard  let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "SolutionsViewController", storyBoard: "Hangers") as? SolutionsViewController else {
                     return
@@ -91,10 +92,9 @@ extension CuttingStatsViewController: UITableViewDelegate, UITableViewDataSource
             return cell!
         }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "StrutPackageTableViewCell", for: indexPath) as? StrutPackageTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RodPackageTableViewCell", for: indexPath) as? RodPackageTableViewCell
         let cuttingStat = cuttingStats[indexPath.row]
-        cell?.sizeLabel.text = cuttingStat.size
-        cell?.descriptionLabel.text = cuttingStat.desc
+        cell?.DescriptionLabel.text = cuttingStat.desc
         cell?.viewDetails = {
             guard  let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "SolutionsViewController", storyBoard: "Hangers") as? SolutionsViewController else {
                 return

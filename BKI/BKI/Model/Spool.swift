@@ -27,6 +27,7 @@ class Spool: BKIModel {
     var isStainlessSteel:Bool?
     var isCutListsCompleted:Bool?
     var isHPCategory:Bool?
+    var isArchivedOrRejected:Bool?
 
     override init () {
         // uncomment this line if your class has been inherited from any other class
@@ -97,6 +98,9 @@ class Spool: BKIModel {
         }
         if let isoDrawingUrl = spoolInfo["iso_drawing_url"] as? String {
             self.isoDrawingURL = isoDrawingUrl
+        }
+        if let isArchivedOrRejected = spoolInfo["is_archived_or_rejected"] as? Bool {
+            self.isArchivedOrRejected = isArchivedOrRejected
         }
         if let meterilaUrl = spoolInfo["material"] as? String {
             self.isHPCategory = (meterilaUrl == "HP")

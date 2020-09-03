@@ -278,8 +278,15 @@ extension NewLoadVC
                 DispatchQueue.main.async {
                     MBProgressHUD.hideHud(view: self.view)
                     let spool  = Spool.init(info: responseData)
-                    if spool.status == "On Hold" {
-                        
+                    if spool.isArchivedOrRejected! {
+                        self.alertVC.presentAlertWithTitleAndActions(actions: [{
+                            self.dismiss(animated: true, completion: nil)
+                            },{
+                                self.showDrawingVC(spool: spool, hanger: nil, role: self.role, state: .pdfURL)
+                            }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Spool is in rejected or archived state hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
+                        return
+                    }
+                    else if spool.status == "On Hold" {
                         self.alertVC.presentAlertWithTitleAndActions(actions: [{
                             self.dismiss(animated: true, completion: nil)
                             },{
@@ -360,7 +367,14 @@ extension NewLoadVC
                 DispatchQueue.main.async {
                     MBProgressHUD.hideHud(view: self.view)
                     hanger = Hanger.init(info: responseData)
-                    if hanger?.hangerState == "fabrication" {
+                    if hanger!.isArchivedOrRejected! {
+                        self.alertVC.presentAlertWithTitleAndActions(actions: [{
+                            self.dismiss(animated: true, completion: nil)
+                            },{
+                                self.showDrawingVC(spool: nil, hanger: hanger, role: self.role, state: .pdfURL)
+                            }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Hanger is in rejected or archived state hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
+                        return
+                    } else if hanger?.hangerState == "fabrication" {
                         self.alertVC.presentAlertWithMessage(message: "Kindly complete cutting process for this hanger.", controller: self)
                         return
                     }
@@ -584,7 +598,6 @@ extension NewLoadVC: UITableViewDelegate, UITableViewDataSource {
                 // Present dialog message to user
                 self.present(dialogMessage, animated: true, completion: nil)
             }
-            spool.isoDrawingURL = "https://retail.onlinesbi.com/sbi/downloads/form15-g.pdf"
             cell?.isoButton.isHidden = (spool.isoDrawingURL == nil)
             cell?.viewISODrawingBlock = {
                 guard (spool.isoDrawingURL != nil) else {

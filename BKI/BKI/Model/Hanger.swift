@@ -13,6 +13,7 @@ class Hanger: BKIModel {
     var hangerState:String?
     var packageId:Int?
     var drawingUrl:String?
+    var isArchivedOrRejected:Bool?
     override init () {
         // uncomment this line if your class has been inherited from any other class
         super.init()
@@ -36,6 +37,9 @@ class Hanger: BKIModel {
         }
         if let drawingUrl = hangerInfo["drawing_url"] as? String{
             self.drawingUrl = drawingUrl
+        }
+        if let isArchivedOrRejected = hangerInfo["is_archived_or_rejected"] as? Bool {
+            self.isArchivedOrRejected = isArchivedOrRejected
         }
     }
 }
