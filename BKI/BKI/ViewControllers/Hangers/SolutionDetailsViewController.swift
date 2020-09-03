@@ -21,7 +21,9 @@ class SolutionDetailsViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var descriptionTitle: UILabel!
+    @IBOutlet weak var sizeTitle: UILabel!
     @IBOutlet weak var sizeLabel: UILabel!
+    @IBOutlet weak var sizeLabelTop: NSLayoutConstraint!
     var delegate:SolutionDetailsDelegate!
     var solutionId:Int?
     var didChooseSolution:Bool?
@@ -52,12 +54,14 @@ class SolutionDetailsViewController: BaseViewController {
                     self.changedData.updateValue(bundle.completed, forKey: bundle.id!)
                 }
                 self.packageNameLabel.text = self.packageBundle?.packageName
-                self.sizeLabel.text = self.packageBundle?.size
-                if self.packageBundle?.desc != nil {
-                    self.descriptionLabel.text = self.packageBundle?.desc
+                self.descriptionLabel.text = self.packageBundle?.desc
+                if self.packageBundle?.size != nil {
+                    self.sizeLabel.text = self.packageBundle?.size
+                    self.sizeLabelTop.constant = 5
                 } else {
-                    self.descriptionLabel.text = ""
-                    self.descriptionTitle.text = ""
+                    self.sizeLabel.text = ""
+                    self.sizeTitle.text = ""
+                    self.sizeLabelTop.constant = 0
                 }
                 if self.packageBundle!.assemblyDidStart{
                     self.updateButton.isHidden = true

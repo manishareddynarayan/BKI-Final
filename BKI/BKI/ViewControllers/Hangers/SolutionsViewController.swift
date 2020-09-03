@@ -15,6 +15,7 @@ import UIKit
 
 class SolutionsViewController: BaseViewController {
     @IBOutlet var sizeLabel: UILabel!
+    @IBOutlet weak var sizeTitle: UILabel!
     @IBOutlet var tableView: UITableView!
     @IBOutlet weak var descriptionTitle: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -27,15 +28,15 @@ class SolutionsViewController: BaseViewController {
         tableView.register(UINib(nibName: "SolutionTableViewCell", bundle: nil), forCellReuseIdentifier: "SolutionTableViewCell")
         self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
-        self.sizeLabel.text = cuttingStat?.size
+        self.descriptionLabel.text = cuttingStat?.desc
         self.navigationController?.navigationBar.isHidden = true
         self.bgImageview.isHidden = true
         self.view.backgroundColor = UIColor.appRed.withAlphaComponent(0.9)
-        if cuttingStat?.desc != nil {
-            self.descriptionLabel.text = cuttingStat?.desc
+        if cuttingStat?.size != nil {
+            self.sizeLabel.text = cuttingStat?.size
         } else {
-            self.descriptionLabel.text = ""
-            self.descriptionTitle.text = ""
+            self.sizeLabel.text = ""
+            self.sizeTitle.text = ""
         }
         // Do any additional setup after loading the view.
     }
