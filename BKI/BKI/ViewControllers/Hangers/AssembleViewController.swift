@@ -79,6 +79,7 @@ extension AssembleViewController:UITableViewDelegate,UITableViewDataSource {
         cell?.designCellWith(model: hangerItem)
 //        cell?.animate()
         cell?.selectionButton.isHidden = !(hangerAssemble?.cuttingCompleted)!
+        cell?.selectionButton.isEnabled = hangerItem.completed! ? false :true
         let image = hangerItem.completed ?? false ? "Check" : "unCheck"
         cell?.selectionButton.setImage(UIImage.init(named: image), for: .normal)
         if selectedIndex == indexPath {

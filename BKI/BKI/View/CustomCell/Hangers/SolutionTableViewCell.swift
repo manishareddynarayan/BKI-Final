@@ -32,7 +32,6 @@ class SolutionTableViewCell: BaseCell {
         // Configure the view for the selected state
     }
     func prepareSolutionCellWith(solution:Solution,showChooseOption:Bool) {
-        titleLabel.text = solution.name
         wastageCountLabel.text = solution.totalWastage  == nil ? "0" : solution.totalWastage
         rodsCountLabel.text = solution.numberOfRods == nil ? "0" : solution.numberOfRods
         bundlesCountLabel.text = solution.numberOfBundles == nil ? "0" : solution.numberOfBundles

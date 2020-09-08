@@ -11,6 +11,7 @@ import UIKit
 class PackageDetailsTableViewCell: BaseCell {
     
     @IBOutlet var label2: UILabel!
+    @IBOutlet var label3: UILabel!
     @IBOutlet var label1: UILabel!
     @IBOutlet var cutsDatalabel: UILabel!
     @IBOutlet var selectionButton: UIButton!
@@ -29,7 +30,8 @@ class PackageDetailsTableViewCell: BaseCell {
     }
     func designCellWith(bundleData:PackageBundleData,showCheckButton:Bool) {
         cutsDatalabel.text = bundleData.cuts.joined(separator: "\n\n")
-        label2.text = "#No. Cuts: \(bundleData.cuts.count)"
+        label2.text = "#No. Cuts : \(bundleData.numberOfCuts ?? 0)"
+        label3.text = "#No. Rods : \(bundleData.numberOfRods ?? 0)"
         selectionButton.isHidden = !showCheckButton
         selectionBtnWidth.constant = showCheckButton ? 25.0 : 0.0
     }

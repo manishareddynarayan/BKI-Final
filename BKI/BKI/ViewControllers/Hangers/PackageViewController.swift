@@ -19,7 +19,7 @@ class PackageViewController: BaseViewController {
         self.menuItems = User.shared.getHangersMenu()
         packageDashboardTableView.register(UINib(nibName: "DashBoardCell", bundle: nil), forCellReuseIdentifier: "DashboardCell")
         self.packageDashboardTableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
-        self.navigationItem.title = "Package: \(hanger?.packageName ?? "")"
+        self.navigationItem.title = "Package : \(hanger?.packageName ?? "")"
         self.packageDashboardTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         // Do any aditional setup after loading the view.
     }

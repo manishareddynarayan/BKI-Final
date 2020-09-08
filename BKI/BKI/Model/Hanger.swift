@@ -12,7 +12,9 @@ class Hanger: BKIModel {
     var packageName:String?
     var hangerState:String?
     var packageId:Int?
+    var loadId:Int?
     var drawingUrl:String?
+    var materialName:String?
     var isArchivedOrRejected:Bool?
     override init () {
         // uncomment this line if your class has been inherited from any other class
@@ -31,6 +33,12 @@ class Hanger: BKIModel {
         }
         if let packageId = hangerInfo["package_id"] as? Int{
             self.packageId = packageId
+        }
+        if let loadId = hangerInfo["load_id"] as? Int{
+            self.loadId = loadId
+        }
+        if let materialName = hangerInfo["material_name"] as? String{
+            self.materialName = materialName
         }
         if let hangerState = hangerInfo["state"] as? String{
             self.hangerState = hangerState

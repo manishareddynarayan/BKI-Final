@@ -84,6 +84,9 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     func getSpoolDetails() {
+        if self.scanCode != nil && (self.scanCode?.isEmpty ?? true) {
+            return
+        }
         if self.scanItem == "Hanger" {
             self.showFailureAlert(with:"You have scanned a hanger, please check.")
             return

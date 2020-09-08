@@ -14,6 +14,7 @@ import UIKit
 }
 
 class SolutionsViewController: BaseViewController {
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet var sizeLabel: UILabel!
     @IBOutlet weak var sizeTitle: UILabel!
     @IBOutlet var tableView: UITableView!
@@ -34,9 +35,11 @@ class SolutionsViewController: BaseViewController {
         self.view.backgroundColor = UIColor.appRed.withAlphaComponent(0.9)
         if cuttingStat?.size != nil {
             self.sizeLabel.text = cuttingStat?.size
+            titleLabel.text = "Rod Cutting"
         } else {
             self.sizeLabel.text = ""
             self.sizeTitle.text = ""
+            titleLabel.text = "Struct Cutting"
         }
         // Do any additional setup after loading the view.
     }
@@ -62,6 +65,7 @@ extension SolutionsViewController :  UITableViewDelegate, UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: "SolutionTableViewCell", for: indexPath) as? SolutionTableViewCell
         let solution = self.cuttingStat!.solutions[indexPath.row]
         let showChooseOption = self.cuttingStat!.solutions.count > 1
+        cell?.titleLabel.text = "Solution \(indexPath.row + 1)"
         cell?.prepareSolutionCellWith(solution: solution, showChooseOption: showChooseOption)
         cell?.viewDetails = {
             self.dismiss(animated: false) {

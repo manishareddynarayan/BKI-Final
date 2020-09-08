@@ -24,6 +24,9 @@ class SolutionDetailsViewController: BaseViewController {
     @IBOutlet weak var sizeTitle: UILabel!
     @IBOutlet weak var sizeLabel: UILabel!
     @IBOutlet weak var sizeLabelTop: NSLayoutConstraint!
+    @IBOutlet weak var titleLabelTop: NSLayoutConstraint!
+    @IBOutlet weak var titleLabel: UILabel!
+    var cuttingType:String?
     var delegate:SolutionDetailsDelegate!
     var solutionId:Int?
     var didChooseSolution:Bool?
@@ -32,6 +35,7 @@ class SolutionDetailsViewController: BaseViewController {
     var selectedStatId:Int?
     var changedData =  [Int:Bool]()
     var solutionData : [String:([String:Bool])] = [String: [String:Bool]]()
+    var inEditMode = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +44,9 @@ class SolutionDetailsViewController: BaseViewController {
         self.view.backgroundColor = UIColor.white
         self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
+        self.navigationItem.title = cuttingType == "Cut Rods" ? "Rod Cutting" : "Struct Cutting"
         self.getPackageBundleDetails()
+        inEditMode = (self.didChooseSolution! || self.isSolutionSelected!)
     }
     
     func getPackageBundleDetails() {
@@ -63,7 +69,9 @@ class SolutionDetailsViewController: BaseViewController {
                     self.sizeTitle.text = ""
                     self.sizeLabelTop.constant = 0
                 }
-                if self.packageBundle!.assemblyDidStart{
+                if self.packageBundle!.assemblyDidStart || !self.inEditMode{
+                        self.titleLabel.text = ""
+                        self.titleLabelTop.constant = 0
                     self.updateButton.isHidden = true
                 } else {
                     self.setUpdateButton()
@@ -130,7 +138,7 @@ extension SolutionDetailsViewController: UITableViewDelegate,UITableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: "PackageDetailsTableViewCell", for: indexPath) as? PackageDetailsTableViewCell
         let bundleData = packageBundle?.bundles[indexPath.row]
         cell?.label1.text = "Nest Bundle: \(indexPath.row + 1)"
-        cell?.designCellWith(bundleData: bundleData!, showCheckButton: (self.didChooseSolution! || self.isSolutionSelected!))
+        cell?.designCellWith(bundleData: bundleData!, showCheckButton: inEditMode )
         cell?.selectionButton.isEnabled = !self.packageBundle!.assemblyDidStart
         cell?.optionSelected = {
             if !(self.packageBundle?.assemblyDidStart ?? true) {

@@ -13,6 +13,7 @@ class CuttingStatsViewController: BaseViewController {
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet var titleLabel: UILabel!
+    @IBOutlet weak var materialLabel: UILabel!
     var cuttingType:String?
 //    var hanger:Hanger?
     var cuttingStats = [CuttingStat]()
@@ -22,9 +23,10 @@ class CuttingStatsViewController: BaseViewController {
         tableView.register(UINib(nibName: "RodPackageTableViewCell", bundle: nil), forCellReuseIdentifier: "RodPackageTableViewCell")
         tableView.register(UINib(nibName: "StrutPackageTableViewCell", bundle: nil), forCellReuseIdentifier: "StrutPackageTableViewCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
-        self.navigationItem.title = "Package: \(hanger?.packageName ?? "")"
+        self.navigationItem.title = cuttingType == "Cut Rods" ? "Rod Cutting" : "Struct Cutting"
         self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-        titleLabel.text = hanger?.packageName
+        titleLabel.text = "Package : \(hanger?.packageName ?? "")"
+        materialLabel.text = "Material : \(hanger?.materialName ?? "")"
         self.bgImageview.isHidden = true
         self.view.backgroundColor = UIColor.white
         self.getCuttingStatData { (completed) in
@@ -35,7 +37,6 @@ class CuttingStatsViewController: BaseViewController {
     
     func getCuttingStatData(completeHandler:@escaping (Bool) -> ()) {
         MBProgressHUD.showHud(view: self.view)
-        
         let type = cuttingType == "Cut Rods" ? "rod_cuttings" : "unistrut_cuttings"
         httpWrapper.performAPIRequest("packages/\(hanger?.packageId ?? 0)/hangers/\(hanger?.id ?? 0)/cutting_stats?cutting_type=\(type)", methodType: "GET", parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
@@ -133,6 +134,7 @@ extension CuttingStatsViewController: SolutionDelegate,SolutionDetailsDelegate{
         vc.didChooseSolution = didChoose
         vc.isSolutionSelected = isSolutionSelected
         vc.selectedStatId = selectedStatId
+        vc.cuttingType = self.cuttingType
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -272,6 +272,9 @@ extension NewLoadVC
     
     
     func getScannedItemDetails() -> Void {
+        if self.scanCode != nil && (self.scanCode?.isEmpty ?? true) {
+            return
+        }
         MBProgressHUD.showHud(view: self.view)
         if self.scanItem == "Spool" {
             httpWrapper.performAPIRequest("spools/\(self.scanCode!)?scan=true", methodType: "GET", parameters: nil, successBlock: { (responseData) in
@@ -374,6 +377,13 @@ extension NewLoadVC
                                 self.showDrawingVC(spool: nil, hanger: hanger, role: self.role, state: .pdfURL)
                             }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Hanger is in rejected or archived state hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
                         return
+                    }else if hanger?.loadId != nil {
+                            self.alertVC.presentAlertWithTitleAndActions(actions: [{
+                                self.dismiss(animated: true, completion: nil)
+                                },{
+                                    self.showDrawingVC(spool: nil, hanger: hanger, role: self.role, state: .pdfURL)
+                                }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Hanger is already added to a load. You can view the drawing by clicking on the button below.", title: "Warning")
+                            return
                     } else if hanger?.hangerState == "fabrication" {
                         self.alertVC.presentAlertWithMessage(message: "Kindly complete cutting process for this hanger.", controller: self)
                         return
@@ -382,6 +392,13 @@ extension NewLoadVC
                         self.alertVC.presentAlertWithMessage(message: "Kindly complete procurement process for this hanger.", controller: self)
                         return
                     }
+                    for spl in self.scannedHangers{
+                        if spl.id == hanger?.id{
+                            self.alertVC.presentAlertWithMessage(message: "The hanger is already added to this load.", controller: self)
+                            return
+                        }
+                    }
+
                     self.scannedHangers.append(hanger!)
                     self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
                     self.tableView.reloadData()
@@ -493,20 +510,21 @@ extension NewLoadVC:  ScannerDelegate{
         self.scanItem = String((fullString?[0])!)
         let scanId = String((fullString?[1])!).trimmingCharacters(in: .whitespaces)//.components(separatedBy: "_").last
         
-        let isFound = scanItem == "Spool" ? ((self.load?.spools.contains { (spool) -> Bool in
-            return spool.id == Int(scanId)
-            })!) : ((self.load?.hangers.contains { (hanger) -> Bool in
-                return hanger.id == Int(scanId)
-                })!)
-        let isFound1 = scanItem == "Spool" ? self.scannedSpools.contains { (spool) -> Bool in
-            return spool.id == Int(scanId)
-            } : self.scannedHangers.contains { (hanger) -> Bool in
-                return hanger.id == Int(scanId)
-        }
-        guard !isFound && !isFound1 else {
-            self.showFailureAlert(with: "\(scanItem ?? "") already added to load.")
-            return
-        }
+//        let isFound = scanItem == "Spool" ? ((self.load?.spools.contains { (spool) -> Bool in
+//            return spool.id == Int(scanId)
+//            })!) : ((self.load?.hangers.contains { (hanger) -> Bool in
+//                return hanger.id == Int(scanId)
+//                })!)
+//        let isFound1 = scanItem == "Spool" ? self.scannedSpools.contains { (spool) -> Bool in
+//            return spool.id == Int(scanId)
+//            } : self.scannedHangers.contains { (hanger) -> Bool in
+//                return hanger.id == Int(scanId)
+//        }
+//        self.viewWillAppear(false)
+//        guard !isFound && !isFound1 else {
+//            self.alertVC.presentAlertWithTitleAndMessage(title: "Error", message:  "\(scanItem ?? "") already added to load.", controller: self)
+//            return
+//        }
         self.scanCode = scanId
         self.getScannedItemDetails()
     }
@@ -552,6 +570,7 @@ extension NewLoadVC: UITableViewDelegate, UITableViewDataSource {
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "loadCell", for: indexPath) as? LoadCell
         cell?.viewDrawingBtn.isHidden = false
+        cell?.viewDrawingBtn.setImage(UIImage.init(named: "SpoolPdf"), for: .normal)
         cell?.deleteSpoolButton.isHidden = false
         cell?.isoButton.isHidden = false
         if indexPath.section == 0 {
@@ -611,6 +630,7 @@ extension NewLoadVC: UITableViewDelegate, UITableViewDataSource {
             let hanger = getHangerAtRow(indexPath: indexPath)
             cell?.spoolLbl.text = "\(hanger.packageName!)"
             cell?.viewDrawingBtn.isHidden = false
+            cell?.viewDrawingBtn.setImage(UIImage.init(named: "Hangers_Pdf"), for: .normal)
             cell?.viewDrawingBlock = {
                 self.showDrawingVC(spool: nil, hanger: hanger, role: self.role, state: .pdfURL)
             }

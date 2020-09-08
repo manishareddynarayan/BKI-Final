@@ -55,6 +55,7 @@ class PackageBundleData:BKIModel {
     var cuts = [String]()
     var wastage:String?
     var numberOfCuts:Int?
+    var numberOfRods:Int?
     var completed = false
     
     override init () {
@@ -78,6 +79,9 @@ class PackageBundleData:BKIModel {
                 count += 1
                 self.cuts.append("Cut \(count): \(pattern)")
             }
+        }
+        if let numberOfRods = packageInfo["number_of_rods"] as? Int{
+            self.numberOfRods = numberOfRods
         }
         if let numberOfCuts = packageInfo["number_of_cuts"] as? Int{
             self.numberOfCuts = numberOfCuts
