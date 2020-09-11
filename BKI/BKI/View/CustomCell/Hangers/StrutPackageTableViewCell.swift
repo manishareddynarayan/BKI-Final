@@ -10,6 +10,7 @@ import UIKit
 
 class StrutPackageTableViewCell: BaseCell {
 
+    @IBOutlet weak var doneLabelView: UIView!
     @IBOutlet var descriptionLabel: UILabel!
     @IBOutlet var sizeLabel: UILabel!
     var viewDetails:(() -> Void)?
@@ -25,6 +26,11 @@ class StrutPackageTableViewCell: BaseCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    func designCellWith(cuttingStat:CuttingStat) {
+        self.sizeLabel.text = cuttingStat.size
+        self.descriptionLabel.text = cuttingStat.desc
+        self.doneLabelView.isHidden = !cuttingStat.bundlesCompleted
     }
     
     @IBAction func viewButtonOnClick(_ sender: Any) {

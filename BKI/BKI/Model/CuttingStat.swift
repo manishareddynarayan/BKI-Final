@@ -12,8 +12,9 @@ class CuttingStat: BKIModel {
     var size:String!
     var desc:String?
     var isSolutionSelected:Bool = false
+    var bundlesCompleted:Bool = false
     var solutions = [Solution]()
-
+    
     override init () {
         // uncomment this line if your class has been inherited from any other class
         super.init()
@@ -35,6 +36,9 @@ class CuttingStat: BKIModel {
         }
         if let isSolutionSelected = statInfo["solution_selected"] as? Bool {
             self.isSolutionSelected = isSolutionSelected
+        }
+        if let bundlesCompleted = statInfo["bundles_completed"] as? Bool {
+            self.bundlesCompleted = bundlesCompleted
         }
         self.solutions.removeAll()
         if let solutions = statInfo["solutions"] as? [[String:AnyObject]] {

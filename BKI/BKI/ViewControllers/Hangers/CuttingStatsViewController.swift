@@ -79,8 +79,7 @@ extension CuttingStatsViewController: UITableViewDelegate, UITableViewDataSource
         if cuttingType == "Cut Rods" {
             let cell = tableView.dequeueReusableCell(withIdentifier: "StrutPackageTableViewCell", for: indexPath) as?  StrutPackageTableViewCell
             let cuttingStat = cuttingStats[indexPath.row]
-            cell?.sizeLabel.text = cuttingStat.size
-            cell?.descriptionLabel.text = cuttingStat.desc
+            cell?.designCellWith(cuttingStat: cuttingStat)
             cell?.viewDetails = {
                 guard  let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "SolutionsViewController", storyBoard: "Hangers") as? SolutionsViewController else {
                     return
@@ -95,7 +94,7 @@ extension CuttingStatsViewController: UITableViewDelegate, UITableViewDataSource
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "RodPackageTableViewCell", for: indexPath) as? RodPackageTableViewCell
         let cuttingStat = cuttingStats[indexPath.row]
-        cell?.DescriptionLabel.text = cuttingStat.desc
+        cell?.designCellWith(cuttingStat: cuttingStat)
         cell?.viewDetails = {
             guard  let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "SolutionsViewController", storyBoard: "Hangers") as? SolutionsViewController else {
                 return

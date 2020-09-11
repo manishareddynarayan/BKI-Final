@@ -10,6 +10,7 @@ import UIKit
 
 class RodPackageTableViewCell: BaseCell {
 
+    @IBOutlet weak var doneLabelView: UIView!
     @IBOutlet var DescriptionLabel: UILabel!
     var viewDetails:(() -> Void)?
 
@@ -27,7 +28,11 @@ class RodPackageTableViewCell: BaseCell {
 
         // Configure the view for the selected state
     }
-    
+    func designCellWith(cuttingStat:CuttingStat) {
+        self.DescriptionLabel.text = cuttingStat.desc
+        self.doneLabelView.isHidden = !cuttingStat.bundlesCompleted
+    }
+
     @IBAction func showDetailsOnClick(_ sender: Any) {
         self.viewDetails!()
     }

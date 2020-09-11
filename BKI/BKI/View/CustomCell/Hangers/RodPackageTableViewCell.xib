@@ -46,18 +46,43 @@
                                     <action selector="showDetailsOnClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="3Fz-JE-rv9"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNP-Ua-Ski">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label guyhigfcrtyugihvgtugyi" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNP-Ua-Ski">
                                 <rect key="frame" x="20" y="45" width="302" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qy1-jz-YMg">
+                                <rect key="frame" x="262" y="12.5" width="60" height="22"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Done" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HGg-ei-AQw">
+                                        <rect key="frame" x="13" y="2.5" width="34.5" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.27058823529999998" green="0.54117647059999996" blue="0.32549019610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="HGg-ei-AQw" firstAttribute="centerX" secondItem="Qy1-jz-YMg" secondAttribute="centerX" id="3ux-wg-Axr"/>
+                                    <constraint firstAttribute="height" constant="22" id="GX6-eb-Mty"/>
+                                    <constraint firstAttribute="width" constant="60" id="TG1-0k-qU0"/>
+                                    <constraint firstItem="HGg-ei-AQw" firstAttribute="centerY" secondItem="Qy1-jz-YMg" secondAttribute="centerY" id="fYc-tp-G3t"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="6"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.67843137254901964" green="0.67843137254901964" blue="0.67843137254901964" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="12O-JQ-l1Y" firstAttribute="leading" secondItem="SYe-PI-Ziz" secondAttribute="leading" constant="20" id="9mJ-Tc-0dn"/>
                             <constraint firstItem="Y13-N3-6vE" firstAttribute="leading" secondItem="12O-JQ-l1Y" secondAttribute="leading" id="D9h-f7-w9F"/>
+                            <constraint firstItem="Qy1-jz-YMg" firstAttribute="centerY" secondItem="12O-JQ-l1Y" secondAttribute="centerY" constant="-5" id="J35-ve-wFT"/>
                             <constraint firstItem="hNP-Ua-Ski" firstAttribute="top" secondItem="12O-JQ-l1Y" secondAttribute="bottom" constant="8" id="JNT-TK-KIT"/>
+                            <constraint firstAttribute="trailing" secondItem="Qy1-jz-YMg" secondAttribute="trailing" constant="20" id="JUS-vr-apd"/>
                             <constraint firstAttribute="bottom" secondItem="Y13-N3-6vE" secondAttribute="bottom" constant="10" id="Qe1-ZL-vs4"/>
                             <constraint firstItem="Y13-N3-6vE" firstAttribute="top" secondItem="hNP-Ua-Ski" secondAttribute="bottom" constant="16" id="dx8-YV-l6e"/>
                             <constraint firstAttribute="trailing" secondItem="hNP-Ua-Ski" secondAttribute="trailing" constant="20" id="dxx-JZ-S5y"/>
@@ -82,6 +107,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="DescriptionLabel" destination="hNP-Ua-Ski" id="TRR-Wh-Vq5"/>
+                <outlet property="doneLabelView" destination="Qy1-jz-YMg" id="wZB-8W-lDO"/>
             </connections>
             <point key="canvasLocation" x="5.7971014492753632" y="-40.178571428571423"/>
         </tableViewCell>
