@@ -68,6 +68,8 @@ class BaseViewController: UIViewController {
             return
         }
         guard (data?.stringValue!.contains(":") ?? false) else {
+            self.scanItem = "Spool"
+            self.scanCode = data?.stringValue ?? ""
             return
         }
         let fullString = data?.stringValue!.split(separator: ":")

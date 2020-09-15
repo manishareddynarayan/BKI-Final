@@ -190,21 +190,6 @@ private extension NewLoadVC
         return(misc1 as AnyObject, misc2 as AnyObject)
     }
     
-
-    
-//    @objc func showDrawingVC(spool:Spool?,hanger:Hanger?, role:Int){
-//        if let vc = self.getViewControllerWithIdentifier(identifier: "DrawingVC") as? BaseViewController
-//        {
-//            if spool != nil {
-//                vc.spool = spool
-//            } else {
-//                vc.hanger = hanger
-//            }
-//            vc.role = role
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }
-//    }
-    
     func getSpoolAtRow(indexPath:IndexPath) -> Spool {
         var spool:Spool!
         if indexPath.row <= (self.load?.spools.count)! - 1 {
@@ -503,29 +488,14 @@ extension NewLoadVC:  ScannerDelegate{
         guard data != nil else {
             return
         }
-        guard (data?.stringValue!.contains(":") ?? false) else {
-            return
+        if (data?.stringValue!.contains(":") ?? false) {
+            let fullString = data?.stringValue!.split(separator: ":")
+            self.scanItem = String((fullString?[0])!)
+            self.scanCode = String((fullString?[1])!).trimmingCharacters(in: .whitespaces)//.components(separatedBy: "_").last
+        } else {
+            self.scanItem = "Spool"
+            self.scanCode = data?.stringValue ?? ""
         }
-        let fullString = data?.stringValue!.split(separator: ":")
-        self.scanItem = String((fullString?[0])!)
-        let scanId = String((fullString?[1])!).trimmingCharacters(in: .whitespaces)//.components(separatedBy: "_").last
-        
-//        let isFound = scanItem == "Spool" ? ((self.load?.spools.contains { (spool) -> Bool in
-//            return spool.id == Int(scanId)
-//            })!) : ((self.load?.hangers.contains { (hanger) -> Bool in
-//                return hanger.id == Int(scanId)
-//                })!)
-//        let isFound1 = scanItem == "Spool" ? self.scannedSpools.contains { (spool) -> Bool in
-//            return spool.id == Int(scanId)
-//            } : self.scannedHangers.contains { (hanger) -> Bool in
-//                return hanger.id == Int(scanId)
-//        }
-//        self.viewWillAppear(false)
-//        guard !isFound && !isFound1 else {
-//            self.alertVC.presentAlertWithTitleAndMessage(title: "Error", message:  "\(scanItem ?? "") already added to load.", controller: self)
-//            return
-//        }
-        self.scanCode = scanId
         self.getScannedItemDetails()
     }
     
