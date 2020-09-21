@@ -67,9 +67,12 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
         httpWrapper.performAPIRequest("users/sign_in", methodType: "POST", parameters: loginParams as [String : AnyObject], successBlock: { (responseData) in
                 DispatchQueue.main.async {
                     BKIModel.saveUserinDefaults(info: responseData)
+                    if BKIModel.userRole() == "qa" || BKIModel.userRole() == "fabrication" {
                     self.appDelegate?.setupRootViewController()
+                    } else {
+                        self.alertVC.presentAlertWithMessage(message: "Please login as qa or fabrication user.", controller: self)
+                    }
                     MBProgressHUD.hideHud(view: self.view)
-
                 }
         }) { (error) in
             self.showFailureAlert(with: (error?.localizedDescription)!)

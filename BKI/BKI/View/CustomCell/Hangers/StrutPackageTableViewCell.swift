@@ -28,7 +28,7 @@ class StrutPackageTableViewCell: BaseCell {
         // Configure the view for the selected state
     }
     func designCellWith(cuttingStat:CuttingStat) {
-        self.sizeLabel.text = cuttingStat.size
+        self.sizeLabel.text = cuttingStat.size == nil ? "-" : cuttingStat.size
         self.descriptionLabel.text = cuttingStat.desc
         self.doneLabelView.isHidden = !cuttingStat.bundlesCompleted
     }

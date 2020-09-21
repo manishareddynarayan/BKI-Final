@@ -15,7 +15,7 @@ class CuttingStatsViewController: BaseViewController {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet weak var materialLabel: UILabel!
     var cuttingType:String?
-//    var hanger:Hanger?
+    //    var hanger:Hanger?
     var cuttingStats = [CuttingStat]()
     
     override func viewDidLoad() {
@@ -86,6 +86,7 @@ extension CuttingStatsViewController: UITableViewDelegate, UITableViewDataSource
                 }
                 vc.selectedStatId = cuttingStat.id
                 vc.cuttingStat = cuttingStat
+                vc.cuttingType = self.cuttingType
                 vc.delegate = self
                 self.present(vc, animated: true, completion: nil)
             }
@@ -101,6 +102,7 @@ extension CuttingStatsViewController: UITableViewDelegate, UITableViewDataSource
             }
             vc.selectedStatId = cuttingStat.id
             vc.cuttingStat = cuttingStat
+            vc.cuttingType = self.cuttingType
             vc.delegate = self
             self.present(vc, animated: true, completion: nil)
         }
@@ -114,7 +116,7 @@ extension CuttingStatsViewController: SolutionDelegate,SolutionDetailsDelegate{
             return
         }
         self.getCuttingStatData { (completed) in
-            if completed {
+            if completed && !didChooseSolution {
                 vc.selectedStatId = selectedStatId
                 let cuttingStat = self.cuttingStats.filter({$0.id == selectedStatId}).first
                 vc.cuttingStat = cuttingStat

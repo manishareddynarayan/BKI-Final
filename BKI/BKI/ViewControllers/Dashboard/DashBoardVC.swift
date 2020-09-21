@@ -140,13 +140,6 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         }) { (error) in
             DispatchQueue.main.async {
                 MBProgressHUD.hideHud(view: self.view)
-
-//                if self.shouldChangeState {
-//                    self.spool = nil
-//                    self.tableView.reloadData()
-//                    self.shouldChangeState = false
-//                    return
-//                }
                 if error?.code == 403 {
                     self.httpWrapper.performAPIRequest("spools/\((self.scanCode)!)/current_stage", methodType: "GET", parameters: nil, successBlock: { (response) in
                         DispatchQueue.main.async {

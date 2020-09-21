@@ -23,20 +23,22 @@ class SolutionsViewController: BaseViewController {
     var delegate:SolutionDelegate!
     var cuttingStat:CuttingStat?
     var selectedStatId:Int?
-
+    var cuttingType:String?
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "SolutionTableViewCell", bundle: nil), forCellReuseIdentifier: "SolutionTableViewCell")
         self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
-        self.descriptionLabel.text = cuttingStat?.desc
         self.navigationController?.navigationBar.isHidden = true
         self.bgImageview.isHidden = true
         self.view.backgroundColor = UIColor.appRed.withAlphaComponent(0.9)
-        if cuttingStat?.size != nil {
-            self.sizeLabel.text = cuttingStat?.size
+        if cuttingType == "Cut Rods" {
+            self.sizeLabel.text = cuttingStat?.size == nil ? "-" : cuttingStat?.size
+            self.descriptionLabel.text = ""
+            self.descriptionTitle.text = ""
             titleLabel.text = "Rod Cutting"
         } else {
+            self.descriptionLabel.text = cuttingStat?.desc == nil ? "-" : cuttingStat?.desc
             self.sizeLabel.text = ""
             self.sizeTitle.text = ""
             titleLabel.text = "Struct Cutting"

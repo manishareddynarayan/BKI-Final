@@ -1,55 +1,55 @@
 {
   "images" : [
     {
-      "filename" : "App icon_40x40.png",
+      "filename" : "App icon_1024x1024_red@2x copy-3.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
-      "filename" : "App icon_60x60.png",
+      "filename" : "App icon_1024x1024_red@3x copy-3.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
-      "filename" : "App icon_58x58.png",
+      "filename" : "App icon_1024x1024_red@2x copy-2.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
-      "filename" : "App icon_87x87.png",
+      "filename" : "App icon_1024x1024_red@3x copy-2.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
     },
     {
-      "filename" : "App icon_80x80.png",
+      "filename" : "App icon_1024x1024_red@2x copy-1.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
-      "filename" : "App icon_120x120.png",
+      "filename" : "App icon_1024x1024_red@3x copy-1.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
-      "filename" : "App icon_120x120-1.png",
+      "filename" : "App icon_1024x1024_red@2x copy.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
-      "filename" : "App icon_180x180.png",
+      "filename" : "App icon_1024x1024_red@3x copy.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
     },
     {
-      "filename" : "App icon_1024x1024_red@3x.png",
+      "filename" : "App icon_1024x1024_red.png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"

@@ -60,9 +60,9 @@ class SolutionDetailsViewController: BaseViewController {
                     self.changedData.updateValue(bundle.completed, forKey: bundle.id!)
                 }
                 self.packageNameLabel.text = self.packageBundle?.packageName
-                self.descriptionLabel.text = self.packageBundle?.desc
+                self.descriptionLabel.text = self.packageBundle?.desc == nil ? "-" : self.packageBundle?.desc
                 if self.packageBundle?.size != nil {
-                    self.sizeLabel.text = self.packageBundle?.size
+                    self.sizeLabel.text = self.packageBundle?.size == nil ? "-" : self.packageBundle?.size
                     self.sizeLabelTop.constant = 5
                 } else {
                     self.sizeLabel.text = ""
