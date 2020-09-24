@@ -23,6 +23,7 @@ class BaseViewController: UIViewController {
     var scanItem:String?
     var spool:Spool?
     var hanger:Hanger?
+    var evolve:Evolve?
     var shouldRejectWholeSpool = false
     override func viewDidLoad() {
         super.viewDidLoad()

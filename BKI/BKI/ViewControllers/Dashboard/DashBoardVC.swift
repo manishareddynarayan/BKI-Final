@@ -16,7 +16,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     var shouldChangeState = false
     var altData = [AlternateDescription()]
     var scanned:Bool = false
-   
+    
     @IBOutlet weak var spoolLbl: UILabel!
     @IBOutlet weak var alternateDescriptionBtn: UIButton!
     
@@ -27,7 +27,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         tableView.register(UINib(nibName: "DashBoardCell", bundle: nil), forCellReuseIdentifier: "DashboardCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         
-       alternateDescriptionBtn.isHidden = true
+        alternateDescriptionBtn.isHidden = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -39,7 +39,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         super.viewWillAppear(animated)
         //self.scanCode = "7"
         if self.scanCode != nil && self.role != 3{
-            self.getSpoolDetails()
+            self.getScannedItemDetails()
         }
         
         if let spool = self.spool{
@@ -55,7 +55,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         self.performSegue(withIdentifier: ALTERNATEDESCRIPTIONSEGUE, sender: self)
     }
     
-
+    
     func loadScanData(data:AVMetadataMachineReadableCodeObject?) {
         guard data != nil else {
             self.setScanCode(data: nil)
@@ -64,7 +64,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             return
         }
         self.setScanCode(data: data)
-       // self.getSpoolDetails()
+        // self.getSpoolDetails()
     }
     
     func saveHeatNumbersforNoWelds(){
@@ -83,14 +83,29 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         }
     }
     
+    func getEvolveDetails() {
+        MBProgressHUD.showHud(view: self.view)
+        httpWrapper.performAPIRequest("evolve_fabrications/\(self.scanCode!)/scan", methodType: "GET", parameters: nil) { (responseData) in
+            DispatchQueue.main.async {
+                MBProgressHUD.hideHud(view: self.view)
+                let evolveItem = Evolve.init(info: responseData)
+                if (!(evolveItem.isInFabrication)! && evolveItem.evolveState != "cutting") {
+                    self.showFailureAlert(with:"This is not in fabrication" )
+                    return
+                }
+                self.evolve = evolveItem
+                self.tableView.reloadData()
+                print(responseData)
+            }
+        } failBlock: { (error) in
+            DispatchQueue.main.async {
+                MBProgressHUD.hideHud(view: self.view)
+                self.showFailureAlert(with:(error?.localizedDescription)! )
+            }
+        }
+    }
+    
     func getSpoolDetails() {
-        if self.scanCode != nil && (self.scanCode?.isEmpty ?? true) {
-            return
-        }
-        if self.scanItem == "Hanger" {
-            self.showFailureAlert(with:"You have scanned a hanger, please check.")
-            return
-        }
         MBProgressHUD.showHud(view: self.view)
         httpWrapper.performAPIRequest("spools/\(self.scanCode!)?scan=true", methodType: "GET", parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
@@ -107,19 +122,19 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 if self.role == 1 {
                     self.getAlternateDescriptionData()
                 }
-
+                
                 if self.spool?.status == "On Hold" {
                     self.showFailureAlert(with: "The Spool is on hold and hence no operation can be performed on it.")
                 }
-//                    else if self.role == 2 && self.spool?.state != WeldState.welding {
-//                    self.showFailureAlert(with: "You can access spools which are in state of welding.")
-//                }
-//                else  if (self.role == 1 && self.spool?.state != WeldState.fitting) {
-//                    self.showFailureAlert(with: "You can access spools which are in state of fitting.")
-//                }
-//                else if (self.role == 4 && self.spool?.state != WeldState.qa)  {
-//                    self.showFailureAlert(with: "You can access spools which are in state of QA.")
-//                }
+                //                    else if self.role == 2 && self.spool?.state != WeldState.welding {
+                //                    self.showFailureAlert(with: "You can access spools which are in state of welding.")
+                //                }
+                //                else  if (self.role == 1 && self.spool?.state != WeldState.fitting) {
+                //                    self.showFailureAlert(with: "You can access spools which are in state of fitting.")
+                //                }
+                //                else if (self.role == 4 && self.spool?.state != WeldState.qa)  {
+                //                    self.showFailureAlert(with: "You can access spools which are in state of QA.")
+                //                }
                 
                 if !self.checkHeatNumbers() && !self.checkFittingWeldStatus() && self.scanned{
                     self.alertVC.presentAlertWithTitleAndMessage(title: "Warning", message: "Please enter heat numbers to move the spool to next state", controller: self)
@@ -159,6 +174,20 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 self.tableView.reloadData()
             }
         }
+    }
+    
+    func getScannedItemDetails() {
+        if self.scanCode != nil && (self.scanCode?.isEmpty ?? true) {
+            return
+        }
+        if self.scanItem == "Hanger" {
+            self.showFailureAlert(with:"You have scanned a hanger, please check.")
+            return
+        } else if self.scanItem == "EvolveFabrication" {
+            getEvolveDetails()
+            return
+        }
+        getSpoolDetails()
     }
     
     func getAlternateDescriptionData(){
@@ -206,7 +235,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         if segue.identifier == ALTERNATEDESCRIPTIONSEGUE{
             let alternateDescriptionVC = segue.destination as? AlternateDescriptionVC
             alternateDescriptionVC?.altData = self.altData
-
+            
         }
     }
     
@@ -224,8 +253,8 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardCell", for: indexPath) as? DashBoardCell
         let menu = self.menuItems[indexPath.row]
         cell?.titleLbl.text = menu["Name"]
-
-        if spool == nil {
+        
+        if  (spool == nil && evolve == nil) {
             if self.role == 3 {
                 cell?.enable(enable: true)
             }
@@ -236,69 +265,90 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             }
             return cell!
         }
-//        if self.role == 1 && self.spool?.state == WeldState.fitting && self.spool?.status != "On Hold" {
-//            cell?.enable(enable: true)
-//        } else if self.role == 2 && self.spool?.state == WeldState.welding && self.spool?.status != "On Hold" {
-//            cell?.enable(enable: true)
-//        }
-//        else if self.role == 4 && self.spool?.state == WeldState.qa && self.spool?.status != "On Hold" {
-//            cell?.enable(enable: true)
-//        }
-//        else {
-//            cell?.enable(enable: false)
-//        }
-//
-//        if indexPath.row == self.menuItems.count - 1 || self.role == 3 && self.spool?.status != "On Hold" {
-//            cell?.enable(enable: true)
-//        }
-        if self.spool?.status == "On Hold" || (self.spool?.isArchivedOrRejected)!{
-            if indexPath.row == 2 && self.role == 1{
-                cell?.enable(enable: true)
-            }else if indexPath.row == 1 && self.role == 2{
-                cell?.enable(enable: true)
-            }else if indexPath.row == 1 && self.role == 4{
-                cell?.enable(enable: true)
-            }else if indexPath.row == self.menuItems.count - 1{
-                cell?.enable(enable: true)
+        
+        if spool != nil {
+            if self.spool?.status == "On Hold" || (self.spool?.isArchivedOrRejected)!{
+                if indexPath.row == 3 && self.role == 1{
+                    cell?.enable(enable: true)
+                }else if indexPath.row == 1 && self.role == 2{
+                    cell?.enable(enable: true)
+                }else if indexPath.row == 1 && self.role == 4{
+                    cell?.enable(enable: true)
+                }else if indexPath.row == self.menuItems.count - 1{
+                    cell?.enable(enable: true)
+                }else{
+                    cell?.enable(enable: false)
+                }
             }else{
+                if indexPath.row != 2 {
+                    cell?.enable(enable: true)
+                } else {
+                    cell?.enable(enable: false)
+                }
+            }
+            // disbaling cell when ISO Drwaing url is nil,which one we are showing in web view.
+            if ((indexPath.row == self.menuItems.count - 2) && (self.spool?.isoDrawingURL == nil) && (self.menuItems[indexPath.row]["Child"] == "DrawingVC"))
+            {
                 cell?.enable(enable: false)
             }
-        }else{
-            cell?.enable(enable: true)
-        }
-        // disbaling cell when ISO Drwaing url is nil,which one we are showing in web view.
-        if ((indexPath.row == self.menuItems.count - 2) && (self.spool?.isoDrawingURL == nil) && (self.menuItems[indexPath.row]["Child"] == "DrawingVC"))
-        {
-            cell?.enable(enable: false)
+        } else {
+            if ((self.evolve?.isArchivedOrRejected) != nil) && self.evolve?.evolveState == "cutting"{
+                if indexPath.row == 3 && self.role == 1{
+                    cell?.enable(enable: true)
+                }else if indexPath.row == self.menuItems.count - 1{
+                    cell?.enable(enable: true)
+                }else{
+                    cell?.enable(enable: false)
+                }
+            }else{
+                if self.role == 1 && (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == self.menuItems.count - 2) {
+                    cell?.enable(enable: false)
+                } else if self.role == 4 && (indexPath.row == 0 || indexPath.row == self.menuItems.count - 2){
+                    cell?.enable(enable: false)
+                } else {
+                    cell?.enable(enable: true)
+                }
+            }
         }
         return cell!
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard indexPath.row == self.menuItems.count - 1 && self.role != 3   else {
             let menu = self.menuItems[indexPath.row]
             guard let vc = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? DrawingVC else {
                 guard let vc = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? BaseViewController else {
-                    guard let vc1 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? FitterPartTVC else {
-                        guard let vc2 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? WeldStatusVC else {
-                            return
-                        }
-                        vc2.role = self.role
-                        vc2.spool = self.spool
-                        self.navigationController?.pushViewController(vc2, animated: true)
-                        return
-                    }
-                    vc1.role = self.role
-                    vc1.spool = self.spool
-                    self.navigationController?.pushViewController(vc1, animated: true)
+//                    guard let vc1 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? FitterPartTVC else {
+//                        guard let vc2 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? WeldStatusVC else {
+//                            guard let vc3 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? EvolveViewController else {
+//                                return
+//                            }
+//                            vc3.evolve = self.evolve
+//                            self.navigationController?.pushViewController(vc3, animated: true)
+//                            return
+//                        }
+//                        vc2.role = self.role
+//                        vc2.spool = self.spool
+//                        self.navigationController?.pushViewController(vc2, animated: true)
+//                        return
+//                    }
+//                    vc1.role = self.role
+//                    vc1.spool = self.spool
+//                    self.navigationController?.pushViewController(vc1, animated: true)
+//                    return
                     return
                 }
+                vc.evolve = self.evolve
                 vc.spool = self.spool
                 vc.role = self.role
                 self.navigationController?.pushViewController(vc, animated: true)
                 return
             }
-            vc.spool = self.spool
+            if spool != nil {
+                vc.spool = self.spool
+            } else {
+                vc.evolve = self.evolve
+            }
             vc.role = self.role
             
             vc.urltype = ((indexPath.row == self.menuItems.count - 2) ? .ISOURL : .pdfURL)
@@ -323,5 +373,4 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didError error: Error, from connection: AVCaptureConnection) {
         self.loadScanData(data: nil)
     }
-
 }

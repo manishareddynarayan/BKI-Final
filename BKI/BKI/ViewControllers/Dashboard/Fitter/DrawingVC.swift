@@ -59,7 +59,7 @@ extension DrawingVC
         var urlStr = "https://retail.onlinesbi.com/sbi/downloads/form15-g.pdf"
         switch urltype {
         case .pdfURL:
-            urlStr = (self.spool != nil ? ((self.spool?.pdfUrl != nil) ? self.spool?.pdfUrl : urlStr) : ((self.hanger?.drawingUrl != nil) ? self.hanger?.drawingUrl : urlStr))!
+            urlStr = (self.spool != nil ? ((self.spool?.pdfUrl != nil) ? self.spool?.pdfUrl : urlStr) : self.hanger != nil ? ((self.hanger?.drawingUrl != nil) ? self.hanger?.drawingUrl : urlStr) : ((self.evolve?.drawingUrl != nil) ? self.evolve?.drawingUrl : urlStr))!
             break
         case .ISOURL:
             urlStr = ((self.spool?.isoDrawingURL != nil) ? self.spool?.isoDrawingURL : urlStr)!

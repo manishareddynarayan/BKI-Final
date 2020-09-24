@@ -24,7 +24,7 @@ struct Constant {
 //    let kBaseURL = "https://6c9446ec41ea.ngrok.io/api/v1/"
     //Production
     //let kBaseURL = "https://api.bkimechanical.com/api/v1/"
-        let kBaseURL = "http://54.196.109.252/api/v1/"
+        let kBaseURL = "https://9894ef426022.ngrok.io/api/v1/"
 }
 
 func validateMetaData(meta:[String:Int?]) -> (Int,Bool)
@@ -64,7 +64,7 @@ class HTTPWrapper: NSObject {
     // Can't init is singleton
     private override init() {
         
-        xAccessToken = "X-ACCESS-TOKEN" //self.constant.kBaseURL == "http://54.196.109.252/api/v1/" ? "X-ACCESS-TOKEN" : "x-access-token"
+//        xAccessToken = "X-ACCESS-TOKEN" //self.constant.kBaseURL == "http://54.196.109.252/api/v1/" ? "X-ACCESS-TOKEN" : "x-access-token"
         //userType = UserType.Client
     }
     
@@ -310,8 +310,8 @@ class HTTPWrapper: NSObject {
                     self.showAlertView(message: "Authorisation expired. Please sign in again.")
                     return
                 }
-                else if statusCode == 403{
-                    let error = self.getErrorResponse(errorDescription:"You don't have a permission to access this spool." , statusCode: statusCode)
+                 if statusCode == 403{
+                    let error = self.getErrorResponse(errorDescription:"You don't have a permission to access this item." , statusCode: statusCode)
                     failBlock(error as NSError)
 
                     return

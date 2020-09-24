@@ -25,6 +25,8 @@
 		1320B86824EBE2D300ABD9D8 /* SolutionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1320B86724EBE2D300ABD9D8 /* SolutionsViewController.swift */; };
 		1377AB8524F77DB400A59830 /* SectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1377AB8324F77DB400A59830 /* SectionHeader.xib */; };
 		1377AB8624F77DB400A59830 /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1377AB8424F77DB400A59830 /* SectionHeader.swift */; };
+		13E2C70C2519DC4E004D5BEA /* Evolve.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E2C70B2519DC4E004D5BEA /* Evolve.swift */; };
+		13E2C70E251A0A67004D5BEA /* EvolveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E2C70D251A0A67004D5BEA /* EvolveViewController.swift */; };
 		13E5A8D424ED01DD00AC8CCD /* SolutionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E5A8D324ED01DD00AC8CCD /* SolutionDetailsViewController.swift */; };
 		13E5A8D624ED035500AC8CCD /* PackageBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E5A8D524ED035500AC8CCD /* PackageBundle.swift */; };
 		13E5A8DD24F3CC0300AC8CCD /* AssembleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E5A8DB24F3CC0200AC8CCD /* AssembleTableViewCell.swift */; };
@@ -124,6 +126,8 @@
 		1320B86724EBE2D300ABD9D8 /* SolutionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionsViewController.swift; sourceTree = "<group>"; };
 		1377AB8324F77DB400A59830 /* SectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionHeader.xib; sourceTree = "<group>"; };
 		1377AB8424F77DB400A59830 /* SectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
+		13E2C70B2519DC4E004D5BEA /* Evolve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evolve.swift; sourceTree = "<group>"; };
+		13E2C70D251A0A67004D5BEA /* EvolveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvolveViewController.swift; sourceTree = "<group>"; };
 		13E5A8D324ED01DD00AC8CCD /* SolutionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionDetailsViewController.swift; sourceTree = "<group>"; };
 		13E5A8D524ED035500AC8CCD /* PackageBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageBundle.swift; sourceTree = "<group>"; };
 		13E5A8DB24F3CC0200AC8CCD /* AssembleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssembleTableViewCell.swift; sourceTree = "<group>"; };
@@ -393,6 +397,7 @@
 				4FCD149321526FF8002B70A9 /* DashBoardVC.swift */,
 				4FA551EA2150F74B00EA6F9B /* Shipping */,
 				4FA551E82150F72A00EA6F9B /* Fitter */,
+				13E2C70D251A0A67004D5BEA /* EvolveViewController.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -436,6 +441,7 @@
 				1320B86524EBCE3600ABD9D8 /* Solution.swift */,
 				13E5A8D524ED035500AC8CCD /* PackageBundle.swift */,
 				13E5A8E324F4DE6700AC8CCD /* HangerAssembleItem.swift */,
+				13E2C70B2519DC4E004D5BEA /* Evolve.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -782,6 +788,7 @@
 				4FCDEDC6216F46BE0071E9F6 /* MiscCell.swift in Sources */,
 				3C0698002230E98700303E57 /* AlternateDescriptionCell.swift in Sources */,
 				4F312B752154FB6E003D0358 /* SearchMiscVC.swift in Sources */,
+				13E2C70E251A0A67004D5BEA /* EvolveViewController.swift in Sources */,
 				4FCD149F215397A0002B70A9 /* User.swift in Sources */,
 				4FCDEDB2216223F30071E9F6 /* OpenLoadCell.swift in Sources */,
 				1377AB8624F77DB400A59830 /* SectionHeader.swift in Sources */,
@@ -825,6 +832,7 @@
 				4FCD148E21522C00002B70A9 /* Extensions.swift in Sources */,
 				4FCDEDC3216F46410071E9F6 /* LoadMiscTVC.swift in Sources */,
 				4FA552592150FB4500EA6F9B /* AUSessionManager.swift in Sources */,
+				13E2C70C2519DC4E004D5BEA /* Evolve.swift in Sources */,
 				4FCDEDB5216224C60071E9F6 /* OpenLoadVC.swift in Sources */,
 				4FA76CBE215B8C00002377F3 /* PartCell.swift in Sources */,
 				13E5A8E424F4DE6700AC8CCD /* HangerAssembleItem.swift in Sources */,
