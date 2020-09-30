@@ -318,24 +318,12 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             let menu = self.menuItems[indexPath.row]
             guard let vc = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? DrawingVC else {
                 guard let vc = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? BaseViewController else {
-//                    guard let vc1 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? FitterPartTVC else {
-//                        guard let vc2 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? WeldStatusVC else {
-//                            guard let vc3 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? EvolveViewController else {
-//                                return
-//                            }
-//                            vc3.evolve = self.evolve
-//                            self.navigationController?.pushViewController(vc3, animated: true)
-//                            return
-//                        }
-//                        vc2.role = self.role
-//                        vc2.spool = self.spool
-//                        self.navigationController?.pushViewController(vc2, animated: true)
-//                        return
-//                    }
-//                    vc1.role = self.role
-//                    vc1.spool = self.spool
-//                    self.navigationController?.pushViewController(vc1, animated: true)
-//                    return
+                    guard let vc1 = self.getViewControllerWithIdentifier(identifier: menu["Child"]!) as? FitterPartTVC else {
+                        return
+                    }
+                    vc1.role = self.role
+                    vc1.spool = self.spool
+                    self.navigationController?.pushViewController(vc1, animated: true)
                     return
                 }
                 vc.evolve = self.evolve

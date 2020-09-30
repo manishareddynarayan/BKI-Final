@@ -21,10 +21,11 @@ struct Constant {
     //let kBaseURL = "http://192.168.0.6:3000/api/v1/"
      //let kBaseURL = "http://869c8d41.ngrok.io/"
     // Satging
+    let kBaseURL = "http://54.196.109.252/api/v1/"
 //    let kBaseURL = "https://6c9446ec41ea.ngrok.io/api/v1/"
     //Production
     //let kBaseURL = "https://api.bkimechanical.com/api/v1/"
-        let kBaseURL = "https://9894ef426022.ngrok.io/api/v1/"
+//        let kBaseURL = "https://9894ef426022.ngrok.io/api/v1/"
 }
 
 func validateMetaData(meta:[String:Int?]) -> (Int,Bool)
