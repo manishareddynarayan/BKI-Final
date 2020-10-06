@@ -28,18 +28,6 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
         appVersionLbl.text = "App version " + appVersion! + "("
             + buildVersion! + ")"
         // Do any additional setup after loading the view.
-        let calendar = Calendar.current
-
-           let now = Date()
-           let date = calendar.date(
-               bySettingHour: 11,
-               minute: 40,
-               second: 0,
-               of: now)!
-print("ddddd\(date)")
-           let timer = Timer(fireAt: date, interval: 0, target: self, selector: #selector(runCode), userInfo: nil, repeats: false)
-
-           RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -50,10 +38,6 @@ print("ddddd\(date)")
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    @objc func runCode() {
-        print("Do whatever here")
-        self.logoutUser()
     }
     
     /*

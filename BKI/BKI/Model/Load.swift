@@ -9,11 +9,12 @@
 import UIKit
 
 class Load: BKIModel {
-
+    
     var number:String?
     var status:String?
     var spools = [Spool]()
     var hangers = [Hanger]()
+    var evolves = [Evolve]()
     var materials = [Material]()
     var truckNumber:String?
     var total_weight = 0.0
@@ -30,7 +31,7 @@ class Load: BKIModel {
     }
     
     func saveLoad(loadInfo:[String:AnyObject]) {
-       
+        
         if let id = loadInfo["load_id"] as? Int {
             self.id = id
         }
@@ -39,7 +40,7 @@ class Load: BKIModel {
         }else{
             self.truckNumber = ""
         }
-            
+        
         if let number = loadInfo["load_number"] as? String {
             self.number = number
         }
@@ -65,13 +66,22 @@ class Load: BKIModel {
         }
         
         self.hangers.removeAll()
-        if let hangers = loadInfo["hangers"] as? [[String:AnyObject]] {
-            for (_,hanger) in hangers.enumerated() {
-                let newHangers = Hanger.init(info: hanger)
-                self.hangers.append(newHangers)
+        self.evolves.removeAll()
+        if let packageMaterials = loadInfo["package_materials"] as? [String:AnyObject] {
+            if let hangers = packageMaterials["Hanger"] as? [[String:AnyObject]] {
+                for (_,hanger) in hangers.enumerated() {
+                    let newHangers = Hanger.init(info: hanger)
+                    self.hangers.append(newHangers)
+                }
+            }
+            if let evolves = packageMaterials["EvolveFabrication"] as? [[String:AnyObject]] {
+                for (_,evolve) in evolves.enumerated() {
+                    let newEvolves = Evolve.init(info: evolve)
+                    self.evolves.append(newEvolves)
+                }
             }
         }
-
+        
         self.materials.removeAll()
         if let materials = loadInfo["loads_materials"] as? [[String:AnyObject]] {
             for (_,material) in materials.enumerated() {

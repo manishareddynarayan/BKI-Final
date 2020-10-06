@@ -184,6 +184,10 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             self.showFailureAlert(with:"You have scanned a hanger, please check.")
             return
         } else if self.scanItem == "EvolveFabrication" {
+            if self.role == 2 {
+                self.showFailureAlert(with:"You have scanned a evolve, please check.")
+                return
+            }
             getEvolveDetails()
             return
         }

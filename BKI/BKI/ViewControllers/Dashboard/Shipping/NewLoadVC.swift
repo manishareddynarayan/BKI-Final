@@ -26,10 +26,12 @@ class NewLoadVC: BaseViewController, TextInputDelegate {
     var isEdit = false
     var scannedSpools = [Spool]()
     var scannedHangers = [Hanger]()
+    var scannedEvolves = [Evolve]()
     var newMaterials = [Material]()
     fileprivate var deletedSpools = [Spool]()
     fileprivate var deletedHangers = [Hanger]()
-    
+    fileprivate var deletedEvolves = [Evolve]()
+
     //MARK:- View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +50,7 @@ class NewLoadVC: BaseViewController, TextInputDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.truckNumberTF.text = (load?.truckNumber != nil) ? load?.truckNumber : UserDefaults.standard.value(forKey: "truck_number") as? String
-        saveBtn.isEnabled = !(scannedHangers.isEmpty) || !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || !((self.load?.hangers.isEmpty)!) || self.truckNumberTF.text != ""
+        saveBtn.isEnabled =  !(scannedEvolves.isEmpty) || !(scannedHangers.isEmpty) || !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || !((self.load?.hangers.isEmpty)!) || self.truckNumberTF.text != ""
         self.setTotalWeight()
     }
     //MARK:- Navigation
@@ -77,7 +79,7 @@ class NewLoadVC: BaseViewController, TextInputDelegate {
             
         }
         let buttonTitles = ["Cancel","Add Misc Material","Submit"]
-        if !(scannedSpools.isEmpty) || !(scannedHangers.isEmpty) || !(self.load!.materials.isEmpty) ||  !((load?.spools.isEmpty)!) || !((load?.hangers.isEmpty)!) {
+        if !(scannedSpools.isEmpty) || !(scannedHangers.isEmpty) || !(scannedEvolves.isEmpty) || !(self.load!.materials.isEmpty) ||  !((load?.spools.isEmpty)!) || !((load?.evolves.isEmpty)!) || !((load?.hangers.isEmpty)!) {
             shouldSubmit = true
         }
         self.alertVC.presentActionSheetWithActionsAndTitle(actions:
@@ -99,13 +101,15 @@ class NewLoadVC: BaseViewController, TextInputDelegate {
         }
     }
         
-    func showDrawingVC(spool:Spool?,hanger:Hanger?,role:Int,state:WEBURLState){
+    func showDrawingVC(spool:Spool?,hanger:Hanger?,evolve:Evolve?,role:Int,state:WEBURLState){
         if let vc = self.getViewControllerWithIdentifier(identifier: "DrawingVC") as? DrawingVC
         {
             if spool != nil {
                 vc.spool = spool
-            } else {
+            } else if hanger != nil  {
                 vc.hanger = hanger
+            } else {
+                vc.evolve = evolve
             }
             vc.role = role
             vc.urltype = state
@@ -122,13 +126,9 @@ private extension NewLoadVC
         if load == nil { self.navigationItem.title = "New Load" }
         //load == nil ? self.load = Load() : self.getLoadDetails()
         self.truckNumberTF.text = (load?.truckNumber != nil) ? load?.truckNumber : UserDefaults.standard.value(forKey: "truck_number") as? String
-        
-        saveBtn.isEnabled = !(scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || self.truckNumberTF.text != ""
-        
         self.setTotalWeight()
-        
         self.truckNumberTF.text = self.load?.truckNumber
-        self.saveBtn.isEnabled = !(scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!)
+        self.saveBtn.isEnabled = !(scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || self.truckNumberTF.text != ""
         self.tableView.reloadData()
     }
     
@@ -145,15 +145,6 @@ private extension NewLoadVC
         }
         self.load?.total_weight = weight
         self.totalWeightLbl.text = String(format: "%.2f", weight)
-    }
-    
-    func getSPoolParams() -> [String] {
-        var spoolIds = [String]()
-        for spool in scannedSpools {
-            //spoolIds.append("1")
-            spoolIds.append("\((spool.id)!)")
-        }
-        return spoolIds
     }
     
     func getMiscMaterialParams() -> (misc1:AnyObject, misc2:AnyObject) {
@@ -208,7 +199,7 @@ extension NewLoadVC:UITextFieldDelegate
 {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        saveBtn.isEnabled = !(scannedHangers.isEmpty) || !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || !((self.load?.hangers.isEmpty)!) || textField.text?.count ?? 0 > 0
+        saveBtn.isEnabled = !(scannedHangers.isEmpty) || !(scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || !((self.load?.hangers.isEmpty)!) || textField.text?.count ?? 0 > 0
         return false
     }
     
@@ -235,7 +226,7 @@ extension NewLoadVC
                                                 self.load!.saveLoad(loadInfo: responseData)
                                                 self.truckNumberTF.text = self.load?.truckNumber
                                                 self.totalWeightLbl.text = String(format: "%.2f",  (self.load?.total_weight)!)
-                                                self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!)
+                                                self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!)  || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!)
                                                 self.tableView.reloadData()
                                             }
         }) { (error) in
@@ -255,7 +246,17 @@ extension NewLoadVC
         return hanger
     }
     
-    
+    func getEvolveAtRow(indexPath:IndexPath) -> Evolve {
+        var evolve:Evolve!
+        if indexPath.row <= (self.load?.evolves.count)! - 1 {
+            evolve = self.load?.evolves[indexPath.row]
+        } else {
+            let row = indexPath.row - (self.load?.evolves.count)!
+            evolve = self.scannedEvolves[row]
+        }
+        return evolve
+    }
+
     func getScannedItemDetails() -> Void {
         if self.scanCode != nil && (self.scanCode?.isEmpty ?? true) {
             return
@@ -270,7 +271,7 @@ extension NewLoadVC
                         self.alertVC.presentAlertWithTitleAndActions(actions: [{
                             self.dismiss(animated: true, completion: nil)
                             },{
-                                self.showDrawingVC(spool: spool, hanger: nil, role: self.role, state: .pdfURL)
+                                self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
                             }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Spool is in rejected or archived state hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
                         return
                     }
@@ -278,7 +279,7 @@ extension NewLoadVC
                         self.alertVC.presentAlertWithTitleAndActions(actions: [{
                             self.dismiss(animated: true, completion: nil)
                             },{
-                                self.showDrawingVC(spool: spool, hanger: nil, role: self.role, state: .pdfURL)
+                                self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
                             }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Spool is on hold and hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
                         return
                     }
@@ -286,7 +287,7 @@ extension NewLoadVC
                         self.alertVC.presentAlertWithTitleAndActions(actions: [{
                             self.dismiss(animated: true, completion: nil)
                             },{
-                                self.showDrawingVC(spool: spool, hanger: nil, role: self.role, state: .pdfURL)
+                                self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
                             }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Spool is already added to a load. You can view the drawing by clicking on the button below.", title: "Warning")
                         
                         return
@@ -296,7 +297,7 @@ extension NewLoadVC
                             self.alertVC.presentAlertWithTitleAndActions(actions: [{
                                 self.dismiss(animated: true, completion: nil)
                                 },{
-                                    self.showDrawingVC(spool: spool, hanger: nil, role: self.role, state: .pdfURL)
+                                    self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
                                 }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "Please complete all the cut lists to load the spool. You can view the drawing by clicking on the button below.", title: "Warning")
                             return
                         }
@@ -304,7 +305,7 @@ extension NewLoadVC
                         self.alertVC.presentAlertWithTitleAndActions(actions: [{
                             self.dismiss(animated: true, completion: nil)
                             },{
-                                self.showDrawingVC(spool: spool, hanger: nil, role: self.role, state: .pdfURL)
+                                self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
                             }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Spool is not ready to be loaded yet. You can view the drawing by clicking on the button below.", title: "Warning")
                         return
                     }
@@ -312,7 +313,7 @@ extension NewLoadVC
                         self.alertVC.presentAlertWithTitleAndActions(actions: [{
                             self.dismiss(animated: true, completion: nil)
                             },{
-                                self.showDrawingVC(spool: spool, hanger: nil, role: self.role, state: .pdfURL)
+                                self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
                             }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "You cannot add this spool as the heat numbers are not present. You can view the drawing by clicking on the button below.", title: "Warning")
                         return
                     }
@@ -326,7 +327,7 @@ extension NewLoadVC
                     
                     self.scannedSpools.append(spool)
                     BKIModel.setSpoolNumebr(number: self.spool?.code!)
-                    self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
+                    self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
                     self.tableView.reloadData()
                     self.setTotalWeight()
                     
@@ -359,14 +360,14 @@ extension NewLoadVC
                         self.alertVC.presentAlertWithTitleAndActions(actions: [{
                             self.dismiss(animated: true, completion: nil)
                             },{
-                                self.showDrawingVC(spool: nil, hanger: hanger, role: self.role, state: .pdfURL)
+                                self.showDrawingVC(spool: nil, hanger: hanger, evolve: nil, role: self.role, state: .pdfURL)
                             }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Hanger is in rejected or archived state hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
                         return
                     }else if hanger?.loadId != nil {
                             self.alertVC.presentAlertWithTitleAndActions(actions: [{
                                 self.dismiss(animated: true, completion: nil)
                                 },{
-                                    self.showDrawingVC(spool: nil, hanger: hanger, role: self.role, state: .pdfURL)
+                                    self.showDrawingVC(spool: nil, hanger: hanger, evolve: nil, role: self.role, state: .pdfURL)
                                 }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Hanger is already added to a load. You can view the drawing by clicking on the button below.", title: "Warning")
                             return
                     } else if hanger?.hangerState == "fabrication" {
@@ -385,7 +386,7 @@ extension NewLoadVC
                     }
 
                     self.scannedHangers.append(hanger!)
-                    self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
+                    self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
                     self.tableView.reloadData()
                 }
             }) { (error) in
@@ -393,25 +394,261 @@ extension NewLoadVC
                     self.showFailureAlert(with: (error?.localizedDescription)!)
                 }
             }
+        } else if self.scanItem == "EvolveFabrication" {
+            httpWrapper.performAPIRequest("evolve_fabrications/\(self.scanCode!)/scan", methodType: "GET", parameters: nil) { (responseData) in
+                var evolve:Evolve?
+                DispatchQueue.main.async {
+                    MBProgressHUD.hideHud(view: self.view)
+                    evolve = Evolve.init(info: responseData)
+                    if (!(evolve?.isInFabrication)! && evolve?.evolveState != "cutting") {
+                        self.showFailureAlert(with:"This is not in fabrication" )
+                        return
+                    }
+                    self.evolve = evolve
+                    self.scannedEvolves.append(evolve!)
+                    self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
+                    self.tableView.reloadData()
+                    print(responseData)
+                }
+            } failBlock: { (error) in
+                DispatchQueue.main.async {
+                    MBProgressHUD.hideHud(view: self.view)
+                    self.showFailureAlert(with:(error?.localizedDescription)! )
+                }
+            }
         }
     }
     
+
+}
+//MARK:- Scan Delegate Methods
+extension NewLoadVC:  ScannerDelegate{
+    func scanDidCompletedWith(_ data:AVMetadataMachineReadableCodeObject?) {
+        guard data != nil else {
+            return
+        }
+        if (data?.stringValue!.contains(":") ?? false) {
+            let fullString = data?.stringValue!.split(separator: ":")
+            self.scanItem = String((fullString?[0])!)
+            self.scanCode = String((fullString?[1])!).trimmingCharacters(in: .whitespaces)//.components(separatedBy: "_").last
+        } else {
+            self.scanItem = "Spool"
+            self.scanCode = data?.stringValue ?? ""
+        }
+        self.getScannedItemDetails()
+    }
+    
+    func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didError error: Error,
+                              from connection: AVCaptureConnection) {
+        self.setScanCode(data: nil)
+    }
+}
+
+extension NewLoadVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return  self.isEdit ? (section == 0 ? (self.scannedSpools.count + (self.load?.spools.count)! != 0 ? self.scannedSpools.count + (self.load?.spools.count)! : 1) : section == 1 ? (self.scannedHangers.count + (self.load?.hangers.count)! != 0 ? self.scannedHangers.count + (self.load?.hangers.count)! : 1) : (self.scannedEvolves.count + (self.load?.evolves.count)! != 0 ? self.scannedEvolves.count + (self.load?.evolves.count)! : 1)) : section == 0 ? (self.scannedSpools.count != 0 ? self.scannedSpools.count : 1) : section == 1 ?  (self.scannedHangers.count != 0 ? self.scannedHangers.count : 1) : (self.scannedEvolves.count != 0 ? self.scannedEvolves.count : 1)
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50.0
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "SectionHeader") as? SectionHeader
+        headerView?.titleLabel.text = section == 0 ? "Spoolgen Fab" : section == 1 ? "Hangers" : "Pipe Assembly Fab"
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let isEmpty = self.isEdit ? (indexPath.section == 0 ? (self.scannedSpools.count + (self.load?.spools.count)! != 0 ? false : true) : indexPath.section == 1 ? (self.scannedHangers.count + (self.load?.hangers.count)! != 0 ? false : true) : (self.scannedEvolves.count + (self.load?.evolves.count)! != 0 ? false : true)) : indexPath.section == 0 ? (self.scannedSpools.count != 0 ? false : true) : indexPath.section == 1 ? (self.scannedHangers.count != 0 ? false : true) : (self.scannedEvolves.count != 0 ? false : true)
+        if isEmpty {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "loadCell", for: indexPath) as? LoadCell
+            cell?.spoolLbl.text = "No data found"
+            cell?.viewDrawingBtn.isHidden = true
+            cell?.deleteSpoolButton.isHidden = true
+            cell?.isoButton.isHidden = true
+            return cell!
+        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "loadCell", for: indexPath) as? LoadCell
+        cell?.viewDrawingBtn.isHidden = false
+        cell?.viewDrawingBtn.setImage(UIImage.init(named: "SpoolPdf"), for: .normal)
+        cell?.deleteSpoolButton.isHidden = false
+        cell?.isoButton.isHidden = false
+        if indexPath.section == 0 {
+            let spool = getSpoolAtRow(indexPath: indexPath)
+            cell?.spoolLbl.text = "\(spool.code!)"
+            cell?.viewDrawingBlock = {
+                self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
+            }
+            cell?.deleteSpoolBlock = {
+                
+                // Declare Alert message
+                let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to delete this?", preferredStyle: .alert)
+                
+                // Create OK button with action handler
+                let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+                    if self.deletedSpools.contains(spool)
+                    {
+                        
+                    }
+                    else
+                    {
+                        self.deletedSpools.append(spool)
+                    }
+                    if self.isEdit
+                    {
+                        self.scannedSpools.removeAll { $0.id == spool.id }
+                        self.load?.spools.removeAll { $0.id == spool.id }
+                    }
+                    else
+                    {
+                        self.scannedSpools.removeAll { $0.id == spool.id }
+                    }
+                    self.updateUI()
+                })
+                
+                // Create Cancel button with action handlder
+                let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+                }
+                
+                //Add OK and Cancel button to dialog message
+                dialogMessage.addAction(ok)
+                dialogMessage.addAction(cancel)
+                
+                // Present dialog message to user
+                self.present(dialogMessage, animated: true, completion: nil)
+            }
+            cell?.isoButton.isHidden = (spool.isoDrawingURL == nil)
+            cell?.viewISODrawingBlock = {
+                guard (spool.isoDrawingURL != nil) else {
+                    self.alertVC.presentAlertWithMessage(message: "No ISO URL found", controller: self)
+                    return
+                }
+                self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .ISOURL)
+            }
+
+        } else if indexPath.section == 1 {
+            let hanger = getHangerAtRow(indexPath: indexPath)
+            cell?.spoolLbl.text = "\(hanger.packageName!)"
+            cell?.viewDrawingBtn.isHidden = false
+            cell?.viewDrawingBtn.setImage(UIImage.init(named: "Hangers_Pdf"), for: .normal)
+            cell?.viewDrawingBlock = {
+                self.showDrawingVC(spool: nil, hanger: hanger, evolve: nil, role: self.role, state: .pdfURL)
+            }
+            cell?.deleteSpoolBlock = {
+                
+                // Declare Alert message
+                let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to delete this?", preferredStyle: .alert)
+                
+                // Create OK button with action handler
+                let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+                    if self.deletedHangers.contains(hanger)
+                    {
+                        
+                    }
+                    else
+                    {
+                        self.deletedHangers.append(hanger)
+                    }
+                    if self.isEdit
+                    {
+                        self.scannedHangers.removeAll { $0.id == hanger.id }
+                        self.load?.hangers.removeAll { $0.id == hanger.id }
+                    }
+                    else
+                    {
+                        self.scannedHangers.removeAll { $0.id == hanger.id }
+                    }
+                    self.updateUI()
+                })
+                
+                // Create Cancel button with action handlder
+                let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+                }
+                
+                //Add OK and Cancel button to dialog message
+                dialogMessage.addAction(ok)
+                dialogMessage.addAction(cancel)
+                
+                // Present dialog message to user
+                self.present(dialogMessage, animated: true, completion: nil)
+            }
+            cell?.isoButton.isHidden = true
+        } else {
+            let evolve = getEvolveAtRow(indexPath: indexPath)
+            cell?.spoolLbl.text = "\(evolve.batteryName!)"
+            cell?.viewDrawingBtn.isHidden = false
+            cell?.viewDrawingBtn.setImage(UIImage.init(named: "evolve_pdf"), for: .normal)
+            cell?.viewDrawingBlock = {
+                self.showDrawingVC(spool: nil, hanger: nil, evolve: evolve, role: self.role, state: .pdfURL)
+            }
+            cell?.deleteSpoolBlock = {
+                
+                // Declare Alert message
+                let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to delete this?", preferredStyle: .alert)
+                
+                // Create OK button with action handler
+                let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+                    if self.deletedEvolves.contains(evolve)
+                    {
+                        
+                    }
+                    else
+                    {
+                        self.deletedEvolves.append(evolve)
+                    }
+                    if self.isEdit
+                    {
+                        self.scannedEvolves.removeAll { $0.id == evolve.id }
+                        self.load?.evolves.removeAll { $0.id == evolve.id }
+                    }
+                    else
+                    {
+                        self.scannedEvolves.removeAll { $0.id == evolve.id }
+                    }
+                    self.updateUI()
+                })
+                
+                // Create Cancel button with action handlder
+                let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+                }
+                
+                //Add OK and Cancel button to dialog message
+                dialogMessage.addAction(ok)
+                dialogMessage.addAction(cancel)
+                
+                // Present dialog message to user
+                self.present(dialogMessage, animated: true, completion: nil)
+            }
+            cell?.isoButton.isHidden = true
+        }
+        return cell!
+    }
+}
+extension NewLoadVC {
     // update load details
     func updateLoad(isSubmit:Bool)
     {
         var loadParams:[String:AnyObject] = [String:AnyObject]()
         
         var params = [String:AnyObject]()
-        
         if !(scannedSpools.isEmpty)
         {
-            let deletedSpoolIDs  = deletedSpools.compactMap({ $0.id})
-            let spoolIDs = self.getSPoolParams()
-            loadParams["spool_ids"] =  spoolIDs.filter({ !deletedSpoolIDs.contains(Int($0)!)
-            }) as AnyObject
+            loadParams["spool_ids"] =  self.scannedHangers.map{($0.id)} as AnyObject
         }
         if !(scannedHangers.isEmpty) {
-            loadParams["hanger_ids"] =  self.scannedHangers.map{($0.id)} as AnyObject
+            loadParams["package_material_ids"] =  self.scannedHangers.map{($0.id)} as AnyObject
+        }
+        if !(scannedEvolves.isEmpty) {
+            loadParams["package_material_ids"] =  self.scannedHangers.map{($0.id)} as AnyObject
         }
 
         loadParams["truck_number"] = truckNumberTF.text as AnyObject
@@ -428,7 +665,8 @@ extension NewLoadVC
             endPoint.append("\(self.load!.id!)")
             method = "PUT"
             loadParams["removed_spool_ids"] =  self.deletedSpools.compactMap({$0.id!}) as AnyObject
-            
+            let deletedPackageMaterialIds = self.deletedHangers.compactMap({$0.id!}) + self.deletedEvolves.compactMap({$0.id!})
+            loadParams["removed_package_material_ids"] = deletedPackageMaterialIds as AnyObject
         }
         else if isSubmit
         {
@@ -481,187 +719,4 @@ extension NewLoadVC
             self.showFailureAlert(with: (error?.localizedDescription)!)
         }
     }
-}
-//MARK:- Scan Delegate Methods
-extension NewLoadVC:  ScannerDelegate{
-    func scanDidCompletedWith(_ data:AVMetadataMachineReadableCodeObject?) {
-        guard data != nil else {
-            return
-        }
-        if (data?.stringValue!.contains(":") ?? false) {
-            let fullString = data?.stringValue!.split(separator: ":")
-            self.scanItem = String((fullString?[0])!)
-            self.scanCode = String((fullString?[1])!).trimmingCharacters(in: .whitespaces)//.components(separatedBy: "_").last
-        } else {
-            self.scanItem = "Spool"
-            self.scanCode = data?.stringValue ?? ""
-        }
-        self.getScannedItemDetails()
-    }
-    
-    func scanDidCompletedWith(_ output: AVCaptureMetadataOutput, didError error: Error,
-                              from connection: AVCaptureConnection) {
-        self.setScanCode(data: nil)
-    }
-}
-
-extension NewLoadVC: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return  self.isEdit ? (section == 0 ? (self.scannedSpools.count + (self.load?.spools.count)! != 0 ? self.scannedSpools.count + (self.load?.spools.count)! : 1) : self.scannedHangers.count + (self.load?.hangers.count)! != 0 ? self.scannedHangers.count + (self.load?.hangers.count)! : 1) : section == 0 ? self.scannedSpools.count != 0 ? self.scannedSpools.count : 1 :  self.scannedHangers.count != 0 ? self.scannedHangers.count : 1
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50.0
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "SectionHeader") as? SectionHeader
-        headerView?.titleLabel.text = section == 0 ? "Spools" : "Hangers"
-        return headerView
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let isEmpty = self.isEdit ? (indexPath.section == 0 ? (self.scannedSpools.count + (self.load?.spools.count)! != 0 ? false : true) : self.scannedHangers.count + (self.load?.hangers.count)! != 0 ? false : true) : indexPath.section == 0 ? self.scannedSpools.count != 0 ? false : true :  self.scannedHangers.count != 0 ? false : true
-        if isEmpty {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "loadCell", for: indexPath) as? LoadCell
-            cell?.spoolLbl.text = "No data found"
-            cell?.viewDrawingBtn.isHidden = true
-            cell?.deleteSpoolButton.isHidden = true
-            cell?.isoButton.isHidden = true
-            return cell!
-        }
-        let cell = tableView.dequeueReusableCell(withIdentifier: "loadCell", for: indexPath) as? LoadCell
-        cell?.viewDrawingBtn.isHidden = false
-        cell?.viewDrawingBtn.setImage(UIImage.init(named: "SpoolPdf"), for: .normal)
-        cell?.deleteSpoolButton.isHidden = false
-        cell?.isoButton.isHidden = false
-        if indexPath.section == 0 {
-            let spool = getSpoolAtRow(indexPath: indexPath)
-            cell?.spoolLbl.text = "\(spool.code!)"
-            cell?.viewDrawingBlock = {
-                self.showDrawingVC(spool: spool, hanger: nil, role: self.role, state: .pdfURL)
-            }
-            cell?.deleteSpoolBlock = {
-                
-                // Declare Alert message
-                let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to delete this?", preferredStyle: .alert)
-                
-                // Create OK button with action handler
-                let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-                    if self.deletedSpools.contains(spool)
-                    {
-                        
-                    }
-                    else
-                    {
-                        self.deletedSpools.append(spool)
-                    }
-                    if self.isEdit
-                    {
-                        self.scannedSpools.removeAll { $0.id == spool.id }
-                        self.load?.spools.removeAll { $0.id == spool.id }
-                    }
-                    else
-                    {
-                        self.scannedSpools.removeAll { $0.id == spool.id }
-                    }
-                    self.updateUI()
-                })
-                
-                // Create Cancel button with action handlder
-                let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
-                }
-                
-                //Add OK and Cancel button to dialog message
-                dialogMessage.addAction(ok)
-                dialogMessage.addAction(cancel)
-                
-                // Present dialog message to user
-                self.present(dialogMessage, animated: true, completion: nil)
-            }
-            cell?.isoButton.isHidden = (spool.isoDrawingURL == nil)
-            cell?.viewISODrawingBlock = {
-                guard (spool.isoDrawingURL != nil) else {
-                    self.alertVC.presentAlertWithMessage(message: "No ISO URL found", controller: self)
-                    return
-                }
-                self.showDrawingVC(spool: spool, hanger: nil, role: self.role, state: .ISOURL)
-            }
-
-        } else {
-            let hanger = getHangerAtRow(indexPath: indexPath)
-            cell?.spoolLbl.text = "\(hanger.packageName!)"
-            cell?.viewDrawingBtn.isHidden = false
-            cell?.viewDrawingBtn.setImage(UIImage.init(named: "Hangers_Pdf"), for: .normal)
-            cell?.viewDrawingBlock = {
-                self.showDrawingVC(spool: nil, hanger: hanger, role: self.role, state: .pdfURL)
-            }
-            cell?.deleteSpoolBlock = {
-                
-                // Declare Alert message
-                let dialogMessage = UIAlertController(title: "Confirm", message: "Are you sure you want to delete this?", preferredStyle: .alert)
-                
-                // Create OK button with action handler
-                let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
-                    if self.deletedHangers.contains(hanger)
-                    {
-                        
-                    }
-                    else
-                    {
-                        self.deletedHangers.append(hanger)
-                    }
-                    if self.isEdit
-                    {
-                        self.scannedHangers.removeAll { $0.id == hanger.id }
-                        self.load?.hangers.removeAll { $0.id == hanger.id }
-                    }
-                    else
-                    {
-                        self.scannedHangers.removeAll { $0.id == hanger.id }
-                    }
-                    self.updateUI()
-                })
-                
-                // Create Cancel button with action handlder
-                let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
-                }
-                
-                //Add OK and Cancel button to dialog message
-                dialogMessage.addAction(ok)
-                dialogMessage.addAction(cancel)
-                
-                // Present dialog message to user
-                self.present(dialogMessage, animated: true, completion: nil)
-            }
-            cell?.isoButton.isHidden = true
-        }
-        return cell!
-    }
-    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let isEmpty = self.isEdit ? (indexPath.section == 0 ? (self.scannedSpools.count + (self.load?.spools.count)! != 0 ? false : true) : self.scannedHangers.count + (self.load?.hangers.count)! != 0 ? false : true) : indexPath.section == 0 ? self.scannedSpools.count != 0 ? false : true :  self.scannedHangers.count != 0 ? false : true
-//        if isEmpty {
-//            return
-//        }
-//        if let vc = self.getViewControllerWithIdentifier(identifier:"DrawingVC") as? BaseViewController {
-//            if indexPath.section == 0{
-//                let spool = getSpoolAtRow(indexPath: indexPath)
-//                vc.spool = spool
-//            } else {
-//                let hanger = getHangerAtRow(indexPath: indexPath)
-//                vc.hanger = hanger
-//            }
-//            self.navigationController?.pushViewController(vc, animated: true)
-//            return
-//        }
-//    }
 }
