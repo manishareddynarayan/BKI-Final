@@ -8,9 +8,11 @@
 
 import UIKit
 import AVFoundation
+import Starscream
 
-class BaseViewController: UIViewController {
 
+class BaseViewController: UIViewController,WebSocketDelegate {
+    
     weak var appDelegate = UIApplication.shared.delegate as? AppDelegate
     var sessionManager = AUSessionManager.shared
     var alertVC = RBAAlertController()
@@ -25,20 +27,91 @@ class BaseViewController: UIViewController {
     var hanger:Hanger?
     var evolve:Evolve?
     var shouldRejectWholeSpool = false
+    var socket:WebSocket?
+    var isConnected = false
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.view.backgroundColor = UIColor.brickRed
         bgImageview.image = UIImage.init(named: "Splash")
         bgImageview.frame = self.view.bounds
         self.view.addSubview(bgImageview)
         self.view.sendSubviewToBack(self.bgImageview)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(image: UIImage.init(named: "backArrow"),
-        style: .plain, target: self, action: #selector(self.backButtonAction(sender:)))
+                                                                     style: .plain, target: self, action: #selector(self.backButtonAction(sender:)))
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white,
                                                                    NSAttributedString.Key.font: UIFont.systemSemiBold15]
+//        if defs?.object(forKey: "access-token") != nil {
+//            let token = (defs?.object(forKey: "access-token") as? String)!
+//            let request = URLRequest(url: URL(string: "wss://07365867869c.ngrok.io/cable?X_ACCESS_TOKEN:\(token)")!)
+//            socket = WebSocket(request: request)
+//            socket?.delegate = self
+//            socket?.connect()
+//        }
     }
+    func createChannel()
+        {
+            let strChannel = "{ \"channel\": \"IosUsersChannel\" }"
+            let message = ["command" : "subscribe","identifier": strChannel]
 
+            do {
+                let data = try JSONSerialization.data(withJSONObject: message)
+                if let dataString = String(data: data, encoding: .utf8){
+                    self.socket?.write(string: dataString)
+                }
+                let udid = UIDevice.current.identifierForVendor!.uuidString
+
+                self.httpWrapper.performAPIRequest("user_time_logs/stop_tracking?user_id=\(self.currentUser.id ?? 0)&websocket=true&udid=\(udid)", methodType: "PUT", parameters: nil) { (responseData) in
+                    DispatchQueue.main.async {
+                        print("yesssssssssss")
+                    }
+                } failBlock: { (error) in
+                    DispatchQueue.main.async {
+                        print("noooooooooooo")
+                    }
+                }
+
+            } catch {
+                print("JSON serialization failed: ", error)
+            }
+        }
+    
+    
+    func didReceive(event: WebSocketEvent, client: WebSocket) {
+        switch event {
+        case .connected(let headers):
+            isConnected = true
+            self.createChannel()
+            print("websocket is connected: \(headers)")
+        case .disconnected(let reason, let code):
+            isConnected = false
+            print("websocket is disconnected: \(reason) with code: \(code)")
+        case .text(let string):
+            print("Received text: \(string)")
+            guard let data = string.data(using: .utf8), let devicedata = try? JSONDecoder().decode(deviceData.self, from: data) else {
+                print("could decode")
+                return
+            }
+            print("\(devicedata.message.primary_user_id)")
+            print("\(devicedata.message.udid)")
+        case .binary(let data):
+            print("Received data: \(data.count)")
+        case .ping(_):
+            break
+        case .pong(_):
+            break
+        case .viabilityChanged(_):
+            break
+        case .reconnectSuggested(_):
+            break
+        case .cancelled:
+            isConnected = false
+        case .error(let error):
+            isConnected = false
+        }
+    }
+    
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.hideNavigationController()
@@ -48,21 +121,21 @@ class BaseViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     @objc func backButtonAction(sender:AnyObject?) {
         UserDefaults.standard.removeObject(forKey: "truck_number")
         self.navigationController?.popViewController(animated: true)
     }
     
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
     
     func setScanCode(data:AVMetadataMachineReadableCodeObject?) {
         guard data != nil else {
@@ -91,13 +164,13 @@ class BaseViewController: UIViewController {
             self.appDelegate?.setupRootViewController()
         }
         self.alertVC.presentAlertWithTitleAndActions(actions: [cancelClosure,signoutClosure],
-        buttonTitles: ["Cancel","Logout"],controller: self, message: "Are you sure you want to logout ?", title: "BKI")
+                                                     buttonTitles: ["Cancel","Logout"],controller: self, message: "Are you sure you want to logout ?", title: "BKI")
     }
     
     func showScanner() {
         self.scanCode = ""
         guard let scanNVC = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "ScanNVC",
-        storyBoard: "Scanner") as? UINavigationController else { return  }
+                                                                              storyBoard: "Scanner") as? UINavigationController else { return  }
         guard let vc = scanNVC.viewControllers[0] as? ScannerViewController else { return }
         vc.delegate = self as? ScannerDelegate
         scanNVC.modalPresentationStyle = .fullScreen
@@ -109,9 +182,9 @@ class BaseViewController: UIViewController {
         if let spool = self.spool{
             for weld in spool.welds{
                 fittingState = weld.state == WeldState.fitting ? (fittingState + 1) : fittingState
-//                if weld.state == WeldState.fitting{
-//                    fittingState += 1
-//                }
+                //                if weld.state == WeldState.fitting{
+                //                    fittingState += 1
+                //                }
             }
         }
         if fittingState == 1{
@@ -125,9 +198,9 @@ class BaseViewController: UIViewController {
         if let spool = self.spool{
             for weld in spool.welds{
                 weldingState = weld.state == WeldState.welding ? (weldingState + 1) : weldingState
-//                if weld.state == WeldState.welding{
-//                    weldingState += 1
-//                }
+                //                if weld.state == WeldState.welding{
+                //                    weldingState += 1
+                //                }
             }
         }
         if weldingState == 1{
@@ -181,11 +254,11 @@ class BaseViewController: UIViewController {
     }
     
     func checkHeatNumbersWithSpool(spool: Spool) -> Bool{
-            for component in spool.components{
-                if component.heatNumber == ""{
-                    return false
-                }
+        for component in spool.components{
+            if component.heatNumber == ""{
+                return false
             }
+        }
         return true
     }
     
@@ -193,7 +266,7 @@ class BaseViewController: UIViewController {
         let submitClosure: () -> Void = {
             let tf = self.alertVC.rbaAlert.textFields?.first
             if !((tf?.text?.isEmpty)!) {
-                !((self.spool?.welds.isEmpty)!) ? self.updateWeldsWith("reject", rejectReason: tf?.text!, isSpoolUpdate:false, updateTableView: tableView, caller: caller, testMethodsWelds: nil) : self.updateWeldsWith("rejected", rejectReason:nil, isSpoolUpdate:true, updateTableView: tableView, caller: caller, testMethodsWelds: nil)
+                !((self.spool?.welds.isEmpty)!) ? self.updateWeldsWith("reject", rejectReason: tf?.text!, isSpoolUpdate:false, updateTableView: tableView, caller: caller, odTestMethodsWelds: nil, idTestMethodsWelds: nil) : self.updateWeldsWith("rejected", rejectReason:nil, isSpoolUpdate:true, updateTableView: tableView, caller: caller, odTestMethodsWelds: nil, idTestMethodsWelds: nil)
             } else {
                 self.alertVC.presentAlertWithTitleAndMessage(title: "Error", message: "Please enter reason for rejection.", controller: self)
             }
@@ -268,22 +341,23 @@ class BaseViewController: UIViewController {
         rejectBtn.isEnabled = !isHidden
     }
     
-    func updateWeldsWith(_ status:String, rejectReason:String?, isSpoolUpdate:Bool,updateTableView tableView:UITableView, caller:String, testMethodsWelds :[String:([String:String])]?) {
+    func updateWeldsWith(_ status:String, rejectReason:String?, isSpoolUpdate:Bool,updateTableView tableView:UITableView, caller:String, odTestMethodsWelds :[String:([String:String])]?, idTestMethodsWelds :[String:([String:String])]?) {
         var weldParams = ["event":status] as [String : Any]
-//        var weldIds:[Int]
-//        if shouldRejectWholeSpool{
-//            if 1{
-//                weldIds = getWeldingStateWeldIds()
-//            }else{
-//                weldIds = getQaStateWeldIds()
-//            }
-//        }else{
-//            weldIds = self.getSelectedWeldIds()
-//        }
+        //        var weldIds:[Int]
+        //        if shouldRejectWholeSpool{
+        //            if 1{
+        //                weldIds = getWeldingStateWeldIds()
+        //            }else{
+        //                weldIds = getQaStateWeldIds()
+        //            }
+        //        }else{
+        //            weldIds = self.getSelectedWeldIds()
+        //        }
         let weldIds = shouldRejectWholeSpool ? (caller == "weld" ? self.getWeldingStateWeldIds() : getQaStateWeldIds()) : self.getSelectedWeldIds()
         
         weldParams["weld_ids"] = weldIds
-        weldParams["test_method_welds"] = testMethodsWelds
+        weldParams["id_test_method_welds"] = idTestMethodsWelds
+        weldParams["od_test_method_welds"] = odTestMethodsWelds
         if rejectReason != nil {
             weldParams["reject_reason"] = rejectReason
         }
@@ -329,18 +403,19 @@ extension UIViewController {
         let event = mutableParams["event"]
         mutableParams.removeValue(forKey: "event")
         if isSpoolUpdate {
-           endPoint = "spools/\((spool.id)!)/modify_state"
+            endPoint = "spools/\((spool.id)!)/modify_state"
             body = ["event":event!, "weld":mutableParams as AnyObject]
         }
         else {
-            if let testWeldsMethod = mutableParams["test_method_welds"]{
-                mutableParams.removeValue(forKey: "test_method_welds")
-                body = ["event":event!,"test_method_welds":testWeldsMethod,"weld":mutableParams as AnyObject]
+            if let IDTestWeldsMethod = mutableParams["id_test_method_welds"],let ODTestWeldsMethod = mutableParams["od_test_method_welds"]{
+                mutableParams.removeValue(forKey: "id_test_method_welds")
+                mutableParams.removeValue(forKey: "od_test_method_welds")
+                body = ["event":event!,"id_test_method_welds":IDTestWeldsMethod,"od_test_method_welds":ODTestWeldsMethod,"weld":mutableParams as AnyObject]
             }else{
                 body = ["event":event!,"weld":params as AnyObject]
             }
         }
-    HTTPWrapper.sharedInstance.performAPIRequest(endPoint, methodType: "PUT", parameters: body, successBlock: { (responseData) in
+        HTTPWrapper.sharedInstance.performAPIRequest(endPoint, methodType: "PUT", parameters: body, successBlock: { (responseData) in
             DispatchQueue.main.async {
                 DispatchQueue.main.async {
                     let welds = responseData["welds"] as? [[String:AnyObject]]
@@ -353,20 +428,25 @@ extension UIViewController {
                     }
                     tableView.reloadData()
                     MBProgressHUD.hideHud(view: self.view)
-//                    self.navigationController?.popViewController(animated: true)
+                    //                    self.navigationController?.popViewController(animated: true)
                     let previousVC = self.navigationController?.viewControllers.last as? DashBoardVC
                     previousVC?.shouldChangeState = true
                     
                     let inspectionVC = self.navigationController?.viewControllers.last as? InspectionVC
                     inspectionVC?.rejectSpoolButtonState()
-                    inspectionVC?.showRejectButton(rejectBtn: (inspectionVC?.rejectBtn)!)
+                    inspectionVC?.showActionButtons(approveBtn: (inspectionVC?.approveBtn)!, rejectBtn: (inspectionVC?.rejectBtn)!)
+
+//                    inspectionVC?.showRejectButton(rejectBtn: (inspectionVC?.rejectBtn)!)
                     let weldStatusVC = self.navigationController?.viewControllers.last as? WeldStatusVC
                     weldStatusVC?.rejectSpoolButtonState()
                     weldStatusVC?.showRejectButton(rejectBtn: (weldStatusVC?.rejectBtn)!)
                 }
             }
         }) { (error) in
+            DispatchQueue.main.async {
+            MBProgressHUD.hideHud(view: self.view)
             self.showFailureAlert(with: (error?.localizedDescription)!)
+            }
         }
     }
 }
@@ -377,7 +457,7 @@ extension UITableViewController {
 class BaseTableViewController: UITableViewController {
     
     var alertVC = RBAAlertController()
-
+    
     @IBOutlet weak var headerView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -411,13 +491,13 @@ class BaseTableViewController: UITableViewController {
         let previousVC = self.navigationController?.viewControllers.last as? DashBoardVC
         previousVC?.shouldChangeState = true
     }
-    
-//    func showFailureAlert(with message:String) {
-//        DispatchQueue.main.async {
-//            MBProgressHUD.hideHud(view: self.view)
-//            self.alertVC.presentAlertWithTitleAndMessage(title: "ERROR", message: message, controller: self)
-//        }
-//    }
+}
+struct Device:Decodable {
+    let udid:String
+    let primary_user_id:String
+}
+struct deviceData:Decodable {
+    let message:Device
 }
 
 

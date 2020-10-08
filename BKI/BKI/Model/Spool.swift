@@ -23,7 +23,8 @@ class Spool: BKIModel {
     var weight = 0.0
     var projectId:Int?
     var lastFittingCompletion = false
-    var testMethods:[String:Int] = [:]
+    var IDTestMethods:[String:Int] = [:]
+    var ODTestMethods:[String:Int] = [:]
     var isStainlessSteel:Bool?
     var isCutListsCompleted:Bool?
     var isHPCategory:Bool?
@@ -85,11 +86,17 @@ class Spool: BKIModel {
         if let projectId = spoolInfo["project_id"] as? Int{
             self.projectId = projectId
         }
-        if let testMethods = spoolInfo["test_methods"] as? [String:Int]{
+        if let testMethods = spoolInfo["id_test_methods"] as? [String:Int]{
             for (key, value) in testMethods{
-                self.testMethods[key] = value
+                self.IDTestMethods[key] = value
             }
         }
+        if let testMethods = spoolInfo["od_test_methods"] as? [String:Int]{
+            for (key, value) in testMethods{
+                self.ODTestMethods[key] = value
+            }
+        }
+
         if let isStainlessSteel = spoolInfo["stainless_steel?"] as? Bool{
             self.isStainlessSteel = isStainlessSteel
         }

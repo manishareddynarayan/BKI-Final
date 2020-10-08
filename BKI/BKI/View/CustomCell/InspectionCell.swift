@@ -10,21 +10,30 @@ import UIKit
 
 class InspectionCell: BaseCell, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
-    @IBOutlet weak var statusLbl: UILabel!
+    @IBOutlet weak var statusImageView: UIImageView!
     @IBOutlet weak var weldLbl: UILabel!
     @IBOutlet weak var checkBtn: UIButton!
-    var testMethodChangeddBlock:((_ testMethod:String) -> Void)?
-    @IBOutlet weak var testMethodTF: AUTextField!
-    
+    var IDTestMethodChangeddBlock:((_ testMethod:String) -> Void)?
+    var ODTestMethodChangeddBlock:((_ testMethod:String) -> Void)?
+    @IBOutlet weak var ODTestMethodTF: UITextField!
+    @IBOutlet weak var IDTestMethodTF: UITextField!
     var isChecked = false
     var selectionChangeddBlock:((_ isChecked:Bool) -> Void)?
-    var testMethodsArray:[String] = []
+    var IDTestMethodsArray:[String] = []
+    var ODTestMethodsArray:[String] = []
+    var selectedTextField:UITextField?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.testMethodTF.textAlignment = .left
-        self.testMethodTF.addPickerView(with: self)
+        self.IDTestMethodTF.delegate = self
+        self.ODTestMethodTF.delegate = self
+        self.IDTestMethodTF.textAlignment = .left
+        self.IDTestMethodTF.addPickerView(with: self)
+        self.ODTestMethodTF.textAlignment = .left
+        self.ODTestMethodTF.addPickerView(with: self)
+        self.IDTestMethodTF.tintColor = .clear
+        self.ODTestMethodTF.tintColor = .clear
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -33,39 +42,44 @@ class InspectionCell: BaseCell, UIPickerViewDelegate, UIPickerViewDataSource, UI
         // Configure the view for the selected state
     }
     
-    func configureWeld(weld:Weld, testMethods:[String:Int]) {
+    func configureWeld(weld:Weld, IDTestMethods:[String:Int],ODTestMethods:[String:Int]) {
         
-        if testMethodsArray.isEmpty{
-            for (name, _) in testMethods{
-                self.testMethodsArray.append(name)
+        if IDTestMethodsArray.isEmpty{
+            for (name, _) in IDTestMethods{
+                self.IDTestMethodsArray.append(name)
             }
         }
-        
+        if ODTestMethodsArray.isEmpty{
+            for (name, _) in ODTestMethods{
+                self.ODTestMethodsArray.append(name)
+            }
+        }
         self.weldLbl.text = weld.number
         let state = weld.getWeldState(state: weld.state!).capitalized
-        self.testMethodTF.text = weld.testMethod
-        self.statusLbl.text = state
-        self.statusLbl.isHidden = false
+        self.IDTestMethodTF.text = weld.idTestMethod
+        self.ODTestMethodTF.text = weld.odTestMethod
+        statusImageView.isHidden = false
         if state == "Approved" {
 //            weld.isChecked = true
-            self.statusLbl.textColor = UIColor.muddyGreen
-            self.testMethodTF.alpha = 0.5
+            statusImageView.image = UIImage(named: "tick")
+            self.IDTestMethodTF.alpha = 0.5
+            self.ODTestMethodTF.alpha = 0.5
         } else if state == "Fitting" {
-            self.statusLbl.text = (weld.qARejectReason != nil && !(weld.qARejectReason?.isEmpty)!) ? "Rejected" : ""
-            self.statusLbl.textColor = UIColor.scarlet
-            self.testMethodTF.alpha = 0.5
+            statusImageView.image = (weld.qARejectReason != nil && !(weld.qARejectReason?.isEmpty)!) ? UIImage(named: "Rejected") : UIImage(named: "")
+            self.IDTestMethodTF.alpha = 0.5
+            self.ODTestMethodTF.alpha = 0.5
         }
         else {
-            self.statusLbl.isHidden = true
+            statusImageView.isHidden = true
         }
         self.isChecked = weld.isChecked
         self.setImageForCheckBtn()
     }
     
     @IBAction func checkMarkAction(_ sender: Any) {
+        self.selectionChangeddBlock!(self.isChecked)
         self.isChecked = !self.isChecked
         self.setImageForCheckBtn()
-        self.selectionChangeddBlock!(self.isChecked)
     }
     
     private func setImageForCheckBtn() {
@@ -80,17 +94,31 @@ class InspectionCell: BaseCell, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return testMethodsArray.count
+        return selectedTextField == IDTestMethodTF ? IDTestMethodsArray.count : ODTestMethodsArray.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        self.testMethodTF.text = testMethodsArray[pickerView.selectedRow(inComponent: 0)]
-        self.testMethodChangeddBlock!(self.testMethodTF.text!)
-        return testMethodsArray[row]
+        if selectedTextField == IDTestMethodTF {
+        self.IDTestMethodTF.text = IDTestMethodsArray[pickerView.selectedRow(inComponent: 0)]
+        self.IDTestMethodChangeddBlock!(self.IDTestMethodTF.text!)
+        return IDTestMethodsArray[row]
+        } else {
+            self.ODTestMethodTF.text = ODTestMethodsArray[pickerView.selectedRow(inComponent: 0)]
+            self.ODTestMethodChangeddBlock!(self.ODTestMethodTF.text!)
+            return ODTestMethodsArray[row]
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.testMethodTF.text = testMethodsArray[row]
-        self.testMethodChangeddBlock!(self.testMethodTF.text!)
+        if selectedTextField == IDTestMethodTF {
+        self.IDTestMethodTF.text = IDTestMethodsArray[row]
+        self.IDTestMethodChangeddBlock!(self.IDTestMethodTF.text!)
+        } else {
+            self.ODTestMethodTF.text = ODTestMethodsArray[row]
+            self.ODTestMethodChangeddBlock!(self.ODTestMethodTF.text!)
+        }
+    }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        selectedTextField = textField
     }
 }

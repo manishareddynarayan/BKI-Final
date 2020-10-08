@@ -19,7 +19,8 @@ class Weld: BKIModel {
     var isChecked = false
     var qARejectReason:String?
     var welderRejectReason:String?
-    var testMethod:String?
+    var idTestMethod:String?
+    var odTestMethod:String?
     var gasId:String?
     
     override init () {
@@ -61,8 +62,11 @@ class Weld: BKIModel {
         if let qa_reject_reason = weldInfo["qa_reject_reason"] as? String {
             self.qARejectReason = qa_reject_reason
         }
-        if let testMethod = weldInfo["test_method"] as? String {
-            self.testMethod = testMethod
+        if let testMethod = weldInfo["id_test_method"] as? String {
+            self.idTestMethod = testMethod
+        }
+        if let testMethod = weldInfo["od_test_method"] as? String {
+            self.odTestMethod = testMethod
         }
         if let gasId = weldInfo["backing_gas_id"] as? String {
             self.gasId = gasId

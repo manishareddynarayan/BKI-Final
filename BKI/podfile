@@ -7,5 +7,5 @@ target ‘BKI’ do
     pod 'Crashlytics'
     pod 'Bolts'
     pod 'Firebase/Analytics'
-	
+    pod 'Starscream', '~> 4.0.0'
 end

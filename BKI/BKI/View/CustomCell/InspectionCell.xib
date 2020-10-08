@@ -1,79 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="inspectionCell" id="KGk-i7-Jjw" customClass="InspectionCell" customModule="BKI" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="inspectionCell" rowHeight="51" id="KGk-i7-Jjw" customClass="InspectionCell" customModule="BKI" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="394" height="51"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <rect key="frame" x="0.0" y="0.0" width="394" height="51"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XFO-WQ-Nmf">
-                        <rect key="frame" x="19" y="11" width="14" height="22"/>
+                        <rect key="frame" x="19" y="14.5" width="14" height="22"/>
                         <state key="normal" image="checkmark"/>
                         <connections>
                             <action selector="checkMarkAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="AdN-7w-C1o"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weld 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="81e-Ic-MXC">
-                        <rect key="frame" x="43" y="12.5" width="75" height="19.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weld 1" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="81e-Ic-MXC">
+                        <rect key="frame" x="43" y="16" width="60" height="19.5"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="75" id="kc0-eU-zuu"/>
+                            <constraint firstAttribute="width" constant="60" id="kc0-eU-zuu"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" red="0.53725490200000003" green="0.050980392159999999" blue="0.047058823530000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Approved" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Y5-TE-obw">
-                        <rect key="frame" x="207" y="12" width="94" height="20"/>
+                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Select ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9cZ-V5-VJ6">
+                        <rect key="frame" x="113" y="13" width="85" height="25"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="94" id="RLm-rK-HXH"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <color key="textColor" red="0.53725490200000003" green="0.050980392159999999" blue="0.047058823530000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Test Method" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9cZ-V5-VJ6">
-                        <rect key="frame" x="128" y="9.5" width="95" height="25"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="95" id="VKY-eO-aJS"/>
+                            <constraint firstAttribute="width" constant="85" id="VKY-eO-aJS"/>
                             <constraint firstAttribute="height" constant="25" id="jYu-AJ-mi9"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="rightImage" value="down"/>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="5"/>
+                            </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </textField>
+                    <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Select OD" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="D5A-VU-dn7">
+                        <rect key="frame" x="213" y="13" width="85" height="25"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="7zy-j0-w5E"/>
+                            <constraint firstAttribute="width" constant="85" id="grP-aa-lPe"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="rightImage" value="down"/>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </textField>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark" translatesAutoresizingMaskIntoConstraints="NO" id="np2-eA-g8u">
+                        <rect key="frame" x="357" y="14.5" width="22" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="22" id="ov9-eT-rCc"/>
+                            <constraint firstAttribute="height" constant="22" id="zJU-Zy-Gf0"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="XFO-WQ-Nmf" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="0YA-uR-84q"/>
-                    <constraint firstItem="2Y5-TE-obw" firstAttribute="centerY" secondItem="XFO-WQ-Nmf" secondAttribute="centerY" id="4nS-hz-ecZ"/>
-                    <constraint firstAttribute="trailing" secondItem="2Y5-TE-obw" secondAttribute="trailing" constant="19" id="8se-iP-09l"/>
+                    <constraint firstItem="np2-eA-g8u" firstAttribute="centerY" secondItem="D5A-VU-dn7" secondAttribute="centerY" id="1pZ-Vm-xVo"/>
+                    <constraint firstItem="D5A-VU-dn7" firstAttribute="leading" secondItem="9cZ-V5-VJ6" secondAttribute="trailing" constant="15" id="B8x-yT-lK2"/>
+                    <constraint firstItem="D5A-VU-dn7" firstAttribute="centerY" secondItem="9cZ-V5-VJ6" secondAttribute="centerY" id="CIF-eG-aF9"/>
                     <constraint firstItem="81e-Ic-MXC" firstAttribute="centerY" secondItem="XFO-WQ-Nmf" secondAttribute="centerY" id="HWP-PP-3YO"/>
                     <constraint firstItem="9cZ-V5-VJ6" firstAttribute="leading" secondItem="81e-Ic-MXC" secondAttribute="trailing" constant="10" id="ZEf-Vb-9Y7"/>
                     <constraint firstItem="XFO-WQ-Nmf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="19" id="bQV-ow-phs"/>
                     <constraint firstItem="81e-Ic-MXC" firstAttribute="leading" secondItem="XFO-WQ-Nmf" secondAttribute="trailing" constant="10" id="cZB-bx-uRb"/>
                     <constraint firstItem="9cZ-V5-VJ6" firstAttribute="centerY" secondItem="81e-Ic-MXC" secondAttribute="centerY" id="fpX-xt-nDw"/>
+                    <constraint firstItem="np2-eA-g8u" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="D5A-VU-dn7" secondAttribute="trailing" constant="20" id="g6x-v3-e1c"/>
+                    <constraint firstAttribute="trailing" secondItem="np2-eA-g8u" secondAttribute="trailing" constant="15" id="jgo-0O-E50"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="IDTestMethodTF" destination="9cZ-V5-VJ6" id="Ps0-Ts-hrS"/>
+                <outlet property="ODTestMethodTF" destination="D5A-VU-dn7" id="Kvv-h1-Krp"/>
                 <outlet property="checkBtn" destination="XFO-WQ-Nmf" id="gzM-he-r0I"/>
-                <outlet property="statusLbl" destination="2Y5-TE-obw" id="3ms-Vb-QeE"/>
-                <outlet property="testMethodTF" destination="9cZ-V5-VJ6" id="TfL-5g-cBm"/>
+                <outlet property="statusImageView" destination="np2-eA-g8u" id="jYn-ms-ue3"/>
                 <outlet property="weldLbl" destination="81e-Ic-MXC" id="3nd-mn-DUe"/>
             </connections>
-            <point key="canvasLocation" x="137.59999999999999" y="154.72263868065968"/>
+            <point key="canvasLocation" x="-339.375" y="11.091549295774648"/>
         </tableViewCell>
     </objects>
     <resources>

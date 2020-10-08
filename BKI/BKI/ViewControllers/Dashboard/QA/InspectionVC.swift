@@ -16,9 +16,11 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var rejectBtn: UIButton!
     @IBOutlet weak var approveBtn: UIButton!
     @IBOutlet weak var rejectSpoolBtn: UIButton!
-//    var testMethodsWelds : [String:([Int:([String:String])])] = ["test_method_welds": [Int: [String:String]]()]
-    var testMethodsWelds : [String:([String:String])] = [String: [String:String]]()
     
+//    var testMethodsWelds : [String:([Int:([String:String])])] = ["test_method_welds": [Int: [String:String]]()]
+    var IDTestMethodsWelds : [String:([String:String])] = [String: [String:String]]()
+    var ODTestMethodsWelds : [String:([String:String])] = [String: [String:String]]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UINib(nibName: "InspectionCell", bundle: nil), forCellReuseIdentifier: "inspectionCell")
@@ -79,8 +81,8 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
         rejectSpoolBtn.alpha = checkQaWeldStatus() ? 1 : 0.5
     }
     
-    func updateWeldStatus () {
-        !((self.spool?.welds.isEmpty)!) ? self.updateWeldsWith("verify", rejectReason: nil, isSpoolUpdate:false, updateTableView: tableView, caller: "qa", testMethodsWelds: testMethodsWelds) : self.updateWeldsWith("accepted", rejectReason: nil, isSpoolUpdate:true, updateTableView: tableView, caller: "qa", testMethodsWelds: testMethodsWelds)
+    func updateWeldStatus() {
+        !((self.spool?.welds.isEmpty)!) ? self.updateWeldsWith("verify", rejectReason: nil, isSpoolUpdate: false, updateTableView: tableView, caller: "qa", odTestMethodsWelds: ODTestMethodsWelds, idTestMethodsWelds: IDTestMethodsWelds) : self.updateWeldsWith("accepted", rejectReason: nil, isSpoolUpdate: true, updateTableView: tableView, caller: "qa", odTestMethodsWelds: ODTestMethodsWelds, idTestMethodsWelds: IDTestMethodsWelds)
         approveBtn.isEnabled = false
         approveBtn.alpha = 0.5
         rejectBtn.isEnabled = false
@@ -100,22 +102,49 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "inspectionCell") as? InspectionCell
         let weld = self.spool?.welds[indexPath.row]
-        let testMethods = self.spool?.testMethods
-        if weld!.state != WeldState.qa{
+        let IDTestMethods = self.spool?.IDTestMethods
+        let ODTestMethods = self.spool?.ODTestMethods
+        if weld!.state != WeldState.qa {
             cell?.isUserInteractionEnabled = false
             cell?.weldLbl.alpha = 0.5
-            cell?.statusLbl.alpha = 0.5
+            cell?.statusImageView.alpha = 0.5
         }
-        cell?.configureWeld(weld: weld!, testMethods: testMethods!)
+        cell?.configureWeld(weld: weld!, IDTestMethods: IDTestMethods!, ODTestMethods: ODTestMethods!)
         cell?.selectionChangeddBlock = { (isChecked) in
-            weld?.isChecked = isChecked
-            tableView.reloadData()
-            self.showActionButtons(approveBtn: self.approveBtn, rejectBtn: self.rejectBtn)
+            if (weld?.idTestMethod == nil || weld?.odTestMethod == nil) &&  weld?.isChecked == false {
+                weld?.isChecked = false
+                tableView.reloadData()
+                self.alertVC.presentAlertWithMessage(message: "Both ID test method and OD test method needs to be selected.", controller: self)
+            } else if weld?.idTestMethod == "N/A" && weld?.odTestMethod == "n/a" && weld?.isChecked == false {
+                weld?.isChecked = false
+                tableView.reloadData()
+                self.alertVC.presentAlertWithMessage(message: "Both ID test method and OD test method can't be n/a", controller: self)
+            } else {
+                weld?.isChecked = isChecked
+                tableView.reloadData()
+                self.showActionButtons(approveBtn: self.approveBtn, rejectBtn: self.rejectBtn)
+            }
         }
         
-        cell?.testMethodChangeddBlock = { (testMethod) -> () in
-            self.testMethodsWelds[String(weld!.id!)] = ["test_method":testMethod]
-            weld?.testMethod = testMethod
+        cell?.IDTestMethodChangeddBlock = { (testMethod) -> () in
+            weld?.idTestMethod = testMethod
+            if weld?.idTestMethod == "N/A" && weld?.odTestMethod == "n/a" && (weld?.isChecked == true) {
+                weld?.isChecked = false
+                tableView.reloadData()
+                self.alertVC.presentAlertWithMessage(message: "Both ID test method and OD test method can't be n/a", controller: self)
+            } else {
+                self.IDTestMethodsWelds[String(weld!.id!)] = ["id_test_method":testMethod]
+            }
+        }
+        cell?.ODTestMethodChangeddBlock = { (testMethod) -> () in
+            weld?.odTestMethod = testMethod
+            if weld?.idTestMethod == "N/A" && weld?.odTestMethod == "n/a" && (weld?.isChecked == true) {
+                weld?.isChecked = false
+                tableView.reloadData()
+                self.alertVC.presentAlertWithMessage(message: "Both ID test method and OD test method can't be n/a", controller: self)
+            } else {
+                self.ODTestMethodsWelds[String(weld!.id!)] = ["od_test_method":testMethod]
+            }
         }
         return cell!
     }
