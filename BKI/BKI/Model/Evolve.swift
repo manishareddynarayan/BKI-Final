@@ -28,10 +28,10 @@ class Evolve: BKIModel {
     }
 
     func saveEvolve(evolveInfo:[String:AnyObject]) {
-        if let id = evolveInfo["package_material_id"] as? Int{
+        if let id = evolveInfo["id"] as? Int{
             self.id = id
         }
-        if let packageId = evolveInfo["package_material_id"] as? Int{
+        if let packageId = evolveInfo["package_id"] as? Int{
             self.packageId = packageId
         }
         if let batteryName = evolveInfo["battery_name"] as? String {
