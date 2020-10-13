@@ -25,13 +25,13 @@ class Hanger: BKIModel {
         self.saveHanger(hangerInfo: info)
     }
     func saveHanger(hangerInfo:[String:AnyObject]) {
-        if let id = hangerInfo["package_material_id"] as? Int{
+        if let id = hangerInfo["hanger_id"] as? Int{
             self.id = id
         }
         if let packageName = hangerInfo["package_name"] as? String{
             self.packageName = packageName
         }
-        if let packageId = hangerInfo["package_material_id"] as? Int{
+        if let packageId = hangerInfo["package_id"] as? Int{
             self.packageId = packageId
         }
         if let loadId = hangerInfo["load_id"] as? Int{
