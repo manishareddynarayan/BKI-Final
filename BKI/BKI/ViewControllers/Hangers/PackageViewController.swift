@@ -51,20 +51,26 @@ extension PackageViewController:UITableViewDelegate, UITableViewDataSource {
         return cell!
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row != 2 {
-        let menu = self.menuItems[indexPath.row]
-            guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "CuttingStatsViewController", storyBoard: "Hangers") as? CuttingStatsViewController else {
-                return
-            }
-            vc.cuttingType = menu["Name"]
-            vc.hanger = self.hanger
-            self.navigationController?.pushViewController(vc, animated: true)
-        } else {
+        if indexPath.row == 3 {
             guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "AssembleViewController", storyBoard: "Hangers") as? AssembleViewController else {
                 return
             }
             vc.hanger = self.hanger
             self.navigationController?.pushViewController(vc, animated: true)
-        }
+        }  else if indexPath.row == 2 {
+            guard let vc = self.getViewControllerWithIdentifier(identifier: "AdditionalUsersViewController") as? AdditionalUsersViewController  else {
+                return
+            }
+            vc.trackerId = self.trackerId
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else{
+            let menu = self.menuItems[indexPath.row]
+                guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "CuttingStatsViewController", storyBoard: "Hangers") as? CuttingStatsViewController else {
+                    return
+                }
+                vc.cuttingType = menu["Name"]
+                vc.hanger = self.hanger
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
     }
 }

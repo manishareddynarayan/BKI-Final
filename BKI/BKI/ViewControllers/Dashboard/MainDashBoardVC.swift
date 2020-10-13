@@ -62,7 +62,7 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
             return
         }
         MBProgressHUD.showHud(view: self.view)
-        httpWrapper.performAPIRequest("hangers/\(self.scanCode!)/scan", methodType: "GET", parameters: nil, successBlock: { (responseData) in
+        httpWrapper.performAPIRequest("hangers/\(self.scanCode!)/scan?state=fabrication", methodType: "GET", parameters: nil, successBlock: { (responseData) in
             var hanger:Hanger?
             DispatchQueue.main.async {
                 MBProgressHUD.hideHud(view: self.view)
@@ -76,6 +76,10 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
                     guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "PackageViewController", storyBoard: "Hangers") as? PackageViewController else {
                         return
                     }
+                    if self.trackerId == nil {
+                    self.startTracker(with: (hanger?.id)!)
+                    }
+                    vc.trackerId = self.trackerId
                     vc.hanger = hanger
                     self.navigationController?.pushViewController(vc, animated: true)
                 }

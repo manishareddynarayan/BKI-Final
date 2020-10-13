@@ -20,6 +20,9 @@ class User: BKIModel {
     var userName:String?
     var mobile:String?
     var role:Role!
+    var startTime:Date?
+    var endTime:Date?
+    var primaryUserId:Int?
     
     override init () {
         // uncomment this line if your class has been inherited from any other class
@@ -28,6 +31,7 @@ class User: BKIModel {
     
     convenience init(info:[String:AnyObject]) {
         self.init()
+        saveUser(user: info)
     }
     
     func saveUser(user:[String:AnyObject]) {
@@ -36,6 +40,9 @@ class User: BKIModel {
         }
         if let id = user["user_id"] as? Int {
             self.id = id
+        }
+        if let primaryUserId = user["primary_user_id"] as? Int {
+            self.primaryUserId = primaryUserId
         }
         if let first_name = user["first_name"] as? String {
             self.firstName = first_name
@@ -62,6 +69,13 @@ class User: BKIModel {
         
         if let role = user["role"] as? String {
             self.setUserRole(role: role)
+        }
+        if let startTime = user["start_time"] as? Date {
+            self.startTime = startTime
+        }
+        
+        if let endTime = user["end_time"] as? Date {
+            self.endTime = endTime
         }
     }
     
@@ -96,19 +110,21 @@ class User: BKIModel {
                 ["Name":"Assemblies","Child":"EvolveViewController"],
                 ["Name":"View Item Drawing","Child":"DrawingVC"],
                 ["Name":"View ISO Drawing","Child":"DrawingVC"],
+                ["Name":"Add New Users","Child":"AdditionalUsersViewController"],
                 ["Name":"Scan New Item","Child":"ScanVC"]]
     }
-
+    
     func getWelderMenu() -> [[String:String]] {
         return [["Name":"Status Welds","Child":"WeldStatusVC"],
-         ["Name":"View Spool Drawing","Child":"DrawingVC"],
-         ["Name":"View ISO Drawing","Child":"DrawingVC"],
-         ["Name":"Scan New Spool","Child":"ScanVC"]]
+                ["Name":"View Spool Drawing","Child":"DrawingVC"],
+                ["Name":"View ISO Drawing","Child":"DrawingVC"],
+                ["Name":"Add New Users","Child":"AdditionalUsersViewController"],
+                ["Name":"Scan New Spool","Child":"ScanVC"]]
     }
     
     func getShippingMenu() -> [[String:String]] {
         return [["Name":"New Load","Child":"NewLoadVC"],
-         ["Name":"Open Loads","Child":"OpenLoadVC"]]
+                ["Name":"Open Loads","Child":"OpenLoadVC"]]
     }
     
     func getTestingMenu() -> [[String:String]] {
@@ -116,14 +132,16 @@ class User: BKIModel {
                 ["Name":"Assemblies","Child":"EvolveViewController"],
                 ["Name":"View Item Drawing","Child":"DrawingVC"],
                 ["Name":"View ISO Drawing","Child":"DrawingVC"],
+                ["Name":"Add New Users","Child":"AdditionalUsersViewController"],
                 ["Name":"Scan New Item","Child":"ScanVC"]]
     }
     
     func getHangersMenu() -> [[String:String]] {
-           return [["Name":"Cut Rods","Child":"WeldStatusVC"],
-                   ["Name":"Cut Strut","Child":"FitterHeatVC"],
-                   ["Name":"Assemble","Child":"DrawingVC"]]
-       }
+        return [["Name":"Cut Rods","Child":"WeldStatusVC"],
+                ["Name":"Cut Strut","Child":"FitterHeatVC"],
+                ["Name":"Add New Users","Child":"AdditionalUsersViewController"],
+                ["Name":"Assemble","Child":"DrawingVC"]]
+    }
     
     class func getRoleName(userRole:Role) -> String {
         if userRole == Role.fitter {
@@ -141,5 +159,41 @@ class User: BKIModel {
             return Role.welder
         }
         return Role.shipper
+    }
+}
+class AdditionalUser: User {
+    var activityName:String?
+    var activityState:String?
+    var activityType:String?
+    var alreadyLoggedIn:Bool?
+    
+    override init () {
+        // uncomment this line if your class has been inherited from any other class
+        super.init()
+    }
+    
+    convenience init(info:[String:AnyObject]) {
+        self.init()
+        saveAdditionalUser(user: info)
+    }
+    func saveAdditionalUser(user:[String:AnyObject]) {
+        if let name = user["name"] as? String {
+            self.name = name
+        }
+        if let id = user["id"] as? Int {
+            self.id = id
+        }
+        if let alreadyLoggedIn = user["already_logged_in"] as? Bool {
+            self.alreadyLoggedIn = alreadyLoggedIn
+        }
+        if let activityName = user["activity_name"] as? String {
+            self.activityName = activityName
+        }
+        if let activityState = user["activity_state"] as? String {
+            self.activityState = activityState
+        }
+        if let activityType = user["activity_type"] as? String {
+            self.activityType = activityType
+        }
     }
 }

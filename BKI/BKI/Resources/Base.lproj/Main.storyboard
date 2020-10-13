@@ -751,6 +751,85 @@
             </objects>
             <point key="canvasLocation" x="697.5" y="2466.5492957746478"/>
         </scene>
+        <!--Additional Users View Controller-->
+        <scene sceneID="JZC-8H-g9w">
+            <objects>
+                <viewController storyboardIdentifier="AdditionalUsersViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="VIr-rp-VAw" customClass="AdditionalUsersViewController" customModule="BKI" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PTP-fG-tcW">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bhb-S5-Jas">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="VIr-rp-VAw" id="j9M-Lf-aB4"/>
+                                    <outlet property="delegate" destination="VIr-rp-VAw" id="V0j-pZ-myQ"/>
+                                </connections>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IyZ-MY-lnw">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter user name..." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Al2-a4-jJb" customClass="AUTextField" customModule="BKI" customModuleProvider="target">
+                                        <rect key="frame" x="19" y="30" width="293" height="18.5"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="yes"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
+                                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <outlet property="delegate" destination="FMI-XS-WPn" id="OVw-za-Zkt"/>
+                                        </connections>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HM5-em-hrg">
+                                        <rect key="frame" x="323" y="28.5" width="30" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="t5o-6j-bIk"/>
+                                        </constraints>
+                                        <state key="normal" image="cross"/>
+                                        <connections>
+                                            <action selector="crossButtonOnClick:" destination="VIr-rp-VAw" eventType="touchUpInside" id="YNR-la-a6K"/>
+                                            <action selector="dismissAction:" destination="FMI-XS-WPn" eventType="touchUpInside" id="2aB-sQ-w2h"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.53725490200000003" green="0.050980392159999999" blue="0.047058823530000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="HM5-em-hrg" firstAttribute="centerY" secondItem="Al2-a4-jJb" secondAttribute="centerY" id="1kL-Dj-xKr"/>
+                                    <constraint firstAttribute="trailing" secondItem="HM5-em-hrg" secondAttribute="trailing" constant="22" id="4lt-Mm-URJ"/>
+                                    <constraint firstItem="HM5-em-hrg" firstAttribute="leading" secondItem="Al2-a4-jJb" secondAttribute="trailing" constant="11" id="H5j-HD-rcd"/>
+                                    <constraint firstAttribute="height" constant="64" id="HG6-NA-TNL"/>
+                                    <constraint firstItem="Al2-a4-jJb" firstAttribute="leading" secondItem="IyZ-MY-lnw" secondAttribute="leading" constant="19" id="Qir-UU-fmh"/>
+                                    <constraint firstItem="Al2-a4-jJb" firstAttribute="top" secondItem="IyZ-MY-lnw" secondAttribute="top" constant="30" id="pTV-g5-vv7"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="8xU-nc-yKc"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Bhb-S5-Jas" firstAttribute="leading" secondItem="8xU-nc-yKc" secondAttribute="leading" id="CcV-qn-Wys"/>
+                            <constraint firstItem="Bhb-S5-Jas" firstAttribute="trailing" secondItem="8xU-nc-yKc" secondAttribute="trailing" id="IFp-rb-5oE"/>
+                            <constraint firstItem="IyZ-MY-lnw" firstAttribute="trailing" secondItem="8xU-nc-yKc" secondAttribute="trailing" id="Kkh-PQ-DYi"/>
+                            <constraint firstItem="IyZ-MY-lnw" firstAttribute="leading" secondItem="8xU-nc-yKc" secondAttribute="leading" id="VrE-Au-7QV"/>
+                            <constraint firstItem="Bhb-S5-Jas" firstAttribute="top" secondItem="IyZ-MY-lnw" secondAttribute="bottom" id="gh8-Fc-dv2"/>
+                            <constraint firstItem="8xU-nc-yKc" firstAttribute="bottom" secondItem="Bhb-S5-Jas" secondAttribute="bottom" id="tRL-uc-Y9U"/>
+                            <constraint firstItem="IyZ-MY-lnw" firstAttribute="top" secondItem="8xU-nc-yKc" secondAttribute="top" id="zJ5-EZ-rX3"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="additionalUsersTF" destination="Al2-a4-jJb" id="paY-c5-UKw"/>
+                        <outlet property="crossButton" destination="HM5-em-hrg" id="jWX-GU-Kme"/>
+                        <outlet property="usersTableView" destination="Bhb-S5-Jas" id="Rfy-Q5-GTw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pk7-hs-j3t" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2351" y="2554"/>
+        </scene>
         <!-- SearchMiscVC-->
         <scene sceneID="ego-8H-px3">
             <objects>
@@ -1549,6 +1628,9 @@
         </scene>
     </scenes>
     <designables>
+        <designable name="Al2-a4-jJb">
+            <size key="intrinsicContentSize" width="117.5" height="18.5"/>
+        </designable>
         <designable name="BC4-6x-PBf">
             <size key="intrinsicContentSize" width="141" height="18.5"/>
         </designable>

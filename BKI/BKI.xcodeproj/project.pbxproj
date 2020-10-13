@@ -23,6 +23,7 @@
 		1320B86424EBCD1100ABD9D8 /* CuttingStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1320B86324EBCD1100ABD9D8 /* CuttingStat.swift */; };
 		1320B86624EBCE3600ABD9D8 /* Solution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1320B86524EBCE3600ABD9D8 /* Solution.swift */; };
 		1320B86824EBE2D300ABD9D8 /* SolutionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1320B86724EBE2D300ABD9D8 /* SolutionsViewController.swift */; };
+		1348B079252EF681000E721A /* AdditionalUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1348B078252EF681000E721A /* AdditionalUsersViewController.swift */; };
 		1377AB8524F77DB400A59830 /* SectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1377AB8324F77DB400A59830 /* SectionHeader.xib */; };
 		1377AB8624F77DB400A59830 /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1377AB8424F77DB400A59830 /* SectionHeader.swift */; };
 		13E2C70C2519DC4E004D5BEA /* Evolve.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E2C70B2519DC4E004D5BEA /* Evolve.swift */; };
@@ -124,6 +125,7 @@
 		1320B86324EBCD1100ABD9D8 /* CuttingStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CuttingStat.swift; sourceTree = "<group>"; };
 		1320B86524EBCE3600ABD9D8 /* Solution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solution.swift; sourceTree = "<group>"; };
 		1320B86724EBE2D300ABD9D8 /* SolutionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionsViewController.swift; sourceTree = "<group>"; };
+		1348B078252EF681000E721A /* AdditionalUsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalUsersViewController.swift; sourceTree = "<group>"; };
 		1377AB8324F77DB400A59830 /* SectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionHeader.xib; sourceTree = "<group>"; };
 		1377AB8424F77DB400A59830 /* SectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		13E2C70B2519DC4E004D5BEA /* Evolve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evolve.swift; sourceTree = "<group>"; };
@@ -398,6 +400,7 @@
 				4FA551EA2150F74B00EA6F9B /* Shipping */,
 				4FA551E82150F72A00EA6F9B /* Fitter */,
 				13E2C70D251A0A67004D5BEA /* EvolveViewController.swift */,
+				1348B078252EF681000E721A /* AdditionalUsersViewController.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -833,6 +836,7 @@
 				4FCDEDC3216F46410071E9F6 /* LoadMiscTVC.swift in Sources */,
 				4FA552592150FB4500EA6F9B /* AUSessionManager.swift in Sources */,
 				13E2C70C2519DC4E004D5BEA /* Evolve.swift in Sources */,
+				1348B079252EF681000E721A /* AdditionalUsersViewController.swift in Sources */,
 				4FCDEDB5216224C60071E9F6 /* OpenLoadVC.swift in Sources */,
 				4FA76CBE215B8C00002377F3 /* PartCell.swift in Sources */,
 				13E5A8E424F4DE6700AC8CCD /* HangerAssembleItem.swift in Sources */,

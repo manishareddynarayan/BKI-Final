@@ -29,6 +29,7 @@ class BaseViewController: UIViewController,WebSocketDelegate {
     var shouldRejectWholeSpool = false
     var socket:WebSocket?
     var isConnected = false
+    var trackerId: Int?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.brickRed
@@ -169,6 +170,7 @@ class BaseViewController: UIViewController,WebSocketDelegate {
     
     func showScanner() {
         self.scanCode = ""
+        self.trackerId = nil
         guard let scanNVC = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "ScanNVC",
                                                                               storyBoard: "Scanner") as? UINavigationController else { return  }
         guard let vc = scanNVC.viewControllers[0] as? ScannerViewController else { return }
@@ -362,6 +364,36 @@ class BaseViewController: UIViewController,WebSocketDelegate {
             weldParams["reject_reason"] = rejectReason
         }
         self.updateSpoolStateWith(spool: self.spool!, params: weldParams as [String : AnyObject], isSpoolUpdate: isSpoolUpdate, updateTableView: tableView)
+    }
+    
+    func startTracker(with id:Int) {
+        var timeLogsData : [String:([String:Int])] = [String: [String:Int]]()
+//        for component in changedData {
+//            self.solutionData["\(component.key)"] = ["user_id":component.value]
+//        }
+        let state = role == 1 ? "fitting" : role == 2 ? "welding" : role == 4 ? "qa" : ""
+        timeLogsData["0"] = ["user_id":currentUser.id!]
+        let trakerParams = ["state":state,"worked_on_id":id as Any,"worked_on_type":self.scanItem as Any,"user_time_logs_attributes":timeLogsData] as [String : Any]
+        let params = ["activity_tracker":trakerParams] as [String:AnyObject]
+        MBProgressHUD.hideHud(view: self.view)
+        MBProgressHUD.showHud(view: self.view)
+        httpWrapper.performAPIRequest("activity_trackers", methodType: "POST", parameters: params) { (responseData) in
+            DispatchQueue.main.async {
+                print(responseData)
+                MBProgressHUD.hideHud(view: self.view)
+                if let id = responseData["id"] as? Int{
+                    let vc = self.navigationController?.viewControllers.last as? PackageViewController
+                    vc?.trackerId = id
+                    self.trackerId = id
+                }
+            }
+        } failBlock: { (error) in
+            DispatchQueue.main.async {
+                MBProgressHUD.hideHud(view: self.view)
+                self.showFailureAlert(with: (error?.localizedDescription)!)
+            }
+        }
+        
     }
     
     func textFieldDidPressNextOrPrev(next: Bool, textField: AUSessionField) {

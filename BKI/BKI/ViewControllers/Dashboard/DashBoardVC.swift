@@ -85,7 +85,8 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     
     func getEvolveDetails() {
         MBProgressHUD.showHud(view: self.view)
-        httpWrapper.performAPIRequest("evolve_fabrications/\(self.scanCode!)/scan", methodType: "GET", parameters: nil) { (responseData) in
+        let state = role == 1 ? "fitting" : role == 2 ? "welding" : role == 4 ? "qa" : ""
+        httpWrapper.performAPIRequest("evolve_fabrications/\(self.scanCode!)?scan&state=\(state)", methodType: "GET", parameters: nil) { (responseData) in
             DispatchQueue.main.async {
                 MBProgressHUD.hideHud(view: self.view)
                 let evolveItem = Evolve.init(info: responseData)
@@ -94,6 +95,9 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     return
                 }
                 self.evolve = evolveItem
+                if self.trackerId == nil {
+                self.startTracker(with: (evolveItem.id)!)
+                }
                 self.tableView.reloadData()
                 print(responseData)
             }
@@ -107,7 +111,8 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     
     func getSpoolDetails() {
         MBProgressHUD.showHud(view: self.view)
-        httpWrapper.performAPIRequest("spools/\(self.scanCode!)?scan=true", methodType: "GET", parameters: nil, successBlock: { (responseData) in
+        let state = role == 1 ? "fitting" : role == 4 ? "qa" : ""
+        httpWrapper.performAPIRequest("spools/\(self.scanCode!)?scan=true&state=\(state)", methodType: "GET", parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
                 print(responseData)
                 MBProgressHUD.hideHud(view: self.view)
@@ -149,7 +154,9 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                         }
                     }
                 }
-                
+                if self.trackerId == nil {
+                self.startTracker(with: (self.spool?.id)!)
+                }
                 self.tableView.reloadData()
             }
         }) { (error) in
@@ -330,6 +337,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     self.navigationController?.pushViewController(vc1, animated: true)
                     return
                 }
+                vc.trackerId = self.trackerId
                 vc.evolve = self.evolve
                 vc.spool = self.spool
                 vc.role = self.role
