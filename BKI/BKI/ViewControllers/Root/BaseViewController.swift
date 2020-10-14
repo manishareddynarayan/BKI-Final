@@ -161,8 +161,19 @@ class BaseViewController: UIViewController,WebSocketDelegate {
             
         }
         let signoutClosure: () -> Void = {
-            BKIModel.resetUserDefaults()
-            self.appDelegate?.setupRootViewController()
+            MBProgressHUD.showHud(view: self.view)
+            self.httpWrapper.performAPIRequest("user_time_logs/stop_tracking?user_id=\(self.currentUser.id ?? 0)", methodType: "PUT", parameters: nil) { (responseData) in
+                DispatchQueue.main.async {
+                    MBProgressHUD.hideHud(view: self.view)
+                    BKIModel.resetUserDefaults()
+                    self.appDelegate?.setupRootViewController()
+                }
+            } failBlock: { (error) in
+                DispatchQueue.main.async {
+                    MBProgressHUD.hideHud(view: self.view)
+                    self.showFailureAlert(with: (error?.localizedDescription)!)
+                }
+            }
         }
         self.alertVC.presentAlertWithTitleAndActions(actions: [cancelClosure,signoutClosure],
                                                      buttonTitles: ["Cancel","Logout"],controller: self, message: "Are you sure you want to logout ?", title: "BKI")
@@ -371,7 +382,7 @@ class BaseViewController: UIViewController,WebSocketDelegate {
 //        for component in changedData {
 //            self.solutionData["\(component.key)"] = ["user_id":component.value]
 //        }
-        let state = role == 1 ? "fitting" : role == 2 ? "welding" : role == 4 ? "qa" : ""
+        let state = self.scanItem == "Hanger" ? "fabrication"  : role == 1 ? "fitting" : role == 2 ? "welding" : role == 4 ? "qa" : ""
         timeLogsData["0"] = ["user_id":currentUser.id!]
         let trakerParams = ["state":state,"worked_on_id":id as Any,"worked_on_type":self.scanItem as Any,"user_time_logs_attributes":timeLogsData] as [String : Any]
         let params = ["activity_tracker":trakerParams] as [String:AnyObject]
