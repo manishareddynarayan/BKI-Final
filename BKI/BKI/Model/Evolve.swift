@@ -14,6 +14,7 @@ class Evolve: BKIModel {
     var evolveState:String?
     var isArchivedOrRejected:Bool?
     var rejectReason:String?
+    var packageName:String?
     var drawingUrl:String?
     var isInFabrication:Bool?
     
@@ -36,6 +37,9 @@ class Evolve: BKIModel {
         }
         if let batteryName = evolveInfo["battery_name"] as? String {
             self.batteryName = batteryName
+        }
+        if let packageName = evolveInfo["package_name"] as? String {
+            self.packageName = packageName
         }
         if let evolveState = evolveInfo["state"] as? String {
             self.evolveState = evolveState

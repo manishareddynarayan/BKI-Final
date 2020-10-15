@@ -404,6 +404,14 @@ extension NewLoadVC
                         self.showFailureAlert(with:"This is not in fabrication" )
                         return
                     }
+                    if evolve?.evolveState != "ready_to_Ship" {
+                        self.alertVC.presentAlertWithTitleAndActions(actions: [{
+                            self.dismiss(animated: true, completion: nil)
+                            },{
+                                self.showDrawingVC(spool: nil, hanger: nil, evolve: evolve, role: self.role, state: .pdfURL)
+                            }], buttonTitles: ["OK","View Evolve Drawing"], controller: self, message: "The Evolve is not ready to be loaded yet. You can view the drawing by clicking on the button below.", title: "Warning")
+                        return
+                    }
                     self.evolve = evolve
                     self.scannedEvolves.append(evolve!)
                     self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)

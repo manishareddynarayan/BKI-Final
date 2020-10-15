@@ -188,9 +188,11 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 self.showFailureAlert(with:"You have scanned a evolve, please check.")
                 return
             }
+            self.spool = nil
             getEvolveDetails()
             return
         }
+        self.evolve = nil
         getSpoolDetails()
     }
     
@@ -276,7 +278,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     cell?.enable(enable: true)
                 }else if indexPath.row == 1 && self.role == 2{
                     cell?.enable(enable: true)
-                }else if indexPath.row == 1 && self.role == 4{
+                }else if indexPath.row == 2 && self.role == 4{
                     cell?.enable(enable: true)
                 }else if indexPath.row == self.menuItems.count - 1{
                     cell?.enable(enable: true)
@@ -284,7 +286,9 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     cell?.enable(enable: false)
                 }
             }else{
-                if indexPath.row != 2 {
+              if indexPath.row != 2 && self.role != 4{
+                    cell?.enable(enable: true)
+                } else if indexPath.row != 1 && self.role == 4 {
                     cell?.enable(enable: true)
                 } else {
                     cell?.enable(enable: false)
@@ -301,7 +305,9 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     cell?.enable(enable: true)
                 }else if indexPath.row == self.menuItems.count - 1{
                     cell?.enable(enable: true)
-                }else{
+                } else if indexPath.row == 2 && self.role == 4{
+                    cell?.enable(enable: true)
+                } else{
                     cell?.enable(enable: false)
                 }
             }else{

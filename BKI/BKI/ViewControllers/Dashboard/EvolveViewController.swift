@@ -37,6 +37,7 @@ class EvolveViewController: BaseViewController {
         } else if self.role == 4 && evolve?.evolveState == "qa" {
             qaView.isHidden = false
         }
+        self.navigationItem.title = self.evolve?.packageName
         // Do any additional setup after loading the view.
     }
     
