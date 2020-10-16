@@ -404,7 +404,7 @@ extension NewLoadVC
                         self.showFailureAlert(with:"This is not in fabrication" )
                         return
                     }
-                    if evolve?.evolveState != "ready_to_Ship" {
+                    if evolve?.evolveState != "ready_to_ship" {
                         self.alertVC.presentAlertWithTitleAndActions(actions: [{
                             self.dismiss(animated: true, completion: nil)
                             },{
