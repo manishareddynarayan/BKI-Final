@@ -412,6 +412,12 @@ extension NewLoadVC
                             }], buttonTitles: ["OK","View Evolve Drawing"], controller: self, message: "The Evolve is not ready to be loaded yet. You can view the drawing by clicking on the button below.", title: "Warning")
                         return
                     }
+                    for spl in self.scannedEvolves{
+                        if spl.id == evolve?.id{
+                            self.alertVC.presentAlertWithMessage(message: "The evolve is already added to this load.", controller: self)
+                            return
+                        }
+                    }
                     self.evolve = evolve
                     self.scannedEvolves.append(evolve!)
                     self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
