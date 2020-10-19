@@ -650,13 +650,14 @@ extension NewLoadVC {
         var params = [String:AnyObject]()
         if !(scannedSpools.isEmpty)
         {
-            loadParams["spool_ids"] =  self.scannedHangers.map{($0.id)} as AnyObject
+            loadParams["spool_ids"] =  self.scannedSpools.map{($0.id)} as AnyObject
         }
-        if !(scannedHangers.isEmpty) {
+        if !(scannedHangers.isEmpty) && !(scannedEvolves.isEmpty) {
+            loadParams["package_material_ids"] = self.scannedHangers.map{($0.id)} + self.scannedEvolves.map{($0.id)} as AnyObject
+        } else if !(scannedHangers.isEmpty) {
             loadParams["package_material_ids"] =  self.scannedHangers.map{($0.id)} as AnyObject
-        }
-        if !(scannedEvolves.isEmpty) {
-            loadParams["package_material_ids"] =  self.scannedHangers.map{($0.id)} as AnyObject
+        } else if !(scannedEvolves.isEmpty) {
+            loadParams["package_material_ids"] =  self.scannedEvolves.map{($0.id)} as AnyObject
         }
 
         loadParams["truck_number"] = truckNumberTF.text as AnyObject
