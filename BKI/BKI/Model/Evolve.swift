@@ -17,7 +17,7 @@ class Evolve: BKIModel {
     var packageName:String?
     var drawingUrl:String?
     var isInFabrication:Bool?
-    
+    var loadId:Int?
     override init () {
         // uncomment this line if your class has been inherited from any other class
         super.init()
@@ -55,6 +55,9 @@ class Evolve: BKIModel {
         }
         if let isInFabrication = evolveInfo["can_ios_access"] as? Bool {
             self.isInFabrication = isInFabrication
+        }
+        if let loadId = evolveInfo["load_id"] as? Int {
+            self.loadId = loadId
         }
     }
 }
