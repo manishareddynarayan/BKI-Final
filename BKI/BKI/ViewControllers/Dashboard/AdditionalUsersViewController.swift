@@ -89,6 +89,10 @@ class AdditionalUsersViewController: BaseViewController,TextInputDelegate ,UITex
                                                                 let additionalUser = User.init(info: user)
                                                                 self.addedUsers.append(additionalUser)
                                                             }
+                                                            self.addedUsers = self.addedUsers.filter({ (user) -> Bool in
+                                                                user.id != self.currentUser.id
+                                                            })
+                                                            UserDefaults.standard.set(self.addedUsers.map({$0.id}), forKey: "additional_users")
                                                             self.reSetSearchField()
                                                             self.usersTableView.reloadData()
                                                         }

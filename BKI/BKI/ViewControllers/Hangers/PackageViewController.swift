@@ -23,6 +23,9 @@ class PackageViewController: BaseViewController {
         self.packageDashboardTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         // Do any aditional setup after loading the view.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        packageDashboardTableView.reloadData()
+    }
     
     /*
     // MARK: - Navigation
@@ -46,8 +49,16 @@ extension PackageViewController:UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardCell", for: indexPath) as? DashBoardCell
         let menu = self.menuItems[indexPath.row]
+        cell?.countLabel.isHidden = true
         cell?.titleLbl.text = menu["Name"]
         cell?.enable(enable: true)
+        if let additionalUsers = UserDefaults.standard.array(forKey: "additional_users") {
+            if ((indexPath.row == self.menuItems.count - 2) && (additionalUsers.count != 0) && cell?.isUserInteractionEnabled == true)
+            {
+                cell?.countLabel.isHidden = false
+                cell?.countLabel.text = String(additionalUsers.count)
+            }
+        }
         return cell!
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

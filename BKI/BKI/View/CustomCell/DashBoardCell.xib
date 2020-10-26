@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,20 +14,20 @@
             <rect key="frame" x="0.0" y="0.0" width="322" height="80"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="322" height="79.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="322" height="80"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u8l-ko-0yq">
-                        <rect key="frame" x="20" y="-0.5" width="282" height="80.5"/>
+                        <rect key="frame" x="20" y="0.0" width="282" height="80"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L4o-OY-arO">
-                                <rect key="frame" x="30" y="30.5" width="43" height="21"/>
+                                <rect key="frame" x="30" y="29.5" width="43" height="21"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e5I-qD-yDf">
-                                <rect key="frame" x="245" y="29.5" width="7" height="22"/>
+                                <rect key="frame" x="245" y="29" width="7" height="22"/>
                                 <state key="normal" image="detailArrow"/>
                                 <connections>
                                     <action selector="detailArrowAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="i4v-6c-ea5"/>
@@ -50,17 +48,27 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xUa-LL-PEF">
+                        <rect key="frame" x="236" y="29.5" width="19" height="21"/>
+                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                        <color key="textColor" red="0.49803921569999998" green="0.043137254899999998" blue="0.0039215686269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="xUa-LL-PEF" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="L4o-OY-arO" secondAttribute="trailing" constant="5" id="9hN-e3-ZeW"/>
                     <constraint firstItem="u8l-ko-0yq" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="MOa-Pg-tMR"/>
                     <constraint firstItem="u8l-ko-0yq" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="bDF-hv-e8F"/>
+                    <constraint firstItem="xUa-LL-PEF" firstAttribute="centerY" secondItem="L4o-OY-arO" secondAttribute="centerY" id="dRH-aW-mN9"/>
                     <constraint firstAttribute="trailing" secondItem="u8l-ko-0yq" secondAttribute="trailing" constant="20" id="lzC-sZ-Nb1"/>
+                    <constraint firstItem="e5I-qD-yDf" firstAttribute="leading" secondItem="xUa-LL-PEF" secondAttribute="trailing" constant="10" id="zay-47-jKe"/>
                 </constraints>
             </tableViewCellContentView>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="container" destination="u8l-ko-0yq" id="sf8-tJ-Hq9"/>
+                <outlet property="countLabel" destination="xUa-LL-PEF" id="0dc-Aw-wRe"/>
                 <outlet property="titleLbl" destination="L4o-OY-arO" id="zdP-4R-isv"/>
             </connections>
             <point key="canvasLocation" x="79" y="72"/>

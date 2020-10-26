@@ -29,7 +29,7 @@ class Spool: BKIModel {
     var isCutListsCompleted:Bool?
     var isHPCategory:Bool?
     var isArchivedOrRejected:Bool?
-
+    var isWorking:Bool?
     override init () {
         // uncomment this line if your class has been inherited from any other class
         super.init()
@@ -111,6 +111,9 @@ class Spool: BKIModel {
         }
         if let meterilaUrl = spoolInfo["material"] as? String {
             self.isHPCategory = (meterilaUrl == "HP")
+        }
+        if let isWorking = spoolInfo["is_working"] as? Bool {
+            self.isWorking = isWorking
         }
     }
     

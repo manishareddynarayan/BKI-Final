@@ -16,7 +16,7 @@ class Evolve: BKIModel {
     var rejectReason:String?
     var drawingUrl:String?
     var isInFabrication:Bool?
-    
+    var isWorking:Bool?
     override init () {
         // uncomment this line if your class has been inherited from any other class
         super.init()
@@ -51,6 +51,9 @@ class Evolve: BKIModel {
         }
         if let isInFabrication = evolveInfo["can_ios_access"] as? Bool {
             self.isInFabrication = isInFabrication
+        }
+        if let isWorking = evolveInfo["is_working"] as? Bool {
+            self.isWorking = isWorking
         }
     }
 }

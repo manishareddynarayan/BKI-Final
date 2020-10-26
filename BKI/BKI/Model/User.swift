@@ -143,13 +143,19 @@ class User: BKIModel {
                 ["Name":"Assemble","Child":"DrawingVC"]]
     }
     
-    class func getRoleName(userRole:Role) -> String {
-        if userRole == Role.fitter {
-            return "Fitter"
-        } else if userRole == Role.welder {
-            return "Welder"
+    class func getRoleName(userRole:Int) -> String {
+        switch (userRole) {
+        case 1 :
+            return "fitting"
+        case 2 :
+            return "welding"
+        case 3 :
+            return "shipping"
+        case 4 :
+            return "qa"
+        default:
+            return "fabrication"
         }
-        return "Shipper"
     }
     
     class func getRole(roleName:String) -> Role {

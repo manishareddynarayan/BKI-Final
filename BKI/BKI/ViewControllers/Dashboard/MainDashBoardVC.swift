@@ -72,7 +72,11 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
                     return
                 }    else if hanger?.hangerState == "procure" || hanger?.hangerState == "receive" {
                     self.showFailureAlert(with: "Kindly complete the procurement process for this hanger.")
-                } else {
+                } else if hanger?.isWorking == true && (User.getRoleName(userRole: self.role) != UserDefaults.standard.string(forKey: "selectedState") &&         UserDefaults.standard.string(forKey: "scanItem") != self.scanCode!)
+                {
+                    self.showFailureAlert(with:"This is alerady in working state" )
+                    return
+                }else {
                     guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "PackageViewController", storyBoard: "Hangers") as? PackageViewController else {
                         return
                     }
@@ -111,10 +115,15 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //tableView.deselectRow(at: indexPath, animated: false)
         if indexPath.row == 3 {
-            self.showScanner()
+            self.getConditionsForAdditionalUsers(withRole: 5) { (sucess) in
+                self.showScanner()
+            }
             return
         }
-        self.performSegue(withIdentifier: "DashboardSegue", sender: indexPath)
+        let tempRole = BKIModel.userRole() == "qa" ?  4 : indexPath.row + 1
+        self.getConditionsForAdditionalUsers(withRole: tempRole) { (sucess) in
+            self.performSegue(withIdentifier: "DashboardSegue", sender: indexPath)
+        }
     }
 }
 extension MainDashBoardVC : ScannerDelegate{
@@ -122,7 +131,7 @@ extension MainDashBoardVC : ScannerDelegate{
     {
         self.setScanCode(data: data)
         if self.scanCode != nil && !(self.scanCode?.isEmpty ?? true){
-            getPackageDetails()
+            self.getPackageDetails()
         }
     }
     

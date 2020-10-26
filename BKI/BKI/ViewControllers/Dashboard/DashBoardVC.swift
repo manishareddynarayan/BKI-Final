@@ -26,8 +26,8 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         self.menuItems = User.shared.getUserMenuItems(with: self.role)
         tableView.register(UINib(nibName: "DashBoardCell", bundle: nil), forCellReuseIdentifier: "DashboardCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
-        
         alternateDescriptionBtn.isHidden = true
+//        self.getConditionsForAdditionalUsers(withRole: self.role)
     }
     
     override func didReceiveMemoryWarning() {
@@ -41,7 +41,6 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         if self.scanCode != nil && self.role != 3{
             self.getScannedItemDetails()
         }
-        
         if let spool = self.spool{
             if spool.lastFittingCompletion && !checkHeatNumbers() && self.role == 1{
                 alertVC.presentAlertWithTitleAndMessage(title: "Warning", message: "Please enter heat numbers to move the spool to next state", controller: self)
@@ -50,6 +49,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         }
     }
     
+
     
     @IBAction func alternateDescriptionBtn(_ sender: Any) {
         self.performSegue(withIdentifier: ALTERNATEDESCRIPTIONSEGUE, sender: self)
@@ -93,10 +93,14 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 if (!(evolveItem.isInFabrication)! && evolveItem.evolveState != "cutting") {
                     self.showFailureAlert(with:"This is not in fabrication" )
                     return
+                } else if evolveItem.isWorking == true && (User.getRoleName(userRole: self.role) != UserDefaults.standard.string(forKey: "selectedState") &&         UserDefaults.standard.string(forKey: "scanItem") != self.scanCode!)
+                {
+                    self.showFailureAlert(with:"This is alerady in working state" )
+                    return
                 }
                 self.evolve = evolveItem
                 if self.trackerId == nil {
-                self.startTracker(with: (evolveItem.id)!)
+                    self.startTracker(with: (evolveItem.id)!)
                 }
                 self.tableView.reloadData()
                 print(responseData)
@@ -144,6 +148,12 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 if !self.checkHeatNumbers() && !self.checkFittingWeldStatus() && self.scanned{
                     self.alertVC.presentAlertWithTitleAndMessage(title: "Warning", message: "Please enter heat numbers to move the spool to next state", controller: self)
                 }
+                if self.spool?.isWorking == true && (User.getRoleName(userRole: self.role) != UserDefaults.standard.string(forKey: "selectedState") &&         UserDefaults.standard.string(forKey: "scanItem") != self.scanCode!)
+                {
+                    self.showFailureAlert(with:"This is already in working state" )
+                    return
+                }
+
                 self.scanned = false
                 
                 if self.spool?.welds.count == 0{
@@ -155,7 +165,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     }
                 }
                 if self.trackerId == nil {
-                self.startTracker(with: (self.spool?.id)!)
+                    self.startTracker(with: (self.spool?.id)!)
                 }
                 self.tableView.reloadData()
             }
@@ -187,6 +197,8 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         if self.scanCode != nil && (self.scanCode?.isEmpty ?? true) {
             return
         }
+        UserDefaults.standard.set(self.scanItem, forKey: "scanItem")
+        UserDefaults.standard.set(User.getRoleName(userRole: self.role), forKey: "selectedState")
         if self.scanItem == "Hanger" {
             self.showFailureAlert(with:"You have scanned a hanger, please check.")
             return
@@ -264,7 +276,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         let cell = tableView.dequeueReusableCell(withIdentifier: "DashboardCell", for: indexPath) as? DashBoardCell
         let menu = self.menuItems[indexPath.row]
         cell?.titleLbl.text = menu["Name"]
-        
+        cell?.countLabel.isHidden = true
         if  (spool == nil && evolve == nil) {
             if self.role == 3 {
                 cell?.enable(enable: true)
@@ -276,7 +288,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             }
             return cell!
         }
-        
+        6
         if spool != nil {
             if self.spool?.status == "On Hold" || (self.spool?.isArchivedOrRejected)!{
                 if indexPath.row == 3 && self.role == 1{
@@ -298,7 +310,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 }
             }
             // disbaling cell when ISO Drwaing url is nil,which one we are showing in web view.
-            if ((indexPath.row == self.menuItems.count - 2) && (self.spool?.isoDrawingURL == nil) && (self.menuItems[indexPath.row]["Child"] == "DrawingVC"))
+            if ((indexPath.row == self.menuItems.count - 3) && (self.spool?.isoDrawingURL == nil) && (self.menuItems[indexPath.row]["Child"] == "DrawingVC"))
             {
                 cell?.enable(enable: false)
             }
@@ -319,6 +331,13 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 } else {
                     cell?.enable(enable: true)
                 }
+            }
+        }
+        if let additionalUsers = UserDefaults.standard.array(forKey: "additional_users") {
+            if ((indexPath.row == self.menuItems.count - 2) && (additionalUsers.count != 0) && cell?.isUserInteractionEnabled == true)
+            {
+                cell?.countLabel.isHidden = false
+                cell?.countLabel.text = String(additionalUsers.count)
             }
         }
         return cell!
@@ -351,8 +370,8 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             }
             vc.role = self.role
             
-            vc.urltype = ((indexPath.row == self.menuItems.count - 2) ? .ISOURL : .pdfURL)
-            if (indexPath.row == self.menuItems.count - 2) && ((spool?.isoDrawingURL) == nil)
+            vc.urltype = ((indexPath.row == self.menuItems.count - 3) ? .ISOURL : .pdfURL)
+            if (indexPath.row == self.menuItems.count - 3) && ((spool?.isoDrawingURL) == nil)
             {
                 self.alertVC.presentAlertWithMessage(message: "No ISO URL found", controller: self)
                 return

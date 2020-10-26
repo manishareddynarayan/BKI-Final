@@ -38,6 +38,7 @@ class BKIModel: NSObject {
         defs?.removeObject(forKey: "access-token")
         defs?.removeObject(forKey: "user_id")
         defs?.removeObject(forKey: "user_role")
+        UserDefaults.standard.removeObject(forKey: "additional_users")
         defs?.set(false, forKey: "isLoggedIn")
     }
     

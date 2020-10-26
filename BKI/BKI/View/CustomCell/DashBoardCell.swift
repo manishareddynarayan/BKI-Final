@@ -12,7 +12,7 @@ class DashBoardCell: BaseCell {
 
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var container: UIView!
-    
+    @IBOutlet weak var countLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
          self.contentView.backgroundColor = UIColor.clear

@@ -41,40 +41,40 @@ class BaseViewController: UIViewController,WebSocketDelegate {
                                                                      style: .plain, target: self, action: #selector(self.backButtonAction(sender:)))
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white,
                                                                    NSAttributedString.Key.font: UIFont.systemSemiBold15]
-//        if defs?.object(forKey: "access-token") != nil {
-//            let token = (defs?.object(forKey: "access-token") as? String)!
-//            let request = URLRequest(url: URL(string: "wss://07365867869c.ngrok.io/cable?X_ACCESS_TOKEN:\(token)")!)
-//            socket = WebSocket(request: request)
-//            socket?.delegate = self
-//            socket?.connect()
-//        }
+        //        if defs?.object(forKey: "access-token") != nil {
+        //            let token = (defs?.object(forKey: "access-token") as? String)!
+        //            let request = URLRequest(url: URL(string: "wss://07365867869c.ngrok.io/cable?X_ACCESS_TOKEN:\(token)")!)
+        //            socket = WebSocket(request: request)
+        //            socket?.delegate = self
+        //            socket?.connect()
+        //        }
     }
     func createChannel()
-        {
-            let strChannel = "{ \"channel\": \"IosUsersChannel\" }"
-            let message = ["command" : "subscribe","identifier": strChannel]
-
-            do {
-                let data = try JSONSerialization.data(withJSONObject: message)
-                if let dataString = String(data: data, encoding: .utf8){
-                    self.socket?.write(string: dataString)
-                }
-                let udid = UIDevice.current.identifierForVendor!.uuidString
-
-                self.httpWrapper.performAPIRequest("user_time_logs/stop_tracking?user_id=\(self.currentUser.id ?? 0)&websocket=true&udid=\(udid)", methodType: "PUT", parameters: nil) { (responseData) in
-                    DispatchQueue.main.async {
-                        print("yesssssssssss")
-                    }
-                } failBlock: { (error) in
-                    DispatchQueue.main.async {
-                        print("noooooooooooo")
-                    }
-                }
-
-            } catch {
-                print("JSON serialization failed: ", error)
+    {
+        let strChannel = "{ \"channel\": \"IosUsersChannel\" }"
+        let message = ["command" : "subscribe","identifier": strChannel]
+        
+        do {
+            let data = try JSONSerialization.data(withJSONObject: message)
+            if let dataString = String(data: data, encoding: .utf8){
+                self.socket?.write(string: dataString)
             }
+            let udid = UIDevice.current.identifierForVendor!.uuidString
+            
+            self.httpWrapper.performAPIRequest("user_time_logs/stop_tracking?user_id=\(self.currentUser.id ?? 0)&websocket=true&udid=\(udid)", methodType: "PUT", parameters: nil) { (responseData) in
+                DispatchQueue.main.async {
+                    print("yesssssssssss")
+                }
+            } failBlock: { (error) in
+                DispatchQueue.main.async {
+                    print("noooooooooooo")
+                }
+            }
+            
+        } catch {
+            print("JSON serialization failed: ", error)
         }
+    }
     
     
     func didReceive(event: WebSocketEvent, client: WebSocket) {
@@ -161,13 +161,9 @@ class BaseViewController: UIViewController,WebSocketDelegate {
             
         }
         let signoutClosure: () -> Void = {
-            MBProgressHUD.showHud(view: self.view)
-            self.httpWrapper.performAPIRequest("user_time_logs/stop_tracking?user_id=\(self.currentUser.id ?? 0)", methodType: "PUT", parameters: nil) { (responseData) in
-                DispatchQueue.main.async {
-                    MBProgressHUD.hideHud(view: self.view)
-                    BKIModel.resetUserDefaults()
-                    self.appDelegate?.setupRootViewController()
-                }
+            self.stopUserTracking { (sucess) in
+                BKIModel.resetUserDefaults()
+                self.appDelegate?.setupRootViewController()
             } failBlock: { (error) in
                 DispatchQueue.main.async {
                     MBProgressHUD.hideHud(view: self.view)
@@ -178,6 +174,59 @@ class BaseViewController: UIViewController,WebSocketDelegate {
         self.alertVC.presentAlertWithTitleAndActions(actions: [cancelClosure,signoutClosure],
                                                      buttonTitles: ["Cancel","Logout"],controller: self, message: "Are you sure you want to logout ?", title: "BKI")
     }
+    
+    func stopUserTracking(successBlock:@escaping (Bool) -> (),failBlock:@escaping (NSError?) -> ()) {
+        MBProgressHUD.showHud(view: self.view)
+        self.httpWrapper.performAPIRequest("user_time_logs/stop_tracking?user_id=\(self.currentUser.id ?? 0)", methodType: "PUT", parameters: nil) { (responseData) in
+            DispatchQueue.main.async {
+                MBProgressHUD.hideHud(view: self.view)
+                print(responseData)
+                successBlock(true)
+            }
+        } failBlock: { (error) in
+            failBlock(error)
+        }
+    }
+    
+    func getConditionsForAdditionalUsers(withRole role:Int,successBlock:@escaping (Bool) -> ()) {
+        if let selectedState = UserDefaults.standard.string(forKey: "selectedState") {
+            if let additionalUsers = UserDefaults.standard.array(forKey: "additional_users") {
+                if User.getRoleName(userRole: role) != selectedState && additionalUsers.count > 0 {
+                    let yesClosure: () -> Void = {
+                        self.stopUserTracking { (sucess) in
+                            UserDefaults.standard.removeObject(forKey: "additional_users")
+                            successBlock(true)
+                        } failBlock: { (error) in
+                            DispatchQueue.main.async {
+                                MBProgressHUD.hideHud(view: self.view)
+                                self.showFailureAlert(with: (error?.localizedDescription)!)
+                            }
+                        }
+                    }
+                    let noClosure: () -> Void = {
+                        self.stopUserTracking { (sucess) in
+                            print(sucess)
+                            successBlock(true)
+                        } failBlock: { (error) in
+                            DispatchQueue.main.async {
+                                MBProgressHUD.hideHud(view: self.view)
+                                self.showFailureAlert(with: (error?.localizedDescription)!)
+                            }
+                        }
+                    }
+                    let buttonTitles = ["Yes","No"]
+                    self.alertVC.presentAlertWithActions(actions:  [yesClosure,noClosure], buttonTitles: buttonTitles, controller: self, message: "Do you want to remove the additional users already present?")
+                } else {
+                    successBlock(true)
+                }
+            } else {
+                successBlock(true)
+            }
+        } else {
+            successBlock(true)
+        }
+    }
+
     
     func showScanner() {
         self.scanCode = ""
@@ -378,12 +427,20 @@ class BaseViewController: UIViewController,WebSocketDelegate {
     }
     
     func startTracker(with id:Int) {
-        var timeLogsData : [String:([String:Int])] = [String: [String:Int]]()
-//        for component in changedData {
-//            self.solutionData["\(component.key)"] = ["user_id":component.value]
-//        }
-        let state = self.scanItem == "Hanger" ? "fabrication"  : role == 1 ? "fitting" : role == 2 ? "welding" : role == 4 ? "qa" : ""
+        var timeLogsData : [String:([String:Any])] = [String: [String:Int]]()
+        let addUsers = UserDefaults.standard.array(forKey: "additional_users")
         timeLogsData["0"] = ["user_id":currentUser.id!]
+        var count = 1
+        if addUsers != nil {
+            for user in addUsers! {
+                let data = ["user_id":user,"primary_user_id":currentUser.id!]
+                timeLogsData["\(count)"] = data
+                if count <= addUsers?.count ?? 0 {
+                    count += 1
+                }
+            }
+        }
+        let state = self.scanItem == "Hanger" ? "fabrication"  : role == 1 ? "fitting" : role == 2 ? "welding" : role == 4 ? "qa" : ""
         let trakerParams = ["state":state,"worked_on_id":id as Any,"worked_on_type":self.scanItem as Any,"user_time_logs_attributes":timeLogsData] as [String : Any]
         let params = ["activity_tracker":trakerParams] as [String:AnyObject]
         MBProgressHUD.hideHud(view: self.view)
@@ -478,8 +535,8 @@ extension UIViewController {
                     let inspectionVC = self.navigationController?.viewControllers.last as? InspectionVC
                     inspectionVC?.rejectSpoolButtonState()
                     inspectionVC?.showActionButtons(approveBtn: (inspectionVC?.approveBtn)!, rejectBtn: (inspectionVC?.rejectBtn)!)
-
-//                    inspectionVC?.showRejectButton(rejectBtn: (inspectionVC?.rejectBtn)!)
+                    
+                    //                    inspectionVC?.showRejectButton(rejectBtn: (inspectionVC?.rejectBtn)!)
                     let weldStatusVC = self.navigationController?.viewControllers.last as? WeldStatusVC
                     weldStatusVC?.rejectSpoolButtonState()
                     weldStatusVC?.showRejectButton(rejectBtn: (weldStatusVC?.rejectBtn)!)
@@ -487,8 +544,8 @@ extension UIViewController {
             }
         }) { (error) in
             DispatchQueue.main.async {
-            MBProgressHUD.hideHud(view: self.view)
-            self.showFailureAlert(with: (error?.localizedDescription)!)
+                MBProgressHUD.hideHud(view: self.view)
+                self.showFailureAlert(with: (error?.localizedDescription)!)
             }
         }
     }
