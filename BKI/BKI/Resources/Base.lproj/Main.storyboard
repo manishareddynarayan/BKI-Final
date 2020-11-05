@@ -1423,7 +1423,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="wPs-v7-LGp"/>
                                         </constraints>
-                                        <state key="normal" title="Accept">
+                                        <state key="normal" title="Complete">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
@@ -1460,6 +1460,8 @@
                             <constraint firstItem="suf-Se-AX4" firstAttribute="top" secondItem="KDN-sD-mCf" secondAttribute="top" id="QWe-gb-Mwb"/>
                             <constraint firstItem="Lhr-uU-Uef" firstAttribute="bottom" secondItem="KDN-sD-mCf" secondAttribute="bottom" constant="20" id="V4k-mD-AoP"/>
                             <constraint firstItem="suf-Se-AX4" firstAttribute="bottom" secondItem="KDN-sD-mCf" secondAttribute="bottom" id="Voj-2v-MVO"/>
+                            <constraint firstItem="Lhr-uU-Uef" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="kgr-mL-sM0" secondAttribute="trailing" symbolic="YES" id="c93-0M-AbM"/>
+                            <constraint firstItem="Lhr-uU-Uef" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="bC1-xq-h06" secondAttribute="trailing" symbolic="YES" id="cgB-hm-F5T"/>
                             <constraint firstItem="kgr-mL-sM0" firstAttribute="top" secondItem="7eH-Av-9Wl" secondAttribute="bottom" constant="15" id="hNH-j4-4Zl"/>
                             <constraint firstItem="whV-UT-aUd" firstAttribute="top" secondItem="kgr-mL-sM0" secondAttribute="bottom" constant="5" id="jBk-fL-qjy"/>
                             <constraint firstItem="suf-Se-AX4" firstAttribute="trailing" secondItem="KDN-sD-mCf" secondAttribute="trailing" id="oZP-wZ-SDV"/>

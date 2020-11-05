@@ -31,7 +31,7 @@ class NewLoadVC: BaseViewController, TextInputDelegate {
     fileprivate var deletedSpools = [Spool]()
     fileprivate var deletedHangers = [Hanger]()
     fileprivate var deletedEvolves = [Evolve]()
-
+    
     //MARK:- View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,8 +84,8 @@ class NewLoadVC: BaseViewController, TextInputDelegate {
             shouldSubmit = true
         }
         self.alertVC.presentActionSheetWithActionsAndTitle(actions:
-            [cancelClosure,miscClosure,submitClosure], buttonTitles:
-            buttonTitles, controller: self, title: "Choose Option", shouldSubmit: shouldSubmit)
+                                                            [cancelClosure,miscClosure,submitClosure], buttonTitles:
+                                                                buttonTitles, controller: self, title: "Choose Option", shouldSubmit: shouldSubmit)
         return
     }
     
@@ -244,7 +244,7 @@ extension NewLoadVC
                                                 self.addUsersBtn.isEnabled = !(self.scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!)  || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!)
                                                 self.tableView.reloadData()
                                             }
-        }) { (error) in
+                                           }) { (error) in
             self.showFailureAlert(with: (error?.localizedDescription)!)
             
         }
@@ -271,7 +271,7 @@ extension NewLoadVC
         }
         return evolve
     }
-
+    
     func getScannedItemDetails() -> Void {
         if self.scanCode != nil && (self.scanCode?.isEmpty ?? true) {
             return
@@ -285,25 +285,25 @@ extension NewLoadVC
                     if spool.isArchivedOrRejected! {
                         self.alertVC.presentAlertWithTitleAndActions(actions: [{
                             self.dismiss(animated: true, completion: nil)
-                            },{
-                                self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
-                            }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Spool is in rejected or archived state hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
+                        },{
+                            self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
+                        }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Spool is in rejected or archived state hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
                         return
                     }
                     else if spool.status == "On Hold" {
                         self.alertVC.presentAlertWithTitleAndActions(actions: [{
                             self.dismiss(animated: true, completion: nil)
-                            },{
-                                self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
-                            }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Spool is on hold and hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
+                        },{
+                            self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
+                        }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Spool is on hold and hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
                         return
                     }
                     else if (self.role == 3 && (spool.state == WeldState.inShipping || spool.state == WeldState.shipped || spool.loadedAt != nil)) {
                         self.alertVC.presentAlertWithTitleAndActions(actions: [{
                             self.dismiss(animated: true, completion: nil)
-                            },{
-                                self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
-                            }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Spool is already added to a load. You can view the drawing by clicking on the button below.", title: "Warning")
+                        },{
+                            self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
+                        }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Spool is already added to a load. You can view the drawing by clicking on the button below.", title: "Warning")
                         
                         return
                     } else if (self.role == 3 && spool.state != WeldState.readyToShip) {
@@ -311,25 +311,25 @@ extension NewLoadVC
                         if !spool.isCutListsCompleted!{
                             self.alertVC.presentAlertWithTitleAndActions(actions: [{
                                 self.dismiss(animated: true, completion: nil)
-                                },{
-                                    self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
-                                }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "Please complete all the cut lists to load the spool. You can view the drawing by clicking on the button below.", title: "Warning")
+                            },{
+                                self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
+                            }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "Please complete all the cut lists to load the spool. You can view the drawing by clicking on the button below.", title: "Warning")
                             return
                         }
                         
                         self.alertVC.presentAlertWithTitleAndActions(actions: [{
                             self.dismiss(animated: true, completion: nil)
-                            },{
-                                self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
-                            }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Spool is not ready to be loaded yet. You can view the drawing by clicking on the button below.", title: "Warning")
+                        },{
+                            self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
+                        }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Spool is not ready to be loaded yet. You can view the drawing by clicking on the button below.", title: "Warning")
                         return
                     }
                     else if !self.checkHeatNumbersWithSpool(spool: spool){
                         self.alertVC.presentAlertWithTitleAndActions(actions: [{
                             self.dismiss(animated: true, completion: nil)
-                            },{
-                                self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
-                            }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "You cannot add this spool as the heat numbers are not present. You can view the drawing by clicking on the button below.", title: "Warning")
+                        },{
+                            self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
+                        }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "You cannot add this spool as the heat numbers are not present. You can view the drawing by clicking on the button below.", title: "Warning")
                         return
                     }
                     
@@ -379,17 +379,17 @@ extension NewLoadVC
                     if hanger!.isArchivedOrRejected! {
                         self.alertVC.presentAlertWithTitleAndActions(actions: [{
                             self.dismiss(animated: true, completion: nil)
-                            },{
-                                self.showDrawingVC(spool: nil, hanger: hanger, evolve: nil, role: self.role, state: .pdfURL)
-                            }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Hanger is in rejected or archived state hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
+                        },{
+                            self.showDrawingVC(spool: nil, hanger: hanger, evolve: nil, role: self.role, state: .pdfURL)
+                        }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Hanger is in rejected or archived state hence no operation can be performed on it. You can only view the drawing.", title: "Warning")
                         return
                     }else if hanger?.loadId != nil {
-                            self.alertVC.presentAlertWithTitleAndActions(actions: [{
-                                self.dismiss(animated: true, completion: nil)
-                                },{
-                                    self.showDrawingVC(spool: nil, hanger: hanger, evolve: nil, role: self.role, state: .pdfURL)
-                                }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Hanger is already added to a load. You can view the drawing by clicking on the button below.", title: "Warning")
-                            return
+                        self.alertVC.presentAlertWithTitleAndActions(actions: [{
+                            self.dismiss(animated: true, completion: nil)
+                        },{
+                            self.showDrawingVC(spool: nil, hanger: hanger, evolve: nil, role: self.role, state: .pdfURL)
+                        }], buttonTitles: ["OK","View Spool Drawing"], controller: self, message: "The Hanger is already added to a load. You can view the drawing by clicking on the button below.", title: "Warning")
+                        return
                     } else if hanger?.hangerState == "fabrication" {
                         self.alertVC.presentAlertWithMessage(message: "Kindly complete cutting process for this hanger.", controller: self)
                         return
@@ -404,7 +404,7 @@ extension NewLoadVC
                             return
                         }
                     }
-
+                    
                     self.scannedHangers.append(hanger!)
                     self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
                     self.addUsersBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
@@ -427,6 +427,26 @@ extension NewLoadVC
                     if (!(evolve?.isInFabrication)! && evolve?.evolveState != "cutting") {
                         self.showFailureAlert(with:"This is not in fabrication" )
                         return
+                    } else if evolve?.loadId != nil {
+                        self.alertVC.presentAlertWithTitleAndActions(actions: [{
+                            self.dismiss(animated: true, completion: nil)
+                        },{
+                            self.showDrawingVC(spool: nil, hanger: nil, evolve: evolve, role: self.role, state: .pdfURL)
+                        }], buttonTitles: ["OK","View Evolve Drawing"], controller: self, message: "The Evolve is already added to a load. You can view the drawing by clicking on the button below.", title: "Warning")
+                        return
+                    } else if evolve?.evolveState != "ready_to_ship" {
+                        self.alertVC.presentAlertWithTitleAndActions(actions: [{
+                            self.dismiss(animated: true, completion: nil)
+                        },{
+                            self.showDrawingVC(spool: nil, hanger: nil, evolve: evolve, role: self.role, state: .pdfURL)
+                        }], buttonTitles: ["OK","View Evolve Drawing"], controller: self, message: "The Evolve is not ready to be loaded yet. You can view the drawing by clicking on the button below.", title: "Warning")
+                        return
+                    }
+                    for spl in self.scannedEvolves{
+                        if spl.id == evolve?.id{
+                            self.alertVC.presentAlertWithMessage(message: "The evolve is already added to this load.", controller: self)
+                            return
+                        }
                     }
                     self.evolve = evolve
                     self.scannedEvolves.append(evolve!)
@@ -447,7 +467,7 @@ extension NewLoadVC
         }
     }
     
-
+    
 }
 //MARK:- Scan Delegate Methods
 extension NewLoadVC:  ScannerDelegate{
@@ -562,7 +582,7 @@ extension NewLoadVC: UITableViewDelegate, UITableViewDataSource {
                 }
                 self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .ISOURL)
             }
-
+            
         } else if indexPath.section == 1 {
             let hanger = getHangerAtRow(indexPath: indexPath)
             cell?.spoolLbl.text = "\(hanger.packageName!)"
@@ -670,15 +690,16 @@ extension NewLoadVC {
         var params = [String:AnyObject]()
         if !(scannedSpools.isEmpty)
         {
-            loadParams["spool_ids"] =  self.scannedHangers.map{($0.id)} as AnyObject
+            loadParams["spool_ids"] =  self.scannedSpools.map{($0.id)} as AnyObject
         }
-        if !(scannedHangers.isEmpty) {
+        if !(scannedHangers.isEmpty) && !(scannedEvolves.isEmpty) {
+            loadParams["package_material_ids"] = self.scannedHangers.map{($0.id)} + self.scannedEvolves.map{($0.id)} as AnyObject
+        } else if !(scannedHangers.isEmpty) {
             loadParams["package_material_ids"] =  self.scannedHangers.map{($0.id)} as AnyObject
+        } else if !(scannedEvolves.isEmpty) {
+            loadParams["package_material_ids"] =  self.scannedEvolves.map{($0.id)} as AnyObject
         }
-        if !(scannedEvolves.isEmpty) {
-            loadParams["package_material_ids"] =  self.scannedHangers.map{($0.id)} as AnyObject
-        }
-
+        
         loadParams["truck_number"] = truckNumberTF.text as AnyObject
         if  !(self.load!.materials.isEmpty)
         {
@@ -744,7 +765,7 @@ extension NewLoadVC {
                                                                                              buttonTitles: ["OK"], controller: self,
                                                                                              message:"Load updated successfully." , title: "Success")
                                             }
-        }) { (error) in
+                                           }) { (error) in
             self.showFailureAlert(with: (error?.localizedDescription)!)
         }
     }
