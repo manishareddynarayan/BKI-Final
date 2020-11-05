@@ -7,12 +7,16 @@
 //
 
 import UIKit
-
+// spool lo fabrication-id vasthadhi - store it
+// next time spool with fabrication-id - should not start tracker
+//worked-on-id will be fabrication id
 class Spool: BKIModel {
     var code:String?
     var complete:Bool?
     var status:String?
     var packageId:Int?
+    var fabricationId:Int?
+    var trackerId:Int?
     var packageID: Int?
     var archive = false
     var welds = [Weld]()
@@ -46,6 +50,12 @@ class Spool: BKIModel {
         }
         if let id = spoolInfo["spool_id"] as? Int{
             self.id = id
+        }
+        if let fabricationId = spoolInfo["fabrication_id"] as? Int{
+            self.fabricationId = fabricationId
+        }
+        if let trackerId = spoolInfo["activity_tracker_id"] as? Int{
+            self.trackerId = trackerId
         }
         if let code = spoolInfo["code"] as? String {
             self.code = code

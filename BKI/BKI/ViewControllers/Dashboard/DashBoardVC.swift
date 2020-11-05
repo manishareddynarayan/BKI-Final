@@ -100,7 +100,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 }
                 self.evolve = evolveItem
                 if self.trackerId == nil {
-                    self.startTracker(with: (evolveItem.id)!)
+                    self.startTracker(with: (evolveItem.id)!, atShipping: false)
                 }
                 self.tableView.reloadData()
                 print(responseData)
@@ -165,7 +165,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     }
                 }
                 if self.trackerId == nil {
-                    self.startTracker(with: (self.spool?.id)!)
+                    self.startTracker(with: (self.spool?.id)!, atShipping: false)
                 }
                 self.tableView.reloadData()
             }
@@ -356,7 +356,9 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     self.navigationController?.pushViewController(vc1, animated: true)
                     return
                 }
+                if self.trackerId != nil {
                 vc.trackerId = self.trackerId
+                }
                 vc.evolve = self.evolve
                 vc.spool = self.spool
                 vc.role = self.role

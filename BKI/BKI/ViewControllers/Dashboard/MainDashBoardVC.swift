@@ -81,7 +81,7 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
                         return
                     }
                     if self.trackerId == nil {
-                    self.startTracker(with: (hanger?.id)!)
+                        self.startTracker(with: (hanger?.id)!, atShipping: false)
                     }
                     vc.trackerId = self.trackerId
                     vc.hanger = hanger

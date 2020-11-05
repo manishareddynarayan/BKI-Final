@@ -164,13 +164,16 @@ extension AdditionalUsersViewController: UITableViewDelegate,UITableViewDataSour
         }
         return cell!
     }
+    // check additionl users once scanned
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isUserSearch {
+//            add activity_tracker_ids - array of tracker ids
+            let trackerIds = UserDefaults.standard.array(forKey: "activity_tracker_ids")
             let data = ["user_id":self.allAdditionalUsers[indexPath.row].id,"primary_user_id":currentUser.id!]
             //            let par = ["0":data]
             //            let trakerParams = ["user_time_logs_attributes":par] as [String : Any]
-            let params = ["activity_tracker":["user_time_logs_attributes":["0":data]] as [String : Any]] as [String:AnyObject]
-            httpWrapper.performAPIRequest("activity_trackers/\(self.trackerId ?? 0)", methodType: "PUT", parameters: params) { (responseData) in
+            let params = ["activity_tracker":["user_time_logs_attributes":["0":data]] as [String : Any],"activity_tracker_ids":trackerIds as Any] as [String:AnyObject]
+            httpWrapper.performAPIRequest("activity_trackers/bulk_update", methodType: "PUT", parameters: params) { (responseData) in
                 DispatchQueue.main.async {
                     print(responseData)
                     self.getItemAddedUsers()
@@ -180,7 +183,7 @@ extension AdditionalUsersViewController: UITableViewDelegate,UITableViewDataSour
                     self.showFailureAlert(with: (error?.localizedDescription)!)
                 }
             }
-            
+//            params - top_tracking as true - on save and submit
         } else {
             return
         }

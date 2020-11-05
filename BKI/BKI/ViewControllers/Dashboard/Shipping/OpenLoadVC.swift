@@ -28,7 +28,7 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
             self.getOpenLoads()
         }
     }
-    
+    // store all tracker ids we get in getAPI and use to send them in additional user, take any one id from it for next API call
     func getOpenLoads() {
         MBProgressHUD.showHud(view: self.view)
 

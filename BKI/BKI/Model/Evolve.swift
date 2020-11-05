@@ -10,6 +10,7 @@ import UIKit
 
 class Evolve: BKIModel {
     var packageId:Int?
+    var trackerId:Int?
     var batteryName:String?
     var evolveState:String?
     var isArchivedOrRejected:Bool?
@@ -33,6 +34,9 @@ class Evolve: BKIModel {
         }
         if let packageId = evolveInfo["package_id"] as? Int{
             self.packageId = packageId
+        }
+        if let trackerId = evolveInfo["activity_tracker_id"] as? Int{
+            self.trackerId = trackerId
         }
         if let batteryName = evolveInfo["battery_name"] as? String {
             self.batteryName = batteryName

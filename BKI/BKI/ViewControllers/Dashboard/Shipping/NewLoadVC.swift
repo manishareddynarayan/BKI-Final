@@ -19,7 +19,7 @@ class NewLoadVC: BaseViewController, TextInputDelegate {
     @IBOutlet weak var totalWeightLbl: UILabel!
     @IBOutlet var miscBtn: UIBarButtonItem!
     @IBOutlet weak var bottomView: UIView!
-    
+    @IBOutlet weak var addUsersBtn: UIButton!
     //MARK:- properties
     var spoolArr = [String]()
     var load:Load?
@@ -51,6 +51,7 @@ class NewLoadVC: BaseViewController, TextInputDelegate {
         super.viewWillAppear(animated)
         self.truckNumberTF.text = (load?.truckNumber != nil) ? load?.truckNumber : UserDefaults.standard.value(forKey: "truck_number") as? String
         saveBtn.isEnabled =  !(scannedEvolves.isEmpty) || !(scannedHangers.isEmpty) || !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || !((self.load?.hangers.isEmpty)!) || self.truckNumberTF.text != ""
+        addUsersBtn.isEnabled =  !(scannedEvolves.isEmpty) || !(scannedHangers.isEmpty) || !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || !((self.load?.hangers.isEmpty)!)
         self.setTotalWeight()
     }
     //MARK:- Navigation
@@ -101,6 +102,17 @@ class NewLoadVC: BaseViewController, TextInputDelegate {
         }
     }
         
+    @IBAction func addUsersAction(_ sender: Any) {
+        guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier:
+            "AdditionalUsersViewController", storyBoard: "Main") as? NewLoadVC else {
+            return
+        }
+        if self.trackerId != nil {
+        vc.trackerId = self.trackerId
+        }
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func showDrawingVC(spool:Spool?,hanger:Hanger?,evolve:Evolve?,role:Int,state:WEBURLState){
         if let vc = self.getViewControllerWithIdentifier(identifier: "DrawingVC") as? DrawingVC
         {
@@ -129,6 +141,7 @@ private extension NewLoadVC
         self.setTotalWeight()
         self.truckNumberTF.text = self.load?.truckNumber
         self.saveBtn.isEnabled = !(scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || self.truckNumberTF.text != ""
+        self.addUsersBtn.isEnabled = !(scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!)
         self.tableView.reloadData()
     }
     
@@ -200,6 +213,7 @@ extension NewLoadVC:UITextFieldDelegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         saveBtn.isEnabled = !(scannedHangers.isEmpty) || !(scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || !((self.load?.hangers.isEmpty)!) || textField.text?.count ?? 0 > 0
+        addUsersBtn.isEnabled = !(scannedHangers.isEmpty) || !(scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || !((self.load?.hangers.isEmpty)!)
         return false
     }
     
@@ -227,6 +241,7 @@ extension NewLoadVC
                                                 self.truckNumberTF.text = self.load?.truckNumber
                                                 self.totalWeightLbl.text = String(format: "%.2f",  (self.load?.total_weight)!)
                                                 self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!)  || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!)
+                                                self.addUsersBtn.isEnabled = !(self.scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!)  || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!)
                                                 self.tableView.reloadData()
                                             }
         }) { (error) in
@@ -328,6 +343,7 @@ extension NewLoadVC
                     self.scannedSpools.append(spool)
                     BKIModel.setSpoolNumebr(number: self.spool?.code!)
                     self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
+                    self.addUsersBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
                     self.tableView.reloadData()
                     self.setTotalWeight()
                     
@@ -338,6 +354,10 @@ extension NewLoadVC
                     }else{
                         self.load?.projectId = spool.projectId
                     }
+                    if self.trackerId == nil && (UserDefaults.standard.value(forKey: "spoolFabricationId") as? Int != nil ? UserDefaults.standard.value(forKey: "spoolFabricationId") as? Int != self.spool?.fabricationId : true) {
+                        self.startTracker(with: (self.spool?.fabricationId)!, atShipping: true)
+                    }
+                    UserDefaults.standard.set(self.spool?.fabricationId, forKey: "spoolFabricationId")
                 }
             }) { (error) in
                 DispatchQueue.main.async {
@@ -387,6 +407,10 @@ extension NewLoadVC
 
                     self.scannedHangers.append(hanger!)
                     self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
+                    self.addUsersBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
+                    if self.trackerId == nil {
+                        self.startTracker(with: (hanger?.id)!, atShipping: true)
+                    }
                     self.tableView.reloadData()
                 }
             }) { (error) in
@@ -407,6 +431,10 @@ extension NewLoadVC
                     self.evolve = evolve
                     self.scannedEvolves.append(evolve!)
                     self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
+                    self.addUsersBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
+                    if self.trackerId == nil {
+                        self.startTracker(with: (evolve?.id)!, atShipping: true)
+                    }
                     self.tableView.reloadData()
                     print(responseData)
                 }
@@ -708,6 +736,7 @@ extension NewLoadVC {
                                                             v.tableView.reloadData()
                                                         }
                                                     }
+                                                    self.stopTracking()
                                                     UserDefaults.standard.removeObject(forKey: "truck_number")
                                                     self.navigationController?.popViewController(animated: true)
                                                 }

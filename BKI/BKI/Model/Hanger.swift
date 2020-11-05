@@ -12,6 +12,7 @@ class Hanger: BKIModel {
     var packageName:String?
     var hangerState:String?
     var packageId:Int?
+    var trackerId:Int?
     var loadId:Int?
     var drawingUrl:String?
     var materialName:String?
@@ -37,6 +38,9 @@ class Hanger: BKIModel {
         }
         if let loadId = hangerInfo["load_id"] as? Int{
             self.loadId = loadId
+        }
+        if let trackerId = hangerInfo["activity_tracker_id"] as? Int{
+            self.trackerId = trackerId
         }
         if let materialName = hangerInfo["material_name"] as? String{
             self.materialName = materialName

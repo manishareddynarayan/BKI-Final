@@ -30,6 +30,7 @@ class BaseViewController: UIViewController,WebSocketDelegate {
     var socket:WebSocket?
     var isConnected = false
     var trackerId: Int?
+    var trackerIds: [Int] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.brickRed
@@ -426,7 +427,7 @@ class BaseViewController: UIViewController,WebSocketDelegate {
         self.updateSpoolStateWith(spool: self.spool!, params: weldParams as [String : AnyObject], isSpoolUpdate: isSpoolUpdate, updateTableView: tableView)
     }
     
-    func startTracker(with id:Int) {
+    func startTracker(with id:Int, atShipping:Bool) {
         var timeLogsData : [String:([String:Any])] = [String: [String:Int]]()
         let addUsers = UserDefaults.standard.array(forKey: "additional_users")
         timeLogsData["0"] = ["user_id":currentUser.id!]
@@ -440,7 +441,9 @@ class BaseViewController: UIViewController,WebSocketDelegate {
                 }
             }
         }
-        let state = self.scanItem == "Hanger" ? "fabrication"  : role == 1 ? "fitting" : role == 2 ? "welding" : role == 4 ? "qa" : ""
+//        "worked_on_type" - spool ki fabrication
+        //
+        let state = atShipping ? "ready_to_ship" : self.scanItem == "Hanger" ? "fabrication"  : role == 1 ? "fitting" : role == 2 ? "welding" : role == 4 ? "qa" : ""
         let trakerParams = ["state":state,"worked_on_id":id as Any,"worked_on_type":self.scanItem as Any,"user_time_logs_attributes":timeLogsData] as [String : Any]
         let params = ["activity_tracker":trakerParams] as [String:AnyObject]
         MBProgressHUD.hideHud(view: self.view)
@@ -453,6 +456,10 @@ class BaseViewController: UIViewController,WebSocketDelegate {
                     let vc = self.navigationController?.viewControllers.last as? PackageViewController
                     vc?.trackerId = id
                     self.trackerId = id
+                    if atShipping {
+                        self.trackerIds.append(id)
+                        UserDefaults.standard.set(self.trackerIds, forKey: "trackerIdsArray")
+                    }
                 }
             }
         } failBlock: { (error) in
@@ -462,6 +469,20 @@ class BaseViewController: UIViewController,WebSocketDelegate {
             }
         }
         
+    }
+    func stopTracking() {
+        let params = ["stop_tracker":true] as [String:AnyObject]
+        httpWrapper.performAPIRequest("activity_trackers/\(self.trackerId ?? 0)", methodType: "PUT", parameters: params) { (responseData) in
+            DispatchQueue.main.async {
+                print(responseData)
+                UserDefaults.standard.removeObject(forKey: "activity_tracker_ids")
+                self.trackerIds.removeAll()
+            }
+        } failBlock: { (error) in
+            DispatchQueue.main.async {
+                self.showFailureAlert(with: (error?.localizedDescription)!)
+            }
+        }
     }
     
     func textFieldDidPressNextOrPrev(next: Bool, textField: AUSessionField) {
