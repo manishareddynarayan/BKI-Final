@@ -37,7 +37,7 @@ class RootViewController: BaseViewController {
                                       parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
                 print(responseData)
-                BKIModel.saveUserinDefaults(info: responseData)
+                _ = BKIModel.saveUserinDefaults(info: responseData)
                 self.appDelegate?.setupRootViewController()
             }
         }) { (error) in

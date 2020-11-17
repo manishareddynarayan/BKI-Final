@@ -12,7 +12,7 @@ class AdditionalUsersViewController: BaseViewController,TextInputDelegate ,UITex
     @IBOutlet weak var usersTableView: UITableView!
     @IBOutlet weak var additionalUsersTF: AUTextField!
     @IBOutlet weak var crossButton: UIButton!
-    var allAdditionalUsers = [AdditionalUser]()
+    var allAdditionalUsers = [User]()
     var addedUsers = [User]()
     var isUserSearch = false
     
@@ -60,8 +60,9 @@ class AdditionalUsersViewController: BaseViewController,TextInputDelegate ,UITex
                                                             MBProgressHUD.hideHud(view: self.view)
                                                             self.allAdditionalUsers.removeAll()
                                                             let additionalUsers = responseData["users"] as? [[String:AnyObject]]
+//                                                            websockt
                                                             for user in additionalUsers! {
-                                                                let additionalUser = AdditionalUser.init(info: user)
+                                                                let additionalUser = User.init(info: user)
                                                                 self.allAdditionalUsers.append(additionalUser)
                                                             }
                                                             self.allAdditionalUsers.removeAll { (user) -> Bool in
@@ -78,6 +79,7 @@ class AdditionalUsersViewController: BaseViewController,TextInputDelegate ,UITex
     }
     
     func getItemAddedUsers() {
+        MBProgressHUD.hideHud(view: self.view)
         MBProgressHUD.showHud(view: self.view)
         HTTPWrapper.sharedInstance.performAPIRequest("activity_trackers/\(self.trackerId ?? 0)",
                                                      methodType: "GET", parameters: nil, successBlock: { (responseData) in
@@ -167,20 +169,63 @@ extension AdditionalUsersViewController: UITableViewDelegate,UITableViewDataSour
     // check additionl users once scanned
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isUserSearch {
+            var params: [String:AnyObject]
+            var url:String?
 //            add activity_tracker_ids - array of tracker ids
-            let trackerIds = UserDefaults.standard.array(forKey: "activity_tracker_ids")
             let data = ["user_id":self.allAdditionalUsers[indexPath.row].id,"primary_user_id":currentUser.id!]
             //            let par = ["0":data]
             //            let trakerParams = ["user_time_logs_attributes":par] as [String : Any]
-            let params = ["activity_tracker":["user_time_logs_attributes":["0":data]] as [String : Any],"activity_tracker_ids":trackerIds as Any] as [String:AnyObject]
-            httpWrapper.performAPIRequest("activity_trackers/bulk_update", methodType: "PUT", parameters: params) { (responseData) in
-                DispatchQueue.main.async {
-                    print(responseData)
-                    self.getItemAddedUsers()
+//            var vc = self.navigationController?.viewControllers.contains(NewLoadVC.self)
+            if (trackerIds.count == 0) {
+                 params = ["activity_tracker":["user_time_logs_attributes":["0":data]] as [String : Any]] as [String:AnyObject]
+                url = "activity_trackers/\(self.trackerId ?? 0)"
+            } else {
+                 params = ["activity_tracker":["user_time_logs_attributes":["0":data]] as [String : Any],"activity_tracker_ids":self.trackerIds as Any] as [String:AnyObject]
+                url = "activity_trackers/bulk_update"
+            }
+            let user = self.allAdditionalUsers[indexPath.row]
+            if user.alreadyLoggedIn ?? false {
+                let yesClosure: () -> Void = {
+                    self.stopUserTrackingWebSocket(withUdid: false, userId: user.id ?? 0) { (sucess) in
+                        self.httpWrapper.performAPIRequest(url, methodType: "PUT", parameters: params) { (responseData) in
+                            DispatchQueue.main.async {
+                                MBProgressHUD.hideHud(view: self.view)
+                                print(responseData)
+                                self.getItemAddedUsers()
+                            }
+                        } failBlock: { (error) in
+                            DispatchQueue.main.async {
+                                MBProgressHUD.hideHud(view: self.view)
+                                self.showFailureAlert(with: (error?.localizedDescription)!)
+                            }
+                        }
+
+                    } failBlock: { (error) in
+                        DispatchQueue.main.async {
+                            MBProgressHUD.hideHud(view: self.view)
+                            self.showFailureAlert(with: (error?.localizedDescription)!)
+                        }
+                    }
                 }
-            } failBlock: { (error) in
-                DispatchQueue.main.async {
-                    self.showFailureAlert(with: (error?.localizedDescription)!)
+                let noClosure: () -> Void = {
+                    return
+                }
+                self.alertVC.presentAlertWithTitleAndActions(actions: [yesClosure,noClosure],
+                                                             buttonTitles: ["Yes","No"],controller: self, message: "This user is already logged in, you want to log him out from other devices?", title: "BKI")
+            } else {
+                MBProgressHUD.hideHud(view: self.view)
+                MBProgressHUD.showHud(view: self.view)
+                httpWrapper.performAPIRequest(url, methodType: "PUT", parameters: params) { (responseData) in
+                    DispatchQueue.main.async {
+                        MBProgressHUD.hideHud(view: self.view)
+                        print(responseData)
+                        self.getItemAddedUsers()
+                    }
+                } failBlock: { (error) in
+                    DispatchQueue.main.async {
+                        MBProgressHUD.hideHud(view: self.view)
+                        self.showFailureAlert(with: (error?.localizedDescription)!)
+                    }
                 }
             }
 //            params - top_tracking as true - on save and submit

@@ -66,12 +66,17 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
         let loginParams = ["email":emailTF.text!,"password":passwordTF.text!,"platform":"mobile"]
         httpWrapper.performAPIRequest("users/sign_in", methodType: "POST", parameters: loginParams as [String : AnyObject], successBlock: { (responseData) in
                 DispatchQueue.main.async {
-                    BKIModel.saveUserinDefaults(info: responseData)
+                    let loginUser = BKIModel.saveUserinDefaults(info: responseData)
                     if BKIModel.userRole() == "qa" || BKIModel.userRole() == "fabrication" {
-                    self.appDelegate?.setupRootViewController()
+                        self.createSocketRequest(loginUser: loginUser)
+//                    self.appDelegate?.setupRootViewController()
                     } else {
                         self.alertVC.presentAlertWithMessage(message: "Please login as a Fabrication or QA user", controller: self)
                     }
+//                    if loginUser.alreadyLoggedIn ?? false {
+//
+//                    }
+                    // alerady logged - stop tracking
                     MBProgressHUD.hideHud(view: self.view)
                 }
         }) { (error) in

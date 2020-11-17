@@ -31,6 +31,7 @@ class BaseViewController: UIViewController,WebSocketDelegate {
     var isConnected = false
     var trackerId: Int?
     var trackerIds: [Int] = []
+    var loginUser:User?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.brickRed
@@ -42,14 +43,24 @@ class BaseViewController: UIViewController,WebSocketDelegate {
                                                                      style: .plain, target: self, action: #selector(self.backButtonAction(sender:)))
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white,
                                                                    NSAttributedString.Key.font: UIFont.systemSemiBold15]
-        //        if defs?.object(forKey: "access-token") != nil {
-        //            let token = (defs?.object(forKey: "access-token") as? String)!
-        //            let request = URLRequest(url: URL(string: "wss://07365867869c.ngrok.io/cable?X_ACCESS_TOKEN:\(token)")!)
-        //            socket = WebSocket(request: request)
-        //            socket?.delegate = self
-        //            socket?.connect()
-        //        }
+        self.createSocketRequest(loginUser: nil)
     }
+    //    after connecting - user already login uh ani check cheyali
+    //    if yes - show pop - should we delete him from other - if yes - call stop tracking
+    func createSocketRequest(loginUser:User?) {
+        if defs?.object(forKey: "access-token") != nil {
+            if loginUser != nil {
+                self.loginUser = loginUser
+            }
+            let token = (defs?.object(forKey: "access-token") as? String)!
+            let request = URLRequest(url: URL(string: "ws://390078573d81.ngrok.io/cable?X_ACCESS_TOKEN:\(token)")!)
+            socket = WebSocket(request: request)
+            socket?.delegate = self
+            socket?.disconnect()
+            socket?.connect()
+        }
+    }
+    
     func createChannel()
     {
         let strChannel = "{ \"channel\": \"IosUsersChannel\" }"
@@ -60,18 +71,31 @@ class BaseViewController: UIViewController,WebSocketDelegate {
             if let dataString = String(data: data, encoding: .utf8){
                 self.socket?.write(string: dataString)
             }
-            let udid = UIDevice.current.identifierForVendor!.uuidString
-            
-            self.httpWrapper.performAPIRequest("user_time_logs/stop_tracking?user_id=\(self.currentUser.id ?? 0)&websocket=true&udid=\(udid)", methodType: "PUT", parameters: nil) { (responseData) in
-                DispatchQueue.main.async {
-                    print("yesssssssssss")
-                }
-            } failBlock: { (error) in
-                DispatchQueue.main.async {
-                    print("noooooooooooo")
+//            let loginUser = UserDefaults.standard.data(forKey: "loginUser") as? User
+            if loginUser != nil {
+                if self.loginUser?.alreadyLoggedIn ?? false {
+                        let noClosure: () -> Void = {
+                            BKIModel.resetUserDefaults()
+                            self.appDelegate?.setupRootViewController()
+                        }
+                        let yesClosure: () -> Void = {
+                            self.stopUserTrackingWebSocket(withUdid: true, userId: self.currentUser.id ?? 0) { (sucess) in
+                                self.appDelegate?.setupRootViewController()
+                            } failBlock: { (error) in
+                                DispatchQueue.main.async {
+                                    MBProgressHUD.hideHud(view: self.view)
+                                    self.showFailureAlert(with: (error?.localizedDescription)!)
+                                }
+                            }
+                        }
+                        self.alertVC.presentAlertWithTitleAndActions(actions: [yesClosure,noClosure],
+                                                                     buttonTitles: ["Yes","No"],controller: self, message: "This user is working in some other place. So you want to log him out from there?", title: "BKI")
+                } else {
+                    self.appDelegate?.setupRootViewController()
                 }
             }
-            
+//                alert yes- stop tracking No- return back to login
+                //
         } catch {
             print("JSON serialization failed: ", error)
         }
@@ -95,7 +119,39 @@ class BaseViewController: UIViewController,WebSocketDelegate {
             }
             print("\(devicedata.message.primary_user_id)")
             print("\(devicedata.message.udid)")
-        case .binary(let data):
+            if (devicedata.message.udid != nil ){
+                if(String(self.currentUser.id ?? 0) == devicedata.message.primary_user_id && UIDevice.current.identifierForVendor!.uuidString != devicedata.message.udid) {
+                    BKIModel.resetUserDefaults()
+                    self.appDelegate?.setupRootViewController()
+                }
+            } else if (devicedata.message.secondary_user_id != nil) {
+                if let additionalUsers = UserDefaults.standard.array(forKey: "additional_users") {
+                    UserDefaults.standard.set(additionalUsers.filter({String(($0 as? Int)!) != devicedata.message.secondary_user_id}), forKey: "additional_users")
+                    if let topVC = UIApplication.getTopViewController() {
+                        topVC.viewDidLoad()
+//                        topVC.viewWillAppear(false)
+                    }
+//                    let vc = navigationController?.viewControllers.last
+//                    vc?.viewDidLoad()
+                }
+                // remove additional users
+            } else if (devicedata.message.primary_user_id != nil) {
+                if(String(self.currentUser.id ?? 0) == devicedata.message.primary_user_id) {
+                    BKIModel.resetUserDefaults()
+                    self.appDelegate?.setupRootViewController()
+                }
+            }
+//            if(devicedata.message.udid != nil){
+//                    if(current_user.id === user_id && udid != current_user_udid) { logout(user_id) - remove from defaults }
+//                {
+//
+//            remove_secondary_id - in some other phone - remove this id from additional users if he is on action screens
+//        } else (primary_user_id){
+//            logout(primary_user_id)
+//        just remove from defaults
+//        }
+            
+            case .binary(let data):
             print("Received data: \(data.count)")
         case .ping(_):
             break
@@ -112,7 +168,22 @@ class BaseViewController: UIViewController,WebSocketDelegate {
         }
     }
     
-    
+    func stopUserTrackingWebSocket(withUdid:Bool,userId:Int,successBlock:@escaping (Bool) -> (),failBlock:@escaping (NSError?) -> ()) {
+        MBProgressHUD.showHud(view: self.view)
+        let udid = UIDevice.current.identifierForVendor!.uuidString
+        let url = withUdid ? "user_time_logs/stop_tracking?user_id=\(userId)&websocket=true&udid=\(udid)" : "user_time_logs/stop_tracking?user_id=\(userId)&websocket=true"
+        self.httpWrapper.performAPIRequest(url, methodType: "PUT", parameters: nil) { (responseData) in
+            DispatchQueue.main.async {
+                MBProgressHUD.hideHud(view: self.view)
+                print(responseData)
+                successBlock(true)
+            }
+        } failBlock: { (error) in
+            MBProgressHUD.hideHud(view: self.view)
+            failBlock(error)
+        }
+    }
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -227,7 +298,7 @@ class BaseViewController: UIViewController,WebSocketDelegate {
             successBlock(true)
         }
     }
-
+    
     
     func showScanner() {
         self.scanCode = ""
@@ -441,10 +512,10 @@ class BaseViewController: UIViewController,WebSocketDelegate {
                 }
             }
         }
-//        "worked_on_type" - spool ki fabrication
+        //        "worked_on_type" - spool ki fabrication
         //
         let state = atShipping ? "ready_to_ship" : self.scanItem == "Hanger" ? "fabrication"  : role == 1 ? "fitting" : role == 2 ? "welding" : role == 4 ? "qa" : ""
-        let trakerParams = ["state":state,"worked_on_id":id as Any,"worked_on_type":self.scanItem as Any,"user_time_logs_attributes":timeLogsData] as [String : Any]
+        let trakerParams = ["state":state,"worked_on_id":id as Any,"worked_on_type": (atShipping && self.scanItem == "Spool" ? "Fabrication" : self.scanItem as Any),"user_time_logs_attributes":timeLogsData] as [String : Any]
         let params = ["activity_tracker":trakerParams] as [String:AnyObject]
         MBProgressHUD.hideHud(view: self.view)
         MBProgressHUD.showHud(view: self.view)
@@ -471,7 +542,7 @@ class BaseViewController: UIViewController,WebSocketDelegate {
         
     }
     func stopTracking() {
-        let params = ["stop_tracker":true] as [String:AnyObject]
+        let params = ["stop_tracking":true] as [String:AnyObject]
         httpWrapper.performAPIRequest("activity_trackers/\(self.trackerId ?? 0)", methodType: "PUT", parameters: params) { (responseData) in
             DispatchQueue.main.async {
                 print(responseData)
@@ -614,11 +685,28 @@ class BaseTableViewController: UITableViewController {
     }
 }
 struct Device:Decodable {
-    let udid:String
-    let primary_user_id:String
+    let udid:String?
+    let primary_user_id:String?
+    let secondary_user_id:String?
 }
 struct deviceData:Decodable {
     let message:Device
+}
+extension UIApplication {
+
+    class func getTopViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+
+        if let nav = base as? UINavigationController {
+            return getTopViewController(base: nav.visibleViewController)
+
+        } else if let tab = base as? UITabBarController, let selected = tab.selectedViewController {
+            return getTopViewController(base: selected)
+
+        } else if let presented = base?.presentedViewController {
+            return getTopViewController(base: presented)
+        }
+        return base
+    }
 }
 
 

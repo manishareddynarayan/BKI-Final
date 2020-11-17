@@ -20,6 +20,7 @@ class NewLoadVC: BaseViewController, TextInputDelegate {
     @IBOutlet var miscBtn: UIBarButtonItem!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var addUsersBtn: UIButton!
+    @IBOutlet weak var additionalUsersCountLabel: UILabel!
     //MARK:- properties
     var spoolArr = [String]()
     var load:Load?
@@ -31,6 +32,7 @@ class NewLoadVC: BaseViewController, TextInputDelegate {
     fileprivate var deletedSpools = [Spool]()
     fileprivate var deletedHangers = [Hanger]()
     fileprivate var deletedEvolves = [Evolve]()
+    var enableAdditionalUsersBtn = false
     
     //MARK:- View Life Cycle
     override func viewDidLoad() {
@@ -41,17 +43,21 @@ class NewLoadVC: BaseViewController, TextInputDelegate {
         self.navigationItem.rightBarButtonItem = miscBtn
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         if load == nil { self.navigationItem.title = "New Load" }
-        load == nil ? self.load = Load() : self.getLoadDetails()
+        load?.number == nil ? self.load = Load() : self.getLoadDetails()
         self.bgImageview.isHidden = true
         self.view.backgroundColor = UIColor.white
         truckNumberTF.delegate = self
+        self.handleAddUsersTitle()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.truckNumberTF.text = (load?.truckNumber != nil) ? load?.truckNumber : UserDefaults.standard.value(forKey: "truck_number") as? String
         saveBtn.isEnabled =  !(scannedEvolves.isEmpty) || !(scannedHangers.isEmpty) || !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || !((self.load?.hangers.isEmpty)!) || self.truckNumberTF.text != ""
-        addUsersBtn.isEnabled =  !(scannedEvolves.isEmpty) || !(scannedHangers.isEmpty) || !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || !((self.load?.hangers.isEmpty)!)
+        self.handleAddUsersTitle()
+        enableAdditionalUsersBtn = load != nil ?  !(scannedHangers.isEmpty) || !(scannedEvolves.isEmpty) || !(self.scannedSpools.isEmpty): !(scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !((self.load?.spools.isEmpty)!)
+        addUsersBtn.isEnabled = enableAdditionalUsersBtn
+        addUsersBtn.titleLabel?.isEnabled = enableAdditionalUsersBtn
         self.setTotalWeight()
     }
     //MARK:- Navigation
@@ -101,16 +107,25 @@ class NewLoadVC: BaseViewController, TextInputDelegate {
             self.updateLoad(isSubmit: false)
         }
     }
-        
+    
     @IBAction func addUsersAction(_ sender: Any) {
         guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier:
-            "AdditionalUsersViewController", storyBoard: "Main") as? NewLoadVC else {
+                                                                            "AdditionalUsersViewController", storyBoard: "Main") as? AdditionalUsersViewController else {
             return
         }
+        
         if self.trackerId != nil {
-        vc.trackerId = self.trackerId
+            vc.trackerId = self.trackerId
         }
+        vc.trackerIds = Array(Set(self.trackerIds))
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func handleAddUsersTitle() {
+        addUsersBtn.setTitle("", for: .normal)
+        if let additionalUsers = UserDefaults.standard.array(forKey: "additional_users") {
+            addUsersBtn.setTitle(String(additionalUsers.count), for: .normal)
+        }
     }
     
     func showDrawingVC(spool:Spool?,hanger:Hanger?,evolve:Evolve?,role:Int,state:WEBURLState){
@@ -141,7 +156,8 @@ private extension NewLoadVC
         self.setTotalWeight()
         self.truckNumberTF.text = self.load?.truckNumber
         self.saveBtn.isEnabled = !(scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || self.truckNumberTF.text != ""
-        self.addUsersBtn.isEnabled = !(scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!)
+        self.addUsersBtn.isEnabled = load != nil ?  !(scannedHangers.isEmpty) || !(scannedEvolves.isEmpty) || !(self.scannedSpools.isEmpty): !(scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !((self.load?.spools.isEmpty)!)
+        addUsersBtn.titleLabel?.isEnabled = load != nil ?  !(scannedHangers.isEmpty) || !(scannedEvolves.isEmpty) || !(self.scannedSpools.isEmpty): !(scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !((self.load?.spools.isEmpty)!)
         self.tableView.reloadData()
     }
     
@@ -213,7 +229,8 @@ extension NewLoadVC:UITextFieldDelegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         saveBtn.isEnabled = !(scannedHangers.isEmpty) || !(scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || !((self.load?.hangers.isEmpty)!) || textField.text?.count ?? 0 > 0
-        addUsersBtn.isEnabled = !(scannedHangers.isEmpty) || !(scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!) || !((self.load?.hangers.isEmpty)!)
+        addUsersBtn.isEnabled = load != nil ?  !(scannedHangers.isEmpty) || !(scannedEvolves.isEmpty) || !(self.scannedSpools.isEmpty): !(scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !((self.load?.spools.isEmpty)!)
+        addUsersBtn.titleLabel?.isEnabled = load != nil ?  !(scannedHangers.isEmpty) || !(scannedEvolves.isEmpty) || !(self.scannedSpools.isEmpty): !(scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !((self.load?.spools.isEmpty)!)
         return false
     }
     
@@ -241,7 +258,8 @@ extension NewLoadVC
                                                 self.truckNumberTF.text = self.load?.truckNumber
                                                 self.totalWeightLbl.text = String(format: "%.2f",  (self.load?.total_weight)!)
                                                 self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!)  || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!)
-                                                self.addUsersBtn.isEnabled = !(self.scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!)  || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !(self.load!.materials.isEmpty) || !((self.load?.spools.isEmpty)!)
+                                                self.addUsersBtn.isEnabled = self.load != nil ?  !(self.scannedHangers.isEmpty) || !(self.scannedEvolves.isEmpty) || !(self.scannedSpools.isEmpty): !(self.scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !((self.load?.spools.isEmpty)!)
+                                                self.addUsersBtn.titleLabel?.isEnabled = self.load != nil ?  !(self.scannedHangers.isEmpty) || !(self.scannedEvolves.isEmpty) || !(self.scannedSpools.isEmpty): !(self.scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !((self.load?.spools.isEmpty)!)
                                                 self.tableView.reloadData()
                                             }
                                            }) { (error) in
@@ -278,8 +296,8 @@ extension NewLoadVC
         }
         MBProgressHUD.showHud(view: self.view)
         if self.scanItem == "Spool" {
-            httpWrapper.performAPIRequest("spools/\(self.scanCode!)?scan=true", methodType: "GET", parameters: nil, successBlock: { (responseData) in
-                DispatchQueue.main.async {
+            httpWrapper.performAPIRequest("spools/\(self.scanCode!)?scan=true&state=\("ready_to_ship")", methodType: "GET", parameters: nil, successBlock: { (responseData) in
+                DispatchQueue.main.async { [self] in
                     MBProgressHUD.hideHud(view: self.view)
                     let spool  = Spool.init(info: responseData)
                     if spool.isArchivedOrRejected! {
@@ -343,7 +361,8 @@ extension NewLoadVC
                     self.scannedSpools.append(spool)
                     BKIModel.setSpoolNumebr(number: self.spool?.code!)
                     self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
-                    self.addUsersBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
+                    self.addUsersBtn.isEnabled = load != nil ?  !(scannedHangers.isEmpty) || !(scannedEvolves.isEmpty) || !(self.scannedSpools.isEmpty): !(scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !((self.load?.spools.isEmpty)!)
+                    addUsersBtn.titleLabel?.isEnabled = load != nil ?  !(scannedHangers.isEmpty) || !(scannedEvolves.isEmpty) || !(self.scannedSpools.isEmpty): !(scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !((self.load?.spools.isEmpty)!)
                     self.tableView.reloadData()
                     self.setTotalWeight()
                     
@@ -355,9 +374,9 @@ extension NewLoadVC
                         self.load?.projectId = spool.projectId
                     }
                     if self.trackerId == nil && (UserDefaults.standard.value(forKey: "spoolFabricationId") as? Int != nil ? UserDefaults.standard.value(forKey: "spoolFabricationId") as? Int != self.spool?.fabricationId : true) {
-                        self.startTracker(with: (self.spool?.fabricationId)!, atShipping: true)
+                        self.startTracker(with: spool.fabricationId!, atShipping: true)
                     }
-                    UserDefaults.standard.set(self.spool?.fabricationId, forKey: "spoolFabricationId")
+                    UserDefaults.standard.set(spool.fabricationId, forKey: "spoolFabricationId")
                 }
             }) { (error) in
                 DispatchQueue.main.async {
@@ -371,7 +390,7 @@ extension NewLoadVC
                 }
             }
         } else if self.scanItem == "Hanger" {
-            httpWrapper.performAPIRequest("hangers/\(self.scanCode!)/scan", methodType: "GET", parameters: nil, successBlock: { (responseData) in
+            httpWrapper.performAPIRequest("hangers/\(self.scanCode!)/scan?state=\("ready_to_ship")", methodType: "GET", parameters: nil, successBlock: { (responseData) in
                 var hanger:Hanger?
                 DispatchQueue.main.async {
                     MBProgressHUD.hideHud(view: self.view)
@@ -407,7 +426,9 @@ extension NewLoadVC
                     
                     self.scannedHangers.append(hanger!)
                     self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
-                    self.addUsersBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
+                    self.addUsersBtn.isEnabled = self.load != nil ?  !(self.scannedHangers.isEmpty) || !(self.scannedEvolves.isEmpty) || !(self.scannedSpools.isEmpty): !(self.scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !((self.load?.spools.isEmpty)!)
+                    self.addUsersBtn.titleLabel?.isEnabled = self.load != nil ?  !(self.scannedHangers.isEmpty) || !(self.scannedEvolves.isEmpty) || !(self.scannedSpools.isEmpty): !(self.scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !((self.load?.spools.isEmpty)!)
+
                     if self.trackerId == nil {
                         self.startTracker(with: (hanger?.id)!, atShipping: true)
                     }
@@ -419,7 +440,7 @@ extension NewLoadVC
                 }
             }
         } else if self.scanItem == "EvolveFabrication" {
-            httpWrapper.performAPIRequest("evolve_fabrications/\(self.scanCode!)/scan", methodType: "GET", parameters: nil) { (responseData) in
+            httpWrapper.performAPIRequest("evolve_fabrications/\(self.scanCode!)/scan?state=\("ready_to_ship")", methodType: "GET", parameters: nil) { (responseData) in
                 var evolve:Evolve?
                 DispatchQueue.main.async {
                     MBProgressHUD.hideHud(view: self.view)
@@ -451,7 +472,8 @@ extension NewLoadVC
                     self.evolve = evolve
                     self.scannedEvolves.append(evolve!)
                     self.saveBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
-                    self.addUsersBtn.isEnabled = !(self.scannedHangers.isEmpty) || !(self.scannedSpools.isEmpty) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.load!.materials.isEmpty) || !((self.load?.hangers.isEmpty)!) || !((self.load?.spools.isEmpty)!)
+                    self.addUsersBtn.isEnabled = self.load != nil ?  !(self.scannedHangers.isEmpty) || !(self.scannedEvolves.isEmpty) || !(self.scannedSpools.isEmpty): !(self.scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !((self.load?.spools.isEmpty)!)
+                    self.addUsersBtn.titleLabel?.isEnabled = self.load != nil ?  !(self.scannedHangers.isEmpty) || !(self.scannedEvolves.isEmpty) || !(self.scannedSpools.isEmpty): !(self.scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !((self.load?.spools.isEmpty)!)
                     if self.trackerId == nil {
                         self.startTracker(with: (evolve?.id)!, atShipping: true)
                     }
@@ -532,6 +554,9 @@ extension NewLoadVC: UITableViewDelegate, UITableViewDataSource {
         cell?.isoButton.isHidden = false
         if indexPath.section == 0 {
             let spool = getSpoolAtRow(indexPath: indexPath)
+            if load != nil && spool.trackerId != nil{
+                self.trackerIds.append(spool.trackerId!)
+            }
             cell?.spoolLbl.text = "\(spool.code!)"
             cell?.viewDrawingBlock = {
                 self.showDrawingVC(spool: spool, hanger: nil, evolve: nil, role: self.role, state: .pdfURL)
@@ -585,6 +610,9 @@ extension NewLoadVC: UITableViewDelegate, UITableViewDataSource {
             
         } else if indexPath.section == 1 {
             let hanger = getHangerAtRow(indexPath: indexPath)
+            if load != nil && hanger.trackerId != nil {
+                self.trackerIds.append(hanger.trackerId!)
+            }
             cell?.spoolLbl.text = "\(hanger.packageName!)"
             cell?.viewDrawingBtn.isHidden = false
             cell?.viewDrawingBtn.setImage(UIImage.init(named: "Hangers_Pdf"), for: .normal)
@@ -632,6 +660,9 @@ extension NewLoadVC: UITableViewDelegate, UITableViewDataSource {
             cell?.isoButton.isHidden = true
         } else {
             let evolve = getEvolveAtRow(indexPath: indexPath)
+            if load != nil && evolve.trackerId != nil {
+                self.trackerIds.append(evolve.trackerId!)
+            }
             cell?.spoolLbl.text = "\(evolve.batteryName!)"
             cell?.viewDrawingBtn.isHidden = false
             cell?.viewDrawingBtn.setImage(UIImage.init(named: "evolve_pdf"), for: .normal)
@@ -678,6 +709,7 @@ extension NewLoadVC: UITableViewDelegate, UITableViewDataSource {
             }
             cell?.isoButton.isHidden = true
         }
+//        UserDefaults.standard.set(self.trackerIds, forKey: "activity_tracker_ids")
         return cell!
     }
 }

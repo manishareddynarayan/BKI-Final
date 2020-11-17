@@ -24,6 +24,7 @@ class OpenLoadVC: BaseViewController, UITableViewDataSource, UITableViewDelegate
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        UserDefaults.standard.removeObject(forKey: "trackerIdsArray")
         if self.openLoadsArr.isEmpty {
             self.getOpenLoads()
         }

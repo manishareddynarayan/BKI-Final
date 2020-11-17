@@ -74,7 +74,7 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
                     self.showFailureAlert(with: "Kindly complete the procurement process for this hanger.")
                 } else if hanger?.isWorking == true && (User.getRoleName(userRole: self.role) != UserDefaults.standard.string(forKey: "selectedState") &&         UserDefaults.standard.string(forKey: "scanItem") != self.scanCode!)
                 {
-                    self.showFailureAlert(with:"This is alerady in working state" )
+                    self.showFailureAlert(with:"This is already in working state" )
                     return
                 }else {
                     guard let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "PackageViewController", storyBoard: "Hangers") as? PackageViewController else {

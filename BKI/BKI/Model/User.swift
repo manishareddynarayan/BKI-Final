@@ -23,7 +23,11 @@ class User: BKIModel {
     var startTime:Date?
     var endTime:Date?
     var primaryUserId:Int?
-    
+    var activityName:String?
+    var activityState:String?
+    var activityType:String?
+    var alreadyLoggedIn:Bool?
+
     override init () {
         // uncomment this line if your class has been inherited from any other class
         super.init()
@@ -37,6 +41,9 @@ class User: BKIModel {
     func saveUser(user:[String:AnyObject]) {
         if let name = user["name"] as? String {
             self.name = name
+        }
+        if let id = user["id"] as? Int {
+            self.id = id
         }
         if let id = user["user_id"] as? Int {
             self.id = id
@@ -76,6 +83,18 @@ class User: BKIModel {
         
         if let endTime = user["end_time"] as? Date {
             self.endTime = endTime
+        }
+        if let alreadyLoggedIn = user["already_logged_in"] as? Bool {
+            self.alreadyLoggedIn = alreadyLoggedIn
+        }
+        if let activityName = user["activity_name"] as? String {
+            self.activityName = activityName
+        }
+        if let activityState = user["activity_state"] as? String {
+            self.activityState = activityState
+        }
+        if let activityType = user["activity_type"] as? String {
+            self.activityType = activityType
         }
     }
     
@@ -167,39 +186,39 @@ class User: BKIModel {
         return Role.shipper
     }
 }
-class AdditionalUser: User {
-    var activityName:String?
-    var activityState:String?
-    var activityType:String?
-    var alreadyLoggedIn:Bool?
-    
-    override init () {
-        // uncomment this line if your class has been inherited from any other class
-        super.init()
-    }
-    
-    convenience init(info:[String:AnyObject]) {
-        self.init()
-        saveAdditionalUser(user: info)
-    }
-    func saveAdditionalUser(user:[String:AnyObject]) {
-        if let name = user["name"] as? String {
-            self.name = name
-        }
-        if let id = user["id"] as? Int {
-            self.id = id
-        }
-        if let alreadyLoggedIn = user["already_logged_in"] as? Bool {
-            self.alreadyLoggedIn = alreadyLoggedIn
-        }
-        if let activityName = user["activity_name"] as? String {
-            self.activityName = activityName
-        }
-        if let activityState = user["activity_state"] as? String {
-            self.activityState = activityState
-        }
-        if let activityType = user["activity_type"] as? String {
-            self.activityType = activityType
-        }
-    }
-}
+//class AdditionalUser: User {
+//    var activityName:String?
+//    var activityState:String?
+//    var activityType:String?
+//    var alreadyLoggedIn:Bool?
+//
+//    override init () {
+//        // uncomment this line if your class has been inherited from any other class
+//        super.init()
+//    }
+//
+//    convenience init(info:[String:AnyObject]) {
+//        self.init()
+//        saveAdditionalUser(user: info)
+//    }
+//    func saveAdditionalUser(user:[String:AnyObject]) {
+//        if let name = user["name"] as? String {
+//            self.name = name
+//        }
+//        if let id = user["id"] as? Int {
+//            self.id = id
+//        }
+//        if let alreadyLoggedIn = user["already_logged_in"] as? Bool {
+//            self.alreadyLoggedIn = alreadyLoggedIn
+//        }
+//        if let activityName = user["activity_name"] as? String {
+//            self.activityName = activityName
+//        }
+//        if let activityState = user["activity_state"] as? String {
+//            self.activityState = activityState
+//        }
+//        if let activityType = user["activity_type"] as? String {
+//            self.activityType = activityType
+//        }
+//    }
+//}

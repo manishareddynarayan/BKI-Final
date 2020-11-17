@@ -27,6 +27,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         tableView.register(UINib(nibName: "DashBoardCell", bundle: nil), forCellReuseIdentifier: "DashboardCell")
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         alternateDescriptionBtn.isHidden = true
+        tableView.reloadData()
 //        self.getConditionsForAdditionalUsers(withRole: self.role)
     }
     
@@ -86,7 +87,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     func getEvolveDetails() {
         MBProgressHUD.showHud(view: self.view)
         let state = role == 1 ? "fitting" : role == 2 ? "welding" : role == 4 ? "qa" : ""
-        httpWrapper.performAPIRequest("evolve_fabrications/\(self.scanCode!)?scan&state=\(state)", methodType: "GET", parameters: nil) { (responseData) in
+        httpWrapper.performAPIRequest("evolve_fabrications/\(self.scanCode!)/scan?state=\(state)", methodType: "GET", parameters: nil) { (responseData) in
             DispatchQueue.main.async {
                 MBProgressHUD.hideHud(view: self.view)
                 let evolveItem = Evolve.init(info: responseData)
@@ -290,7 +291,6 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             }
             return cell!
         }
-        6
         if spool != nil {
             if self.spool?.status == "On Hold" || (self.spool?.isArchivedOrRejected)!{
                 if indexPath.row == 3 && self.role == 1{
@@ -330,9 +330,9 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     cell?.enable(enable: false)
                 }
             }else{
-                if self.role == 1 && (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == self.menuItems.count - 2) {
+                if self.role == 1 && (indexPath.row == 0 || indexPath.row == 1) {
                     cell?.enable(enable: false)
-                } else if self.role == 4 && (indexPath.row == 0 || indexPath.row == self.menuItems.count - 2){
+                } else if self.role == 4 && (indexPath.row == 0){
                     cell?.enable(enable: false)
                 } else {
                     cell?.enable(enable: true)
