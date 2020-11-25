@@ -54,7 +54,6 @@ class BKIModel: NSObject {
         defs?.set(true, forKey: "isLoggedIn")
         let loginUser = User.shared
         loginUser.saveUser(user: info)
-//        UserDefaults.standard.set(loginUser, forKey: "loginUser")
         return loginUser
     }
     

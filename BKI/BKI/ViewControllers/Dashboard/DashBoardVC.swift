@@ -28,7 +28,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         self.tableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         alternateDescriptionBtn.isHidden = true
         tableView.reloadData()
-//        self.getConditionsForAdditionalUsers(withRole: self.role)
+        //        self.getConditionsForAdditionalUsers(withRole: self.role)
     }
     
     override func didReceiveMemoryWarning() {
@@ -50,7 +50,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         }
     }
     
-
+    
     
     @IBAction func alternateDescriptionBtn(_ sender: Any) {
         self.performSegue(withIdentifier: ALTERNATEDESCRIPTIONSEGUE, sender: self)
@@ -100,7 +100,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     return
                 }
                 self.evolve = evolveItem
-                if self.trackerId == nil {
+                if self.trackerId == nil && (self.role == 1 && self.evolve?.evolveState != "fitting") || (self.role == 4 && self.evolve?.evolveState != "qa") {
                     self.startTracker(with: (evolveItem.id)!, atShipping: false)
                 }
                 self.tableView.reloadData()
@@ -154,7 +154,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     self.showFailureAlert(with:"This is already in working state" )
                     return
                 }
-
+                
                 self.scanned = false
                 
                 if self.spool?.welds.count == 0{
@@ -165,7 +165,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                         }
                     }
                 }
-                if self.trackerId == nil {
+                if self.trackerId == nil && ((self.role == 1 && self.spool?.state == WeldState.fitting ) || (self.role == 2 && self.spool?.state == WeldState.welding) || (self.role == 4 && self.spool?.state == WeldState.qa)) {
                     self.startTracker(with: (self.spool?.id)!, atShipping: false)
                 }
                 self.tableView.reloadData()
@@ -305,7 +305,9 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     cell?.enable(enable: false)
                 }
             }else{
-              if indexPath.row != 2 && self.role != 4{
+                if (self.role == 1 && spool?.state != WeldState.fitting && (indexPath.row == self.menuItems.count - 2)) || (self.role == 2 && spool?.state != WeldState.welding && (indexPath.row == self.menuItems.count - 2)) || (self.role == 4 && spool?.state != WeldState.qa && (indexPath.row == self.menuItems.count - 2)) {
+                    cell?.enable(enable: false)
+                } else if indexPath.row != 2 && self.role != 4{
                     cell?.enable(enable: true)
                 } else if indexPath.row != 1 && self.role == 4 {
                     cell?.enable(enable: true)
@@ -329,10 +331,12 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 } else{
                     cell?.enable(enable: false)
                 }
-            }else{
+            } else {
                 if self.role == 1 && (indexPath.row == 0 || indexPath.row == 1) {
                     cell?.enable(enable: false)
-                } else if self.role == 4 && (indexPath.row == 0){
+                } else if (self.role == 1 && evolve?.evolveState != "fitting") || (self.role == 4 && evolve?.evolveState != "qa") && (indexPath.row == self.menuItems.count - 2) {
+                    cell?.enable(enable: false)
+                }else if self.role == 4 && (indexPath.row == 0){
                     cell?.enable(enable: false)
                 } else {
                     cell?.enable(enable: true)
@@ -363,7 +367,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     return
                 }
                 if self.trackerId != nil {
-                vc.trackerId = self.trackerId
+                    vc.trackerId = self.trackerId
                 }
                 vc.evolve = self.evolve
                 vc.spool = self.spool

@@ -97,6 +97,7 @@ class NewLoadVC: BaseViewController, TextInputDelegate {
     
     @IBAction func scanAction(_ sender: Any) {
         UserDefaults.standard.set(truckNumberTF.text, forKey: "truck_number")
+        UserDefaults.standard.set(self.trackerId, forKey: "trackerId")
         self.showScanner()
     }
     
@@ -113,8 +114,10 @@ class NewLoadVC: BaseViewController, TextInputDelegate {
                                                                             "AdditionalUsersViewController", storyBoard: "Main") as? AdditionalUsersViewController else {
             return
         }
-        
-        if self.trackerId != nil {
+        if self.trackerId == nil {
+            self.trackerId = UserDefaults.standard.integer(forKey: "trackerId")
+            vc.trackerId = self.trackerId
+        } else {
             vc.trackerId = self.trackerId
         }
         vc.trackerIds = Array(Set(self.trackerIds))
@@ -294,6 +297,8 @@ extension NewLoadVC
         if self.scanCode != nil && (self.scanCode?.isEmpty ?? true) {
             return
         }
+        UserDefaults.standard.set(self.scanItem, forKey: "scanItem")
+        UserDefaults.standard.set(User.getRoleName(userRole: self.role), forKey: "selectedState")
         MBProgressHUD.showHud(view: self.view)
         if self.scanItem == "Spool" {
             httpWrapper.performAPIRequest("spools/\(self.scanCode!)?scan=true&state=\("ready_to_ship")", methodType: "GET", parameters: nil, successBlock: { (responseData) in

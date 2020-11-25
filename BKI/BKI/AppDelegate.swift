@@ -38,6 +38,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
+        if let topVC = UIApplication.getTopViewController() {
+            topVC.viewDidLoad()
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

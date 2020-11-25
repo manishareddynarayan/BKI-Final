@@ -53,11 +53,10 @@ class BaseViewController: UIViewController,WebSocketDelegate {
                 self.loginUser = loginUser
             }
             let token = (defs?.object(forKey: "access-token") as? String)!
-            let request = URLRequest(url: URL(string: "ws://390078573d81.ngrok.io/cable?X_ACCESS_TOKEN:\(token)")!)
+            let request = URLRequest(url: URL(string: "ws://54.196.109.252:28080/cable?X_ACCESS_TOKEN:\(token)")!)
             socket = WebSocket(request: request)
             socket?.delegate = self
-            socket?.disconnect()
-            socket?.connect()
+                socket?.connect()
         }
     }
     
@@ -71,7 +70,6 @@ class BaseViewController: UIViewController,WebSocketDelegate {
             if let dataString = String(data: data, encoding: .utf8){
                 self.socket?.write(string: dataString)
             }
-//            let loginUser = UserDefaults.standard.data(forKey: "loginUser") as? User
             if loginUser != nil {
                 if self.loginUser?.alreadyLoggedIn ?? false {
                         let noClosure: () -> Void = {
@@ -100,13 +98,14 @@ class BaseViewController: UIViewController,WebSocketDelegate {
             print("JSON serialization failed: ", error)
         }
     }
+
     
     
     func didReceive(event: WebSocketEvent, client: WebSocket) {
         switch event {
         case .connected(let headers):
+                self.createChannel()
             isConnected = true
-            self.createChannel()
             print("websocket is connected: \(headers)")
         case .disconnected(let reason, let code):
             isConnected = false
@@ -129,10 +128,7 @@ class BaseViewController: UIViewController,WebSocketDelegate {
                     UserDefaults.standard.set(additionalUsers.filter({String(($0 as? Int)!) != devicedata.message.secondary_user_id}), forKey: "additional_users")
                     if let topVC = UIApplication.getTopViewController() {
                         topVC.viewDidLoad()
-//                        topVC.viewWillAppear(false)
                     }
-//                    let vc = navigationController?.viewControllers.last
-//                    vc?.viewDidLoad()
                 }
                 // remove additional users
             } else if (devicedata.message.primary_user_id != nil) {
@@ -179,7 +175,9 @@ class BaseViewController: UIViewController,WebSocketDelegate {
                 successBlock(true)
             }
         } failBlock: { (error) in
+            DispatchQueue.main.async {
             MBProgressHUD.hideHud(view: self.view)
+            }
             failBlock(error)
         }
     }
@@ -235,6 +233,7 @@ class BaseViewController: UIViewController,WebSocketDelegate {
         let signoutClosure: () -> Void = {
             self.stopUserTracking { (sucess) in
                 BKIModel.resetUserDefaults()
+                self.socket?.disconnect(closeCode: CloseCode.normal.rawValue)
                 self.appDelegate?.setupRootViewController()
             } failBlock: { (error) in
                 DispatchQueue.main.async {

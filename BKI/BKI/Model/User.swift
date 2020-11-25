@@ -23,9 +23,9 @@ class User: BKIModel {
     var startTime:Date?
     var endTime:Date?
     var primaryUserId:Int?
-    var activityName:String?
+    var activityName:String? // pacakage
     var activityState:String?
-    var activityType:String?
+    var activityType:String? // item name
     var alreadyLoggedIn:Bool?
 
     override init () {
