@@ -21,13 +21,6 @@ class EvolveViewController: BaseViewController {
         self.view.backgroundColor = UIColor.white
         batteryNameLabel.text = self.evolve?.batteryName
         rejectReasonLabel.text = self.evolve?.rejectReason
-//        if self.role == 4 {
-//            fitupView.isHidden = true
-//            qaView.isHidden = false
-//        } else {
-//            fitupView.isHidden = false
-//            qaView.isHidden = true
-//        }
         if self.evolve?.rejectReason == nil {
             rejectReasonLabel.isHidden = true
             rejectReasonTitleLabel.isHidden = true

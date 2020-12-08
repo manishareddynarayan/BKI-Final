@@ -100,7 +100,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     return
                 }
                 self.evolve = evolveItem
-                if self.trackerId == nil && (self.role == 1 && self.evolve?.evolveState != "fitting") || (self.role == 4 && self.evolve?.evolveState != "qa") {
+                if self.trackerId == nil && (self.role == 1 && self.evolve?.evolveState == "fitting") || (self.role == 4 && self.evolve?.evolveState == "qa") {
                     self.startTracker(with: (evolveItem.id)!, atShipping: false)
                 }
                 self.tableView.reloadData()
@@ -116,7 +116,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
     
     func getSpoolDetails() {
         MBProgressHUD.showHud(view: self.view)
-        let state = role == 1 ? "fitting" : role == 4 ? "qa" : ""
+        let state = role == 1 ? "fitting" : role == 2 ? "welding" : role == 4 ? "qa" : ""
         httpWrapper.performAPIRequest("spools/\(self.scanCode!)?scan=true&state=\(state)", methodType: "GET", parameters: nil, successBlock: { (responseData) in
             DispatchQueue.main.async {
                 print(responseData)
@@ -136,16 +136,21 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 if self.spool?.status == "On Hold" {
                     self.showFailureAlert(with: "The Spool is on hold and hence no operation can be performed on it.")
                 }
-                //                    else if self.role == 2 && self.spool?.state != WeldState.welding {
-                //                    self.showFailureAlert(with: "You can access spools which are in state of welding.")
-                //                }
-                //                else  if (self.role == 1 && self.spool?.state != WeldState.fitting) {
-                //                    self.showFailureAlert(with: "You can access spools which are in state of fitting.")
-                //                }
-                //                else if (self.role == 4 && self.spool?.state != WeldState.qa)  {
-                //                    self.showFailureAlert(with: "You can access spools which are in state of QA.")
-                //                }
-                
+                if !(self.spool?.isCutListsCompleted! ?? true){
+                    self.showFailureAlert(with: "The Spool is not in fabrication yet hence no operation can be performed on it.")
+                    self.tableView.reloadData()
+                    return
+                }
+//                                    else if self.role == 2 && self.spool?.state != WeldState.welding {
+//                                    self.showFailureAlert(with: "You can access spools which are in state of welding.")
+//                                }
+//                                else  if (self.role == 1 && self.spool?.state != WeldState.fitting) {
+//                                    self.showFailureAlert(with: "You can access spools which are in state of fitting.")
+//                                }
+//                                else if (self.role == 4 && self.spool?.state != WeldState.qa)  {
+//                                    self.showFailureAlert(with: "You can access spools which are in state of QA.")
+//                                }
+//                
                 if !self.checkHeatNumbers() && !self.checkFittingWeldStatus() && self.scanned{
                     self.alertVC.presentAlertWithTitleAndMessage(title: "Warning", message: "Please enter heat numbers to move the spool to next state", controller: self)
                 }
@@ -280,19 +285,14 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
         let menu = self.menuItems[indexPath.row]
         cell?.titleLbl.text = menu["Name"]
         cell?.countLabel.isHidden = true
-        if  (spool == nil && evolve == nil) {
-            if self.role == 3 {
-                cell?.enable(enable: true)
-            }
-            else if self.menuItems.count - 1 == indexPath.row {
-                cell?.enable(enable: true)
-            } else {
-                cell?.enable(enable: false)
-            }
-            return cell!
-        }
         if spool != nil {
-            if self.spool?.status == "On Hold" || (self.spool?.isArchivedOrRejected)!{
+            if !(self.spool?.isCutListsCompleted! ?? true){
+                if self.menuItems.count - 1 == indexPath.row {
+                    cell?.enable(enable: true)
+                } else {
+                    cell?.enable(enable: false)
+                }
+            } else if self.spool?.status == "On Hold" || (self.spool?.isArchivedOrRejected)!{
                 if indexPath.row == 3 && self.role == 1{
                     cell?.enable(enable: true)
                 }else if indexPath.row == 1 && self.role == 2{
@@ -334,7 +334,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             } else {
                 if self.role == 1 && (indexPath.row == 0 || indexPath.row == 1) {
                     cell?.enable(enable: false)
-                } else if (self.role == 1 && evolve?.evolveState != "fitting") || (self.role == 4 && evolve?.evolveState != "qa") && (indexPath.row == self.menuItems.count - 2) {
+                } else if ((self.role == 1 && evolve?.evolveState != "fitting") || (self.role == 4 && evolve?.evolveState != "qa")) && (indexPath.row == self.menuItems.count - 2) {
                     cell?.enable(enable: false)
                 }else if self.role == 4 && (indexPath.row == 0){
                     cell?.enable(enable: false)
@@ -342,6 +342,17 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     cell?.enable(enable: true)
                 }
             }
+        }
+        if  (spool == nil && evolve == nil) {
+            if self.role == 3 {
+                cell?.enable(enable: true)
+            }
+            else if self.menuItems.count - 1 == indexPath.row {
+                cell?.enable(enable: true)
+            } else {
+                cell?.enable(enable: false)
+            }
+            return cell!
         }
         if let additionalUsers = UserDefaults.standard.array(forKey: "additional_users") {
             if ((indexPath.row == self.menuItems.count - 2) && (additionalUsers.count != 0) && cell?.isUserInteractionEnabled == true)

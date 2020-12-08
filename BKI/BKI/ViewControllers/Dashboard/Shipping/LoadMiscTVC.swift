@@ -80,16 +80,7 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate ,UITextFieldDelega
         let material = load.materials[indexPath.row]
         cell?.configureCell(material: material)
         cell?.qtyTF.formDelegate = self
-//        cell?.decTF.formDelegate = self
         cell?.weightTF.formDelegate = self
-//        cell?.descLbl.text = Weld.description()
-//        cell?.descEnterBlock = {
-//            let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "searchMiscVC", storyBoard: "Main") as? SearchMiscVC
-//            vc?.material = material
-//            self.present(vc!, animated: true, completiosn: {
-//
-//            })
-//        }
         cell?.quantityCompletedBlock = { (text)  in
             if !(text.isEmpty) && (text.count) < 18 {
                 material.quantity = Int(text)!
@@ -250,7 +241,6 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate ,UITextFieldDelega
         range: NSRange, replacementString string: String) -> Bool {
         if textField == searchTF {
             self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "materialCell")
-//            searchTF.text = text
             isSearchMisc = true
             var searchStr = textField.text! + string
             if !(searchStr.isEmpty) {
@@ -260,30 +250,6 @@ class LoadMiscTVC: BaseTableViewController, TextInputDelegate ,UITextFieldDelega
             return true
         }
         isSearchMisc = false
-//        let storyboard : UIStoryboard = UIStoryboard(name: "searchNavigationController", bundle: nil)
-//
-//        let vc = storyboard.instantiateViewController(withIdentifier: "searchMiscVC") as? SearchMiscVC
-//        let navigationController = UINavigationController(rootViewController: vc!)
-//
-//        self.present(navigationController, animated: true, completion: nil)
-
-//        self.performSegue(withIdentifier: "showSearchMiscSegue", sender: self)
-
-//        let vc = self.getViewControllerWithIdentifierAndStoryBoard(identifier: "searchMiscVC", storyBoard: "Main") as? SearchMiscVC
-//        vc?.load = self.load
-////        vc?.material = matmerial
-////        vc?.text =
-//        self.present(vc!, animated: false, completion: {
-//
-//        })
         return true
     }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        // Get the new view controller using segue.destinationViewController.
-//        // Pass the selected object to the new view controller.
-//
-//        let searchMiscVC = segue.destination as? SearchMiscVC
-//        searchMiscVC?.load = self.load
-//    }
 }

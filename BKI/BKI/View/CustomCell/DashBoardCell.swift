@@ -19,6 +19,8 @@ class DashBoardCell: BaseCell {
         titleLbl.textColor = UIColor.brickRed
         titleLbl.font = UIFont.systemMedium17
         self.backgroundColor = UIColor.clear
+        countLabel.layer.borderWidth = 1
+        countLabel.layer.borderColor = UIColor.appRed.cgColor
         // Initialization code
     }
 

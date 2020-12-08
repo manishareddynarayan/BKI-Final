@@ -412,7 +412,7 @@
                                         <rect key="frame" x="237.5" y="10" width="117.5" height="30"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                         <inset key="titleEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="3" image="add user"/>
+                                        <state key="normal" image="add user"/>
                                         <connections>
                                             <action selector="addUsersAction:" destination="L4W-0L-YSK" eventType="touchUpInside" id="71N-IR-7kz"/>
                                         </connections>
@@ -432,6 +432,22 @@
                                             <action selector="saveAction:" destination="L4W-0L-YSK" eventType="touchUpInside" id="NFt-Lk-YGx"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j8w-OX-LPb">
+                                        <rect key="frame" x="310" y="14" width="22" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="22" id="HNT-f2-Q8H"/>
+                                            <constraint firstAttribute="width" constant="22" id="iFD-SV-Xnl"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <state key="normal" title="3">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="11"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.49803921569999998" green="0.043137254899999998" blue="0.0039215686269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -442,6 +458,7 @@
                                     <constraint firstAttribute="height" constant="50" id="P1r-sK-2RN"/>
                                     <constraint firstItem="ZyB-we-v6Z" firstAttribute="top" secondItem="NTE-jd-8sj" secondAttribute="top" constant="10" id="Q1T-fU-h6V"/>
                                     <constraint firstItem="NTE-jd-8sj" firstAttribute="top" secondItem="ekH-Mc-nTo" secondAttribute="top" id="Ueo-6c-MnV"/>
+                                    <constraint firstItem="j8w-OX-LPb" firstAttribute="centerY" secondItem="crQ-Ku-1HG" secondAttribute="centerY" id="XGk-Y4-9kc"/>
                                     <constraint firstItem="7Bo-n1-UEz" firstAttribute="leading" secondItem="eVF-g6-Tzr" secondAttribute="trailing" constant="1" id="aPa-45-RMK"/>
                                     <constraint firstAttribute="bottom" secondItem="7Bo-n1-UEz" secondAttribute="bottom" id="chR-lL-cqv"/>
                                     <constraint firstAttribute="bottom" secondItem="crQ-Ku-1HG" secondAttribute="bottom" constant="10" id="dcn-oA-XOH"/>
@@ -451,6 +468,7 @@
                                     <constraint firstItem="ZyB-we-v6Z" firstAttribute="leading" secondItem="ekH-Mc-nTo" secondAttribute="leading" id="o9Y-1P-lES"/>
                                     <constraint firstItem="eVF-g6-Tzr" firstAttribute="leading" secondItem="NTE-jd-8sj" secondAttribute="trailing" id="qnd-oI-WAA"/>
                                     <constraint firstItem="eVF-g6-Tzr" firstAttribute="top" secondItem="NTE-jd-8sj" secondAttribute="top" constant="10" id="riP-G7-xaq"/>
+                                    <constraint firstAttribute="trailing" secondItem="j8w-OX-LPb" secondAttribute="trailing" constant="23" id="sG0-gR-x5V"/>
                                     <constraint firstItem="crQ-Ku-1HG" firstAttribute="top" secondItem="ekH-Mc-nTo" secondAttribute="top" constant="10" id="t3d-Ac-ytA"/>
                                     <constraint firstItem="crQ-Ku-1HG" firstAttribute="leading" secondItem="7Bo-n1-UEz" secondAttribute="trailing" id="y9e-tU-ikW"/>
                                 </constraints>
@@ -558,6 +576,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="addUsersBtn" destination="crQ-Ku-1HG" id="O6O-5I-vwZ"/>
+                        <outlet property="additionalUsersCountBtn" destination="j8w-OX-LPb" id="cwV-7l-gJv"/>
                         <outlet property="bottomView" destination="ekH-Mc-nTo" id="yCZ-5e-03a"/>
                         <outlet property="miscBtn" destination="OMd-Nu-Sx6" id="6v0-CT-yMg"/>
                         <outlet property="saveBtn" destination="eVF-g6-Tzr" id="dMr-H6-exV"/>

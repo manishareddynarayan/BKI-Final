@@ -7,9 +7,6 @@
 //
 
 import UIKit
-// spool lo fabrication-id vasthadhi - store it
-// next time spool with fabrication-id - should not start tracker
-//worked-on-id will be fabrication id
 class Spool: BKIModel {
     var code:String?
     var complete:Bool?

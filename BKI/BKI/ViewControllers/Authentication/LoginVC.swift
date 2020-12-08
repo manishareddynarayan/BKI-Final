@@ -52,30 +52,28 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
     
     @IBAction func signInAction(_ sender: Any) {
         
-//        let dict = self.sessionManager.validateRequiredFields()
-//        if dict != nil {
-//            if let error = dict!["Error"] as? String {
-//                self.alertVC.presentAlertWithTitleAndMessage(title: "ERROR", message: error , controller: self)
-//                return
-//            }
-//        }
         UserDefaults.standard.set(emailTF.text!, forKey: "recentUsername")
-        
         MBProgressHUD.showHud(view: self.view)
-
         let loginParams = ["email":emailTF.text!,"password":passwordTF.text!,"platform":"mobile"]
         httpWrapper.performAPIRequest("users/sign_in", methodType: "POST", parameters: loginParams as [String : AnyObject], successBlock: { (responseData) in
                 DispatchQueue.main.async {
                     let loginUser = BKIModel.saveUserinDefaults(info: responseData)
                     if BKIModel.userRole() == "qa" || BKIModel.userRole() == "fabrication" {
                         self.createSocketRequest(loginUser: loginUser)
-//                    self.appDelegate?.setupRootViewController()
+                        let formatter = DateFormatter()
+                        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                        formatter.timeZone = TimeZone(abbreviation: "EST")
+                        let dd = Date().endOfDay
+//                        let todayAt12PM = calendar.date(bySettingHour: 12, minute: 16, second: 1, of: nowDateValue, matchingPolicy: .nextTime, repeatedTimePolicy: .first, direction: .forward)
+                        let yourDate = formatter.string(from: dd!)
+                        let alarmDate = formatter.date(from: yourDate)
+                        let timer = Timer(fire: alarmDate!, interval: 0, repeats: false) { (timer) in
+                            self.runCode()
+                        }
+                        RunLoop.main.add(timer, forMode: .common)
                     } else {
                         self.alertVC.presentAlertWithMessage(message: "Please login as a Fabrication or QA user", controller: self)
                     }
-//                    if loginUser.alreadyLoggedIn ?? false {
-//
-//                    }
                     // alerady logged - stop tracking
                     MBProgressHUD.hideHud(view: self.view)
                 }
@@ -83,6 +81,24 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
             self.showFailureAlert(with: (error?.localizedDescription)!)
         }
     }
+     func runCode() {
+        //to logout at 12
+//        BKIModel.resetUserDefaults()
+//        self.appDelegate?.setupRootViewController()
+        let now = NSDate()
+        let nowDateValue = now as Date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm"
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: nowDateValue)
+        let fullMinuteDate = calendar.date(from: components)!
+        let date = Date().getEndOfTheDay()
+        let currentDate = dateFormatter.string(from: fullMinuteDate)
+        let finalAlarmDate = dateFormatter.string(from: date)
+        if currentDate == finalAlarmDate {
+            print("------ yes  -----")
+        }
+       }
     
     @IBAction func forgotMyPasswordAction(_ sender: Any) {
         

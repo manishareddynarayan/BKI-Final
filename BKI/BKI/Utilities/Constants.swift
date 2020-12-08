@@ -43,6 +43,7 @@ enum WeldState:Int {
     case reject
     case inShipping
     case shipped
+    case cutting
 }
 
 

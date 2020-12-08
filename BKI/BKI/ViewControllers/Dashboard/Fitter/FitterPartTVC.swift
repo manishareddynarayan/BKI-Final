@@ -42,30 +42,13 @@ class FitterPartTVC: BaseTableViewController, TextInputDelegate {
                 showAlert = true
             }
         }
-//        var components = [[String:AnyObject]]()
         for row in 0 ..< (self.spool?.components.count)! {
             let indexPath = IndexPath(row: row, section: 0)
             let cell = tableView.cellForRow(at: indexPath) as? PartCell
             let textField = cell?.getTextField()
             textField?.resignFirstResponder()
         }
-        
-//        for component in (self.spool?.components)! {
-//            let dict = ["id":component.id!, "heat_number": component.heatNumber] as [String : Any]
-//            components.append(dict as [String : AnyObject])
-//            if component.heatNumber.isEmpty {
-//                showAlert = true
-//            }
-//        }
-        
-//        for component in (self.spool?.components)! {
-//            self.components[String(component.id!)] = [String:([String:AnyObject])]()
-//            self.components[String(component.id!)]!["heat_number_attributes"] = [String:AnyObject]()
-//            self.components[String(component.id!)]!["heat_number_attributes"]!["number"] = component.heatNumber as AnyObject
-//            self.components[String(component.id!)]!["heat_number_attributes"]!["done_by_id"] = User.shared.id as AnyObject
-//        }
-//        let spoolParams = ["component":self.components]
-        
+                
         if self.components.count > 0{
             MBProgressHUD.showHud(view: self.view)
                     httpWrapper.performAPIRequest("components/heat_numbers_update", methodType: "PUT", parameters: ["component":self.components as AnyObject], successBlock: { (responseData) in

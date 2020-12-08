@@ -12,6 +12,7 @@ class AdditionalUsersViewController: BaseViewController,TextInputDelegate ,UITex
     @IBOutlet weak var usersTableView: UITableView!
     @IBOutlet weak var additionalUsersTF: AUTextField!
     @IBOutlet weak var crossButton: UIButton!
+//    var allAdditionalUsers = [User]()
     var allAdditionalUsers = [User]()
     var addedUsers = [User]()
     var isUserSearch = false
@@ -23,6 +24,7 @@ class AdditionalUsersViewController: BaseViewController,TextInputDelegate ,UITex
         self.additionalUsersTF.textAlignment = .left
         self.additionalUsersTF.textColor = UIColor.white
         self.additionalUsersTF.delegate = self
+        self.navigationItem.title = "Add Additional Users"
         self.usersTableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         crossButton.isHidden = true
         getItemAddedUsers()
@@ -68,6 +70,7 @@ class AdditionalUsersViewController: BaseViewController,TextInputDelegate ,UITex
                                                             self.allAdditionalUsers.removeAll { (user) -> Bool in
                                                                 self.addedUsers.map({$0.id}).contains(user.id)
                                                             }
+                                                            self.allAdditionalUsers = self.allAdditionalUsers.sorted { $0.name!.localizedCaseInsensitiveCompare($1.name!) == ComparisonResult.orderedAscending }
                                                             self.usersTableView.reloadData()
                                                         }
                                                      }) { (error) in
@@ -95,6 +98,7 @@ class AdditionalUsersViewController: BaseViewController,TextInputDelegate ,UITex
                                                                 user.id != self.currentUser.id
                                                             })
                                                             UserDefaults.standard.set(self.addedUsers.map({$0.id}), forKey: "additional_users")
+                                                            self.addedUsers = self.addedUsers.sorted { $0.userName!.localizedCaseInsensitiveCompare($1.userName!) == ComparisonResult.orderedAscending }
                                                             self.reSetSearchField()
                                                             self.usersTableView.reloadData()
                                                         }
@@ -171,11 +175,7 @@ extension AdditionalUsersViewController: UITableViewDelegate,UITableViewDataSour
         if isUserSearch {
             var params: [String:AnyObject]
             var url:String?
-//            add activity_tracker_ids - array of tracker ids
             let data = ["user_id":self.allAdditionalUsers[indexPath.row].id,"primary_user_id":currentUser.id!]
-            //            let par = ["0":data]
-            //            let trakerParams = ["user_time_logs_attributes":par] as [String : Any]
-//            var vc = self.navigationController?.viewControllers.contains(NewLoadVC.self)
             if (trackerIds.count == 0) {
                  params = ["activity_tracker":["user_time_logs_attributes":["0":data]] as [String : Any]] as [String:AnyObject]
                 url = "activity_trackers/\(self.trackerId ?? 0)"
@@ -228,7 +228,6 @@ extension AdditionalUsersViewController: UITableViewDelegate,UITableViewDataSour
                     }
                 }
             }
-//            params - top_tracking as true - on save and submit
         } else {
             return
         }

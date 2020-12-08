@@ -15,7 +15,6 @@ class CuttingStatsViewController: BaseViewController {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet weak var materialLabel: UILabel!
     var cuttingType:String?
-    //    var hanger:Hanger?
     var cuttingStats = [CuttingStat]()
     
     override func viewDidLoad() {

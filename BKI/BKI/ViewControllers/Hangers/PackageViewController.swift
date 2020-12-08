@@ -21,9 +21,11 @@ class PackageViewController: BaseViewController {
         self.packageDashboardTableView.tableFooterView = self.view.emptyViewToHideUnNecessaryRows()
         self.navigationItem.title = "Package : \(hanger?.packageName ?? "")"
         self.packageDashboardTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        packageDashboardTableView.reloadData()
         // Do any aditional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
         packageDashboardTableView.reloadData()
     }
     

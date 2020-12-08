@@ -16,8 +16,6 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var rejectBtn: UIButton!
     @IBOutlet weak var approveBtn: UIButton!
     @IBOutlet weak var rejectSpoolBtn: UIButton!
-    
-//    var testMethodsWelds : [String:([Int:([String:String])])] = ["test_method_welds": [Int: [String:String]]()]
     var IDTestMethodsWelds : [String:([String:String])] = [String: [String:String]]()
     var ODTestMethodsWelds : [String:([String:String])] = [String: [String:String]]()
 
@@ -40,9 +38,6 @@ class InspectionVC: BaseViewController, UITableViewDelegate, UITableViewDataSour
             rejectBtn.isEnabled = false
             approveBtn.isEnabled = false
             emptyView.isHidden = false
-//            rejectBtn.alpha = 0.5
-//            approveBtn.isEnabled = checkHeatNumbers() ? true : false
-//            approveBtn.alpha = checkHeatNumbers() ? 1 : 0.5
         }
         rejectSpoolBtn.isEnabled = checkQaWeldStatus() ? true : false
         rejectSpoolBtn.alpha = checkQaWeldStatus() ? 1 : 0.5

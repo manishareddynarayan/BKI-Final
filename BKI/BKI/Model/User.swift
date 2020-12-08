@@ -27,6 +27,7 @@ class User: BKIModel {
     var activityState:String?
     var activityType:String? // item name
     var alreadyLoggedIn:Bool?
+    var isPrimaryAnywhere:Bool?
 
     override init () {
         // uncomment this line if your class has been inherited from any other class
@@ -62,6 +63,9 @@ class User: BKIModel {
         }
         if let active = user["active"] as? Bool {
             self.active = active
+        }
+        if let isPrimaryAnywhere = user["is_primary_anywhere"] as? Bool {
+            self.isPrimaryAnywhere = isPrimaryAnywhere
         }
         if let email = user["email"] as? String {
             self.email = email
@@ -129,7 +133,7 @@ class User: BKIModel {
                 ["Name":"Assemblies","Child":"EvolveViewController"],
                 ["Name":"View Item Drawing","Child":"DrawingVC"],
                 ["Name":"View ISO Drawing","Child":"DrawingVC"],
-                ["Name":"Add New Users","Child":"AdditionalUsersViewController"],
+                ["Name":"Additional Users","Child":"AdditionalUsersViewController"],
                 ["Name":"Scan New Item","Child":"ScanVC"]]
     }
     
@@ -137,7 +141,7 @@ class User: BKIModel {
         return [["Name":"Status Welds","Child":"WeldStatusVC"],
                 ["Name":"View Spool Drawing","Child":"DrawingVC"],
                 ["Name":"View ISO Drawing","Child":"DrawingVC"],
-                ["Name":"Add New Users","Child":"AdditionalUsersViewController"],
+                ["Name":"Additional Users","Child":"AdditionalUsersViewController"],
                 ["Name":"Scan New Spool","Child":"ScanVC"]]
     }
     
@@ -151,14 +155,14 @@ class User: BKIModel {
                 ["Name":"Assemblies","Child":"EvolveViewController"],
                 ["Name":"View Item Drawing","Child":"DrawingVC"],
                 ["Name":"View ISO Drawing","Child":"DrawingVC"],
-                ["Name":"Add New Users","Child":"AdditionalUsersViewController"],
+//                ["Name":"Add New Users","Child":"AdditionalUsersViewController"],
                 ["Name":"Scan New Item","Child":"ScanVC"]]
     }
     
     func getHangersMenu() -> [[String:String]] {
         return [["Name":"Cut Rods","Child":"WeldStatusVC"],
                 ["Name":"Cut Strut","Child":"FitterHeatVC"],
-                ["Name":"Add New Users","Child":"AdditionalUsersViewController"],
+                ["Name":"Additional Users","Child":"AdditionalUsersViewController"],
                 ["Name":"Assemble","Child":"DrawingVC"]]
     }
     
@@ -186,39 +190,3 @@ class User: BKIModel {
         return Role.shipper
     }
 }
-//class AdditionalUser: User {
-//    var activityName:String?
-//    var activityState:String?
-//    var activityType:String?
-//    var alreadyLoggedIn:Bool?
-//
-//    override init () {
-//        // uncomment this line if your class has been inherited from any other class
-//        super.init()
-//    }
-//
-//    convenience init(info:[String:AnyObject]) {
-//        self.init()
-//        saveAdditionalUser(user: info)
-//    }
-//    func saveAdditionalUser(user:[String:AnyObject]) {
-//        if let name = user["name"] as? String {
-//            self.name = name
-//        }
-//        if let id = user["id"] as? Int {
-//            self.id = id
-//        }
-//        if let alreadyLoggedIn = user["already_logged_in"] as? Bool {
-//            self.alreadyLoggedIn = alreadyLoggedIn
-//        }
-//        if let activityName = user["activity_name"] as? String {
-//            self.activityName = activityName
-//        }
-//        if let activityState = user["activity_state"] as? String {
-//            self.activityState = activityState
-//        }
-//        if let activityType = user["activity_type"] as? String {
-//            self.activityType = activityType
-//        }
-//    }
-//}

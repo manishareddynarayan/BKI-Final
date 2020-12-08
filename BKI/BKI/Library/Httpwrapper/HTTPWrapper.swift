@@ -25,7 +25,7 @@ struct Constant {
 //    let kBaseURL = "https://6c9446ec41ea.ngrok.io/api/v1/"
     //Production
     //let kBaseURL = "https://api.bkimechanical.com/api/v1/"
-//        let kBaseURL = "https://9894ef426022.ngrok.io/api/v1/"
+//        let kBaseURL = "https://6189f4468230.ngrok.io/api/v1/"
 }
 
 func validateMetaData(meta:[String:Int?]) -> (Int,Bool)
@@ -55,7 +55,7 @@ func validateMetaData(meta:[String:Int?]) -> (Int,Bool)
 class HTTPWrapper: NSObject {
     
     var constant = Constant()
-    var xAccessToken:String = "x-access-token"
+    var xAccessToken:String = "X-ACCESS-TOKEN"
     
     typealias SuccessHandler = ([String:AnyObject]) -> ()
     typealias FailureHandler = (NSError?) -> ()
