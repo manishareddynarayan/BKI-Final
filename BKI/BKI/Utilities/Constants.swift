@@ -18,7 +18,7 @@ let FORGOTPWDSEGUE = "ForgotPwdSegue"
 let DOCUMENTDETAILSEGUE = "DocDetailSegue"
 let DASHBOARDSEGUE = "DashboardSegue"
 let ALTERNATEDESCRIPTIONSEGUE = "AlternateDescriptionSegue"
-
+var timer = Timer()
 
 //MARK: Role Enum
 enum Role:Int {

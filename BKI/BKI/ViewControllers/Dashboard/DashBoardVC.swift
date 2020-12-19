@@ -101,9 +101,15 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                 }
                 self.evolve = evolveItem
                 if self.trackerId == nil && (self.role == 1 && self.evolve?.evolveState == "fitting") || (self.role == 4 && self.evolve?.evolveState == "qa") {
-                    self.startTracker(with: (evolveItem.id)!, atShipping: false)
+                    self.startTracker(with: (evolveItem.id)!, atShipping: false) { (Success) in
+                        self.tableView.reloadData()
+                    } failBlock: { (error) in
+                        print(error?.localizedDescription)
+                    }
+//                    self.startTracker(with: (evolveItem.id)!, atShipping: false)
+                } else {
+                    self.tableView.reloadData()
                 }
-                self.tableView.reloadData()
                 print(responseData)
             }
         } failBlock: { (error) in
@@ -171,9 +177,15 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     }
                 }
                 if self.trackerId == nil && ((self.role == 1 && self.spool?.state == WeldState.fitting ) || (self.role == 2 && self.spool?.state == WeldState.welding) || (self.role == 4 && self.spool?.state == WeldState.qa)) {
-                    self.startTracker(with: (self.spool?.id)!, atShipping: false)
+                    self.startTracker(with: (self.spool?.id)!, atShipping: false) { (Success) in
+                        self.tableView.reloadData()
+                    } failBlock: { (error) in
+                        print(error?.localizedDescription)
+                    }
+//                    self.startTracker(with: (self.spool?.id)!, atShipping: false)
+                } else {
+                    self.tableView.reloadData()
                 }
-                self.tableView.reloadData()
             }
         }) { (error) in
             DispatchQueue.main.async {
@@ -305,18 +317,20 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
                     cell?.enable(enable: false)
                 }
             }else{
-                if (self.role == 1 && spool?.state != WeldState.fitting && (indexPath.row == self.menuItems.count - 2)) || (self.role == 2 && spool?.state != WeldState.welding && (indexPath.row == self.menuItems.count - 2)) || (self.role == 4 && spool?.state != WeldState.qa && (indexPath.row == self.menuItems.count - 2)) {
+                if (self.role == 1 && spool?.state != WeldState.fitting && (indexPath.row == self.menuItems.count - 2)) || (self.role == 2 && spool?.state != WeldState.welding && (indexPath.row == self.menuItems.count - 2)) {
                     cell?.enable(enable: false)
                 } else if indexPath.row != 2 && self.role != 4{
                     cell?.enable(enable: true)
                 } else if indexPath.row != 1 && self.role == 4 {
+                    cell?.enable(enable: true)
+                } else if (indexPath.row == 2 && self.role == 2) {
                     cell?.enable(enable: true)
                 } else {
                     cell?.enable(enable: false)
                 }
             }
             // disbaling cell when ISO Drwaing url is nil,which one we are showing in web view.
-            if ((indexPath.row == self.menuItems.count - 3) && (self.spool?.isoDrawingURL == nil) && (self.menuItems[indexPath.row]["Child"] == "DrawingVC"))
+            if self.role == 4 ? ((indexPath.row == self.menuItems.count - 2) && (self.spool?.isoDrawingURL == nil) && (self.menuItems[indexPath.row]["Child"] == "DrawingVC")) : ((indexPath.row == self.menuItems.count - 3) && (self.spool?.isoDrawingURL == nil) && (self.menuItems[indexPath.row]["Child"] == "DrawingVC"))
             {
                 cell?.enable(enable: false)
             }
@@ -355,7 +369,7 @@ class DashBoardVC: BaseViewController, UITableViewDelegate, UITableViewDataSourc
             return cell!
         }
         if let additionalUsers = UserDefaults.standard.array(forKey: "additional_users") {
-            if ((indexPath.row == self.menuItems.count - 2) && (additionalUsers.count != 0) && cell?.isUserInteractionEnabled == true)
+            if (self.role != 4 && (indexPath.row == self.menuItems.count - 2) && (additionalUsers.count != 0) && cell?.isUserInteractionEnabled == true)
             {
                 cell?.countLabel.isHidden = false
                 cell?.countLabel.text = String(additionalUsers.count)

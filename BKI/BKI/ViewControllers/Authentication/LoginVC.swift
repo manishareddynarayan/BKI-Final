@@ -60,15 +60,10 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
                     let loginUser = BKIModel.saveUserinDefaults(info: responseData)
                     if BKIModel.userRole() == "qa" || BKIModel.userRole() == "fabrication" {
                         self.createSocketRequest(loginUser: loginUser)
-                        let formatter = DateFormatter()
-                        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                        formatter.timeZone = TimeZone(abbreviation: "EST")
+                        timer.invalidate()
                         let dd = Date().endOfDay
-//                        let todayAt12PM = calendar.date(bySettingHour: 12, minute: 16, second: 1, of: nowDateValue, matchingPolicy: .nextTime, repeatedTimePolicy: .first, direction: .forward)
-                        let yourDate = formatter.string(from: dd!)
-                        let alarmDate = formatter.date(from: yourDate)
-                        let timer = Timer(fire: alarmDate!, interval: 0, repeats: false) { (timer) in
-                            self.runCode()
+                        timer = Timer(fire: dd!, interval: 0, repeats: false) { (timer) in
+                            self.appDelegate?.runCode()
                         }
                         RunLoop.main.add(timer, forMode: .common)
                     } else {
@@ -81,24 +76,25 @@ class LoginVC: BaseViewController,UITextFieldDelegate,TextInputDelegate {
             self.showFailureAlert(with: (error?.localizedDescription)!)
         }
     }
-     func runCode() {
-        //to logout at 12
-//        BKIModel.resetUserDefaults()
-//        self.appDelegate?.setupRootViewController()
-        let now = NSDate()
-        let nowDateValue = now as Date
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm"
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: nowDateValue)
-        let fullMinuteDate = calendar.date(from: components)!
-        let date = Date().getEndOfTheDay()
-        let currentDate = dateFormatter.string(from: fullMinuteDate)
-        let finalAlarmDate = dateFormatter.string(from: date)
-        if currentDate == finalAlarmDate {
-            print("------ yes  -----")
-        }
-       }
+//     func runCode() {
+//        //to logout at 12
+////        BKIModel.resetUserDefaults()
+////        self.appDelegate?.setupRootViewController()
+//        let now = NSDate()
+//        let nowDateValue = now as Date
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm"
+//        let calendar = Calendar.current
+//        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: nowDateValue)
+//        let fullMinuteDate = calendar.date(from: components)!
+//        let date = Date().getEndOfTheDay()
+//        let currentDate = dateFormatter.string(from: fullMinuteDate)
+//        let finalAlarmDate = dateFormatter.string(from: date)
+//        if currentDate == finalAlarmDate {
+//                    BKIModel.resetUserDefaults()
+//                    self.appDelegate?.setupRootViewController()
+//        }
+//       }
     
     @IBAction func forgotMyPasswordAction(_ sender: Any) {
         

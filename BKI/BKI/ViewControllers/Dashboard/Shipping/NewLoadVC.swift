@@ -370,7 +370,12 @@ extension NewLoadVC
                         self.load?.projectId = spool.projectId
                     }
                     if self.trackerId == nil && (UserDefaults.standard.value(forKey: "spoolFabricationId") as? Int != nil ? UserDefaults.standard.value(forKey: "spoolFabricationId") as? Int != self.spool?.fabricationId : true) {
-                        self.startTracker(with: spool.fabricationId!, atShipping: true)
+                        self.startTracker(with: spool.fabricationId!, atShipping: true) { (Success) in
+                        print(Success)
+                        } failBlock: { (error) in
+                            print(error?.localizedDescription)
+                        }
+//                        self.startTracker(with: spool.fabricationId!, atShipping: true)
                     }
                     UserDefaults.standard.set(spool.fabricationId, forKey: "spoolFabricationId")
                 }
@@ -425,9 +430,16 @@ extension NewLoadVC
                     self.enableAdditionalUsersBtn = self.load != nil ?  !(self.scannedHangers.isEmpty) || !(self.scannedEvolves.isEmpty) || !(self.scannedSpools.isEmpty): !(self.scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !((self.load?.spools.isEmpty)!)
                     self.handleAddUsersTitle()
                     if self.trackerId == nil {
-                        self.startTracker(with: (hanger?.id)!, atShipping: true)
+                        self.startTracker(with: (hanger?.id)!, atShipping: true) { (Success) in
+                            self.tableView.reloadData()
+                        } failBlock: { (error) in
+                            print(error?.localizedDescription)
+                        }
+
+//                        self.startTracker(with: (hanger?.id)!, atShipping: true)
+                    } else {
+                        self.tableView.reloadData()
                     }
-                    self.tableView.reloadData()
                 }
             }) { (error) in
                 DispatchQueue.main.async {
@@ -470,9 +482,15 @@ extension NewLoadVC
                     self.enableAdditionalUsersBtn = self.load != nil ?  !(self.scannedHangers.isEmpty) || !(self.scannedEvolves.isEmpty) || !(self.scannedSpools.isEmpty): !(self.scannedHangers.isEmpty) || !((self.load?.hangers.isEmpty)!) || !(self.scannedEvolves.isEmpty) || !((self.load?.evolves.isEmpty)!) || !(self.scannedSpools.isEmpty) || !((self.load?.spools.isEmpty)!)
                     self.handleAddUsersTitle()
                     if self.trackerId == nil {
-                        self.startTracker(with: (evolve?.id)!, atShipping: true)
+                            self.startTracker(with: (evolve?.id)!, atShipping: true) { (Success) in
+                                self.tableView.reloadData()
+                            } failBlock: { (error) in
+                                print(error?.localizedDescription)
+                            }
+//                        self.startTracker(with: (evolve?.id)!, atShipping: true)
+                    } else{
+                        self.tableView.reloadData()
                     }
-                    self.tableView.reloadData()
                     print(responseData)
                 }
             } failBlock: { (error) in

@@ -51,6 +51,9 @@ class BaseViewController: UIViewController,WebSocketDelegate {
                 self.loginUser = loginUser
             }
             let token = (defs?.object(forKey: "access-token") as? String)!
+//           prod
+//            let request = URLRequest(url: URL(string: "wss://ws.bkimechanical.com/cable?X_ACCESS_TOKEN:\(token)")!)
+//staging
             let request = URLRequest(url: URL(string: "ws://54.196.109.252:28080/cable?X_ACCESS_TOKEN:\(token)")!)
             socket = WebSocket(request: request)
             socket?.delegate = self
@@ -507,7 +510,7 @@ class BaseViewController: UIViewController,WebSocketDelegate {
         self.updateSpoolStateWith(spool: self.spool!, params: weldParams as [String : AnyObject], isSpoolUpdate: isSpoolUpdate, updateTableView: tableView)
     }
     
-    func startTracker(with id:Int, atShipping:Bool) {
+    func startTracker(with id:Int, atShipping:Bool,successBlock:@escaping (Bool) -> (),failBlock:@escaping (NSError?) -> ()) {
         var timeLogsData : [String:([String:Any])] = [String: [String:Int]]()
         let addUsers = UserDefaults.standard.array(forKey: "additional_users")
         timeLogsData["0"] = ["user_id":currentUser.id!]
@@ -521,7 +524,7 @@ class BaseViewController: UIViewController,WebSocketDelegate {
                 }
             }
         }
-        //        "worked_on_type" - spool ki fabrication
+        //        "shaank07 berst friend of manisha_on_type" - spool ki fabrication
         //
         let state = atShipping ? "ready_to_ship" : self.scanItem == "Hanger" ? "fabrication"  : role == 1 ? "fitting" : role == 2 ? "welding" : role == 4 ? "qa" : ""
         let trakerParams = ["state":state,"worked_on_id":id as Any,"worked_on_type": (atShipping && self.scanItem == "Spool" ? "Fabrication" : self.scanItem as Any),"user_time_logs_attributes":timeLogsData] as [String : Any]
@@ -540,6 +543,7 @@ class BaseViewController: UIViewController,WebSocketDelegate {
                         self.trackerIds.append(id)
                         UserDefaults.standard.set(self.trackerIds, forKey: "trackerIdsArray")
                     }
+                    successBlock(true)
                 }
             }
         } failBlock: { (error) in
@@ -547,8 +551,8 @@ class BaseViewController: UIViewController,WebSocketDelegate {
                 MBProgressHUD.hideHud(view: self.view)
                 self.showFailureAlert(with: (error?.localizedDescription)!)
             }
+            failBlock(error)
         }
-        
     }
     func stopTracking() {
         let params = ["stop_tracking":true] as [String:AnyObject]

@@ -79,11 +79,19 @@ class MainDashBoardVC: BaseViewController,UITableViewDelegate, UITableViewDataSo
                         return
                     }
                     if self.trackerId == nil {
-                        self.startTracker(with: (hanger?.id)!, atShipping: false)
-                    }
+                        self.startTracker(with: (hanger?.id)!, atShipping: false) { (Success) in
+                            vc.trackerId = self.trackerId
+                            vc.hanger = hanger
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        } failBlock: { (error) in
+                            print(error?.localizedDescription)
+                        }
+//                        self.startTracker(with: (hanger?.id)!, atShipping: false)
+                    } else {
                     vc.trackerId = self.trackerId
                     vc.hanger = hanger
                     self.navigationController?.pushViewController(vc, animated: true)
+                    }
                 }
             }
         }) { (error) in
